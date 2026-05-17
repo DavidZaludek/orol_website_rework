@@ -1,35 +1,58 @@
-# Claude.md
+# CLAUDE.md
 
-You are able to use the Svelte MCP server, where you have access to comprehensive Svelte 5 and SvelteKit documentation. Here's how to use the available tools effectively:
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Available Svelte MCP Tools:
+## Project Overview
 
-### 1. list-sections
+Website for **Stavebniny Orol** (a Slovak building materials company). Built with SvelteKit 2 + Svelte 5, deployed to Cloudflare Pages.
 
-Use this FIRST to discover all available documentation sections. Returns a structured list with titles, use_cases, and paths.
-When asked about Svelte or SvelteKit topics, ALWAYS use this tool at the start of the chat to find relevant sections.
+## Commands
 
-### 2. get-documentation
+```bash
+bun run dev          # start dev server
+bun run build        # production build
+bun run preview      # preview production build
+bun run check        # type-check with svelte-check
+bun run lint         # prettier + eslint check
+bun run format       # auto-format with prettier
+```
 
-Retrieves full documentation content for specific sections. Accepts single or multiple sections.
-After calling the list-sections tool, you MUST analyze the returned documentation sections (especially the use_cases field) and then use the get-documentation tool to fetch ALL documentation sections that are relevant for the user's task.
+## Architecture
 
-### 3. svelte-autofixer
+- **Svelte 5 runes mode** is enforced project-wide via `svelte.config.js` — never use legacy `$:`, `export let`, or event directives. Use `$props()`, `$state()`, `$derived()`, `$effect()`.
+- Routes live in `src/routes/`. Each page is a `+page.svelte`, shared layout in `+layout.svelte`.
+- Static assets (images, favicon) live in `src/lib/assets/` and are imported directly into components.
+- Design reference docs are in `src/docs/`: `Color_Palette.md`, `website_layout.md`, `Links.md`.
+- No tests are configured yet.
 
-Analyzes Svelte code and returns issues and suggestions.
-You MUST use this tool whenever writing Svelte code before sending it to the user. Keep calling it until no issues or suggestions are returned.
+## Design System
 
-### 4. playground-link
+Color tokens are defined in `src/docs/Color_Palette.md`. Apply them as CSS custom properties:
 
-Generates a Svelte Playground link with the provided code.
-After completing the code, ask the user if they want a playground link. Only call this tool after user confirmation and NEVER if code was written to files in their project.
+```css
+--color-brand-primary: #c0281c;   /* Orol Red — CTAs, links */
+--color-brand-hover:   #e03323;   /* Ember Red — hover/active */
+--color-brand-dark:    #8c1a10;   /* Deep Crimson — footer, headings */
+--color-iron:          #1e2022;   /* body text, nav bg (not pure black) */
+--color-chalk:         #f2f4f5;   /* alternate section bg */
+--color-white:         #ffffff;   /* page bg, cards */
+```
 
-## Used Stack
+Never use pure black (`#000000`) — use Iron. Don't use red for error states — use `--color-error: #c62828`.
 
-- Frontend: SvelteKit + Bootstrap with Sass for CSS
+## Planned Pages (from `src/docs/website_layout.md`)
 
-- Content: Markdown files
+Home, Product categories (with subcategories), Services, Price quote form, Contact, News/Blog, Promotions/Sales, About us.
 
-- Hosting: Cloudflare Pages
+Header: logo + site name (left), nav (center-right), phone + social icons (far right).
+Footer: quick links, opening hours, contact, social, map, GDPR/legal links, company IDs.
+Persistent CTA: "Cenová ponuka" button pinned to bottom-right of screen.
 
-- Version control: GitHub
+## Svelte MCP Tools
+
+You have access to the Svelte MCP server with comprehensive Svelte 5 and SvelteKit documentation.
+
+1. **`list-sections`** — call this FIRST to discover relevant documentation sections.
+2. **`get-documentation`** — fetch all sections relevant to the task after reviewing `list-sections` results.
+3. **`svelte-autofixer`** — MUST be called before sending any Svelte code to the user. Repeat until no issues remain.
+4. **`playground-link`** — only generate on explicit user request; never if code was written to project files.

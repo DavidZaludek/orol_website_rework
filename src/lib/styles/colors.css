@@ -1,0 +1,36 @@
+:root {
+	/* === Primary: Red === */
+	--color-brand-primary: #c0281c;
+	--color-brand-hover: #e03323;
+	--color-brand-dark: #8c1a10;
+
+	/* === Neutral: Gray Scale === */
+	--color-iron: #1e2022;
+	--color-steel: #2c2f32;
+	--color-slate: #6b7175;
+	--color-concrete: #c8ced2;
+	--color-mist: #d6dadc;
+	--color-chalk: #f2f4f5;
+
+	/* === Base: White === */
+	--color-white: #ffffff;
+	--color-warm-white: #faf9f8;
+
+	/* === Semantic === */
+	--color-success: #2e7d32;
+	--color-warning: #e65100;
+	--color-info: #1565c0;
+	--color-error: #c62828;
+
+	/* === Typography === */
+	--text-on-dark: #ffffff;
+	--text-on-light: #1e2022;
+	--text-muted: #6b7175;
+
+	/* === Surfaces === */
+	--surface-page: #ffffff;
+	--surface-alt: #f2f4f5;
+	--surface-dark: #1e2022;
+	--surface-card: #ffffff;
+	--border-default: #d6dadc;
+}
