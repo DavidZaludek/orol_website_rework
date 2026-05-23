@@ -1,18 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import logo from '$lib/assets/logo.png';
+	import { navLinks, contact, socials } from '$lib/site';
 
 	let menuOpen = $state(false);
-
-	const navLinks = [
-		{ href: '/products', label: 'Produkty' },
-		{ href: '/services', label: 'Služby' },
-		{ href: '/promotions', label: 'Akcie' },
-		{ href: '/news', label: 'Aktuality' },
-		{ href: '/quote', label: 'Cenová ponuka' },
-		{ href: '/about', label: 'O nás' },
-		{ href: '/contact', label: 'Kontakt' }
-	] as const;
 
 	function isActive(href: string): boolean {
 		if (href === '/') {
@@ -49,10 +40,10 @@
 
 		<!-- Desktop contact + social -->
 		<div class="desktop-contact">
-			<a href="tel:+421905123456" class="phone">+421 905 123 456</a>
+			<a href={contact.phoneHref} class="phone">{contact.phone}</a>
 			<div class="social-links">
 				<a
-					href="https://www.instagram.com/orol_stavebniny/"
+					href={socials.instagram}
 					class="social-link"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -66,7 +57,7 @@
 					</svg>
 				</a>
 				<a
-					href="https://www.facebook.com/stavebninyOROL"
+					href={socials.facebook}
 					class="social-link"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -122,10 +113,10 @@
 				{/each}
 			</nav>
 			<div class="mobile-contact">
-				<a href="tel:+421905123456" class="mobile-phone">+421 905 123 456</a>
+				<a href={contact.phoneHref} class="mobile-phone">{contact.phone}</a>
 				<div class="mobile-social">
 					<a
-						href="https://www.instagram.com/orol_stavebniny/"
+						href={socials.instagram}
 						class="social-link"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -140,7 +131,7 @@
 						Instagram
 					</a>
 					<a
-						href="https://www.facebook.com/stavebninyOROL"
+						href={socials.facebook}
 						class="social-link"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -162,7 +153,7 @@
 	header {
 		position: sticky;
 		top: 0;
-		z-index: 50;
+		z-index: var(--z-header);
 		background-color: var(--color-brand-dark);
 		color: var(--text-on-dark);
 	}
@@ -171,9 +162,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		max-width: 1700px;
+		max-width: var(--container-wide);
 		margin: 0 auto;
-		padding: 0 1.5rem;
+		padding: 0 var(--container-px);
 		height: 80px;
 		gap: 1.5rem;
 	}
@@ -209,7 +200,7 @@
 		color: var(--text-on-dark);
 		text-decoration: none;
 		border-radius: 4px;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 		white-space: nowrap;
 	}
 
@@ -257,7 +248,7 @@
 		text-decoration: none;
 		letter-spacing: 0.02em;
 		white-space: nowrap;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 	}
 
 	.phone:hover {
@@ -276,7 +267,7 @@
 		gap: 0.4rem;
 		color: var(--color-concrete);
 		text-decoration: none;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 		line-height: 1;
 	}
 
@@ -294,7 +285,7 @@
 		padding: 0.35rem;
 		border-radius: 4px;
 		line-height: 1;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 		flex-shrink: 0;
 	}
 
@@ -325,7 +316,10 @@
 		text-decoration: none;
 		border-radius: 4px;
 		border-left: 3px solid transparent;
-		transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+		transition:
+			color var(--transition-fast),
+			border-color var(--transition-fast),
+			background-color var(--transition-fast);
 	}
 
 	.mobile-nav-link:hover {
@@ -354,7 +348,7 @@
 		color: var(--text-on-dark);
 		text-decoration: none;
 		letter-spacing: 0.02em;
-		transition: color 0.15s ease;
+		transition: color var(--transition-fast);
 	}
 
 	.mobile-phone:hover {

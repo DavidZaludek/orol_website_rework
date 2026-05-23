@@ -27,7 +27,7 @@
 3. Services page
 4. Price quote form
 5. Contact info page
-7. News/Blog page
-8. Promotions/Sales page
-9. About us page
+6. News/Blog page
+7. Promotions/Sales page
+8. About us page
 

@@ -1,0 +1,41 @@
+:root {
+	/* === Containers === */
+	--container-wide: 1700px; /* site chrome (header/footer) */
+	--container-default: 1100px; /* index pages */
+	--container-narrow: 900px; /* service detail body */
+	--container-prose: 780px; /* long-form reading (news/promotions detail) */
+	--container-px: 1.5rem; /* horizontal padding inside containers */
+
+	/* === Section spacing === */
+	--space-hero-y: 2rem; /* default red hero band padding */
+	--space-hero-y-compact: 1.25rem; /* hero with back-link (detail pages) */
+	--space-section-y: 4rem; /* content section vertical padding */
+	--space-section-y-end: 5rem; /* extra bottom space when section ends the page */
+
+	/* === Typography sizes === */
+	--font-size-h1: clamp(2rem, 5vw, 3rem); /* page hero */
+	--font-size-h1-compact: clamp(1.75rem, 4vw, 2.5rem); /* detail page hero with back-link */
+	--font-size-h2: 1.5rem; /* section heading */
+	--font-size-h3: 1.15rem; /* card / sub-section heading */
+	--font-size-body: 1rem;
+	--font-size-small: 0.9rem;
+	--font-size-xs: 0.8rem;
+
+	/* === Radii === */
+	--radius-sm: 4px; /* buttons, pills, CTA box, notes */
+	--radius-md: 6px; /* default card */
+	--radius-lg: 8px; /* feature card (news/promotions) */
+
+	/* === Shadows === */
+	--shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
+	--shadow-card-hover: 0 6px 18px rgba(0, 0, 0, 0.1);
+	--shadow-float: 0 6px 24px rgba(0, 0, 0, 0.4);
+	--shadow-float-hover: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+	/* === Transitions === */
+	--transition-fast: 0.18s ease;
+
+	/* === Z-index === */
+	--z-header: 50;
+	--z-float: 100;
+}

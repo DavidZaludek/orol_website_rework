@@ -107,27 +107,27 @@
 <style>
 	/* ---- Shared ---- */
 	.container {
-		max-width: 1100px;
+		max-width: var(--container-default);
 		margin: 0 auto;
-		padding-inline: 1.5rem;
+		padding-inline: var(--container-px);
 	}
 
 	.section-heading {
 		margin: 0 0 2rem;
-		font-size: 1.75rem;
-		font-weight: 800;
+		font-size: var(--font-size-h2);
+		font-weight: 700;
 		color: var(--color-brand-dark);
 	}
 
 	/* ---- Hero ---- */
 	.hero {
 		background-color: var(--color-brand-dark);
-		padding: 2rem 0;
+		padding: var(--space-hero-y) 0;
 	}
 
 	.hero h1 {
 		margin: 0;
-		font-size: clamp(2rem, 5vw, 3rem);
+		font-size: var(--font-size-h1);
 		font-weight: 800;
 		color: var(--text-on-dark);
 		letter-spacing: 0.02em;
@@ -135,7 +135,7 @@
 
 	/* ---- Letter section ---- */
 	.letter-section {
-		padding: 4rem 0;
+		padding: var(--space-section-y) 0;
 		background-color: var(--color-white);
 	}
 
@@ -158,7 +158,7 @@
 		max-width: 320px;
 		aspect-ratio: 3 / 4;
 		object-fit: cover;
-		border-radius: 8px;
+		border-radius: var(--radius-lg);
 		display: block;
 	}
 
@@ -197,7 +197,7 @@
 
 	/* ---- Motto + Vision section ---- */
 	.mv-section {
-		padding: 4rem 0 5rem;
+		padding: var(--space-section-y) 0 var(--space-section-y-end);
 		background-color: var(--surface-alt);
 	}
 
@@ -217,16 +217,16 @@
 	}
 
 	.motto-item {
-		font-size: 1rem;
+		font-size: var(--font-size-body);
 		font-style: italic;
 		font-weight: 500;
 		color: var(--text-on-light);
 		line-height: 1.6;
 		padding: 0.75rem 1.25rem 0.75rem 1.5rem;
 		background-color: var(--color-white);
-		border-radius: 4px;
+		border-radius: var(--radius-sm);
 		border-left: 4px solid var(--color-brand-primary);
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+		box-shadow: var(--shadow-card);
 	}
 
 	.vision-text {

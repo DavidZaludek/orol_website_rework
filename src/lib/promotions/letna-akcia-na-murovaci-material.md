@@ -1,6 +1,7 @@
 ---
 title: "Letná akcia na murovací materiál"
 date: "2025-04-22"
+validUntil: "2025-05-31"
 excerpt: "Využite letnú stavebné sezónu naplno. Na vybraný murovací materiál poskytujeme zľavy až do 15 %."
 image: "/images/posts/banner_4.jpg"
 ---

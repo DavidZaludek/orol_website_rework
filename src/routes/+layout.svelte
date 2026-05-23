@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/styles/globals.css';
 	import '$lib/styles/colors.css';
+	import '$lib/styles/tokens.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -17,24 +18,27 @@
 		position: fixed;
 		bottom: 1.75rem;
 		left: 1.75rem;
-		z-index: 100;
+		z-index: var(--z-float);
 		background-color: var(--color-brand-primary);
-		color: #ffffff;
+		color: var(--color-white);
 		font-weight: 700;
-		font-size: 1rem;
+		font-size: var(--font-size-body);
 		letter-spacing: 0.03em;
 		text-decoration: none;
 		text-transform: uppercase;
 		padding: 1rem 1.75rem;
-		border-radius: 6px;
-		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
-		transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+		border-radius: var(--radius-md);
+		box-shadow: var(--shadow-float);
+		transition:
+			background-color var(--transition-fast),
+			transform var(--transition-fast),
+			box-shadow var(--transition-fast);
 	}
 
 	.cta-float:hover {
 		background-color: var(--color-brand-hover);
 		transform: translateY(-3px);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+		box-shadow: var(--shadow-float-hover);
 	}
 </style>
 

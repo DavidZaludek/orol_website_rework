@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+You have access to the Svelte MCP server with comprehensive Svelte 5 and SvelteKit documentation.
+
+1. **`list-sections`** — call this FIRST to discover relevant documentation sections.
+2. **`get-documentation`** — fetch all sections relevant to the task after reviewing `list-sections` results.
+3. **`svelte-autofixer`** — MUST be called before sending any Svelte code to the user. Repeat until no issues remain.
+4. **`playground-link`** — only generate on explicit user request; never if code was written to project files.
+
 ## Project Overview
 
 Website for **Stavebniny Orol** (a Slovak building materials company). Built with SvelteKit 2 + Svelte 5, deployed to Cloudflare Pages.
@@ -50,9 +57,3 @@ Persistent CTA: "Cenová ponuka" button pinned to bottom-right of screen.
 
 ## Svelte MCP Tools
 
-You have access to the Svelte MCP server with comprehensive Svelte 5 and SvelteKit documentation.
-
-1. **`list-sections`** — call this FIRST to discover relevant documentation sections.
-2. **`get-documentation`** — fetch all sections relevant to the task after reviewing `list-sections` results.
-3. **`svelte-autofixer`** — MUST be called before sending any Svelte code to the user. Repeat until no issues remain.
-4. **`playground-link`** — only generate on explicit user request; never if code was written to project files.

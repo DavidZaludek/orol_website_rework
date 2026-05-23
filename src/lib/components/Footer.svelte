@@ -1,36 +1,26 @@
 <script lang="ts">
-	const navLinks = [
-		{ href: '/products', label: 'Produkty' },
-		{ href: '/services', label: 'Služby' },
-		{ href: '/promotions', label: 'Akcie' },
-		{ href: '/news', label: 'Aktuality' },
-		{ href: '/quote', label: 'Cenová ponuka' },
-		{ href: '/about', label: 'O nás' },
-		{ href: '/contact', label: 'Kontakt' }
-	] as const;
-
-	const openingHours = [
-		{ day: 'Pondelok', hours: '7:00 – 17:00' },
-		{ day: 'Utorok', hours: '7:00 – 17:00' },
-		{ day: 'Streda', hours: '7:00 – 17:00' },
-		{ day: 'Štvrtok', hours: '7:00 – 17:00' },
-		{ day: 'Piatok', hours: '7:00 – 17:00' },
-		{ day: 'Sobota', hours: '7:00 – 12:00' },
-		{ day: 'Nedeľa', hours: 'Zatvorené' }
-	] as const;
+	import {
+		navLinks,
+		openingHours,
+		contact,
+		socials,
+		legalLinks,
+		company,
+		mapsEmbedSrc
+	} from '$lib/site';
 </script>
 
 <footer>
 	<div class="maps-wrapper">
 		<iframe
-			src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.4681693755897!2d19.6254822!3d49.08351649999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47159948797ff9b9%3A0x4f4b8209e68f1ed1!2sOROL%2C%20spol.%20s.r.o.!5e1!3m2!1sen!2sfi!4v1778965070947!5m2!1sen!2sfi"
+			src={mapsEmbedSrc}
 			width="100%"
 			height="300"
 			style="border:0;"
 			allowfullscreen
 			loading="lazy"
 			referrerpolicy="no-referrer-when-downgrade"
-			title="Poloha Stavebniny Orol na mape"
+			title="Poloha {company.name} na mape"
 		></iframe>
 	</div>
 
@@ -61,20 +51,20 @@
 				<h3 class="col-heading">Kontakt</h3>
 				<ul class="contact-list">
 					<li>
-						<a href="tel:+421903777741" class="contact-link">+421 903 777 741</a>
+						<a href={contact.phoneHref} class="contact-link">{contact.phone}</a>
 					</li>
 					<li>
-						<a href="mailto:info@stavebninyorol.sk" class="contact-link">info@stavebninyorol.sk</a>
+						<a href={contact.emailHref} class="contact-link">{contact.email}</a>
 					</li>
 					<li class="address">
-						<span>Kysucan 123</span><br />
-						<span>022 01 Čadca</span><br />
-						<span>Slovenská republika</span>
+						<span>{contact.address.street}</span><br />
+						<span>{contact.address.city}</span><br />
+						<span>{contact.address.country}</span>
 					</li>
 				</ul>
 				<div class="social-links">
 					<a
-						href="https://www.instagram.com/orol_stavebniny/"
+						href={socials.instagram}
 						class="social-link"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -87,7 +77,7 @@
 						</svg>
 					</a>
 					<a
-						href="https://www.facebook.com/stavebninyOROL"
+						href={socials.facebook}
 						class="social-link"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -105,15 +95,15 @@
 	<div class="footer-bottom">
 		<div class="footer-bottom-inner">
 			<div class="legal-links">
-				<a href="/gdpr" class="legal-link">GDPR</a>
-				<a href="/privacy" class="legal-link">Ochrana súkromia</a>
-				<a href="/cookies" class="legal-link">Cookies</a>
+				{#each legalLinks as link (link.href)}
+					<a href={link.href} class="legal-link">{link.label}</a>
+				{/each}
 			</div>
 			<div class="company-ids">
-				<span>IČO: 12345678</span>
-				<span>DIČ: 2012345678</span>
-				<span>IČ DPH: SK2012345678</span>
-				<span>&copy; 2025 Stavebniny Orol</span>
+				<span>IČO: {company.ico}</span>
+				<span>DIČ: {company.dic}</span>
+				<span>IČ DPH: {company.icDph}</span>
+				<span>&copy; {company.copyrightYear} {company.name}</span>
 			</div>
 		</div>
 	</div>
@@ -161,7 +151,7 @@
 		align-items: center;
 		color: var(--color-concrete);
 		text-decoration: none;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 		line-height: 1;
 	}
 
@@ -191,7 +181,7 @@
 		font-size: 0.9rem;
 		color: var(--text-on-dark);
 		text-decoration: none;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 		width: fit-content;
 	}
 
@@ -246,7 +236,7 @@
 		font-size: 0.9rem;
 		color: var(--text-on-dark);
 		text-decoration: none;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 	}
 
 	.contact-link:hover {
@@ -271,7 +261,7 @@
 		justify-content: space-between;
 		flex-wrap: wrap;
 		gap: 0.75rem 1.5rem;
-		max-width: 1700px;
+		max-width: var(--container-wide);
 		margin: 0 auto;
 	}
 
@@ -285,7 +275,7 @@
 		font-size: 0.8rem;
 		color: var(--color-concrete);
 		text-decoration: none;
-		transition: color 0.18s ease;
+		transition: color var(--transition-fast);
 	}
 
 	.legal-link:hover {

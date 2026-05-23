@@ -24,12 +24,7 @@
 				{#each data.posts as post (post.slug)}
 					<article class="card">
 						<a href="/news/{post.slug}" class="card-image-link" tabindex="-1" aria-hidden="true">
-							<img
-								src={post.image}
-								alt={post.title}
-								class="card-image"
-								loading="lazy"
-							/>
+							<img src={post.image} alt={post.title} class="card-image" loading="lazy" />
 						</a>
 						<div class="card-body">
 							<time class="card-date" datetime={post.date}>
@@ -53,20 +48,20 @@
 <style>
 	/* ---- Shared ---- */
 	.container {
-		max-width: 1100px;
+		max-width: var(--container-default);
 		margin: 0 auto;
-		padding-inline: 1.5rem;
+		padding-inline: var(--container-px);
 	}
 
 	/* ---- Hero ---- */
 	.hero {
 		background-color: var(--color-brand-dark);
-		padding: 2rem 0;
+		padding: var(--space-hero-y) 0;
 	}
 
 	.hero h1 {
 		margin: 0;
-		font-size: clamp(2rem, 5vw, 3rem);
+		font-size: var(--font-size-h1);
 		font-weight: 800;
 		color: var(--text-on-dark);
 		letter-spacing: 0.02em;
@@ -75,7 +70,7 @@
 	/* ---- Posts section ---- */
 	.posts-section {
 		background-color: var(--color-white);
-		padding: 3rem 0 5rem;
+		padding: var(--space-section-y) 0 var(--space-section-y-end);
 	}
 
 	.empty {
@@ -108,16 +103,16 @@
 	.card {
 		background-color: var(--color-white);
 		border: 1px solid var(--border-default);
-		border-radius: 8px;
+		border-radius: var(--radius-lg);
 		overflow: hidden;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+		box-shadow: var(--shadow-card);
 		display: flex;
 		flex-direction: column;
-		transition: box-shadow 0.18s ease;
+		transition: box-shadow var(--transition-fast);
 	}
 
 	.card:hover {
-		box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+		box-shadow: var(--shadow-card-hover);
 	}
 
 	.card-image-link {
@@ -147,25 +142,27 @@
 
 	.card-title {
 		margin: 0.4rem 0 0.75rem;
-		font-size: 1.15rem;
+		font-size: var(--font-size-h3);
 		font-weight: 700;
 		color: var(--color-iron);
 		line-height: 1.35;
 
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 
 	.card-excerpt {
 		margin: 0 0 auto;
-		font-size: 0.9rem;
+		font-size: var(--font-size-small);
 		color: var(--text-muted);
 		line-height: 1.6;
 
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
+		line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
