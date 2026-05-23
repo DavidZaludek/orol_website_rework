@@ -6,8 +6,8 @@
 		{ role: 'obchodný a ekonomický riaditeľ, konateľ', name: 'RNDr. Renáta ŽALÚDEKOVÁ', mobile: '+421 903 504 176' },
 		{ role: 'obchodný zástupca, vedúci predajne', name: 'Vladimír PLEVA', mobile: '+421 903 777 741' },
         { role: 'fakturácie a účtovníctvo', name: 'Martina JURČOVÁ', mobile: '' },
-        { role: 'vedúci skladu', name: 'Ján NOVÁK', mobile: '' },
-		{ role: 'vedúci distribúcie a skladník', name: 'Peter HORVÁTH', mobile: '' }
+        { role: 'vedúci skladu', name: 'Michal ZABUDOL SOM PRIEZVISKO', mobile: '' },
+		{ role: 'vedúci distribúcie a skladník', name: 'NEPATAM SI', mobile: '' }
 	] as const;
 </script>
 

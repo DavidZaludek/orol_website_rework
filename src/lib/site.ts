@@ -46,8 +46,7 @@ export const navLinks = [
 ] as const;
 
 export const legalLinks = [
-	{ href: '/gdpr', label: 'GDPR' },
-	{ href: '/privacy', label: 'Ochrana súkromia' },
+	{ href: '/ochrana-osobnych-udajov', label: 'Ochrana osobných údajov' },
 	{ href: '/cookies', label: 'Cookies' }
 ] as const;
 
