@@ -2,12 +2,5 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "orolwebsiterework",
 	"compatibility_date": "2026-05-23",
-	"main": ".svelte-kit/cloudflare/_worker.js",
-	"assets": {
-		"directory": ".svelte-kit/cloudflare",
-		"binding": "ASSETS"
-	},
-	"observability": {
-		"enabled": true
-	}
+	"pages_build_output_dir": ".svelte-kit/cloudflare"
 }
