@@ -17,4 +17,7 @@ To create a production version of your app:
 bun run build
 ```
 
-You can preview the production build with `bun run preview`.
+You can preview the production build with.
+```sh
+bun run preview
+```
