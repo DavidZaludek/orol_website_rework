@@ -109,13 +109,9 @@
 						<div class="container promo-overlay-inner">
 							<span class="promo-eyebrow">Akcia</span>
 							<h2 class="promo-title">{promo.title}</h2>
-							{#if promo.excerpt}
-								<p class="promo-excerpt">{promo.excerpt}</p>
-							{/if}
 							{#if promo.validUntil}
 								<p class="promo-valid">Platí do <strong>{formatDate(promo.validUntil)}</strong></p>
 							{/if}
-							<span class="promo-cta">Zobraziť akciu →</span>
 						</div>
 					</div>
 				</a>
@@ -378,31 +374,10 @@
 		letter-spacing: 0.01em;
 	}
 
-	.promo-excerpt {
-		margin: 0;
-		font-size: var(--font-size-body);
-		line-height: 1.6;
-		color: var(--color-concrete);
-		max-width: 52ch;
-	}
-
 	.promo-valid {
 		margin: 0.25rem 0 0;
 		font-size: var(--font-size-small);
 		color: var(--color-concrete);
-	}
-
-	.promo-cta {
-		margin-top: 0.75rem;
-		font-size: var(--font-size-small);
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: var(--text-on-dark);
-	}
-
-	.promo-slide:hover .promo-cta {
-		color: var(--color-brand-hover);
 	}
 
 	.promo-dots {
