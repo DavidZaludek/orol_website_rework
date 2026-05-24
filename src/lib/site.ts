@@ -4,7 +4,7 @@ export const company = {
 	ico: '12345678',
 	dic: '2012345678',
 	icDph: 'SK2012345678',
-	copyrightYear: 2025
+	copyrightYear: 2026
 } as const;
 
 export const contact = {
@@ -25,11 +25,11 @@ export const socials = {
 } as const;
 
 export const openingHours = [
-	{ day: 'Pondelok', hours: '7:00 – 17:00' },
-	{ day: 'Utorok', hours: '7:00 – 17:00' },
-	{ day: 'Streda', hours: '7:00 – 17:00' },
-	{ day: 'Štvrtok', hours: '7:00 – 17:00' },
-	{ day: 'Piatok', hours: '7:00 – 17:00' },
+	{ day: 'Pondelok', hours: '7:00 – 16:00' },
+	{ day: 'Utorok', hours: '7:00 – 16:00' },
+	{ day: 'Streda', hours: '7:00 – 16:00' },
+	{ day: 'Štvrtok', hours: '7:00 – 16:00' },
+	{ day: 'Piatok', hours: '7:00 – 16:00' },
 	{ day: 'Sobota', hours: '7:00 – 12:00' },
 	{ day: 'Nedeľa', hours: 'Zatvorené' }
 ] as const;

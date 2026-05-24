@@ -229,13 +229,6 @@
 		box-shadow: var(--shadow-card);
 	}
 
-	.vision-text {
-		margin: 0;
-		font-size: clamp(1.05rem, 2vw, 1.15rem);
-		line-height: 1.8;
-		color: var(--text-on-light);
-	}
-
 	/* ---- Responsive ---- */
 	@media (max-width: 768px) {
 		.letter-grid {

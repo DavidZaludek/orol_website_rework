@@ -4,6 +4,7 @@
 	import { navLinks, contact, socials } from '$lib/site';
 
 	let menuOpen = $state(false);
+	let compact = $state(false);
 
 	function isActive(href: string): boolean {
 		if (href === '/') {
@@ -15,10 +16,35 @@
 	function closeMenu() {
 		menuOpen = false;
 	}
+
+	function observeOverflow(el: HTMLElement) {
+		let naturalWidth = 0;
+		let isCompact = false;
+
+		const measure = () => {
+			if (!isCompact) {
+				naturalWidth = el.scrollWidth;
+			}
+			if (naturalWidth > 0) {
+				const shouldCompact = el.clientWidth < naturalWidth;
+				if (shouldCompact !== isCompact) {
+					isCompact = shouldCompact;
+					compact = shouldCompact;
+				}
+			}
+		};
+
+		measure();
+		document.fonts?.ready.then(measure);
+
+		const ro = new ResizeObserver(measure);
+		ro.observe(el);
+		return () => ro.disconnect();
+	}
 </script>
 
 <header>
-	<div class="header-inner">
+	<div class="header-inner" class:compact {@attach observeOverflow}>
 		<!-- Logo + Site name -->
 		<a href="/" class="brand" onclick={closeMenu}>
 			<img src={logo} alt="Stavebniny Orol logo" class="logo" />
@@ -179,7 +205,7 @@
 	}
 
 	.logo {
-		height: 60px;
+		height: clamp(42px, 15vw, 60px);
 		width: auto;
 		display: block;
 	}
@@ -366,7 +392,19 @@
 		color: var(--color-concrete);
 	}
 
-	/* ---- Responsive breakpoint ---- */
+	/* ---- Dynamic collapse (JS sets .compact when content would overflow) ---- */
+	.header-inner.compact .desktop-nav,
+	.header-inner.compact .desktop-contact {
+		display: none;
+	}
+
+	.header-inner.compact .hamburger {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* No-JS / very narrow fallback */
 	@media (max-width: 768px) {
 		.desktop-nav,
 		.desktop-contact {

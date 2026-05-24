@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Špecializovaná chémia – Produkty – Stavebniny Orol</title>
+	<title>Stavebná chémia – Produkty – Stavebniny Orol</title>
 	<meta
 		name="description"
 		content="Stavebná chémia – PU peny, silikóny, tmely, lepidlá, prípravky proti vlhkosti aj plesniam."
@@ -17,14 +17,14 @@
 <section class="hero">
 	<div class="container">
 		<a href="/products" class="back-link">← Späť na produkty</a>
-		<h1>Špecializovaná chémia</h1>
+		<h1>Stavebná chémia</h1>
 	</div>
 </section>
 
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Stavebná a špecializovaná chémia pre profesionálne aj svojpomocné použitie. Máme na sklade
+			Stavebná chémia pre profesionálne aj svojpomocné použitie. Máme na sklade
 			overené značky pre tesnenie, lepenie aj ošetrovanie konštrukcií.
 		</p>
 

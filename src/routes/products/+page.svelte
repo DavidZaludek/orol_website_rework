@@ -37,8 +37,8 @@
 				'Asfaltové pásy, fólie a tekuté hydroizolácie pre základy, ploché strechy, balkóny a kúpeľne.'
 		},
 		{
-			href: '/products/specializovana-chemia',
-			title: 'Špecializovaná chémia',
+			href: '/products/stavebna-chemia',
+			title: 'Stavebná chémia',
 			description:
 				'Stavebná chémia – PU peny, silikóny, tmely, lepidlá, prípravky proti vlhkosti aj plesniam.'
 		},
@@ -65,6 +65,12 @@
 			title: 'Kanalizácia, voda a sanita',
 			description:
 				'Rúry a tvarovky pre kanalizáciu a vodovod, šachty, žumpy a sanitárne vybavenie kúpeľne.'
+		},
+		{
+			href: '/products/naradie-a-doplnky',
+			title: 'Náradie a doplnky',
+			description:
+				'Ručné aj elektrické náradie, murárske pomôcky, spojovací materiál a ochranné pracovné prostriedky.'
 		}
 	] as const;
 </script>

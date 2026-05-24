@@ -11,11 +11,12 @@
 		'Fasádne a interiérové farby',
 		'Strešné krytiny',
 		'Hydroizolácia',
-		'Špecializovaná chémia',
+		'Stavebná chémia',
 		'Dlažby a betónové tvárnice',
 		'Betonárska oceľ',
 		'Okná',
 		'Kanalizácia, voda a sanita',
+		'Náradie a doplnky',
 		'Viac kategórií / iné'
 	] as const;
 
