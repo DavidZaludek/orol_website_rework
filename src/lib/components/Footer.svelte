@@ -50,16 +50,18 @@
 			<div class="col col-contact">
 				<h3 class="col-heading">Kontakt</h3>
 				<ul class="contact-list">
+					<li class="company-name">{company.legalName}</li>
+					<li class="address">
+						<span>{contact.address.street}</span><br />
+						<span>{contact.address.city}</span>
+					</li>
 					<li>
+						<span class="contact-label">tel:</span>
 						<a href={contact.phoneHref} class="contact-link">{contact.phone}</a>
 					</li>
 					<li>
+						<span class="contact-label">e-mail:</span>
 						<a href={contact.emailHref} class="contact-link">{contact.email}</a>
-					</li>
-					<li class="address">
-						<span>{contact.address.street}</span><br />
-						<span>{contact.address.city}</span><br />
-						<span>{contact.address.country}</span>
 					</li>
 				</ul>
 				<div class="social-links">
@@ -70,7 +72,7 @@
 						rel="noopener noreferrer"
 						aria-label="Instagram"
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
 							<circle cx="12" cy="12" r="4"></circle>
 							<circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
@@ -83,7 +85,7 @@
 						rel="noopener noreferrer"
 						aria-label="Facebook"
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
 							<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
 						</svg>
 					</a>
@@ -141,8 +143,8 @@
 
 	.social-links {
 		display: flex;
-		gap: 0.75rem;
-		margin-top: 0.25rem;
+		gap: 1rem;
+		margin-top: 0.75rem;
 		padding-left: 1.2rem;
 	}
 
@@ -232,6 +234,13 @@
 		gap: 0.6rem;
 	}
 
+	.contact-label {
+		display: inline-block;
+		min-width: 3.75rem;
+		font-size: 0.85rem;
+		color: var(--color-concrete);
+	}
+
 	.contact-link {
 		font-size: 0.9rem;
 		color: var(--text-on-dark);
@@ -241,6 +250,13 @@
 
 	.contact-link:hover {
 		color: var(--color-brand-hover);
+	}
+
+	.company-name {
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: var(--text-on-dark);
+		letter-spacing: 0.01em;
 	}
 
 	.address {
@@ -294,6 +310,11 @@
 	@media (max-width: 768px) {
 		.footer-inner {
 			grid-template-columns: repeat(2, 1fr);
+		}
+
+		/* Clear space for the floating "Cenová ponuka" CTA so it doesn't cover IČO/DIČ */
+		.footer-bottom {
+			padding-bottom: 6rem;
 		}
 	}
 

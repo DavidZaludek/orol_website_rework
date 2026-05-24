@@ -43,4 +43,11 @@
 - Pri sluzbach obrazky
 - A pri Produktoch znacky etc
 - Agresivne poziciavanie obrazkov od nasich dodavatelov
-- 
+
+
+- poradie vo footery 
+- do footera: OROL, spol s.r.o.
+- potom lokacia odstran slovenska republika 
+- tel:
+- email:
+- Socials
