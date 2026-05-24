@@ -265,5 +265,11 @@
 			grid-template-columns: 1fr;
 			gap: 0.25rem;
 		}
+
+		.staff-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.25rem;
+		}
 	}
 </style>
