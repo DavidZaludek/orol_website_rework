@@ -61,4 +61,6 @@
 
 - Odstranit cenovu ponuku z headeru 
 - pridat cenovu ponuku button a objednavkovy formular button na hlavnu stranku
+- Na mobile vidiet Cenova ponuka a objednavkovy formular button
+- Vlado potrebujeme rollnut aditional text kontakty
 - 

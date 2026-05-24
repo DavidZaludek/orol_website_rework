@@ -1,9 +1,9 @@
 export const company = {
 	name: 'OROL, spol. s r.o.',
 	legalName: 'OROL, spol. s.r.o.',
-	ico: '12345678',
-	dic: '2012345678',
-	icDph: 'SK2012345678',
+	ico: '36378313',
+	dic: '2020126196',
+	icDph: 'SK2020126196',
 	copyrightYear: 2026
 } as const;
 
@@ -13,9 +13,8 @@ export const contact = {
 	email: 'stavebniny.orol@gmail.com',
 	emailHref: 'mailto:stavebniny.orol@gmail.com',
 	address: {
-		street: 'kpt. Nálepku 2218',
-		city: '031 01 Liptovský Mikuláš',
-		country: 'Slovenská republika'
+		street: 'Kpt. Nálepku 2218',
+		city: 'Liptovský Mikuláš 031 01'
 	}
 } as const;
 
