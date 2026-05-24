@@ -139,6 +139,20 @@
 	</section>
 {/if}
 
+<!-- 1.5 Quote + Order CTAs -->
+<section class="home-ctas" aria-label="Cenová ponuka a objednávka">
+	<div class="container home-ctas-inner">
+		<a href="/quote" class="home-cta home-cta--primary">
+			<span class="home-cta-title">Cenová ponuka</span>
+			<span class="home-cta-sub">Nezáväzná kalkulácia šitá na mieru Vašej stavby.</span>
+		</a>
+		<a href="/order" class="home-cta home-cta--secondary">
+			<span class="home-cta-title">Objednávkový formulár</span>
+			<span class="home-cta-sub">Objednajte materiál priamo online – pripravíme ho k odberu.</span>
+		</a>
+	</div>
+</section>
+
 <!-- 2. Products / Services split -->
 <section class="split" aria-label="Hlavné sekcie">
 	<a href="/products" class="split-tile split-tile--products">
@@ -282,9 +296,9 @@
 	.promo-stage {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 16 / 9;
-		max-height: 720px;
-		min-height: 460px;
+		aspect-ratio: 21 / 9;
+		max-height: 540px;
+		min-height: 340px;
 	}
 
 	.promo-slide {
@@ -444,6 +458,74 @@
 
 		.promo-title {
 			font-size: clamp(1.5rem, 6vw, 2.2rem);
+		}
+	}
+
+	/* ---- 1.5 Home CTAs ---- */
+	.home-ctas {
+		background-color: var(--color-chalk);
+		padding: var(--space-section-y) 0;
+	}
+
+	.home-ctas-inner {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.5rem;
+	}
+
+	.home-cta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 1.75rem 2rem;
+		border-radius: var(--radius-md);
+		text-decoration: none;
+		border: 1px solid transparent;
+		box-shadow: var(--shadow-card);
+		transition:
+			transform var(--transition-fast),
+			box-shadow var(--transition-fast),
+			background-color var(--transition-fast);
+	}
+
+	.home-cta:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-card-hover);
+	}
+
+	.home-cta--primary {
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+	}
+
+	.home-cta--primary:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	.home-cta--secondary {
+		background-color: var(--color-iron);
+		color: var(--color-white);
+	}
+
+	.home-cta--secondary:hover {
+		background-color: var(--color-brand-primary);
+	}
+
+	.home-cta-title {
+		font-size: var(--font-size-h3);
+		font-weight: 800;
+		letter-spacing: 0.01em;
+	}
+
+	.home-cta-sub {
+		font-size: var(--font-size-small);
+		line-height: 1.5;
+		opacity: 0.92;
+	}
+
+	@media (max-width: 720px) {
+		.home-ctas-inner {
+			grid-template-columns: 1fr;
 		}
 	}
 

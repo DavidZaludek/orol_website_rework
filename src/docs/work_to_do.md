@@ -51,3 +51,14 @@
 - tel:
 - email:
 - Socials
+- Treba to zmenit na cenova ponuka a objednavka
+
+- Button cenova ponuka a objednavka treba spravit tak aby sa instantne zobrazili navstevnikom a odstranenie floating buttonu
+- uprav potom footer aby tam nebol ten dead space
+
+- Tel email a location treba zmenit za ikonky plus text vedla
+- Potrebujem do footera hodit logo firmy na lavo
+
+- Odstranit cenovu ponuku z headeru 
+- pridat cenovu ponuku button a objednavkovy formular button na hlavnu stranku
+- 

@@ -40,7 +40,6 @@ export const navLinks = [
 	{ href: '/promotions', label: 'Akcie' },
 	{ href: '/news', label: 'Aktuality' },
 	{ href: '/gallery', label: 'Galéria' },
-	{ href: '/quote', label: 'Cenová ponuka' },
 	{ href: '/about', label: 'O nás' },
 	{ href: '/contact', label: 'Kontakt' }
 ] as const;

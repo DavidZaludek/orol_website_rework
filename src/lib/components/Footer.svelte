@@ -32,7 +32,7 @@
 					{#each openingHours as row (row.day)}
 						<div class="hours-row">
 							<dt>{row.day}</dt>
-							<dd class:closed={row.hours === 'Zatvorené'}>{row.hours}</dd>
+							<dd>{row.hours}</dd>
 						</div>
 					{/each}
 				</dl>
@@ -114,7 +114,7 @@
 <style>
 	footer {
 		background-color: var(--color-brand-dark);
-		color: var(--text-on-dark);
+		color: var(--color-concrete);
 	}
 
 	/* ---- Map ---- */
@@ -181,7 +181,7 @@
 
 	.footer-link {
 		font-size: 0.9rem;
-		color: var(--text-on-dark);
+		color: var(--color-concrete);
 		text-decoration: none;
 		transition: color var(--transition-fast);
 		width: fit-content;
@@ -214,14 +214,9 @@
 	.hours-row dd {
 		margin: 0;
 		font-size: 0.875rem;
-		color: var(--text-on-dark);
+		color: var(--color-concrete);
 		text-align: right;
 		white-space: nowrap;
-	}
-
-	.hours-row dd.closed {
-		color: var(--color-white);
-		font-style: italic;
 	}
 
 	/* ---- Column: Contact ---- */
@@ -243,7 +238,7 @@
 
 	.contact-link {
 		font-size: 0.9rem;
-		color: var(--text-on-dark);
+		color: var(--color-concrete);
 		text-decoration: none;
 		transition: color var(--transition-fast);
 	}
@@ -255,7 +250,7 @@
 	.company-name {
 		font-size: 0.95rem;
 		font-weight: 700;
-		color: var(--text-on-dark);
+		color: var(--color-concrete);
 		letter-spacing: 0.01em;
 	}
 
@@ -310,11 +305,6 @@
 	@media (max-width: 768px) {
 		.footer-inner {
 			grid-template-columns: repeat(2, 1fr);
-		}
-
-		/* Clear space for the floating "Cenová ponuka" CTA so it doesn't cover IČO/DIČ */
-		.footer-bottom {
-			padding-bottom: 6rem;
 		}
 	}
 
