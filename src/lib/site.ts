@@ -1,5 +1,5 @@
 export const company = {
-	name: 'Stavebniny Orol',
+	name: 'OROL, spol. s r.o.',
 	legalName: 'OROL, spol. s.r.o.',
 	ico: '12345678',
 	dic: '2012345678',

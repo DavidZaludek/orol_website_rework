@@ -31,3 +31,16 @@
 - Banery akcie
 - webglob hoster
 - analytics sweidu socials
+
+## Co potrebujeme od koho 24.5.2026
+
+- Ocino - Fotku na O nas, treba napisat/prepisat dany obsah, co tam je
+- V kontaktoch treba doplnit mena pracovnikov vo firme
+- Mamina - Skor ten obsah na produktoch a kategoriach mi bude treba nejak poriesit
+
+- Akcie upravit ich visual treba to skraslit
+- Potrebujeme viacej verzii orol loga
+- Pri sluzbach obrazky
+- A pri Produktoch znacky etc
+- Agresivne poziciavanie obrazkov od nasich dodavatelov
+- 
