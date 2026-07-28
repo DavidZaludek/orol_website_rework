@@ -6,7 +6,7 @@ Once you've created a project and installed dependencies with `bun install`, sta
 bun run dev
 
 # or start the server and open the app in a new browser tab
-bun run dev -- --open 
+bun run dev -- --open
 ```
 
 ## Building
@@ -18,6 +18,7 @@ bun run build
 ```
 
 You can preview the production build with.
+
 ```sh
 bun run preview
 ```

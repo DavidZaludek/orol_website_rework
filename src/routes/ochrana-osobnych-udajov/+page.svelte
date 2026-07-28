@@ -23,8 +23,8 @@
 <section class="body-section">
 	<div class="container">
 		<div class="todo">
-			<strong>TODO:</strong> Doplniť záväzný právny text. Návrh štruktúry je nižšie — každý oddiel
-			obsahuje zoznam údajov, ktoré treba doplniť pred publikovaním.
+			<strong>TODO:</strong> Doplniť záväzný právny text. Návrh štruktúry je nižšie — každý oddiel obsahuje
+			zoznam údajov, ktoré treba doplniť pred publikovaním.
 		</div>
 
 		<h2>1. Prevádzkovateľ</h2>
@@ -34,8 +34,8 @@
 			{contact.address.city}.
 		</p>
 		<p class="todo-inline">
-			TODO: doplniť údaje o zápise v obchodnom registri (okresný súd, oddiel, vložka), prípadne
-			meno štatutárneho zástupcu.
+			TODO: doplniť údaje o zápise v obchodnom registri (okresný súd, oddiel, vložka), prípadne meno
+			štatutárneho zástupcu.
 		</p>
 
 		<h2>2. Kontakt vo veciach ochrany osobných údajov</h2>
@@ -50,25 +50,23 @@
 		</p>
 
 		<h2>3. Účely a právne základy spracúvania</h2>
-		<p class="todo-inline">
-			TODO: vymenovať jednotlivé účely a k nim právny základ. Príklady:
-		</p>
+		<p class="todo-inline">TODO: vymenovať jednotlivé účely a k nim právny základ. Príklady:</p>
 		<ul>
 			<li>
 				<strong>Vybavenie cenovej ponuky / kontaktný formulár</strong> — právny základ: predzmluvné
 				vzťahy / oprávnený záujem; doba uchovávania: <em>doplniť</em>.
 			</li>
 			<li>
-				<strong>Vystavenie faktúry a vedenie účtovníctva</strong> — právny základ: zákonná
-				povinnosť; doba uchovávania: 10 rokov.
+				<strong>Vystavenie faktúry a vedenie účtovníctva</strong> — právny základ: zákonná povinnosť;
+				doba uchovávania: 10 rokov.
 			</li>
 			<li>
-				<strong>Marketing a newsletter</strong> — právny základ: súhlas dotknutej osoby; doba
-				uchovávania: do odvolania súhlasu.
+				<strong>Marketing a newsletter</strong> — právny základ: súhlas dotknutej osoby; doba uchovávania:
+				do odvolania súhlasu.
 			</li>
 			<li>
-				<strong>Prevádzka webovej stránky</strong> — IP adresa, informácie o prehliadači; právny
-				základ: oprávnený záujem na bezpečnosti a štatistike návštevnosti.
+				<strong>Prevádzka webovej stránky</strong> — IP adresa, informácie o prehliadači; právny základ:
+				oprávnený záujem na bezpečnosti a štatistike návštevnosti.
 			</li>
 		</ul>
 
@@ -81,10 +79,13 @@
 		<h2>5. Príjemcovia údajov</h2>
 		<p class="todo-inline">TODO: doplniť konkrétnych sprostredkovateľov a tretie strany.</p>
 		<ul>
-			<li>Poskytovateľ hostingu — <strong>Cloudflare, Inc.</strong> (USA, štandardné zmluvné doložky).</li>
 			<li>
-				Poskytovateľ e-mailových služieb — <em>TODO: doplniť (napr. Resend, Mailgun, Google
-				Workspace)</em>.
+				Poskytovateľ hostingu — <strong>Cloudflare, Inc.</strong> (USA, štandardné zmluvné doložky).
+			</li>
+			<li>
+				Poskytovateľ e-mailových služieb — <em
+					>TODO: doplniť (napr. Resend, Mailgun, Google Workspace)</em
+				>.
 			</li>
 			<li>Účtovná firma / externý účtovník — <em>TODO: doplniť meno a sídlo</em>.</li>
 			<li>Orgány verejnej moci v rozsahu zákonných povinností.</li>
@@ -98,8 +99,8 @@
 
 		<h2>7. Doba uchovávania</h2>
 		<p class="todo-inline">
-			TODO: doplniť konkrétne doby uchovávania pre každý účel (napr. žiadosti o cenovú ponuku
-			— 6 mesiacov, marketingový súhlas — do odvolania, účtovné doklady — 10 rokov).
+			TODO: doplniť konkrétne doby uchovávania pre každý účel (napr. žiadosti o cenovú ponuku — 6
+			mesiacov, marketingový súhlas — do odvolania, účtovné doklady — 10 rokov).
 		</p>
 
 		<h2>8. Vaše práva</h2>

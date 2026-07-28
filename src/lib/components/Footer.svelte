@@ -8,88 +8,86 @@
 		company,
 		mapsEmbedSrc
 	} from '$lib/site';
+	import InstagramIcon from './icons/InstagramIcon.svelte';
+	import FacebookIcon from './icons/FacebookIcon.svelte';
+	import logoFull from '$lib/assets/orol_loga/orol_all_white.svg';
 </script>
 
 <footer>
-	<div class="maps-wrapper">
-		<iframe
-			src={mapsEmbedSrc}
-			width="100%"
-			height="300"
-			style="border:0;"
-			allowfullscreen
-			loading="lazy"
-			referrerpolicy="no-referrer-when-downgrade"
-			title="Poloha {company.name} na mape"
-		></iframe>
-	</div>
+	<iframe
+		class="maps-iframe"
+		src={mapsEmbedSrc}
+		width="100%"
+		height="300"
+		style="border:0;"
+		allowfullscreen
+		loading="lazy"
+		referrerpolicy="no-referrer-when-downgrade"
+		title="Poloha {company.name} na mape"
+	></iframe>
 
-	<div class="footer-main">
-		<div class="footer-inner">
-			<div class="col col-hours">
-				<h3 class="col-heading">Otváracie hodiny</h3>
-				<dl class="hours-list">
-					{#each openingHours as row (row.day)}
-						<div class="hours-row">
-							<dt>{row.day}</dt>
-							<dd>{row.hours}</dd>
-						</div>
-					{/each}
-				</dl>
-			</div>
+	<div class="footer-inner">
+		<a href="/" class="footer-brand" aria-label="Stavebniny Orol — domov">
+			<img src={logoFull} alt="Stavebniny Orol logo" class="footer-logo" />
+		</a>
 
-			<div class="col col-links">
-				<h3 class="col-heading">Rýchle odkazy</h3>
-				<nav aria-label="Pätičková navigácia">
-					{#each navLinks as link (link.href)}
-						<a href={link.href} class="footer-link">{link.label}</a>
-					{/each}
-				</nav>
-			</div>
+		<div class="col col-hours">
+			<h3 class="col-heading">Otváracie hodiny</h3>
+			<dl class="hours-list">
+				{#each openingHours as row (row.day)}
+					<div class="hours-row">
+						<dt>{row.day}</dt>
+						<dd>{row.hours}</dd>
+					</div>
+				{/each}
+			</dl>
+		</div>
 
-			<div class="col col-contact">
-				<h3 class="col-heading">Kontakt</h3>
-				<ul class="contact-list">
-					<li class="company-name">{company.legalName}</li>
-					<li class="address">
-						<span>{contact.address.street}</span><br />
-						<span>{contact.address.city}</span>
-					</li>
-					<li>
-						<span class="contact-label">tel:</span>
-						<a href={contact.phoneHref} class="contact-link">{contact.phone}</a>
-					</li>
-					<li>
-						<span class="contact-label">e-mail:</span>
-						<a href={contact.emailHref} class="contact-link">{contact.email}</a>
-					</li>
-				</ul>
-				<div class="social-links">
-					<a
-						href={socials.instagram}
-						class="social-link"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label="Instagram"
-					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-							<circle cx="12" cy="12" r="4"></circle>
-							<circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
-						</svg>
-					</a>
-					<a
-						href={socials.facebook}
-						class="social-link"
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label="Facebook"
-					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
-							<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-						</svg>
-					</a>
-				</div>
+		<div class="col col-links">
+			<h3 class="col-heading">Rýchle odkazy</h3>
+			<nav aria-label="Pätičková navigácia">
+				{#each navLinks as link (link.href)}
+					<a href={link.href} class="footer-link">{link.label}</a>
+				{/each}
+			</nav>
+		</div>
+
+		<div class="col col-contact">
+			<h3 class="col-heading">Kontakt</h3>
+			<ul class="contact-list">
+				<li class="company-name">{company.legalName}</li>
+				<li class="address">
+					<span>{contact.address.street}</span><br />
+					<span>{contact.address.city}</span>
+				</li>
+				<li>
+					<span class="contact-label">tel:</span>
+					<a href={contact.phoneHref} class="contact-link">{contact.phone}</a>
+				</li>
+				<li>
+					<span class="contact-label">e-mail:</span>
+					<a href={contact.emailHref} class="contact-link">{contact.email}</a>
+				</li>
+			</ul>
+			<div class="social-links">
+				<a
+					href={socials.instagram}
+					class="social-link"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Instagram"
+				>
+					<InstagramIcon size={32} />
+				</a>
+				<a
+					href={socials.facebook}
+					class="social-link"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Facebook"
+				>
+					<FacebookIcon size={32} />
+				</a>
 			</div>
 		</div>
 	</div>
@@ -118,28 +116,37 @@
 	}
 
 	/* ---- Map ---- */
-	.maps-wrapper {
-		width: 100%;
-		line-height: 0;
-	}
-
-	.maps-wrapper iframe {
+	.maps-iframe {
 		display: block;
 		width: 100%;
 	}
 
 	/* ---- Main columns ---- */
-	.footer-main {
-        padding: 3rem 1.5rem 2.5rem;
-	}
-
 	.footer-inner {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 2.5rem;
-        max-width: 1700px;
-        margin: 0 auto;
-    }
+		grid-template-columns: auto repeat(3, minmax(0, 1fr));
+		gap: 4rem;
+		max-width: 1700px;
+		margin: 0 auto;
+		padding: 3rem 1.5rem 2.5rem;
+	}
+
+	/* ---- Brand logo (left) ---- */
+	.footer-brand {
+		/* ============================================================
+		   FOOTER LOGO SCALING — adjust this value to resize the logo.
+		   ============================================================ */
+		--footer-logo-width: clamp(120px, 14vw, 190px);
+
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.footer-logo {
+		width: var(--footer-logo-width);
+		height: auto;
+		display: block;
+	}
 
 	.social-links {
 		display: flex;
@@ -302,9 +309,16 @@
 	}
 
 	/* ---- Responsive ---- */
-	@media (max-width: 768px) {
+	/* Tablets: collapse the 4-column desktop layout so contacts never
+	   push off-screen (no horizontal scroll). Logo spans the full width. */
+	@media (max-width: 1024px) {
 		.footer-inner {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 2rem 2.5rem;
+		}
+
+		.footer-brand {
+			grid-column: 1 / -1;
 		}
 	}
 

@@ -30,4 +30,3 @@
 6. News/Blog page
 7. Promotions/Sales page
 8. About us page
-

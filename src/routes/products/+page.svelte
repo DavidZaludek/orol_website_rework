@@ -1,78 +1,5 @@
 <script lang="ts">
-	const products = [
-		{
-			href: '/products/hruba-stavba',
-			title: 'Hrubá stavba',
-			description:
-				'Tehly, tvárnice, preklady, cement, vápno a všetko potrebné pre hrubú stavbu rodinného domu aj väčších objektov.'
-		},
-		{
-			href: '/products/suche-zmesy-malty-omietky',
-			title: 'Suché zmesy, malty a omietky',
-			description:
-				'Murovacie a omietkové zmesi, lepidlá, samonivelačné stierky a špeciálne malty pre interiér aj exteriér.'
-		},
-		{
-			href: '/products/tepelne-izolacie',
-			title: 'Tepelné izolácie',
-			description:
-				'Polystyrény, minerálne vlny a izolácie pre fasády, strechy, podlahy aj stropy vrátane systémových doplnkov.'
-		},
-		{
-			href: '/products/fasadne-a-interierove-farby',
-			title: 'Fasádne omietky, fasádne a interiérové farby',
-			description:
-				'Tenkovrstvové fasádne omietky, fasádne aj interiérové farby, penetrácie a tónovanie priamo na predajni.'
-		},
-		{
-			href: '/products/stresne-krytiny',
-			title: 'Strešné krytiny',
-			description:
-				'Pálené aj betónové škridly, plechové krytiny, asfaltové šindle a kompletný systém doplnkov.'
-		},
-		{
-			href: '/products/hydroizolacia',
-			title: 'Hydroizolácia',
-			description:
-				'Asfaltové pásy, fólie a tekuté hydroizolácie pre základy, ploché strechy, balkóny a kúpeľne.'
-		},
-		{
-			href: '/products/stavebna-chemia',
-			title: 'Stavebná chémia',
-			description:
-				'Stavebná chémia – PU peny, silikóny, tmely, lepidlá, prípravky proti vlhkosti aj plesniam.'
-		},
-		{
-			href: '/products/dlazby-betonove-tvarnice',
-			title: 'Dlažby a betónové tvárnice',
-			description:
-				'Zámková dlažba, obrubníky, plotové tvárnice a betónové prvky pre exteriér a záhradnú architektúru.'
-		},
-		{
-			href: '/products/betonarska-ocel',
-			title: 'Betonárska oceľ',
-			description:
-				'Betonárska výstuž, kari siete, strmienky a viazací drôt pre základy, stropy aj armovanie konštrukcií.'
-		},
-		{
-			href: '/products/okna',
-			title: 'Okná',
-			description:
-				'Plastové, hliníkové aj drevené okná, dvere a strešné okná na mieru – vrátane zamerania a montáže.'
-		},
-		{
-			href: '/products/kanalizacia-voda-sanita',
-			title: 'Kanalizácia, voda a sanita',
-			description:
-				'Rúry a tvarovky pre kanalizáciu a vodovod, šachty, žumpy a sanitárne vybavenie kúpeľne.'
-		},
-		{
-			href: '/products/naradie-a-doplnky',
-			title: 'Náradie a doplnky',
-			description:
-				'Ručné aj elektrické náradie, murárske pomôcky, spojovací materiál a ochranné pracovné prostriedky.'
-		}
-	] as const;
+	import { products } from '$lib/site';
 </script>
 
 <svelte:head>
@@ -105,7 +32,17 @@
 							<p class="product-description">{product.description}</p>
 						</div>
 						<span class="product-arrow" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								width="24"
+								height="24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
 								<line x1="5" y1="12" x2="19" y2="12"></line>
 								<polyline points="12 5 19 12 12 19"></polyline>
 							</svg>

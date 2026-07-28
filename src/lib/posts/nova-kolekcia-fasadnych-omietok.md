@@ -1,8 +1,8 @@
 ---
-title: "Nová kolekcia fasádnych omietok pre sezónu 2025"
-date: "2025-05-10"
-excerpt: "Predstavujeme rozšírenú ponuku fasádnych omietok od renomovaných výrobcov. Nájdite ideálne riešenie pre váš dom."
-image: "/images/posts/banner_2.jpg"
+title: 'Nová kolekcia fasádnych omietok pre sezónu 2025'
+date: '2025-05-10'
+excerpt: 'Predstavujeme rozšírenú ponuku fasádnych omietok od renomovaných výrobcov. Nájdite ideálne riešenie pre váš dom.'
+image: '/images/posts/banner_2.jpg'
 ---
 
 ## Nová kolekcia fasádnych omietok pre sezónu 2025

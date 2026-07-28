@@ -14,12 +14,10 @@
 
 	/* === Base: White === */
 	--color-white: #ffffff;
-	--color-warm-white: #faf9f8;
 
 	/* === Semantic === */
 	--color-success: #2e7d32;
 	--color-warning: #e65100;
-	--color-info: #1565c0;
 	--color-error: #c62828;
 
 	/* === Typography === */
@@ -28,9 +26,6 @@
 	--text-muted: #6b7175;
 
 	/* === Surfaces === */
-	--surface-page: #ffffff;
 	--surface-alt: #f2f4f5;
-	--surface-dark: #1e2022;
-	--surface-card: #ffffff;
 	--border-default: #d6dadc;
 }

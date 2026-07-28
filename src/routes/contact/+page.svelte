@@ -3,10 +3,14 @@
 
 	const staff = [
 		{ role: 'majiteľ, konateľ', name: 'Ing. Koloman ŽALÚDEK', mobile: '+421 903 521 884' },
-		{ role: 'obchodný a ekonomický riaditeľ, konateľ', name: 'RNDr. Renata ŽALÚDEKOVÁ', mobile: '+421 903 504 176' },
+		{
+			role: 'obchodný a ekonomický riaditeľ, konateľ',
+			name: 'RNDr. Renata ŽALÚDEKOVÁ',
+			mobile: '+421 903 504 176'
+		},
 		{ role: 'vedúci predaja', name: 'Vladimír PLEVA', mobile: '+421 903 777 741' },
-        { role: 'fakturácie a administratíva', name: 'Martina JURČOVÁ', mobile: '' },
-        { role: 'skladník a distribútor tovaru', name: 'Michal ONDRUŠ', mobile: '' },
+		{ role: 'fakturácie a administratíva', name: 'Martina JURČOVÁ', mobile: '' },
+		{ role: 'skladník a distribútor tovaru', name: 'Michal ONDRUŠ', mobile: '' },
 		{ role: 'skladník a distribútor tovaru', name: 'Ján ZÁHRADNÍK', mobile: '' }
 	] as const;
 </script>

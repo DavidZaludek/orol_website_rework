@@ -4,8 +4,7 @@
 	const tradeCategories = [
 		{
 			name: 'Stavitelia a stavebné firmy',
-			description:
-				'Hrubá stavba, omietky, zatepľovanie, kompletné dodávky rodinných domov na kľúč.'
+			description: 'Hrubá stavba, omietky, zatepľovanie, kompletné dodávky rodinných domov na kľúč.'
 		},
 		{
 			name: 'Murári a betonári',
@@ -13,7 +12,8 @@
 		},
 		{
 			name: 'Tesári a pokrývači',
-			description: 'Krovy, drevené konštrukcie, krytiny – plech, škridla, šindel, klampiarske práce.'
+			description:
+				'Krovy, drevené konštrukcie, krytiny – plech, škridla, šindel, klampiarske práce.'
 		},
 		{
 			name: 'Kúrenári, inštalatéri a elektrikári',
@@ -29,8 +29,7 @@
 		},
 		{
 			name: 'Stolári, zámočníci a živnostníci',
-			description:
-				'Interiérové dvere, kuchyne, vstavané skrine, kovové konštrukcie, brány a ploty.'
+			description: 'Interiérové dvere, kuchyne, vstavané skrine, kovové konštrukcie, brány a ploty.'
 		},
 		{
 			name: 'Architekti a projektanti',
@@ -58,9 +57,9 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Za viac ako 25 rokov pôsobenia v regióne sme si vybudovali sieť spoľahlivých
-			remeselníkov, ktorých prácu poznáme. Radi Vás s nimi prepojíme – či už hľadáte celú
-			stavebnú firmu alebo iba šikovného murára na drobnú úpravu.
+			Za viac ako 25 rokov pôsobenia v regióne sme si vybudovali sieť spoľahlivých remeselníkov,
+			ktorých prácu poznáme. Radi Vás s nimi prepojíme – či už hľadáte celú stavebnú firmu alebo iba
+			šikovného murára na drobnú úpravu.
 		</p>
 
 		<h2>Aké profesie odporúčame</h2>
@@ -77,16 +76,16 @@
 		<ol class="steps">
 			<li>Povedzte nám, akú prácu potrebujete spraviť a v akom rozsahu.</li>
 			<li>
-				Z našej siete odporúčame remeselníkov, ktorí majú voľnú kapacitu a robia kvalitne
-				v danej profesii.
+				Z našej siete odporúčame remeselníkov, ktorí majú voľnú kapacitu a robia kvalitne v danej
+				profesii.
 			</li>
 			<li>Kontakt si od nás vypýtate – zvyšok dohadujete priamo s remeselníkom.</li>
 		</ol>
 
 		<p class="note">
-			<strong>Upozornenie:</strong> Odporúčaní remeselníci nie sú zamestnancami Stavebnín Orol –
-			ide o nezávislých živnostníkov a firmy. Za kvalitu ich práce, cenu a dodržanie termínu
-			zodpovedajú výlučne oni sami.
+			<strong>Upozornenie:</strong> Odporúčaní remeselníci nie sú zamestnancami Stavebnín Orol – ide o
+			nezávislých živnostníkov a firmy. Za kvalitu ich práce, cenu a dodržanie termínu zodpovedajú výlučne
+			oni sami.
 		</p>
 
 		<div class="cta-box">

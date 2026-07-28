@@ -127,12 +127,7 @@
 >
 	{#if currentPhoto}
 		<div class="lightbox-inner">
-			<button
-				type="button"
-				class="lightbox-close"
-				onclick={closeLightbox}
-				aria-label="Zavrieť"
-			>
+			<button type="button" class="lightbox-close" onclick={closeLightbox} aria-label="Zavrieť">
 				&times;
 			</button>
 

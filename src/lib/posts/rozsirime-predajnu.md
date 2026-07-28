@@ -1,8 +1,8 @@
 ---
-title: "Rozširujeme predajňu — viac priestoru pre vás"
-date: "2025-03-15"
-excerpt: "S radosťou oznamujeme, že naša predajňa prechádza rozšírením. Tešte sa na väčší výber a lepšiu dostupnosť tovaru."
-image: "/images/posts/banner_5.jpg"
+title: 'Rozširujeme predajňu — viac priestoru pre vás'
+date: '2025-03-15'
+excerpt: 'S radosťou oznamujeme, že naša predajňa prechádza rozšírením. Tešte sa na väčší výber a lepšiu dostupnosť tovaru.'
+image: '/images/posts/banner_5.jpg'
 ---
 
 ## Rozširujeme predajňu

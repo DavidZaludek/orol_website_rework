@@ -1,9 +1,9 @@
 ---
-title: "Jarná zľava na strešné krytiny"
-date: "2025-03-01"
-validUntil: "2025-05-31"
-excerpt: "Čas pripraviť strechu na novú sezónu. Na vybrané strešné krytiny poskytujeme zľavy až do 10 %."
-image: "/images/promotions/jarna-zlava.jpg"
+title: 'Jarná zľava na strešné krytiny'
+date: '2025-03-01'
+validUntil: '2025-05-31'
+excerpt: 'Čas pripraviť strechu na novú sezónu. Na vybrané strešné krytiny poskytujeme zľavy až do 10 %.'
+image: '/images/promotions/jarna-zlava.jpg'
 ---
 
 ## Jarná zľava na strešné krytiny

@@ -1,9 +1,9 @@
 ---
-title: "Zľavy na zatepľovacie systémy"
-date: "2025-04-15"
-validUntil: "2025-06-30"
-excerpt: "Pripravte svoj dom na zimu už teraz. Na kompletné zatepľovacie systémy poskytujeme zľavy až do 20 %."
-image: "/images/promotions/zlavy-zateplenie.jpg"
+title: 'Zľavy na zatepľovacie systémy'
+date: '2025-04-15'
+validUntil: '2025-06-30'
+excerpt: 'Pripravte svoj dom na zimu už teraz. Na kompletné zatepľovacie systémy poskytujeme zľavy až do 20 %.'
+image: '/images/promotions/zlavy-zateplenie.jpg'
 ---
 
 ## Zľavy na zatepľovacie systémy

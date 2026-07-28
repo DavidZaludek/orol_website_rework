@@ -1,9 +1,21 @@
 <script lang="ts">
 	import { contact } from '$lib/site';
 
+	import barvyALakyLogo from '$lib/assets/logos/Barvy-a-laky.svg';
+	import baumitLogo from '$lib/assets/logos/Baumit.jpg';
+	import polifarbeLogo from '$lib/assets/logos/Polifarbe.png';
+	import stachemaLogo from '$lib/assets/logos/Stachema.svg';
+
 	type Supplier = { name: string; logo: string; href: string };
 
-	const suppliers: Supplier[] = [];
+	const suppliers: Supplier[] = [
+		{ name: 'Polifarbe', logo: polifarbeLogo, href: 'https://www.polifarbe.hu/' },
+		{ name: 'Baumit', logo: baumitLogo, href: 'https://www.baumit.sk' },
+		{ name: 'Stachema', logo: stachemaLogo, href: 'https://www.stachema.sk' },
+		{ name: 'Barvy a laky', logo: barvyALakyLogo, href: 'https://www.bal.cz' }
+	];
+	const marqueeRepeat = Math.ceil(10 / suppliers.length);
+	const supplierTrack = Array.from({ length: marqueeRepeat * 2 }, () => suppliers).flat();
 </script>
 
 <svelte:head>
@@ -24,9 +36,9 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Kompletný systém pre povrchové úpravy fasády aj interiéru – od penetrácie cez omietku až
-			po finálnu farbu. Farby tónujeme priamo na predajni podľa vzorkovníkov RAL, NCS aj
-			vzorkovníkov výrobcov.
+			Kompletný systém pre povrchové úpravy fasády aj interiéru – od penetrácie cez omietku až po
+			finálnu farbu. Farby tónujeme priamo na predajni podľa vzorkovníkov RAL, NCS aj vzorkovníkov
+			výrobcov.
 		</p>
 
 		<h2>Ponúkame</h2>
@@ -41,31 +53,27 @@
 
 		<h2>Naši dodávatelia</h2>
 		<p class="suppliers-note">
-			Pracujeme s overenými značkami fasádnych systémov a farieb. Konkrétne výrobky a odtiene
-			Vám radi navrhneme priamo na predajni vrátane natónovania na počkanie.
+			Pracujeme s overenými značkami fasádnych systémov a farieb. Konkrétne výrobky a odtiene Vám
+			radi navrhneme priamo na predajni vrátane natónovania na počkanie.
 		</p>
 
-		{#if suppliers.length > 0}
-			<ul class="supplier-grid">
-				{#each suppliers as supplier (supplier.name)}
-					<li>
-						<a
-							href={supplier.href}
-							class="supplier-link"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<img
-								src={supplier.logo}
-								alt={supplier.name}
-								class="supplier-logo"
-								loading="lazy"
-							/>
-						</a>
-					</li>
+		<div class="suppliers-marquee">
+			<div class="suppliers-track">
+				{#each supplierTrack as supplier, i (i)}
+					<a
+						href={supplier.href}
+						class="supplier-item"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={supplier.name}
+						aria-hidden={i >= supplierTrack.length / 2 ? 'true' : undefined}
+						tabindex={i >= supplierTrack.length / 2 ? -1 : 0}
+					>
+						<img src={supplier.logo} alt={supplier.name} loading="lazy" />
+					</a>
 				{/each}
-			</ul>
-		{/if}
+			</div>
+		</div>
 
 		<div class="cta-box">
 			<p class="cta-text">Záujem o omietky alebo farby?</p>
@@ -156,39 +164,66 @@
 		font-style: italic;
 	}
 
-	.supplier-grid {
-		list-style: none;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-		gap: 1rem;
+	.suppliers-marquee {
+		margin-top: 1.5rem;
+		overflow: hidden;
 	}
 
-	.supplier-link {
+	.suppliers-track {
+		display: flex;
+		width: max-content;
+		animation: scroll-right 25s linear infinite;
+	}
+
+	@keyframes scroll-right {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.suppliers-marquee:hover .suppliers-track {
+		animation-play-state: paused;
+	}
+
+	.supplier-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 80px;
-		padding: 1rem;
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
+		margin-right: 2.5rem;
+		padding: 0.75rem 1.5rem;
+		width: 200px;
+		height: 100px;
+		flex-shrink: 0;
+		border-radius: var(--radius-md);
 		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+			filter var(--transition-fast),
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
+		filter: grayscale(100%);
+		opacity: 0.7;
 	}
 
-	.supplier-link:hover {
-		border-color: var(--color-brand-primary);
-		box-shadow: var(--shadow-card);
+	.supplier-item:hover,
+	.supplier-item:focus-visible {
+		filter: grayscale(0);
+		opacity: 1;
+		transform: scale(1.05);
 	}
 
-	.supplier-logo {
+	.supplier-item img {
 		max-width: 100%;
-		max-height: 50px;
+		max-height: 100%;
 		object-fit: contain;
 		display: block;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.suppliers-track {
+			animation: none;
+		}
 	}
 
 	.cta-box {

@@ -20,9 +20,9 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Naši pracovníci s viacročnou praxou v stavebníctve Vám radi pomôžu vybrať správny
-			materiál, technológiu aj systémové riešenie pre Váš projekt – či už ide o rodinný dom,
-			rekonštrukciu, priemyselnú stavbu alebo drobnú úpravu interiéru.
+			Naši pracovníci s viacročnou praxou v stavebníctve Vám radi pomôžu vybrať správny materiál,
+			technológiu aj systémové riešenie pre Váš projekt – či už ide o rodinný dom, rekonštrukciu,
+			priemyselnú stavbu alebo drobnú úpravu interiéru.
 		</p>
 
 		<h2>S čím Vám poradíme</h2>
@@ -39,12 +39,12 @@
 		<ol class="steps">
 			<li>Prinesiete projektovú dokumentáciu, výkaz výmer alebo nám stručne opíšete zámer.</li>
 			<li>
-				Spoločne prejdeme jednotlivé časti stavby a navrhneme materiál vrátane systémových
-				riešení od overených výrobcov.
+				Spoločne prejdeme jednotlivé časti stavby a navrhneme materiál vrátane systémových riešení
+				od overených výrobcov.
 			</li>
 			<li>
-				Na požiadanie pripravíme aj cenovú ponuku, prípadne sprostredkujeme remeselníka, ktorý
-				prácu zrealizuje.
+				Na požiadanie pripravíme aj cenovú ponuku, prípadne sprostredkujeme remeselníka, ktorý prácu
+				zrealizuje.
 			</li>
 		</ol>
 

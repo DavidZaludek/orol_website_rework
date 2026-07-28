@@ -37,12 +37,7 @@
 							tabindex="-1"
 							aria-hidden="true"
 						>
-							<img
-								src={promotion.image}
-								alt={promotion.title}
-								class="card-image"
-								loading="lazy"
-							/>
+							<img src={promotion.image} alt={promotion.title} class="card-image" loading="lazy" />
 						</a>
 						<div class="card-body">
 							<time class="card-date" datetime={promotion.date}>

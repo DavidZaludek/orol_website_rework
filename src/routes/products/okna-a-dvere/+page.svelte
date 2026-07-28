@@ -1,13 +1,27 @@
 <script lang="ts">
 	import { contact } from '$lib/site';
 
+	import anavekLogo from '$lib/assets/logos/Anavek.png';
+	import fakroLogo from '$lib/assets/logos/Fakro.png';
+	import rotoLogo from '$lib/assets/logos/Roto.webp';
+	import sapeliLogo from '$lib/assets/logos/Sapeli.svg';
+	import veluxLogo from '$lib/assets/logos/Velux.png';
+
 	type Supplier = { name: string; logo: string; href: string };
 
-	const suppliers: Supplier[] = [];
+	const suppliers: Supplier[] = [
+		{ name: 'Roto', logo: rotoLogo, href: 'https://www.roto-frank.com/cs-cz/dst' },
+		{ name: 'Fakro', logo: fakroLogo, href: 'https://www.fakro.sk' },
+		{ name: 'Velux', logo: veluxLogo, href: 'https://www.velux.sk' },
+		{ name: 'Anavek', logo: anavekLogo, href: 'https://www.anavek.sk' },
+		{ name: 'Sapeli', logo: sapeliLogo, href: 'https://www.sapeli.sk' }
+	];
+	const marqueeRepeat = Math.ceil(10 / suppliers.length);
+	const supplierTrack = Array.from({ length: marqueeRepeat * 2 }, () => suppliers).flat();
 </script>
 
 <svelte:head>
-	<title>Okná – Produkty – Stavebniny Orol</title>
+	<title>Okná a dvere – Produkty – Stavebniny Orol</title>
 	<meta
 		name="description"
 		content="Plastové, hliníkové aj drevené okná, dvere a strešné okná na mieru vrátane zamerania a montáže."
@@ -17,15 +31,15 @@
 <section class="hero">
 	<div class="container">
 		<a href="/products" class="back-link">← Späť na produkty</a>
-		<h1>Okná</h1>
+		<h1>Okná a dvere</h1>
 	</div>
 </section>
 
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Okná a dvere na mieru od overených slovenských a európskych výrobcov. Zabezpečíme
-			zameranie, výrobu aj odbornú montáž vrátane zapracovania ostení a finálnej úpravy.
+			Okná a dvere na mieru od overených slovenských a európskych výrobcov. Zabezpečíme zameranie,
+			výrobu aj odbornú montáž vrátane zapracovania ostení a finálnej úpravy.
 		</p>
 
 		<h2>Ponúkame</h2>
@@ -44,27 +58,23 @@
 			zasklenie aj farbu prispôsobíme Vašim požiadavkám a architektúre domu.
 		</p>
 
-		{#if suppliers.length > 0}
-			<ul class="supplier-grid">
-				{#each suppliers as supplier (supplier.name)}
-					<li>
-						<a
-							href={supplier.href}
-							class="supplier-link"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<img
-								src={supplier.logo}
-								alt={supplier.name}
-								class="supplier-logo"
-								loading="lazy"
-							/>
-						</a>
-					</li>
+		<div class="suppliers-marquee">
+			<div class="suppliers-track">
+				{#each supplierTrack as supplier, i (i)}
+					<a
+						href={supplier.href}
+						class="supplier-item"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={supplier.name}
+						aria-hidden={i >= supplierTrack.length / 2 ? 'true' : undefined}
+						tabindex={i >= supplierTrack.length / 2 ? -1 : 0}
+					>
+						<img src={supplier.logo} alt={supplier.name} loading="lazy" />
+					</a>
 				{/each}
-			</ul>
-		{/if}
+			</div>
+		</div>
 
 		<div class="cta-box">
 			<p class="cta-text">Záujem o okná alebo dvere?</p>
@@ -155,39 +165,66 @@
 		font-style: italic;
 	}
 
-	.supplier-grid {
-		list-style: none;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-		gap: 1rem;
+	.suppliers-marquee {
+		margin-top: 1.5rem;
+		overflow: hidden;
 	}
 
-	.supplier-link {
+	.suppliers-track {
+		display: flex;
+		width: max-content;
+		animation: scroll-right 25s linear infinite;
+	}
+
+	@keyframes scroll-right {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.suppliers-marquee:hover .suppliers-track {
+		animation-play-state: paused;
+	}
+
+	.supplier-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 80px;
-		padding: 1rem;
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
+		margin-right: 2.5rem;
+		padding: 0.75rem 1.5rem;
+		width: 200px;
+		height: 100px;
+		flex-shrink: 0;
+		border-radius: var(--radius-md);
 		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+			filter var(--transition-fast),
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
+		filter: grayscale(100%);
+		opacity: 0.7;
 	}
 
-	.supplier-link:hover {
-		border-color: var(--color-brand-primary);
-		box-shadow: var(--shadow-card);
+	.supplier-item:hover,
+	.supplier-item:focus-visible {
+		filter: grayscale(0);
+		opacity: 1;
+		transform: scale(1.05);
 	}
 
-	.supplier-logo {
+	.supplier-item img {
 		max-width: 100%;
-		max-height: 50px;
+		max-height: 100%;
 		object-fit: contain;
 		display: block;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.suppliers-track {
+			animation: none;
+		}
 	}
 
 	.cta-box {

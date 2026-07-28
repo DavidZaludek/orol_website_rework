@@ -1,10 +1,36 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import logo from '$lib/assets/logo.png';
+	import logo from '$lib/assets/orol_loga/orol_logo_all_white_with_text.svg';
+	import logoMark from '$lib/assets/orol_loga/orol_all_white.svg';
 	import { navLinks, contact, socials } from '$lib/site';
+	import InstagramIcon from './icons/InstagramIcon.svelte';
+	import FacebookIcon from './icons/FacebookIcon.svelte';
+	import MenuIcon from './icons/MenuIcon.svelte';
+	import CloseIcon from './icons/CloseIcon.svelte';
 
 	let menuOpen = $state(false);
 	let compact = $state(false);
+	let hidden = $state(false);
+
+	$effect(() => {
+		let lastY = window.scrollY;
+
+		const onScroll = () => {
+			const y = window.scrollY;
+			// Always show near the very top; keep visible while the mobile menu is open.
+			if (y < 80 || menuOpen) {
+				hidden = false;
+			} else if (y > lastY) {
+				hidden = true; // scrolling down → hide
+			} else if (y < lastY) {
+				hidden = false; // scrolling up → show
+			}
+			lastY = y;
+		};
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => window.removeEventListener('scroll', onScroll);
+	});
 
 	function isActive(href: string): boolean {
 		if (href === '/') {
@@ -43,11 +69,12 @@
 	}
 </script>
 
-<header>
+<header class:hidden>
 	<div class="header-inner" class:compact {@attach observeOverflow}>
 		<!-- Logo + Site name -->
 		<a href="/" class="brand" onclick={closeMenu}>
-			<img src={logo} alt="Stavebniny Orol logo" class="logo" />
+			<img src={logo} alt="Stavebniny Orol logo" class="logo logo-full" />
+			<img src={logoMark} alt="" aria-hidden="true" class="logo logo-mark" />
 		</a>
 
 		<!-- Desktop navigation -->
@@ -75,12 +102,7 @@
 					rel="noopener noreferrer"
 					aria-label="Instagram"
 				>
-					<!-- Instagram icon -->
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-						<circle cx="12" cy="12" r="4"></circle>
-						<circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
-					</svg>
+					<InstagramIcon size={22} />
 				</a>
 				<a
 					href={socials.facebook}
@@ -89,10 +111,7 @@
 					rel="noopener noreferrer"
 					aria-label="Facebook"
 				>
-					<!-- Facebook icon -->
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-						<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-					</svg>
+					<FacebookIcon size={22} />
 				</a>
 			</div>
 		</div>
@@ -106,18 +125,9 @@
 			aria-controls="mobile-menu"
 		>
 			{#if menuOpen}
-				<!-- X icon -->
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-					<line x1="18" y1="6" x2="6" y2="18"></line>
-					<line x1="6" y1="6" x2="18" y2="18"></line>
-				</svg>
+				<CloseIcon />
 			{:else}
-				<!-- Hamburger icon -->
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-					<line x1="3" y1="6" x2="21" y2="6"></line>
-					<line x1="3" y1="12" x2="21" y2="12"></line>
-					<line x1="3" y1="18" x2="21" y2="18"></line>
-				</svg>
+				<MenuIcon />
 			{/if}
 		</button>
 	</div>
@@ -149,11 +159,7 @@
 						aria-label="Instagram"
 						onclick={closeMenu}
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-							<circle cx="12" cy="12" r="4"></circle>
-							<circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
-						</svg>
+						<InstagramIcon size={24} />
 						Instagram
 					</a>
 					<a
@@ -164,9 +170,7 @@
 						aria-label="Facebook"
 						onclick={closeMenu}
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
-							<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-						</svg>
+						<FacebookIcon size={24} />
 						Facebook
 					</a>
 				</div>
@@ -182,6 +186,21 @@
 		z-index: var(--z-header);
 		background-color: var(--color-brand-dark);
 		color: var(--text-on-dark);
+		/* Never let header content push the page wider than the viewport
+		   (e.g. before the overflow-observer switches to the hamburger). */
+		overflow-x: hidden;
+		/* Hide on scroll-down, reveal on scroll-up. */
+		transition: transform 0.3s ease;
+	}
+
+	header.hidden {
+		transform: translateY(-100%);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		header {
+			transition: none;
+		}
 	}
 
 	.header-inner {
@@ -201,13 +220,33 @@
 		align-items: center;
 		gap: 0.65rem;
 		text-decoration: none;
-		flex-shrink: 0;
+		/* Allowed to shrink so the logo can never push the hamburger off-screen. */
+		min-width: 0;
+		flex: 0 1 auto;
+		overflow: hidden;
 	}
 
 	.logo {
-		height: clamp(28px, 9vw, 60px);
+		/* ============================================================
+		   HEADER LOGO SCALING — adjust this value to resize the logo.
+
+		   Responsive order as the header narrows:
+		     1. logo shrinks 40px → 24px (reaches its floor around 750px)
+		     2. desktop nav collapses into the hamburger (~768px / on overflow)
+		     3. logo swaps to the icon-only mark (below 420px)
+		   ============================================================ */
+		height: clamp(24px, 3.2vw, 40px);
 		width: auto;
 		display: block;
+		/* Never wider than the space the flex row leaves for the brand. */
+		max-width: 100%;
+		object-fit: contain;
+		object-position: left center;
+	}
+
+	/* Narrow viewports show the icon-only mark instead of the logo with text. */
+	.logo-mark {
+		display: none;
 	}
 
 	/* ---- Desktop nav ---- */
@@ -405,7 +444,7 @@
 	}
 
 	/* No-JS / very narrow fallback */
-	@media (max-width: 768px) {
+	@media (max-width: 1280px) {
 		.desktop-nav,
 		.desktop-contact {
 			display: none;
@@ -415,6 +454,21 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+		}
+	}
+
+	/* ---- Logo swap — independent of the nav collapse above ---- */
+	@media (max-width: 420px) {
+		.header-inner {
+			gap: 0.75rem;
+		}
+
+		.logo-full {
+			display: none;
+		}
+
+		.logo-mark {
+			display: block;
 		}
 	}
 </style>

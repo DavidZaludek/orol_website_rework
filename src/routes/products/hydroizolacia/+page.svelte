@@ -1,9 +1,21 @@
 <script lang="ts">
 	import { contact } from '$lib/site';
 
+	import dechtochemaLogo from '$lib/assets/logos/Dechtochema.png';
+	import hasoftLogo from '$lib/assets/logos/Hasoft.png';
+	import kreiselLogo from '$lib/assets/logos/Kreisel.png';
+	import sikaLogo from '$lib/assets/logos/Sika.webp';
+
 	type Supplier = { name: string; logo: string; href: string };
 
-	const suppliers: Supplier[] = [];
+	const suppliers: Supplier[] = [
+		{ name: 'Hasoft', logo: hasoftLogo, href: 'https://www.hasoft.cz' },
+		{ name: 'Sika', logo: sikaLogo, href: 'https://svk.sika.com' },
+		{ name: 'Kreisel', logo: kreiselLogo, href: 'https://www.kreisel.sk' },
+		{ name: 'Dechtochema', logo: dechtochemaLogo, href: 'https://www.dechtochema.sk' }
+	];
+	const marqueeRepeat = Math.ceil(10 / suppliers.length);
+	const supplierTrack = Array.from({ length: marqueeRepeat * 2 }, () => suppliers).flat();
 </script>
 
 <svelte:head>
@@ -40,31 +52,27 @@
 
 		<h2>Naši dodávatelia</h2>
 		<p class="suppliers-note">
-			Skladom držíme hydroizolácie od renomovaných výrobcov. Konkrétne značky a typy pásov či
-			fólií Vám radi odporučíme podľa konštrukcie a namáhania.
+			Skladom držíme hydroizolácie od renomovaných výrobcov. Konkrétne značky a typy pásov či fólií
+			Vám radi odporučíme podľa konštrukcie a namáhania.
 		</p>
 
-		{#if suppliers.length > 0}
-			<ul class="supplier-grid">
-				{#each suppliers as supplier (supplier.name)}
-					<li>
-						<a
-							href={supplier.href}
-							class="supplier-link"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<img
-								src={supplier.logo}
-								alt={supplier.name}
-								class="supplier-logo"
-								loading="lazy"
-							/>
-						</a>
-					</li>
+		<div class="suppliers-marquee">
+			<div class="suppliers-track">
+				{#each supplierTrack as supplier, i (i)}
+					<a
+						href={supplier.href}
+						class="supplier-item"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={supplier.name}
+						aria-hidden={i >= supplierTrack.length / 2 ? 'true' : undefined}
+						tabindex={i >= supplierTrack.length / 2 ? -1 : 0}
+					>
+						<img src={supplier.logo} alt={supplier.name} loading="lazy" />
+					</a>
 				{/each}
-			</ul>
-		{/if}
+			</div>
+		</div>
 
 		<div class="cta-box">
 			<p class="cta-text">Záujem o hydroizoláciu?</p>
@@ -155,39 +163,66 @@
 		font-style: italic;
 	}
 
-	.supplier-grid {
-		list-style: none;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-		gap: 1rem;
+	.suppliers-marquee {
+		margin-top: 1.5rem;
+		overflow: hidden;
 	}
 
-	.supplier-link {
+	.suppliers-track {
+		display: flex;
+		width: max-content;
+		animation: scroll-right 25s linear infinite;
+	}
+
+	@keyframes scroll-right {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.suppliers-marquee:hover .suppliers-track {
+		animation-play-state: paused;
+	}
+
+	.supplier-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 80px;
-		padding: 1rem;
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
+		margin-right: 2.5rem;
+		padding: 0.75rem 1.5rem;
+		width: 200px;
+		height: 100px;
+		flex-shrink: 0;
+		border-radius: var(--radius-md);
 		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+			filter var(--transition-fast),
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
+		filter: grayscale(100%);
+		opacity: 0.7;
 	}
 
-	.supplier-link:hover {
-		border-color: var(--color-brand-primary);
-		box-shadow: var(--shadow-card);
+	.supplier-item:hover,
+	.supplier-item:focus-visible {
+		filter: grayscale(0);
+		opacity: 1;
+		transform: scale(1.05);
 	}
 
-	.supplier-logo {
+	.supplier-item img {
 		max-width: 100%;
-		max-height: 50px;
+		max-height: 100%;
 		object-fit: contain;
 		display: block;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.suppliers-track {
+			animation: none;
+		}
 	}
 
 	.cta-box {

@@ -1,9 +1,25 @@
 <script lang="ts">
 	import { contact } from '$lib/site';
 
+	import ceresitLogo from '$lib/assets/logos/Ceresit.jpg';
+	import henkelLogo from '$lib/assets/logos/Henkel.svg';
+	import penosilLogo from '$lib/assets/logos/Penosil.svg';
+	import sikaLogo from '$lib/assets/logos/Sika.webp';
+	import soudalLogo from '$lib/assets/logos/soudal.jpg';
+	import tytanLogo from '$lib/assets/logos/Tytan.webp';
+
 	type Supplier = { name: string; logo: string; href: string };
 
-	const suppliers: Supplier[] = [];
+	const suppliers: Supplier[] = [
+		{ name: 'Ceresit', logo: ceresitLogo, href: 'https://www.ceresit.sk' },
+		{ name: 'Sika', logo: sikaLogo, href: 'https://svk.sika.com' },
+		{ name: 'Soudal', logo: soudalLogo, href: 'https://www.soudal.sk' },
+		{ name: 'Henkel', logo: henkelLogo, href: 'https://www.henkel.sk' },
+		{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.sk' },
+		{ name: 'Tytan', logo: tytanLogo, href: 'https://www.tytan.pl' }
+	];
+	const marqueeRepeat = Math.ceil(10 / suppliers.length);
+	const supplierTrack = Array.from({ length: marqueeRepeat * 2 }, () => suppliers).flat();
 </script>
 
 <svelte:head>
@@ -24,8 +40,8 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Stavebná chémia pre profesionálne aj svojpomocné použitie. Máme na sklade
-			overené značky pre tesnenie, lepenie aj ošetrovanie konštrukcií.
+			Stavebná chémia pre profesionálne aj svojpomocné použitie. Máme na sklade overené značky pre
+			tesnenie, lepenie aj ošetrovanie konštrukcií.
 		</p>
 
 		<h2>Ponúkame</h2>
@@ -44,27 +60,23 @@
 			produkt Vám radi odporučíme podľa typu aplikácie a podkladu.
 		</p>
 
-		{#if suppliers.length > 0}
-			<ul class="supplier-grid">
-				{#each suppliers as supplier (supplier.name)}
-					<li>
-						<a
-							href={supplier.href}
-							class="supplier-link"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<img
-								src={supplier.logo}
-								alt={supplier.name}
-								class="supplier-logo"
-								loading="lazy"
-							/>
-						</a>
-					</li>
+		<div class="suppliers-marquee">
+			<div class="suppliers-track">
+				{#each supplierTrack as supplier, i (i)}
+					<a
+						href={supplier.href}
+						class="supplier-item"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={supplier.name}
+						aria-hidden={i >= supplierTrack.length / 2 ? 'true' : undefined}
+						tabindex={i >= supplierTrack.length / 2 ? -1 : 0}
+					>
+						<img src={supplier.logo} alt={supplier.name} loading="lazy" />
+					</a>
 				{/each}
-			</ul>
-		{/if}
+			</div>
+		</div>
 
 		<div class="cta-box">
 			<p class="cta-text">Záujem o stavebnú chémiu?</p>
@@ -155,39 +167,66 @@
 		font-style: italic;
 	}
 
-	.supplier-grid {
-		list-style: none;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-		gap: 1rem;
+	.suppliers-marquee {
+		margin-top: 1.5rem;
+		overflow: hidden;
 	}
 
-	.supplier-link {
+	.suppliers-track {
+		display: flex;
+		width: max-content;
+		animation: scroll-right 25s linear infinite;
+	}
+
+	@keyframes scroll-right {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.suppliers-marquee:hover .suppliers-track {
+		animation-play-state: paused;
+	}
+
+	.supplier-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 80px;
-		padding: 1rem;
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
+		margin-right: 2.5rem;
+		padding: 0.75rem 1.5rem;
+		width: 200px;
+		height: 100px;
+		flex-shrink: 0;
+		border-radius: var(--radius-md);
 		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+			filter var(--transition-fast),
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
+		filter: grayscale(100%);
+		opacity: 0.7;
 	}
 
-	.supplier-link:hover {
-		border-color: var(--color-brand-primary);
-		box-shadow: var(--shadow-card);
+	.supplier-item:hover,
+	.supplier-item:focus-visible {
+		filter: grayscale(0);
+		opacity: 1;
+		transform: scale(1.05);
 	}
 
-	.supplier-logo {
+	.supplier-item img {
 		max-width: 100%;
-		max-height: 50px;
+		max-height: 100%;
 		object-fit: contain;
 		display: block;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.suppliers-track {
+			animation: none;
+		}
 	}
 
 	.cta-box {

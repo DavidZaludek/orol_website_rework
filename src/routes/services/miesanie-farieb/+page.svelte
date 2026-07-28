@@ -20,9 +20,9 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Priamo na predajni Vám natónujeme farby a omietky do akéhokoľvek odtieňa. Pracujeme
-			s profesionálnym tónovacím systémom, ktorý zaručuje presné a stále výsledky aj pri
-			doobjednávke neskôr.
+			Priamo na predajni Vám natónujeme farby a omietky do akéhokoľvek odtieňa. Pracujeme s
+			profesionálnym tónovacím systémom, ktorý zaručuje presné a stále výsledky aj pri doobjednávke
+			neskôr.
 		</p>
 
 		<h2>Čo tónujeme</h2>
@@ -45,21 +45,19 @@
 		<h2>Ako si farbu nechať natónovať</h2>
 		<ol class="steps">
 			<li>
-				Vyberte si požadovaný odtieň zo vzorkovníka u nás na predajni alebo si ho pripravte
-				vopred (kód odtieňa, vzorkovník).
+				Vyberte si požadovaný odtieň zo vzorkovníka u nás na predajni alebo si ho pripravte vopred
+				(kód odtieňa, vzorkovník).
 			</li>
 			<li>
-				Povedzte nám, akú farbu chcete tónovať a v akom množstve – navrhneme vhodný produkt
-				a balenie.
+				Povedzte nám, akú farbu chcete tónovať a v akom množstve – navrhneme vhodný produkt a
+				balenie.
 			</li>
-			<li>
-				Tónovanie štandardne trvá niekoľko minút a farbu si odnášate hneď so sebou.
-			</li>
+			<li>Tónovanie štandardne trvá niekoľko minút a farbu si odnášate hneď so sebou.</li>
 		</ol>
 
 		<p class="note">
-			<strong>Tip:</strong> Pri väčších plochách odporúčame natónovať si celé množstvo naraz
-			z jednej šarže – aj minimálne rozdiely medzi šaržami môžu byť na stene viditeľné.
+			<strong>Tip:</strong> Pri väčších plochách odporúčame natónovať si celé množstvo naraz z jednej
+			šarže – aj minimálne rozdiely medzi šaržami môžu byť na stene viditeľné.
 		</p>
 
 		<div class="cta-box">

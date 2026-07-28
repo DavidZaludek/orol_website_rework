@@ -22,24 +22,23 @@
 <section class="body-section">
 	<div class="container">
 		<div class="todo">
-			<strong>TODO:</strong> Doplniť konkrétny zoznam cookies podľa toho, aké služby (analytika,
-			marketing, formuláre) sa nakoniec na stránke použijú. Aktuálne stránka nepoužíva vlastné
-			cookies; cookies nastavuje iba poskytovateľ hostingu Cloudflare.
+			<strong>TODO:</strong> Doplniť konkrétny zoznam cookies podľa toho, aké služby (analytika, marketing,
+			formuláre) sa nakoniec na stránke použijú. Aktuálne stránka nepoužíva vlastné cookies; cookies nastavuje
+			iba poskytovateľ hostingu Cloudflare.
 		</div>
 
 		<h2>1. Čo sú cookies</h2>
 		<p>
 			Cookies sú malé textové súbory, ktoré sa ukladajú vo Vašom prehliadači pri návšteve webovej
-			stránky. Stránke umožňujú zapamätať si informácie o Vašej návšteve, napríklad jazyk
-			alebo nastavenia. Vďaka tomu môže byť ďalšia návšteva jednoduchšia a stránka pre Vás
-			užitočnejšia.
+			stránky. Stránke umožňujú zapamätať si informácie o Vašej návšteve, napríklad jazyk alebo
+			nastavenia. Vďaka tomu môže byť ďalšia návšteva jednoduchšia a stránka pre Vás užitočnejšia.
 		</p>
 
 		<h2>2. Aké cookies používame</h2>
 		<p>
-			Stránka <strong>stavebninyorol.sk</strong> v súčasnosti nepoužíva vlastné cookies na účely
-			analytiky ani marketingu. Cookies nastavuje iba poskytovateľ hostingu (Cloudflare) na
-			zabezpečenie prevádzky a ochrany pred útokmi.
+			Stránka <strong>stavebninyorol.sk</strong> v súčasnosti nepoužíva vlastné cookies na účely analytiky
+			ani marketingu. Cookies nastavuje iba poskytovateľ hostingu (Cloudflare) na zabezpečenie prevádzky
+			a ochrany pred útokmi.
 		</p>
 
 		<h3>Nevyhnutné cookies</h3>
@@ -69,9 +68,9 @@
 		</table>
 
 		<p class="todo-inline">
-			TODO: ak v budúcnosti pridáte Plausible / Umami / Google Analytics / Meta Pixel, doplniť
-			tieto cookies do samostatnej kategórie a — pri marketingových cookies — aktivovať cookie
-			banner s možnosťou súhlasu.
+			TODO: ak v budúcnosti pridáte Plausible / Umami / Google Analytics / Meta Pixel, doplniť tieto
+			cookies do samostatnej kategórie a — pri marketingových cookies — aktivovať cookie banner s
+			možnosťou súhlasu.
 		</p>
 
 		<h2>3. Ako spravovať cookies</h2>
@@ -109,9 +108,7 @@
 				>
 			</li>
 		</ul>
-		<p>
-			Pri zakázaní nevyhnutných cookies môže byť obmedzená funkčnosť stránky.
-		</p>
+		<p>Pri zakázaní nevyhnutných cookies môže byť obmedzená funkčnosť stránky.</p>
 
 		<h2>4. Kontakt</h2>
 		<p>

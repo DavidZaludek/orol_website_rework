@@ -1,9 +1,33 @@
 <script lang="ts">
 	import { contact } from '$lib/site';
 
+	import dedraLogo from '$lib/assets/logos/Dedra.jpg';
+	import fischerLogo from '$lib/assets/logos/Fischer.svg';
+	import hermanLogo from '$lib/assets/logos/Herman.svg';
+	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
+	import levelysLogo from '$lib/assets/logos/Levelys.svg';
+	import makitaLogo from '$lib/assets/logos/Makita.svg';
+	import milwaukeeLogo from '$lib/assets/logos/Milwaukee.svg';
+	import solaLogo from '$lib/assets/logos/Sola.svg';
+	import storchLogo from '$lib/assets/logos/Storch.svg';
+	import wuerthLogo from '$lib/assets/logos/Wuerth.svg';
+
 	type Supplier = { name: string; logo: string; href: string };
 
-	const suppliers: Supplier[] = [];
+	const suppliers: Supplier[] = [
+		{ name: 'Makita', logo: makitaLogo, href: 'https://www.makita.sk' },
+		{ name: 'Milwaukee', logo: milwaukeeLogo, href: 'https://www.milwaukeetool.eu' },
+		{ name: 'Hilti', logo: hiltiLogo, href: 'https://www.hilti.sk' },
+		{ name: 'Würth', logo: wuerthLogo, href: 'https://www.wurth.sk' },
+		{ name: 'Fischer', logo: fischerLogo, href: 'https://www.fischer-sk.sk' },
+		{ name: 'Dedra', logo: dedraLogo, href: 'https://www.dedra.pl' },
+		{ name: 'Herman', logo: hermanLogo, href: 'https://www.herman.sk' },
+		{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at' },
+		{ name: 'Storch', logo: storchLogo, href: 'https://www.storch.sk' },
+		{ name: 'Levelys', logo: levelysLogo, href: 'https://www.levelys.sk' }
+	];
+	const marqueeRepeat = Math.ceil(10 / suppliers.length);
+	const supplierTrack = Array.from({ length: marqueeRepeat * 2 }, () => suppliers).flat();
 </script>
 
 <svelte:head>
@@ -44,27 +68,23 @@
 			produkt Vám radi odporučíme podľa typu práce a požiadaviek.
 		</p>
 
-		{#if suppliers.length > 0}
-			<ul class="supplier-grid">
-				{#each suppliers as supplier (supplier.name)}
-					<li>
-						<a
-							href={supplier.href}
-							class="supplier-link"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<img
-								src={supplier.logo}
-								alt={supplier.name}
-								class="supplier-logo"
-								loading="lazy"
-							/>
-						</a>
-					</li>
+		<div class="suppliers-marquee">
+			<div class="suppliers-track">
+				{#each supplierTrack as supplier, i (i)}
+					<a
+						href={supplier.href}
+						class="supplier-item"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={supplier.name}
+						aria-hidden={i >= supplierTrack.length / 2 ? 'true' : undefined}
+						tabindex={i >= supplierTrack.length / 2 ? -1 : 0}
+					>
+						<img src={supplier.logo} alt={supplier.name} loading="lazy" />
+					</a>
 				{/each}
-			</ul>
-		{/if}
+			</div>
+		</div>
 
 		<div class="cta-box">
 			<p class="cta-text">Záujem o náradie alebo doplnky?</p>
@@ -155,39 +175,66 @@
 		font-style: italic;
 	}
 
-	.supplier-grid {
-		list-style: none;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-		gap: 1rem;
+	.suppliers-marquee {
+		margin-top: 1.5rem;
+		overflow: hidden;
 	}
 
-	.supplier-link {
+	.suppliers-track {
+		display: flex;
+		width: max-content;
+		animation: scroll-right 25s linear infinite;
+	}
+
+	@keyframes scroll-right {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.suppliers-marquee:hover .suppliers-track {
+		animation-play-state: paused;
+	}
+
+	.supplier-item {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 80px;
-		padding: 1rem;
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
+		margin-right: 2.5rem;
+		padding: 0.75rem 1.5rem;
+		width: 200px;
+		height: 100px;
+		flex-shrink: 0;
+		border-radius: var(--radius-md);
 		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+			filter var(--transition-fast),
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
+		filter: grayscale(100%);
+		opacity: 0.7;
 	}
 
-	.supplier-link:hover {
-		border-color: var(--color-brand-primary);
-		box-shadow: var(--shadow-card);
+	.supplier-item:hover,
+	.supplier-item:focus-visible {
+		filter: grayscale(0);
+		opacity: 1;
+		transform: scale(1.05);
 	}
 
-	.supplier-logo {
+	.supplier-item img {
 		max-width: 100%;
-		max-height: 50px;
+		max-height: 100%;
 		object-fit: contain;
 		display: block;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.suppliers-track {
+			animation: none;
+		}
 	}
 
 	.cta-box {

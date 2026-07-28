@@ -20,8 +20,8 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Stavebný materiál Vám dovezieme priamo na stavbu vlastnými vozidlami. Vozový park nám
-			umožňuje pružne reagovať na malé aj veľké objednávky – od pár vriec až po kamión paliet.
+			Stavebný materiál Vám dovezieme priamo na stavbu vlastnými vozidlami. Vozový park nám umožňuje
+			pružne reagovať na malé aj veľké objednávky – od pár vriec až po kamión paliet.
 		</p>
 
 		<h2>Vozový park</h2>
@@ -33,9 +33,9 @@
 
 		<h2>Oblasť dopravy</h2>
 		<p>
-			Štandardne zabezpečujeme dopravu v rámci Liptovského Mikuláša a okolitých obcí. Po dohode
-			Vám materiál dovezieme aj do vzdialenejších lokalít v rámci celého Žilinského kraja
-			a susediacich okresov.
+			Štandardne zabezpečujeme dopravu v rámci Liptovského Mikuláša a okolitých obcí. Po dohode Vám
+			materiál dovezieme aj do vzdialenejších lokalít v rámci celého Žilinského kraja a susediacich
+			okresov.
 		</p>
 
 		<h2>Cena dopravy</h2>

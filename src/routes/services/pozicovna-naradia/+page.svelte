@@ -48,8 +48,8 @@
 		<ol class="steps">
 			<li>Zavolajte nám alebo sa zastavte na predajni a overte dostupnosť konkrétneho kusa.</li>
 			<li>
-				Rezervujeme Vám náradie na vybraný termín – pri vyzdvihnutí si prevezmete náradie
-				a podpíšete jednoduchú zmluvu o prenájme.
+				Rezervujeme Vám náradie na vybraný termín – pri vyzdvihnutí si prevezmete náradie a
+				podpíšete jednoduchú zmluvu o prenájme.
 			</li>
 			<li>Po skončení prenájmu vraciate náradie a obdržíte vratnú zálohu späť.</li>
 		</ol>

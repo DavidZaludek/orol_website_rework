@@ -20,9 +20,8 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Sprostredkujeme Vám overených stavbyvedúcich s odbornou spôsobilosťou podľa zákona
-			č. 138/1992 Zb., ktorí prevezmú zodpovednosť za odborné vedenie stavby od základov až po
-			kolaudáciu.
+			Sprostredkujeme Vám overených stavbyvedúcich s odbornou spôsobilosťou podľa zákona č. 138/1992
+			Zb., ktorí prevezmú zodpovednosť za odborné vedenie stavby od základov až po kolaudáciu.
 		</p>
 
 		<h2>Čo stavbyvedúci zabezpečí</h2>
@@ -37,17 +36,17 @@
 
 		<h2>Kedy je stavbyvedúci povinný</h2>
 		<p>
-			Podľa stavebného zákona je výkon stavbyvedúceho povinný pri všetkých stavbách, ktoré
-			vyžadujú stavebné povolenie – teda pri väčšine rodinných domov, prístavbách, nadstavbách
-			a väčších rekonštrukciách. Pri jednoduchých a drobných stavbách stačí stavebný dozor.
+			Podľa stavebného zákona je výkon stavbyvedúceho povinný pri všetkých stavbách, ktoré vyžadujú
+			stavebné povolenie – teda pri väčšine rodinných domov, prístavbách, nadstavbách a väčších
+			rekonštrukciách. Pri jednoduchých a drobných stavbách stačí stavebný dozor.
 		</p>
 
 		<h2>Ako Vás prepojíme</h2>
 		<ol class="steps">
 			<li>Opíšete nám rozsah stavby, lokalitu a predpokladaný harmonogram.</li>
 			<li>
-				Z našej databázy spolupracujúcich stavbyvedúcich vyberieme tých, ktorí majú voľnú
-				kapacitu a skúsenosť s podobným typom stavby.
+				Z našej databázy spolupracujúcich stavbyvedúcich vyberieme tých, ktorí majú voľnú kapacitu a
+				skúsenosť s podobným typom stavby.
 			</li>
 			<li>Dohodnete si s nimi rozsah služby, cenu a podmienky priamo.</li>
 		</ol>

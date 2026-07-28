@@ -57,8 +57,8 @@
 	<div class="container">
 		<h1>Služby</h1>
 		<p class="hero-lead">
-			Okrem predaja stavebného materiálu Vám ponúkame aj komplexné služby, ktoré uľahčia
-			realizáciu Vašej stavby od prvého nákresu až po odovzdanie.
+			Okrem predaja stavebného materiálu Vám ponúkame aj komplexné služby, ktoré uľahčia realizáciu
+			Vašej stavby od prvého nákresu až po odovzdanie.
 		</p>
 	</div>
 </section>
@@ -75,7 +75,17 @@
 							<p class="service-description">{service.description}</p>
 						</div>
 						<span class="service-arrow" aria-hidden="true">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								width="24"
+								height="24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
 								<line x1="5" y1="12" x2="19" y2="12"></line>
 								<polyline points="12 5 19 12 12 19"></polyline>
 							</svg>

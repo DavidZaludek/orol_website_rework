@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Svelte MCP Tools
+
 You have access to the Svelte MCP server with comprehensive Svelte 5 and SvelteKit documentation.
 
 1. **`list-sections`** — call this FIRST to discover relevant documentation sections.
@@ -37,12 +39,12 @@ bun run format       # auto-format with prettier
 Color tokens are defined in `src/docs/Color_Palette.md`. Apply them as CSS custom properties:
 
 ```css
---color-brand-primary: #c0281c;   /* Orol Red — CTAs, links */
---color-brand-hover:   #e03323;   /* Ember Red — hover/active */
---color-brand-dark:    #8c1a10;   /* Deep Crimson — footer, headings */
---color-iron:          #1e2022;   /* body text, nav bg (not pure black) */
---color-chalk:         #f2f4f5;   /* alternate section bg */
---color-white:         #ffffff;   /* page bg, cards */
+--color-brand-primary: #c0281c; /* Orol Red — CTAs, links */
+--color-brand-hover: #e03323; /* Ember Red — hover/active */
+--color-brand-dark: #8c1a10; /* Deep Crimson — footer, headings */
+--color-iron: #1e2022; /* body text, nav bg (not pure black) */
+--color-chalk: #f2f4f5; /* alternate section bg */
+--color-white: #ffffff; /* page bg, cards */
 ```
 
 Never use pure black (`#000000`) — use Iron. Don't use red for error states — use `--color-error: #c62828`.
@@ -54,6 +56,3 @@ Home, Product categories (with subcategories), Services, Price quote form, Conta
 Header: logo + site name (left), nav (center-right), phone + social icons (far right).
 Footer: quick links, opening hours, contact, social, map, GDPR/legal links, company IDs.
 Persistent CTA: "Cenová ponuka" button pinned to bottom-right of screen.
-
-## Svelte MCP Tools
-

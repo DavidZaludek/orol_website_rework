@@ -20,9 +20,9 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Pripravíme Vám podrobnú a nezáväznú cenovú ponuku na stavebný materiál šitú na mieru
-			Vášho projektu. Služba je bezplatná a v drvivej väčšine prípadov Vám ponuku doručíme do
-			niekoľkých pracovných dní.
+			Pripravíme Vám podrobnú a nezáväznú cenovú ponuku na stavebný materiál šitú na mieru Vášho
+			projektu. Služba je bezplatná a v drvivej väčšine prípadov Vám ponuku doručíme do niekoľkých
+			pracovných dní.
 		</p>
 
 		<h2>Z čoho vychádzame</h2>
@@ -44,12 +44,10 @@
 		<ol class="steps">
 			<li>Pošlite nám podklady e-mailom alebo prineste osobne na predajňu.</li>
 			<li>
-				Náš obchodník Vás kontaktuje, doplní chýbajúce údaje a navrhne optimálnu skladbu
-				materiálu.
+				Náš obchodník Vás kontaktuje, doplní chýbajúce údaje a navrhne optimálnu skladbu materiálu.
 			</li>
 			<li>
-				Hotovú ponuku Vám pošleme e-mailom v PDF a radi ju s Vami prejdeme aj osobne či
-				telefonicky.
+				Hotovú ponuku Vám pošleme e-mailom v PDF a radi ju s Vami prejdeme aj osobne či telefonicky.
 			</li>
 		</ol>
 

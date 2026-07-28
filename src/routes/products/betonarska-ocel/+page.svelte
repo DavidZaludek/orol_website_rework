@@ -24,9 +24,9 @@
 <section class="body-section">
 	<div class="container">
 		<p class="lead">
-			Betonárska oceľ pre všetky typy železobetónových konštrukcií – od pásových základov cez
-			stropy až po monolitické steny. Na požiadanie zabezpečíme strihanie a ohýbanie výstuže
-			podľa výkazu armovania.
+			Betonárska oceľ pre všetky typy železobetónových konštrukcií – od pásových základov cez stropy
+			až po monolitické steny. Na požiadanie zabezpečíme strihanie a ohýbanie výstuže podľa výkazu
+			armovania.
 		</p>
 
 		<h2>Ponúkame</h2>
@@ -49,18 +49,8 @@
 			<ul class="supplier-grid">
 				{#each suppliers as supplier (supplier.name)}
 					<li>
-						<a
-							href={supplier.href}
-							class="supplier-link"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<img
-								src={supplier.logo}
-								alt={supplier.name}
-								class="supplier-logo"
-								loading="lazy"
-							/>
+						<a href={supplier.href} class="supplier-link" target="_blank" rel="noopener noreferrer">
+							<img src={supplier.logo} alt={supplier.name} class="supplier-logo" loading="lazy" />
 						</a>
 					</li>
 				{/each}

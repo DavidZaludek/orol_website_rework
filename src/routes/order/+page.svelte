@@ -1,30 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { contact } from '$lib/site';
+	import { contact, quoteCategories, transportOptions } from '$lib/site';
 
 	let { form } = $props();
-
-	const categories = [
-		'Hrubá stavba',
-		'Suché zmesy, malty a omietky',
-		'Tepelné izolácie',
-		'Fasádne a interiérové farby',
-		'Strešné krytiny',
-		'Hydroizolácia',
-		'Stavebná chémia',
-		'Dlažby a betónové tvárnice',
-		'Betonárska oceľ',
-		'Okná',
-		'Kanalizácia, voda a sanita',
-		'Náradie a doplnky',
-		'Viac kategórií / iné'
-	] as const;
-
-	const transportOptions = [
-		{ value: 'potrebujem', label: 'Áno, potrebujem dopravu na stavbu' },
-		{ value: 'odveziem', label: 'Nie, materiál si odveziem sám' },
-		{ value: 'neviem', label: 'Nie som si istý / chcem poradiť' }
-	] as const;
 
 	let submitting = $state(false);
 
@@ -135,7 +113,8 @@
 				</div>
 
 				<div class="field">
-					<label for="location">Lokalita stavby <span class="req" aria-hidden="true">*</span></label>
+					<label for="location">Lokalita stavby <span class="req" aria-hidden="true">*</span></label
+					>
 					<input
 						id="location"
 						name="location"
@@ -162,7 +141,8 @@
 							aria-invalid={fieldError('transport') ? 'true' : undefined}
 							aria-describedby={fieldError('transport') ? 'transport-error' : undefined}
 						>
-							<option value="" disabled selected={!fieldValue('transport')}>Vyberte možnosť…</option>
+							<option value="" disabled selected={!fieldValue('transport')}>Vyberte možnosť…</option
+							>
 							{#each transportOptions as opt (opt.value)}
 								<option value={opt.value} selected={fieldValue('transport') === opt.value}>
 									{opt.label}
@@ -175,7 +155,9 @@
 					</div>
 
 					<div class="field">
-						<label for="category">Kategória materiálu <span class="req" aria-hidden="true">*</span></label>
+						<label for="category"
+							>Kategória materiálu <span class="req" aria-hidden="true">*</span></label
+						>
 						<select
 							id="category"
 							name="category"
@@ -183,8 +165,10 @@
 							aria-invalid={fieldError('category') ? 'true' : undefined}
 							aria-describedby={fieldError('category') ? 'category-error' : undefined}
 						>
-							<option value="" disabled selected={!fieldValue('category')}>Vyberte kategóriu…</option>
-							{#each categories as cat (cat)}
+							<option value="" disabled selected={!fieldValue('category')}
+								>Vyberte kategóriu…</option
+							>
+							{#each quoteCategories as cat (cat)}
 								<option value={cat} selected={fieldValue('category') === cat}>{cat}</option>
 							{/each}
 						</select>
@@ -206,7 +190,8 @@
 						placeholder="Napr. 500 ks tehiel Heluz 30, 20 vriec cementu CEM II, doručenie do 14 dní…"
 						aria-invalid={fieldError('description') ? 'true' : undefined}
 						aria-describedby={fieldError('description') ? 'description-error' : undefined}
-					>{fieldValue('description')}</textarea>
+						>{fieldValue('description')}</textarea
+					>
 					{#if fieldError('description')}
 						<p class="error" id="description-error">{fieldError('description')}</p>
 					{/if}
