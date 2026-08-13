@@ -30,14 +30,11 @@
 	/>
 </svelte:head>
 
-<!-- Hero -->
-<section class="hero">
-	<div class="container hero-grid">
-		<div class="hero-copy">
+<section class="section" aria-label="Poradenstvo">
+	<!-- 1. Hero composition — full-height photo on the right -->
+	<div class="canvas hero-canvas">
+		<div class="copy-cell" data-reveal {@attach reveal()}>
 			<a href="/services" class="back-link">← Späť na služby</a>
-			<svg class="hero-icon" viewBox="0 0 24 24" aria-hidden="true">
-				{#each icon as d (d)}<path {d} />{/each}
-			</svg>
 			<span class="eyebrow">Služby · Výber materiálu</span>
 			<h1 class="hero-title">Poradenstvo<span class="hero-accent">.</span></h1>
 			<p class="hero-lead">
@@ -50,74 +47,73 @@
 				<a href="/contact" class="btn btn--ghost">Kontaktné údaje</a>
 			</div>
 		</div>
-		<div class="hero-media">
-			<div class="photo-frame">
-				<img
-					src={heroPhoto}
-					alt="Poradenstvo pri výbere stavebného materiálu na predajni Stavebnín Orol"
-				/>
-				<span class="photo-caption">Viacročná prax v stavebníctve</span>
+		<div class="photo-cell" data-reveal {@attach reveal(80)}>
+			<img
+				src={heroPhoto}
+				alt="Poradenstvo pri výbere stavebného materiálu na predajni Stavebnín Orol"
+			/>
+			<span class="chip" aria-hidden="true">
+				<svg viewBox="0 0 24 24"
+					>{#each icon as d (d)}<path {d} />{/each}</svg
+				>
+			</span>
+		</div>
+		<div class="fact-cell" data-reveal {@attach reveal(140)}>Viacročná prax v stavebníctve</div>
+		<div class="acc acc--hy" aria-hidden="true"></div>
+		<div class="acc acc--hb" aria-hidden="true"></div>
+	</div>
+
+	<!-- 2. Topics composition -->
+	<div class="canvas topics-canvas">
+		<header class="head-cell" data-reveal {@attach reveal()}>
+			<span class="eyebrow">Rozsah</span>
+			<h2 class="section-title">S čím Vám poradíme</h2>
+		</header>
+		<div class="acc acc--ry" aria-hidden="true"></div>
+		{#each topics as item, i (item)}
+			<div class="topic-cell" data-reveal {@attach reveal(Math.min((i % 3) * 80, 240))}>
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+				<p>{item}</p>
+			</div>
+		{/each}
+	</div>
+
+	<!-- 3. Steps composition -->
+	<div class="canvas steps-canvas">
+		<div class="steps-cell" data-reveal {@attach reveal()}>
+			<span class="eyebrow">Postup</span>
+			<h2 class="section-title section-title--sm">Ako to prebieha</h2>
+			<ol class="steps">
+				{#each steps as step, i (step)}
+					<li>
+						<span class="step-no">{i + 1}</span>
+						<p class="step-text">{step}</p>
+					</li>
+				{/each}
+			</ol>
+		</div>
+		<div class="acc acc--pb" aria-hidden="true"></div>
+	</div>
+
+	<!-- 4. CTA composition -->
+	<div class="canvas cta-canvas">
+		<div class="cta-cell" data-reveal {@attach reveal()}>
+			<h2 class="cta-title">Potrebujete poradiť?</h2>
+			<div class="cta-actions">
+				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
+				<a href="/contact" class="cta-link">Kontaktné údaje</a>
 			</div>
 		</div>
-	</div>
-</section>
-
-<!-- Topics -->
-<section class="section section--blueprint">
-	<div class="container">
-		<header class="section-head" data-reveal {@attach reveal()}>
-			<div>
-				<span class="eyebrow">Rozsah</span>
-				<h2 class="section-title">S čím Vám poradíme</h2>
-			</div>
-		</header>
-		<ul class="check-grid">
-			{#each topics as item, i (item)}
-				<li data-reveal {@attach reveal(Math.min(i * 45, 270))}>
-					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
-					{item}
-				</li>
-			{/each}
-		</ul>
-	</div>
-</section>
-
-<!-- Steps -->
-<section class="section">
-	<div class="container">
-		<header class="section-head" data-reveal {@attach reveal()}>
-			<div>
-				<span class="eyebrow">Postup</span>
-				<h2 class="section-title">Ako to prebieha</h2>
-			</div>
-		</header>
-		<ol class="steps steps--solo">
-			{#each steps as step, i (step)}
-				<li data-reveal {@attach reveal(i * 90)}>
-					<span class="step-no">{i + 1}</span>
-					<p class="step-text">{step}</p>
-				</li>
-			{/each}
-		</ol>
-	</div>
-</section>
-
-<!-- CTA band -->
-<section class="cta-band">
-	<div class="container cta-inner">
-		<h2 class="cta-title">Potrebujete poradiť?</h2>
-		<div class="cta-actions">
-			<a href={contact.phoneHref} class="btn btn--primary">{contact.phone}</a>
-			<a href="/contact" class="btn btn--light">Kontaktné údaje</a>
-		</div>
+		<div class="acc acc--ty" aria-hidden="true"></div>
 	</div>
 </section>
 
 <style>
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-section-y-end, 4rem);
 	}
 
 	.eyebrow {
@@ -136,27 +132,7 @@
 		content: '';
 		width: 24px;
 		height: 3px;
-		background-color: var(--color-brand-primary);
-	}
-
-	.section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-	}
-
-	.section--blueprint {
-		background-color: var(--color-chalk);
-		background-image:
-			linear-gradient(to right, rgba(30, 32, 34, 0.045) 1px, transparent 1px),
-			linear-gradient(to bottom, rgba(30, 32, 34, 0.045) 1px, transparent 1px);
-		background-size: 36px 36px;
-	}
-
-	.section-head {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 2rem;
-		margin-bottom: 2.5rem;
+		background-color: currentColor;
 	}
 
 	.section-title {
@@ -170,27 +146,104 @@
 		color: var(--color-iron);
 	}
 
+	.section-title--sm {
+		font-size: var(--font-size-display-md);
+		margin-bottom: 1.5rem;
+	}
+
+	/* ===== Canvases — iron ground, cells paint themselves ===== */
+	.canvas {
+		display: grid;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	/* ===== 1. Hero ===== */
+	.hero-canvas {
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: minmax(420px, auto) 100px;
+		grid-template-areas:
+			'copy copy copy copy copy copy copy photo photo photo photo photo'
+			'fact fact fact fact hy   hy   hb   photo photo photo photo photo';
+	}
+
+	.copy-cell {
+		grid-area: copy;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 1.1rem;
+		padding: clamp(1.75rem, 3.5vw, 3.25rem);
+		background-color: var(--color-white);
+	}
+
+	.back-link {
+		font-size: var(--font-size-small);
+		font-weight: 600;
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color var(--transition-fast);
+	}
+
+	.back-link:hover {
+		color: var(--color-brand-primary);
+	}
+
+	.hero-title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-xl);
+		font-weight: 700;
+		line-height: 0.92;
+		text-transform: uppercase;
+		letter-spacing: 0.005em;
+		color: var(--color-iron);
+	}
+
+	.hero-accent {
+		color: var(--color-brand-primary);
+	}
+
+	.hero-lead {
+		margin: 0;
+		max-width: 54ch;
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--text-muted);
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
 	.btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.85rem 1.75rem;
+		padding: 0.85rem 1.5rem;
 		font-family: var(--font-display);
-		font-size: 1.15rem;
+		font-size: 1.05rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.07em;
 		text-decoration: none;
-		border-radius: var(--radius-sm);
 		transition:
 			background-color var(--transition-fast),
 			border-color var(--transition-fast),
-			color var(--transition-fast),
-			transform var(--transition-fast);
+			color var(--transition-fast);
 	}
 
-	.btn:hover {
-		transform: translateY(-2px);
+	.btn:focus-visible,
+	.back-link:focus-visible,
+	.cta-phone:focus-visible,
+	.cta-link:focus-visible {
+		outline: 3px solid var(--color-brand-hover);
+		outline-offset: 3px;
 	}
 
 	.btn--primary {
@@ -212,67 +265,49 @@
 		color: var(--color-brand-primary);
 	}
 
-	.btn--light {
-		border: 2px solid var(--color-white);
-		color: var(--color-white);
+	.photo-cell {
+		grid-area: photo;
+		position: relative;
+		overflow: hidden;
+		min-width: 0;
+		background-color: var(--color-white);
 	}
 
-	.btn--light:hover {
-		border-color: var(--color-brand-hover);
-		color: var(--color-brand-hover);
+	.photo-cell img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.06) brightness(0.98);
+		transition:
+			filter var(--transition-medium),
+			transform var(--transition-medium);
 	}
 
-	/* Scroll reveal */
-	@media (scripting: enabled) {
-		[data-reveal] {
-			opacity: 0;
-			transform: translateY(18px);
-			transition:
-				opacity var(--transition-reveal),
-				transform var(--transition-reveal);
-			transition-delay: var(--reveal-delay, 0ms);
+	@media (hover: hover) {
+		.photo-cell:hover img {
+			filter: grayscale(0%) contrast(1.02);
+			transform: scale(1.02);
 		}
-
-		[data-reveal]:global(.is-revealed) {
-			opacity: 1;
-			transform: none;
-		}
 	}
 
-	/* Hero */
-	.hero {
-		padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.5rem, 5vw, 4rem);
-		border-bottom: 1px solid var(--border-default);
-	}
-
-	.hero-grid {
-		display: grid;
-		grid-template-columns: 1.05fr 0.95fr;
-		gap: clamp(2rem, 5vw, 4rem);
-		align-items: center;
-	}
-
-	.hero-copy {
+	.chip {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 1.1rem;
+		align-items: center;
+		justify-content: center;
+		width: 52px;
+		height: 52px;
+		background-color: var(--color-white);
 	}
 
-	.back-link {
-		font-size: var(--font-size-small);
-		font-weight: 600;
-		color: var(--text-muted);
-		text-decoration: none;
-	}
-
-	.back-link:hover {
-		color: var(--color-brand-primary);
-	}
-
-	.hero-icon {
-		width: 34px;
-		height: 34px;
+	.chip svg {
+		width: 26px;
+		height: 26px;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
@@ -280,114 +315,48 @@
 		stroke-linejoin: round;
 	}
 
-	.hero-title {
-		margin: 0;
-		font-family: var(--font-display);
-		font-size: var(--font-size-display-xl);
-		font-weight: 700;
-		line-height: 0.95;
-		text-transform: uppercase;
-		letter-spacing: 0.01em;
-		color: var(--color-iron);
-	}
-
-	.hero-accent {
-		color: var(--color-brand-primary);
-	}
-
-	.hero-lead {
-		margin: 0;
-		max-width: 50ch;
-		font-size: 1.05rem;
-		line-height: 1.65;
-		color: var(--text-muted);
-	}
-
-	.hero-actions {
+	.fact-cell {
+		grid-area: fact;
 		display: flex;
-		flex-wrap: wrap;
-		gap: 0.85rem;
-		margin-top: 0.25rem;
-	}
-
-	.photo-frame {
-		position: relative;
-		overflow: hidden;
-		border-radius: var(--radius-sm);
-		aspect-ratio: 4 / 3;
-	}
-
-	.photo-frame::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 5px;
-		background: var(--mondrian-rule);
-		z-index: 2;
-	}
-
-	.photo-frame img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		filter: grayscale(100%) contrast(1.08) brightness(0.97);
-	}
-
-	.photo-frame::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(160deg, rgba(192, 40, 28, 0.34) 0%, rgba(30, 32, 34, 0.5) 100%);
-		mix-blend-mode: multiply;
-		pointer-events: none;
-	}
-
-	.photo-caption {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		z-index: 1;
-		background-color: var(--color-iron);
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1rem;
+		background-color: var(--color-brand-primary);
 		color: var(--color-white);
 		font-family: var(--font-display);
-		font-size: 0.95rem;
-		font-weight: 600;
+		font-size: clamp(1rem, 1.5vw, 1.25rem);
+		font-weight: 700;
+		line-height: 1.1;
+		text-align: center;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		padding: 0.5rem 1rem;
+		letter-spacing: 0.06em;
 	}
 
-	/* Check grid */
-	.check-grid {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-		gap: 0.85rem;
+	/* ===== 2. Topics ===== */
+	.topics-canvas {
+		grid-template-columns: repeat(12, 1fr);
 	}
 
-	.check-grid li {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.75rem;
-		padding: 1.1rem 1.25rem;
+	.head-cell {
+		grid-column: span 9;
 		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
-		font-weight: 500;
-		line-height: 1.5;
-		color: var(--color-steel);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.check-grid svg {
-		width: 18px;
-		height: 18px;
-		flex-shrink: 0;
-		margin-top: 0.15rem;
+	.topic-cell {
+		grid-column: span 4;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		min-height: 150px;
+		padding: 1.4rem 1.5rem 1.5rem;
+		background-color: var(--color-white);
+	}
+
+	.topic-cell svg {
+		width: 22px;
+		height: 22px;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 3;
@@ -395,16 +364,31 @@
 		stroke-linejoin: round;
 	}
 
-	/* Steps */
+	.topic-cell p {
+		margin: 0;
+		font-weight: 500;
+		line-height: 1.55;
+		color: var(--color-steel);
+	}
+
+	/* ===== 3. Steps ===== */
+	.steps-canvas {
+		grid-template-columns: repeat(12, 1fr);
+	}
+
+	.steps-cell {
+		grid-column: span 10;
+		min-width: 0;
+		padding: clamp(1.75rem, 3.5vw, 3rem);
+		background-color: var(--color-white);
+	}
+
 	.steps {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-	}
-
-	.steps--solo {
 		max-width: 780px;
 	}
 
@@ -416,8 +400,13 @@
 		border-bottom: 1px solid var(--border-default);
 	}
 
+	.steps li:first-child {
+		padding-top: 0;
+	}
+
 	.steps li:last-child {
 		border-bottom: 0;
+		padding-bottom: 0;
 	}
 
 	.step-no {
@@ -437,29 +426,20 @@
 		color: var(--color-steel);
 	}
 
-	/* CTA band */
-	.cta-band {
-		position: relative;
-		background-color: var(--color-iron);
-		padding: 3rem 0;
+	/* ===== 4. CTA ===== */
+	.cta-canvas {
+		grid-template-columns: repeat(12, 1fr);
 	}
 
-	.cta-band::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 6px;
-		background: var(--mondrian-rule);
-	}
-
-	.cta-inner {
+	.cta-cell {
+		grid-column: span 10;
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 2rem;
-		flex-wrap: wrap;
+		gap: 1.5rem;
+		padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+		background-color: var(--color-brand-primary);
 	}
 
 	.cta-title {
@@ -475,24 +455,154 @@
 	.cta-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.85rem;
+		align-items: center;
+		gap: 1.5rem;
 	}
 
-	/* Responsive */
-	@media (max-width: 900px) {
-		.hero-grid {
-			grid-template-columns: 1fr;
+	.cta-phone {
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 2.5vw, 2rem);
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		color: var(--color-white);
+		text-decoration: none;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.cta-phone:hover {
+		text-decoration: underline;
+	}
+
+	.cta-link {
+		font-size: var(--font-size-small);
+		font-weight: 700;
+		color: var(--color-white);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.cta-link:hover {
+		text-decoration-thickness: 2px;
+	}
+
+	/* ===== Accent cells ===== */
+	.acc {
+		min-width: 0;
+	}
+
+	.acc--hy {
+		grid-area: hy;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--hb {
+		grid-area: hb;
+		background-color: var(--color-accent-blue);
+	}
+
+	.acc--ry {
+		grid-column: span 3;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--pb {
+		grid-column: span 2;
+		background-color: var(--color-accent-blue);
+	}
+
+	.acc--ty {
+		grid-column: span 2;
+		background-color: var(--color-accent-yellow);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
 		}
 
-		.hero-media {
-			order: -1;
-		}
-
-		.photo-frame {
-			aspect-ratio: 16 / 9;
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
 		}
 	}
 
+	/* ===== Responsive ===== */
+	@media (max-width: 1000px) {
+		.hero-canvas {
+			grid-template-rows: minmax(380px, auto) 92px;
+		}
+
+		.topic-cell {
+			grid-column: span 6;
+			min-height: 0;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.canvas {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.section {
+			gap: 2.5rem;
+		}
+
+		.copy-cell {
+			padding: 1.5rem 1rem 1.6rem;
+		}
+
+		.photo-cell {
+			min-height: 300px;
+		}
+
+		.fact-cell {
+			padding: 1rem;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.topic-cell {
+			flex-direction: row;
+			align-items: flex-start;
+			padding: 1.2rem 1rem 1.3rem;
+		}
+
+		.steps-cell {
+			padding: 1.5rem 1.2rem 1.6rem;
+		}
+
+		.cta-cell {
+			padding: 1.75rem 1.2rem 1.9rem;
+		}
+
+		.acc {
+			min-height: 22px;
+		}
+	}
+
+	@media (max-width: 560px) {
+		.hero-actions {
+			width: 100%;
+			flex-direction: column;
+		}
+
+		.hero-actions .btn {
+			width: 100%;
+		}
+	}
+
+	/* ===== Reduced motion ===== */
 	@media (prefers-reduced-motion: reduce) {
 		[data-reveal] {
 			opacity: 1;
@@ -500,7 +610,8 @@
 			transition: none;
 		}
 
-		.btn {
+		.btn,
+		.photo-cell img {
 			transition: none;
 		}
 	}

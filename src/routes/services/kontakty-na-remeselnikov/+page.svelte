@@ -58,16 +58,13 @@
 	/>
 </svelte:head>
 
-<!-- Hero -->
-<section class="hero">
-	<div class="container hero-grid">
-		<div class="hero-copy">
+<section class="section" aria-label="Kontakty na remeselníkov">
+	<!-- 1. Hero composition -->
+	<div class="canvas hero-canvas">
+		<div class="copy-cell" data-reveal {@attach reveal()}>
 			<a href="/services" class="back-link">← Späť na služby</a>
-			<svg class="hero-icon" viewBox="0 0 24 24" aria-hidden="true">
-				{#each icon as d (d)}<path {d} />{/each}
-			</svg>
 			<span class="eyebrow">Služby · Remeselníci</span>
-			<h1 class="hero-title hero-title--long">
+			<h1 class="hero-title">
 				Kontakty na staviteľov, živnostníkov,
 				<span class="hero-accent">remeselníkov a architektov.</span>
 			</h1>
@@ -81,39 +78,37 @@
 				<a href="/contact" class="btn btn--ghost">Kontaktné údaje</a>
 			</div>
 		</div>
-		<div class="hero-media">
-			<div class="photo-frame">
-				<img src={heroPhoto} alt="Remeselníci pri práci na stavbe" />
-				<span class="photo-caption">Viac ako 25 rokov v regióne</span>
-			</div>
+		<div class="photo-cell" data-reveal {@attach reveal(80)}>
+			<img src={heroPhoto} alt="Remeselníci pri práci na stavbe" />
+			<span class="chip" aria-hidden="true">
+				<svg viewBox="0 0 24 24"
+					>{#each icon as d (d)}<path {d} />{/each}</svg
+				>
+			</span>
 		</div>
+		<div class="fact-cell" data-reveal {@attach reveal(140)}>Viac ako 25 rokov v regióne</div>
+		<div class="acc acc--hy" aria-hidden="true"></div>
+		<div class="acc acc--hb" aria-hidden="true"></div>
 	</div>
-</section>
 
-<!-- Trades -->
-<section class="section section--blueprint">
-	<div class="container">
-		<header class="section-head" data-reveal {@attach reveal()}>
-			<div>
-				<span class="eyebrow">Profesie</span>
-				<h2 class="section-title">Aké profesie odporúčame</h2>
-			</div>
+	<!-- 2. Trades composition -->
+	<div class="canvas trades-canvas">
+		<header class="head-cell" data-reveal {@attach reveal()}>
+			<span class="eyebrow">Profesie</span>
+			<h2 class="section-title">Aké profesie odporúčame</h2>
 		</header>
-		<div class="trade-grid">
-			{#each tradeCategories as trade, i (trade.name)}
-				<div class="trade-card" data-reveal {@attach reveal(Math.min(i * 45, 270))}>
-					<h3 class="trade-name">{trade.name}</h3>
-					<p class="trade-text">{trade.description}</p>
-				</div>
-			{/each}
-		</div>
+		<div class="acc acc--ky" aria-hidden="true"></div>
+		{#each tradeCategories as trade, i (trade.name)}
+			<div class="trade-cell" data-reveal {@attach reveal(Math.min((i % 4) * 70, 210))}>
+				<h3 class="trade-name">{trade.name}</h3>
+				<p class="trade-text">{trade.description}</p>
+			</div>
+		{/each}
 	</div>
-</section>
 
-<!-- Steps + note -->
-<section class="section">
-	<div class="container split-grid">
-		<div data-reveal {@attach reveal()}>
+	<!-- 3. Steps + notice composition -->
+	<div class="canvas steps-canvas">
+		<div class="steps-cell" data-reveal {@attach reveal()}>
 			<span class="eyebrow">Postup</span>
 			<h2 class="section-title section-title--sm">Ako Vám pomôžeme</h2>
 			<ol class="steps">
@@ -125,32 +120,34 @@
 				{/each}
 			</ol>
 		</div>
-		<div data-reveal {@attach reveal(120)}>
-			<p class="note">
+		<div class="notice-cell" data-reveal {@attach reveal(120)}>
+			<p>
 				<strong>Upozornenie:</strong> Odporúčaní remeselníci nie sú zamestnancami Stavebnín Orol – ide
 				o nezávislých živnostníkov a firmy. Za kvalitu ich práce, cenu a dodržanie termínu zodpovedajú
 				výlučne oni sami.
 			</p>
 		</div>
 	</div>
-</section>
 
-<!-- CTA band -->
-<section class="cta-band">
-	<div class="container cta-inner">
-		<h2 class="cta-title">Hľadáte remeselníka?</h2>
-		<div class="cta-actions">
-			<a href={contact.phoneHref} class="btn btn--primary">{contact.phone}</a>
-			<a href="/contact" class="btn btn--light">Kontaktné údaje</a>
+	<!-- 4. CTA composition -->
+	<div class="canvas cta-canvas">
+		<div class="cta-cell" data-reveal {@attach reveal()}>
+			<h2 class="cta-title">Hľadáte remeselníka?</h2>
+			<div class="cta-actions">
+				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
+				<a href="/contact" class="cta-link">Kontaktné údaje</a>
+			</div>
 		</div>
+		<div class="acc acc--ty" aria-hidden="true"></div>
 	</div>
 </section>
 
 <style>
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-section-y-end, 4rem);
 	}
 
 	.eyebrow {
@@ -169,27 +166,7 @@
 		content: '';
 		width: 24px;
 		height: 3px;
-		background-color: var(--color-brand-primary);
-	}
-
-	.section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-	}
-
-	.section--blueprint {
-		background-color: var(--color-chalk);
-		background-image:
-			linear-gradient(to right, rgba(30, 32, 34, 0.045) 1px, transparent 1px),
-			linear-gradient(to bottom, rgba(30, 32, 34, 0.045) 1px, transparent 1px);
-		background-size: 36px 36px;
-	}
-
-	.section-head {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 2rem;
-		margin-bottom: 2.5rem;
+		background-color: currentColor;
 	}
 
 	.section-title {
@@ -208,27 +185,99 @@
 		margin-bottom: 1.5rem;
 	}
 
+	/* ===== Canvases — iron ground, cells paint themselves ===== */
+	.canvas {
+		display: grid;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	/* ===== 1. Hero ===== */
+	.hero-canvas {
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: minmax(440px, auto) 100px;
+		grid-template-areas:
+			'copy copy copy copy copy copy copy photo photo photo photo photo'
+			'copy copy copy copy copy copy copy fact  fact  fact  hy    hb';
+	}
+
+	.copy-cell {
+		grid-area: copy;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 1.1rem;
+		padding: clamp(1.75rem, 3.5vw, 3.25rem);
+		background-color: var(--color-white);
+	}
+
+	.back-link {
+		font-size: var(--font-size-small);
+		font-weight: 600;
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color var(--transition-fast);
+	}
+
+	.back-link:hover {
+		color: var(--color-brand-primary);
+	}
+
+	.hero-title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
+		font-weight: 700;
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.005em;
+		color: var(--color-iron);
+	}
+
+	.hero-accent {
+		color: var(--color-brand-primary);
+	}
+
+	.hero-lead {
+		margin: 0;
+		max-width: 54ch;
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--text-muted);
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
 	.btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.85rem 1.75rem;
+		padding: 0.85rem 1.5rem;
 		font-family: var(--font-display);
-		font-size: 1.15rem;
+		font-size: 1.05rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.07em;
 		text-decoration: none;
-		border-radius: var(--radius-sm);
 		transition:
 			background-color var(--transition-fast),
 			border-color var(--transition-fast),
-			color var(--transition-fast),
-			transform var(--transition-fast);
+			color var(--transition-fast);
 	}
 
-	.btn:hover {
-		transform: translateY(-2px);
+	.btn:focus-visible,
+	.back-link:focus-visible,
+	.cta-phone:focus-visible,
+	.cta-link:focus-visible {
+		outline: 3px solid var(--color-brand-hover);
+		outline-offset: 3px;
 	}
 
 	.btn--primary {
@@ -250,67 +299,49 @@
 		color: var(--color-brand-primary);
 	}
 
-	.btn--light {
-		border: 2px solid var(--color-white);
-		color: var(--color-white);
+	.photo-cell {
+		grid-area: photo;
+		position: relative;
+		overflow: hidden;
+		min-width: 0;
+		background-color: var(--color-white);
 	}
 
-	.btn--light:hover {
-		border-color: var(--color-brand-hover);
-		color: var(--color-brand-hover);
+	.photo-cell img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.06) brightness(0.98);
+		transition:
+			filter var(--transition-medium),
+			transform var(--transition-medium);
 	}
 
-	/* Scroll reveal */
-	@media (scripting: enabled) {
-		[data-reveal] {
-			opacity: 0;
-			transform: translateY(18px);
-			transition:
-				opacity var(--transition-reveal),
-				transform var(--transition-reveal);
-			transition-delay: var(--reveal-delay, 0ms);
+	@media (hover: hover) {
+		.photo-cell:hover img {
+			filter: grayscale(0%) contrast(1.02);
+			transform: scale(1.02);
 		}
-
-		[data-reveal]:global(.is-revealed) {
-			opacity: 1;
-			transform: none;
-		}
 	}
 
-	/* Hero */
-	.hero {
-		padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.5rem, 5vw, 4rem);
-		border-bottom: 1px solid var(--border-default);
-	}
-
-	.hero-grid {
-		display: grid;
-		grid-template-columns: 1.05fr 0.95fr;
-		gap: clamp(2rem, 5vw, 4rem);
-		align-items: center;
-	}
-
-	.hero-copy {
+	.chip {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 1.1rem;
+		align-items: center;
+		justify-content: center;
+		width: 52px;
+		height: 52px;
+		background-color: var(--color-white);
 	}
 
-	.back-link {
-		font-size: var(--font-size-small);
-		font-weight: 600;
-		color: var(--text-muted);
-		text-decoration: none;
-	}
-
-	.back-link:hover {
-		color: var(--color-brand-primary);
-	}
-
-	.hero-icon {
-		width: 34px;
-		height: 34px;
+	.chip svg {
+		width: 26px;
+		height: 26px;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
@@ -318,106 +349,42 @@
 		stroke-linejoin: round;
 	}
 
-	.hero-title {
-		margin: 0;
-		font-family: var(--font-display);
-		font-size: var(--font-size-display-xl);
-		font-weight: 700;
-		line-height: 0.95;
-		text-transform: uppercase;
-		letter-spacing: 0.01em;
-		color: var(--color-iron);
-	}
-
-	.hero-title--long {
-		font-size: var(--font-size-display-lg);
-		line-height: 1.05;
-	}
-
-	.hero-accent {
-		color: var(--color-brand-primary);
-	}
-
-	.hero-lead {
-		margin: 0;
-		max-width: 50ch;
-		font-size: 1.05rem;
-		line-height: 1.65;
-		color: var(--text-muted);
-	}
-
-	.hero-actions {
+	.fact-cell {
+		grid-area: fact;
 		display: flex;
-		flex-wrap: wrap;
-		gap: 0.85rem;
-		margin-top: 0.25rem;
-	}
-
-	.photo-frame {
-		position: relative;
-		overflow: hidden;
-		border-radius: var(--radius-sm);
-		aspect-ratio: 4 / 3;
-	}
-
-	.photo-frame::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 5px;
-		background: var(--mondrian-rule);
-		z-index: 2;
-	}
-
-	.photo-frame img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		filter: grayscale(100%) contrast(1.08) brightness(0.97);
-	}
-
-	.photo-frame::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(160deg, rgba(192, 40, 28, 0.34) 0%, rgba(30, 32, 34, 0.5) 100%);
-		mix-blend-mode: multiply;
-		pointer-events: none;
-	}
-
-	.photo-caption {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		z-index: 1;
-		background-color: var(--color-iron);
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1rem;
+		background-color: var(--color-brand-primary);
 		color: var(--color-white);
 		font-family: var(--font-display);
-		font-size: 0.95rem;
-		font-weight: 600;
+		font-size: clamp(1rem, 1.5vw, 1.25rem);
+		font-weight: 700;
+		line-height: 1.1;
+		text-align: center;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		padding: 0.5rem 1rem;
+		letter-spacing: 0.06em;
 	}
 
-	/* Trade grid */
-	.trade-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-		gap: 0.85rem;
+	/* ===== 2. Trades ===== */
+	.trades-canvas {
+		grid-template-columns: repeat(12, 1fr);
 	}
 
-	.trade-card {
-		padding: 1.25rem 1.4rem;
+	.head-cell {
+		grid-column: span 9;
 		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-sm);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.trade-card::before {
+	.trade-cell {
+		grid-column: span 3;
+		min-width: 0;
+		padding: 1.3rem 1.3rem 1.4rem;
+		background-color: var(--color-white);
+	}
+
+	.trade-cell::before {
 		content: '';
 		display: block;
 		width: 24px;
@@ -431,6 +398,7 @@
 		font-family: var(--font-display);
 		font-size: 1.2rem;
 		font-weight: 600;
+		line-height: 1.1;
 		text-transform: uppercase;
 		letter-spacing: 0.03em;
 		color: var(--color-iron);
@@ -443,12 +411,16 @@
 		color: var(--text-muted);
 	}
 
-	/* Split section */
-	.split-grid {
-		display: grid;
-		grid-template-columns: 1.1fr 0.9fr;
-		gap: clamp(2rem, 5vw, 4.5rem);
-		align-items: start;
+	/* ===== 3. Steps + notice ===== */
+	.steps-canvas {
+		grid-template-columns: repeat(12, 1fr);
+	}
+
+	.steps-cell {
+		grid-column: span 7;
+		min-width: 0;
+		padding: clamp(1.75rem, 3.5vw, 2.75rem);
+		background-color: var(--color-white);
 	}
 
 	.steps {
@@ -467,8 +439,13 @@
 		border-bottom: 1px solid var(--border-default);
 	}
 
+	.steps li:first-child {
+		padding-top: 0;
+	}
+
 	.steps li:last-child {
 		border-bottom: 0;
+		padding-bottom: 0;
 	}
 
 	.step-no {
@@ -488,45 +465,40 @@
 		color: var(--color-steel);
 	}
 
-	/* Note */
-	.note {
-		margin: 0;
-		padding: 1.1rem 1.3rem;
-		background-color: var(--color-chalk);
-		border-left: 4px solid var(--color-brand-primary);
-		border-radius: var(--radius-sm);
-		font-size: var(--font-size-small);
-		line-height: 1.65;
-		color: var(--color-steel);
-	}
-
-	.note strong {
-		color: var(--color-iron);
-	}
-
-	/* CTA band */
-	.cta-band {
-		position: relative;
-		background-color: var(--color-iron);
-		padding: 3rem 0;
-	}
-
-	.cta-band::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 6px;
-		background: var(--mondrian-rule);
-	}
-
-	.cta-inner {
+	.notice-cell {
+		grid-column: span 5;
+		min-width: 0;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 2rem;
+		padding: clamp(1.75rem, 3.5vw, 2.75rem);
+		background-color: var(--color-iron);
+	}
+
+	.notice-cell p {
+		margin: 0;
+		font-size: var(--font-size-small);
+		line-height: 1.7;
+		color: var(--color-concrete);
+	}
+
+	.notice-cell strong {
+		color: var(--color-white);
+	}
+
+	/* ===== 4. CTA ===== */
+	.cta-canvas {
+		grid-template-columns: repeat(12, 1fr);
+	}
+
+	.cta-cell {
+		grid-column: span 10;
+		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+		background-color: var(--color-brand-primary);
 	}
 
 	.cta-title {
@@ -542,29 +514,155 @@
 	.cta-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.85rem;
+		align-items: center;
+		gap: 1.5rem;
 	}
 
-	/* Responsive */
-	@media (max-width: 900px) {
-		.hero-grid {
-			grid-template-columns: 1fr;
+	.cta-phone {
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 2.5vw, 2rem);
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		color: var(--color-white);
+		text-decoration: none;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.cta-phone:hover {
+		text-decoration: underline;
+	}
+
+	.cta-link {
+		font-size: var(--font-size-small);
+		font-weight: 700;
+		color: var(--color-white);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.cta-link:hover {
+		text-decoration-thickness: 2px;
+	}
+
+	/* ===== Accent cells ===== */
+	.acc {
+		min-width: 0;
+	}
+
+	.acc--hy {
+		grid-area: hy;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--hb {
+		grid-area: hb;
+		background-color: var(--color-accent-blue);
+	}
+
+	.acc--ky {
+		grid-column: span 3;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--ty {
+		grid-column: span 2;
+		background-color: var(--color-accent-yellow);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
 		}
 
-		.hero-media {
-			order: -1;
-		}
-
-		.photo-frame {
-			aspect-ratio: 16 / 9;
-		}
-
-		.split-grid {
-			grid-template-columns: 1fr;
-			gap: 3rem;
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
 		}
 	}
 
+	/* ===== Responsive ===== */
+	@media (max-width: 1000px) {
+		.hero-canvas {
+			grid-template-rows: minmax(380px, auto) 92px;
+		}
+
+		.trade-cell {
+			grid-column: span 6;
+		}
+
+		.steps-cell {
+			grid-column: span 12;
+		}
+
+		.notice-cell {
+			grid-column: span 12;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.canvas {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.section {
+			gap: 2.5rem;
+		}
+
+		.copy-cell {
+			padding: 1.5rem 1rem 1.6rem;
+		}
+
+		.photo-cell {
+			min-height: 300px;
+		}
+
+		.fact-cell {
+			padding: 1rem;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.trade-cell {
+			padding: 1.2rem 1rem 1.3rem;
+		}
+
+		.steps-cell,
+		.notice-cell {
+			padding: 1.5rem 1.2rem 1.6rem;
+		}
+
+		.cta-cell {
+			padding: 1.75rem 1.2rem 1.9rem;
+		}
+
+		.acc {
+			min-height: 22px;
+		}
+	}
+
+	@media (max-width: 560px) {
+		.hero-actions {
+			width: 100%;
+			flex-direction: column;
+		}
+
+		.hero-actions .btn {
+			width: 100%;
+		}
+	}
+
+	/* ===== Reduced motion ===== */
 	@media (prefers-reduced-motion: reduce) {
 		[data-reveal] {
 			opacity: 1;
@@ -572,7 +670,8 @@
 			transition: none;
 		}
 
-		.btn {
+		.btn,
+		.photo-cell img {
 			transition: none;
 		}
 	}
