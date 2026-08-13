@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { reveal } from '$lib/reveal';
+
 	let { data } = $props();
 </script>
 
@@ -7,117 +9,191 @@
 	<meta name="description" content={data.post.excerpt} />
 </svelte:head>
 
-<!-- Hero -->
-<section class="hero">
-	<div class="container">
-		<a href="/news" class="back-link">← Všetky aktuality</a>
-		<h1>{data.post.title}</h1>
-	</div>
-</section>
+<section class="section" aria-label={data.post.title}>
+	<div class="flow">
+		<div class="flow-row flow-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<time class="eyebrow" datetime={data.post.date}>
+					{new Date(data.post.date).toLocaleDateString('sk-SK', {
+						day: 'numeric',
+						month: 'long',
+						year: 'numeric'
+					})}
+				</time>
+				<h1 class="section-title">{data.post.title}</h1>
+			</header>
+			<a href="/news" class="head-link-cell">← Všetky aktuality</a>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
 
-<!-- Content -->
-<section class="content-section">
-	<div class="container">
-		<time class="post-date" datetime={data.post.date}>
-			{new Date(data.post.date).toLocaleDateString('sk-SK', {
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric'
-			})}
-		</time>
+		<!-- Editorial cover keeps its natural color — no grayscale, no overlay. -->
+		<div class="flow-row">
+			<div class="cover-cell" data-reveal {@attach reveal(100)}>
+				<img src={data.post.image} alt={data.post.title} class="cover-image" loading="eager" />
+			</div>
+		</div>
 
-		<img src={data.post.image} alt={data.post.title} class="cover-image" loading="eager" />
-
-		<!-- Trusted HTML: content is controlled/sanitized server-side in $lib/posts -->
-		<div class="prose">
-			{@html data.post.html}
+		<div class="flow-row">
+			<div class="prose-cell" data-reveal {@attach reveal()}>
+				<!-- Trusted HTML: content is controlled/sanitized server-side in $lib/posts -->
+				<div class="prose">
+					{@html data.post.html}
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
 <style>
-	/* ---- Shared ---- */
-	.container {
-		max-width: var(--container-prose);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
 	}
 
-	/* ---- Hero ---- */
-	.hero {
-		background-color: var(--color-brand-dark);
-		padding: var(--space-hero-y) 0;
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--color-brand-primary);
 	}
 
-	.back-link {
-		display: inline-block;
-		margin-bottom: 0.75rem;
-		font-size: var(--font-size-small);
-		color: var(--text-on-dark);
-		text-decoration: none;
-		opacity: 0.85;
-		transition:
-			color var(--transition-fast),
-			opacity var(--transition-fast);
+	.eyebrow::before {
+		content: '';
+		width: 24px;
+		height: 3px;
+		background-color: var(--color-brand-primary);
 	}
 
-	.back-link:hover {
-		color: var(--color-brand-hover);
-		opacity: 1;
+	.section-title {
+		margin: 0.35rem 0 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
+		font-weight: 700;
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.015em;
+		color: var(--color-iron);
 	}
 
-	.hero h1 {
-		margin: 0;
-		font-size: var(--font-size-h1-compact);
-		font-weight: 800;
-		color: var(--text-on-dark);
-		letter-spacing: 0.01em;
-		line-height: 1.25;
-	}
-
-	/* ---- Content section ---- */
-	.content-section {
+	.head-cell {
+		flex: 4 1 0;
+		min-width: 0;
 		background-color: var(--color-white);
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.post-date {
-		display: block;
-		font-size: 0.9rem;
-		color: var(--text-muted);
-		margin-bottom: 0;
+	.head-link-cell {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-align: center;
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
+	}
+
+	.head-link-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
+		}
+
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* ===== Flow canvas ===== */
+	.flow {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.flow-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	/* ===== Cover cell ===== */
+	.cover-cell {
+		flex: 1 1 0;
+		min-width: 0;
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 16 / 9;
+		max-height: 520px;
+		background-color: var(--color-white);
 	}
 
 	.cover-image {
+		position: absolute;
+		inset: 0;
 		width: 100%;
-		aspect-ratio: 16 / 9;
+		height: 100%;
 		object-fit: cover;
-		border-radius: var(--radius-lg);
-		margin: 1.5rem 0 2rem;
-		display: block;
 	}
 
-	/* ---- Prose ---- */
+	/* ===== Prose cell ===== */
+	.prose-cell {
+		flex: 1 1 0;
+		min-width: 0;
+		background-color: var(--color-white);
+		padding: clamp(2rem, 4vw, 3.5rem) var(--container-px) var(--space-section-y);
+	}
+
 	.prose {
+		max-width: var(--container-prose);
+		margin-inline: auto;
 		line-height: 1.8;
 		color: var(--text-on-light);
 		font-size: 1rem;
 	}
 
 	.prose :global(h2) {
-		font-size: var(--font-size-h2);
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-md);
 		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
 		color: var(--color-brand-dark);
 		margin: 2rem 0 0.75rem;
-		line-height: 1.3;
+		line-height: 1.1;
 	}
 
 	.prose :global(h3) {
-		font-size: var(--font-size-h3);
-		font-weight: 700;
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
 		color: var(--color-brand-dark);
 		margin: 1.75rem 0 0.6rem;
-		line-height: 1.3;
+		line-height: 1.15;
 	}
 
 	.prose :global(p) {
@@ -155,8 +231,7 @@
 		margin: 1.5rem 0;
 		padding: 0.75rem 1.25rem;
 		border-left: 4px solid var(--color-brand-primary);
-		background-color: var(--surface-alt);
-		border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+		background-color: var(--color-chalk);
 		color: var(--text-muted);
 		font-style: italic;
 	}
@@ -164,14 +239,62 @@
 	.prose :global(img) {
 		max-width: 100%;
 		height: auto;
-		border-radius: var(--radius-md);
 		display: block;
 		margin: 1.5rem 0;
 	}
 
 	.prose :global(hr) {
 		border: none;
-		border-top: 1px solid var(--border-default);
+		border-top: 1px solid var(--color-mist);
 		margin: 2rem 0;
+	}
+
+	/* ===== Mobile: bands stack ===== */
+	@media (max-width: 800px) {
+		.flow {
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.flow-row,
+		.flow-row--head {
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.head-link-cell {
+			padding: 0.9rem;
+		}
+
+		.prose-cell {
+			padding: 1.6rem var(--container-px) 2.5rem;
+		}
+
+		.acc {
+			flex: none;
+			min-height: 22px;
+		}
+	}
+
+	/* Accent cells */
+	.acc {
+		flex: 0 0 90px;
+	}
+
+	.acc--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	/* ===== Reduced motion ===== */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal] {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
 	}
 </style>

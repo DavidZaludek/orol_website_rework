@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { reveal } from '$lib/reveal';
+
 	type Photo = { src: string; thumb: string; alt: string };
 
 	const fullModules = import.meta.glob(
@@ -87,19 +89,24 @@
 	/>
 </svelte:head>
 
-<section class="hero">
-	<div class="container">
-		<h1>Galéria</h1>
-	</div>
-</section>
+<section class="section" aria-label="Galéria">
+	<div class="gallery">
+		<div class="gallery-row gallery-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Galéria</span>
+				<h1 class="section-title">Naša práca v obrazoch</h1>
+			</header>
+			<a href="/contact" class="head-link-cell">Navštívte nás →</a>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
 
-<section class="body-section">
-	<div class="container">
 		{#if photos.length === 0}
-			<p class="empty">
-				Galéria sa pripravuje. Onedlho tu nájdete fotografie z našej predajne a realizovaných
-				stavieb.
-			</p>
+			<div class="empty-cell">
+				<p class="empty">
+					Galéria sa pripravuje. Onedlho tu nájdete fotografie z našej predajne a realizovaných
+					stavieb.
+				</p>
+			</div>
 		{:else}
 			<div class="grid">
 				{#each photos as photo, index (photo.src)}
@@ -108,6 +115,8 @@
 						class="tile"
 						onclick={() => openLightbox(index)}
 						aria-label="Otvoriť fotografiu: {photo.alt}"
+						data-reveal
+						{@attach reveal(Math.min((index % 4) * 60, 240))}
 					>
 						<img src={photo.thumb} alt={photo.alt} class="tile-image" loading="lazy" />
 					</button>
@@ -161,28 +170,111 @@
 </dialog>
 
 <style>
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
 	}
 
-	.hero {
-		background-color: var(--color-brand-dark);
-		padding: var(--space-hero-y) 0;
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--color-brand-primary);
 	}
 
-	.hero h1 {
-		margin: 0;
-		font-size: var(--font-size-h1);
-		font-weight: 800;
-		color: var(--text-on-dark);
-		letter-spacing: 0.02em;
+	.eyebrow::before {
+		content: '';
+		width: 24px;
+		height: 3px;
+		background-color: var(--color-brand-primary);
 	}
 
-	.body-section {
+	.section-title {
+		margin: 0.35rem 0 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
+		font-weight: 700;
+		line-height: 1.02;
+		text-transform: uppercase;
+		letter-spacing: 0.015em;
+		color: var(--color-iron);
+	}
+
+	.head-cell {
+		flex: 4 1 0;
+		min-width: 0;
 		background-color: var(--color-white);
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
+	}
+
+	.head-link-cell {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-align: center;
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
+	}
+
+	.head-link-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	.acc {
+		flex: 0 0 90px;
+	}
+
+	.acc--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
+		}
+
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* ===== Gallery canvas ===== */
+	.gallery {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.gallery-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	.empty-cell {
+		background-color: var(--color-white);
+		padding: 3rem 1.5rem;
 	}
 
 	.empty {
@@ -190,53 +282,29 @@
 		text-align: center;
 		font-size: var(--font-size-body);
 		color: var(--text-muted);
-		padding: 3rem 0;
 	}
 
+	/* Photo cells — editorial: tiles keep their natural color. */
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
-	}
-
-	@media (max-width: 900px) {
-		.grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (max-width: 600px) {
-		.grid {
-			grid-template-columns: 1fr;
-		}
+		grid-template-columns: repeat(4, 1fr);
+		gap: 5px;
 	}
 
 	.tile {
-		position: relative;
 		display: block;
 		padding: 0;
 		margin: 0;
 		border: 0;
-		background: none;
-		border-radius: var(--radius-md);
+		background-color: var(--color-white);
 		overflow: hidden;
-		box-shadow: var(--shadow-card);
 		cursor: pointer;
 		aspect-ratio: 1 / 1;
-		transition:
-			box-shadow var(--transition-fast),
-			transform var(--transition-fast);
-	}
-
-	.tile:hover,
-	.tile:focus-visible {
-		transform: translateY(-3px);
-		box-shadow: var(--shadow-float-hover);
 	}
 
 	.tile:focus-visible {
-		outline: 2px solid var(--color-brand-primary);
-		outline-offset: 2px;
+		outline: 3px solid var(--color-brand-primary);
+		outline-offset: -3px;
 	}
 
 	.tile-image {
@@ -244,7 +312,7 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
-		transition: transform var(--transition-fast);
+		transition: transform var(--transition-medium);
 	}
 
 	.tile:hover .tile-image,
@@ -252,6 +320,7 @@
 		transform: scale(1.04);
 	}
 
+	/* ===== Lightbox ===== */
 	.lightbox {
 		padding: 0;
 		border: 0;
@@ -265,7 +334,7 @@
 	}
 
 	.lightbox::backdrop {
-		background-color: rgba(0, 0, 0, 0.85);
+		background-color: rgba(30, 32, 34, 0.94);
 	}
 
 	.lightbox-inner {
@@ -282,8 +351,6 @@
 		max-height: 90vh;
 		object-fit: contain;
 		display: block;
-		border-radius: var(--radius-md);
-		box-shadow: var(--shadow-float);
 	}
 
 	.lightbox-close,
@@ -292,10 +359,9 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background-color: rgba(0, 0, 0, 0.45);
+		background-color: var(--color-iron);
 		color: var(--color-white);
 		border: 0;
-		border-radius: 999px;
 		cursor: pointer;
 		transition:
 			background-color var(--transition-fast),
@@ -347,11 +413,54 @@
 		bottom: 1rem;
 		left: 50%;
 		transform: translateX(-50%);
-		font-size: var(--font-size-small);
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		font-variant-numeric: tabular-nums;
 		color: var(--color-white);
-		background-color: rgba(0, 0, 0, 0.5);
-		padding: 0.35rem 0.75rem;
-		border-radius: var(--radius-sm);
+		background-color: var(--color-iron);
+		padding: 0.35rem 0.9rem;
+	}
+
+	/* ===== Responsive ===== */
+	@media (max-width: 1100px) {
+		.grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (max-width: 800px) {
+		.gallery {
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.gallery-row {
+			gap: 4px;
+		}
+
+		.gallery-row--head {
+			flex-direction: column;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.head-link-cell {
+			padding: 0.9rem;
+		}
+
+		.acc {
+			flex: none;
+			min-height: 22px;
+		}
+
+		.grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 4px;
+		}
 	}
 
 	@media (max-width: 600px) {
@@ -371,6 +480,19 @@
 		.lightbox-image {
 			max-width: 95vw;
 			max-height: 85vh;
+		}
+	}
+
+	/* ===== Reduced motion ===== */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal] {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.tile-image {
+			transition: none;
 		}
 	}
 </style>

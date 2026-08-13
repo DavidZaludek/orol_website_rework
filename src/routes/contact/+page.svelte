@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
-	import { contact, company } from '$lib/site';
+	import { contact, company, openingHours } from '$lib/site';
 	import GoogleMap from '$lib/components/GoogleMap.svelte';
 	import OrolMap from '$lib/components/OrolMap.svelte';
+	import { reveal } from '$lib/reveal';
 
 	const useGoogleMap = Boolean(env.PUBLIC_GOOGLE_MAPS_KEY);
 
@@ -28,20 +29,22 @@
 	/>
 </svelte:head>
 
-<!-- Hero -->
-<section class="hero">
-	<div class="container">
-		<h1>Kontakt</h1>
-	</div>
-</section>
+<section class="section" aria-label="Kontakt">
+	<div class="contact">
+		<div class="contact-row contact-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Kontakt</span>
+				<h1 class="section-title">Navštívte nás</h1>
+				<p class="head-note">{contact.address.street}, {contact.address.city}</p>
+			</header>
+			<a href={contact.phoneHref} class="head-link-cell">{contact.phone}</a>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
 
-<!-- Company info + map -->
-<section class="info-section">
-	<div class="container">
-		<div class="info-grid">
-			<!-- Left: company details -->
-			<div class="company-info">
-				<h2 class="section-heading">{company.name}</h2>
+		<!-- Company info + map -->
+		<div class="contact-row">
+			<div class="info-cell" data-reveal {@attach reveal()}>
+				<h2 class="info-title">{company.name}</h2>
 
 				<dl class="detail-list">
 					<div class="detail-row">
@@ -53,25 +56,34 @@
 					</div>
 
 					<div class="detail-row">
-						<dt class="detail-label">E-mail</dt>
-						<dd class="detail-value">
-							<a href={contact.emailHref} class="contact-link">
-								{contact.email}
-							</a>
-						</dd>
-					</div>
-
-					<div class="detail-row">
 						<dt class="detail-label">Telefón</dt>
 						<dd class="detail-value">
 							<a href={contact.phoneHref} class="contact-link">{contact.phone}</a>
 						</dd>
 					</div>
+
+					<div class="detail-row">
+						<dt class="detail-label">E-mail</dt>
+						<dd class="detail-value">
+							<a href={contact.emailHref} class="contact-link">{contact.email}</a>
+						</dd>
+					</div>
 				</dl>
+
+				<h3 class="hours-title">Otváracie hodiny</h3>
+				<table class="hours">
+					<tbody>
+						{#each openingHours as row (row.day)}
+							<tr>
+								<th scope="row">{row.day}</th>
+								<td class:closed={row.hours === 'Zatvorené'}>{row.hours}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			</div>
 
-			<!-- Right: map -->
-			<div class="map-wrapper">
+			<div class="map-cell" data-reveal {@attach reveal(120)}>
 				{#if useGoogleMap}
 					<GoogleMap />
 				{:else}
@@ -79,22 +91,26 @@
 				{/if}
 			</div>
 		</div>
-	</div>
-</section>
 
-<!-- Staff cards -->
-<section class="staff-section">
-	<div class="container">
+		<!-- Staff -->
+		<div class="contact-row contact-row--staffhead">
+			<div class="staff-head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Kontaktné osoby</span>
+			</div>
+			<div class="acc acc--blue" aria-hidden="true"></div>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
+
 		<div class="staff-grid">
-			{#each staff as person (person.name)}
-				<div class="staff-card">
-					<div class="staff-header">
-						<p class="staff-name">{person.name}</p>
-						<span class="staff-role">{person.role}</span>
-					</div>
-					<a href="tel:{person.mobile.replace(/\s/g, '')}" class="staff-mobile">
-						{person.mobile}
-					</a>
+			{#each staff as person, i (person.name)}
+				<div class="person-cell" data-reveal {@attach reveal(Math.min(i * 60, 300))}>
+					<p class="person-name">{person.name}</p>
+					<span class="person-role">{person.role}</span>
+					{#if person.mobile}
+						<a href="tel:{person.mobile.replace(/\s/g, '')}" class="person-phone">
+							{person.mobile}
+						</a>
+					{/if}
 				</div>
 			{/each}
 		</div>
@@ -102,53 +118,134 @@
 </section>
 
 <style>
-	/* ---- Shared ---- */
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
 	}
 
-	.section-heading {
-		margin: 0 0 2rem;
-		font-size: var(--font-size-h2);
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--color-brand-primary);
+	}
+
+	.eyebrow::before {
+		content: '';
+		width: 24px;
+		height: 3px;
+		background-color: var(--color-brand-primary);
+	}
+
+	.section-title {
+		margin: 0.35rem 0 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
 		font-weight: 700;
-		color: var(--color-brand-dark);
+		line-height: 1.02;
+		text-transform: uppercase;
+		letter-spacing: 0.015em;
+		color: var(--color-iron);
 	}
 
-	/* ---- Hero ---- */
-	.hero {
-		background-color: var(--color-brand-dark);
-		padding: var(--space-hero-y) 0;
-	}
-
-	.hero h1 {
-		margin: 0;
-		font-size: var(--font-size-h1);
-		font-weight: 800;
-		color: var(--text-on-dark);
-		letter-spacing: 0.02em;
-	}
-
-	/* ---- Info section ---- */
-	.info-section {
-		padding: var(--space-section-y) 0;
+	.head-cell {
+		flex: 4 1 0;
+		min-width: 0;
 		background-color: var(--color-white);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.info-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 3rem;
-		align-items: start;
+	.head-note {
+		margin: 0.6rem 0 0;
+		font-size: var(--font-size-small);
+		color: var(--text-muted);
+		max-width: 60ch;
+		line-height: 1.55;
 	}
 
-	/* ---- Detail list ---- */
+	.head-link-cell {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-align: center;
+		text-decoration: none;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		transition: background-color var(--transition-fast);
+	}
+
+	.head-link-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
+		}
+
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* ===== Contact canvas ===== */
+	.contact {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.contact-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	/* Info cell */
+	.info-cell {
+		flex: 5 1 0;
+		min-width: 0;
+		background-color: var(--color-white);
+		padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem) 2rem;
+	}
+
+	.info-title {
+		margin: 0 0 1.5rem;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-md);
+		font-weight: 700;
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-iron);
+	}
+
 	.detail-list {
 		margin: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: 1.1rem;
 	}
 
 	.detail-row {
@@ -158,18 +255,19 @@
 	}
 
 	.detail-label {
-		font-size: 0.8rem;
-		font-weight: 700;
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: var(--text-muted);
-		padding-top: 0.15rem;
+		letter-spacing: 0.1em;
+		color: var(--color-slate);
+		padding-top: 0.1rem;
 	}
 
 	.detail-value {
 		margin: 0;
 		font-size: 1rem;
-		color: var(--text-on-light);
+		color: var(--color-iron);
 		line-height: 1.6;
 	}
 
@@ -182,110 +280,198 @@
 
 	.contact-link:hover {
 		color: var(--color-brand-hover);
+		text-decoration: underline;
 	}
 
-	/* ---- Map ---- */
-	.map-wrapper {
-		position: relative;
-		height: 340px;
-		border-radius: var(--radius-sm);
-		overflow: hidden;
-		border: 1px solid var(--border-default);
+	/* Opening hours */
+	.hours-title {
+		margin: 2rem 0 0.75rem;
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-slate);
 	}
 
-	.map-wrapper::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 5px;
-		background: var(--mondrian-rule);
-		z-index: 2;
+	.hours {
+		width: 100%;
+		max-width: 320px;
+		border-collapse: collapse;
 	}
 
-	.map-wrapper :global(.map) {
-		min-height: 338px;
-	}
-
-	/* ---- Staff section ---- */
-	.staff-section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-		background-color: var(--surface-alt);
-	}
-
-	.staff-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-	}
-
-	.staff-card {
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-radius: var(--radius-md);
-		padding: 1.75rem 1.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.staff-header {
-		display: flex;
-		align-items: baseline;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-	}
-
-	.staff-name {
-		margin: 0;
-		font-size: 1.25rem;
-		font-weight: 800;
-		color: var(--color-iron);
-		line-height: 1.2;
-		white-space: nowrap;
-	}
-
-	.staff-role {
-		font-size: 1rem;
+	.hours th {
+		padding: 0.3rem 0;
+		text-align: left;
+		font-size: var(--font-size-small);
 		font-weight: 500;
 		color: var(--text-muted);
 	}
 
-	.staff-mobile {
-		margin-top: 0.25rem;
-		font-size: 0.95rem;
-		font-weight: 500;
+	.hours td {
+		padding: 0.3rem 0;
+		text-align: right;
+		font-size: var(--font-size-small);
+		font-variant-numeric: tabular-nums;
+		color: var(--color-iron);
+	}
+
+	.hours td.closed {
+		color: var(--color-slate);
+	}
+
+	/* Map cell */
+	.map-cell {
+		flex: 7 1 0;
+		min-width: 0;
+		display: flex;
+		min-height: 380px;
+		background-color: var(--color-white);
+	}
+
+	.map-cell :global(.map) {
+		flex: 1 1 auto;
+		width: 100%;
+	}
+
+	/* Staff band */
+	.staff-head-cell {
+		flex: 4 1 0;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		background-color: var(--color-white);
+		padding: 1.1rem clamp(1.25rem, 3vw, 2.5rem);
+	}
+
+	.staff-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 5px;
+	}
+
+	.person-cell {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+		background-color: var(--color-white);
+		padding: 1.4rem 1.5rem 1.5rem;
+	}
+
+	.person-name {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 600;
+		line-height: 1.1;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		color: var(--color-iron);
+	}
+
+	.person-role {
+		font-size: var(--font-size-small);
+		color: var(--text-muted);
+	}
+
+	.person-phone {
+		margin-top: 0.4rem;
+		font-size: var(--font-size-small);
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
 		color: var(--color-brand-primary);
 		text-decoration: none;
 		transition: color var(--transition-fast);
 	}
 
-	.staff-mobile:hover {
+	.person-phone:hover {
 		color: var(--color-brand-hover);
+		text-decoration: underline;
 	}
 
-	/* ---- Responsive ---- */
-	@media (max-width: 768px) {
-		.info-grid {
+	/* Accent cells */
+	.acc {
+		flex: 0 0 90px;
+	}
+
+	.acc--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--blue {
+		background-color: var(--color-accent-blue);
+	}
+
+	/* ===== Responsive ===== */
+	@media (max-width: 1000px) {
+		.staff-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 800px) {
+		.contact {
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.contact-row {
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.head-link-cell {
+			padding: 0.9rem;
+		}
+
+		.info-cell {
+			padding: 1.4rem 1.2rem 1.6rem;
+		}
+
+		.map-cell {
+			min-height: 320px;
+		}
+
+		.staff-head-cell {
+			padding: 1rem 1.2rem;
+		}
+
+		.staff-grid {
+			gap: 4px;
+		}
+
+		.person-cell {
+			padding: 1.1rem 1.2rem 1.25rem;
+		}
+
+		.acc {
+			flex: none;
+			min-height: 22px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.staff-grid {
 			grid-template-columns: 1fr;
 		}
 
-		.map-wrapper {
-			height: 280px;
-		}
-	}
-
-	@media (max-width: 600px) {
 		.detail-row {
 			grid-template-columns: 1fr;
 			gap: 0.25rem;
 		}
+	}
 
-		.staff-header {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.25rem;
+	/* ===== Reduced motion ===== */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal] {
+			opacity: 1;
+			transform: none;
+			transition: none;
 		}
 	}
 </style>

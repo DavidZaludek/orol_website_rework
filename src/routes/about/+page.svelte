@@ -1,5 +1,9 @@
 <script lang="ts">
 	import ownerPhoto from '$lib/assets/koloman_zaludek.jpg';
+	import { reveal } from '$lib/reveal';
+
+	const motto =
+		'Spokojný zákazník je zárukou prosperity firmy. Prosperujúca firma je zárukou spokojnosti pracovníkov. Spokojný a aktívny pracovník je zárukou spokojnosti zákazníkov.';
 </script>
 
 <svelte:head>
@@ -10,18 +14,23 @@
 	/>
 </svelte:head>
 
-<!-- Hero -->
-<section class="hero">
-	<div class="container">
-		<h1>O nás</h1>
-	</div>
-</section>
+<section class="section" aria-label="O nás">
+	<div class="story">
+		<div class="story-row story-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">O nás</span>
+				<h1 class="section-title">O nás</h1>
+				<p class="head-note">
+					Predaj stavebného materiálu a doplnkové služby v Liptovskom Mikuláši od roku 1998.
+				</p>
+			</header>
+			<a href="/contact" class="head-link-cell">Kontaktujte nás →</a>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
 
-<!-- Owner letter -->
-<section class="letter-section">
-	<div class="container">
-		<div class="letter-grid">
-			<div class="letter-col">
+		<!-- Owner letter -->
+		<div class="story-row">
+			<div class="letter-cell" data-reveal {@attach reveal()}>
 				<p>Vážení zákazníci,</p>
 				<p>
 					Naša spoločnosť Stavebniny OROL s.r.o sa zaoberá predajom stavebného materiálu a
@@ -68,173 +77,288 @@
 				<p class="sign-off">Ing. Koloman ŽALÚDEK, Majiteľ spoločnosti OROL, spol. s r.o.</p>
 			</div>
 
-			<div class="photo-col">
+			<div class="photo-cell" data-reveal {@attach reveal(120)}>
 				<img
 					src={ownerPhoto}
 					alt="Ing. Koloman Žalúdek, majiteľ spoločnosti Stavebniny Orol"
-					class="owner-photo"
+					loading="lazy"
 				/>
-				<p class="owner-caption">
-					<strong>Ing. Koloman ŽALÚDEK</strong><br />
-					Majiteľ spoločnosti OROL, spol. s r.o.
-				</p>
+				<span class="photo-caption">Ing. Koloman Žalúdek · Majiteľ</span>
 			</div>
-		</div>
-	</div>
-</section>
 
-<!-- Motto + Vision -->
-<section class="mv-section">
-	<div class="container">
-		<div class="mv-grid">
-			<div class="motto-col">
-				<h2 class="section-heading">Naše motto</h2>
-				<ul class="motto-list">
-					<li class="motto-item">Spokojný zákazník je zárukou prosperity firmy.</li>
-					<li class="motto-item">Prosperujúca firma je zárukou spokojnosti pracovníkov.</li>
-					<li class="motto-item">
-						Spokojný a aktívny pracovník je zárukou spokojnosti zákazníkov.
-					</li>
-				</ul>
+			<div class="acc acc--blue" aria-hidden="true"></div>
+		</div>
+
+		<!-- Motto -->
+		<div class="story-row">
+			<div class="motto-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Naše motto</span>
+				<blockquote class="motto">{motto}</blockquote>
 			</div>
+			<div class="acc acc--red" aria-hidden="true"></div>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 	</div>
 </section>
 
 <style>
-	/* ---- Shared ---- */
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
 	}
 
-	.section-heading {
-		margin: 0 0 2rem;
-		font-size: var(--font-size-h2);
-		font-weight: 700;
-		color: var(--color-brand-dark);
-	}
-
-	/* ---- Hero ---- */
-	.hero {
-		background-color: var(--color-brand-dark);
-		padding: var(--space-hero-y) 0;
-	}
-
-	.hero h1 {
-		margin: 0;
-		font-size: var(--font-size-h1);
-		font-weight: 800;
-		color: var(--text-on-dark);
-		letter-spacing: 0.02em;
-	}
-
-	/* ---- Letter section ---- */
-	.letter-section {
-		padding: var(--space-section-y) 0;
-		background-color: var(--color-white);
-	}
-
-	.letter-grid {
-		display: grid;
-		grid-template-columns: 1fr 320px;
-		gap: 3rem;
-		align-items: start;
-	}
-
-	.photo-col {
-		display: flex;
-		flex-direction: column;
+	.eyebrow {
+		display: inline-flex;
 		align-items: center;
-		gap: 1rem;
-	}
-
-	.owner-photo {
-		width: 100%;
-		max-width: 320px;
-		aspect-ratio: 3 / 4;
-		object-fit: cover;
-		border-radius: var(--radius-lg);
-		display: block;
-	}
-
-	.owner-caption {
-		margin: 0;
-		text-align: center;
-		font-size: 0.95rem;
-		color: var(--text-muted);
-		line-height: 1.6;
-	}
-
-	.owner-caption strong {
-		color: var(--text-on-light);
+		gap: 0.6rem;
+		font-family: var(--font-display);
+		font-weight: 600;
 		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: var(--color-brand-primary);
 	}
 
-	.letter-col {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+	.eyebrow::before {
+		content: '';
+		width: 24px;
+		height: 3px;
+		background-color: var(--color-brand-primary);
 	}
 
-	.letter-col p {
-		margin: 0;
-		font-size: 1rem;
-		line-height: 1.75;
-		color: var(--text-on-light);
+	.section-title {
+		margin: 0.35rem 0 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
+		font-weight: 700;
+		line-height: 1.02;
+		text-transform: uppercase;
+		letter-spacing: 0.015em;
+		color: var(--color-iron);
 	}
 
-	.sign-off {
-		margin-top: 0.5rem !important;
-		font-style: italic;
-		color: var(--text-muted) !important;
-		font-size: 0.95rem !important;
-	}
-
-	/* ---- Motto + Vision section ---- */
-	.mv-section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-		background-color: var(--surface-alt);
-	}
-
-	.mv-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 3rem;
-	}
-
-	.motto-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-	}
-
-	.motto-item {
-		font-size: var(--font-size-body);
-		font-style: italic;
-		font-weight: 500;
-		color: var(--text-on-light);
-		line-height: 1.6;
-		padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+	.head-cell {
+		flex: 4 1 0;
+		min-width: 0;
 		background-color: var(--color-white);
-		border-radius: var(--radius-sm);
-		border-left: 4px solid var(--color-brand-primary);
-		box-shadow: var(--shadow-card);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	/* ---- Responsive ---- */
-	@media (max-width: 768px) {
-		.letter-grid {
-			grid-template-columns: 1fr;
+	.head-note {
+		margin: 0.6rem 0 0;
+		font-size: var(--font-size-small);
+		color: var(--text-muted);
+		max-width: 60ch;
+		line-height: 1.55;
+	}
+
+	.head-link-cell {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-align: center;
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
+	}
+
+	.head-link-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
 		}
 
-		.owner-photo {
-			aspect-ratio: 1 / 1;
-			max-width: 220px;
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* ===== Story canvas ===== */
+	.story {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.story-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	/* Owner letter — white prose cell at a readable measure */
+	.letter-cell {
+		flex: 7 1 0;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+		background-color: var(--color-white);
+	}
+
+	.letter-cell p {
+		margin: 0;
+		max-width: 62ch;
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--color-iron);
+	}
+
+	.letter-cell .sign-off {
+		margin-top: 0.5rem;
+		font-style: italic;
+		font-size: 0.95rem;
+		color: var(--text-muted);
+	}
+
+	/* Owner photo — monochrome with light red multiply, caption chip */
+	.photo-cell {
+		flex: 4 1 0;
+		min-width: 0;
+		position: relative;
+		overflow: hidden;
+		min-height: 420px;
+		background-color: var(--color-white);
+	}
+
+	.photo-cell img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.08) brightness(0.97);
+	}
+
+	.photo-cell::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(160deg, rgba(192, 40, 28, 0.16) 0%, rgba(30, 32, 34, 0.32) 100%);
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	.photo-caption {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		z-index: 1;
+		background-color: var(--color-iron);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		padding: 0.5rem 1rem;
+	}
+
+	/* Motto — one continuous statement */
+	.motto-cell {
+		flex: 8 1 0;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.9rem;
+		padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem) 2rem;
+		background-color: var(--color-white);
+	}
+
+	.motto {
+		margin: 0;
+		padding: 0.9rem 1.25rem;
+		border-left: 3px solid var(--color-brand-primary);
+		background-color: var(--color-chalk);
+		max-width: 54ch;
+		font-size: var(--font-size-small);
+		font-weight: 500;
+		font-style: italic;
+		line-height: 1.7;
+		color: var(--color-steel);
+	}
+
+	/* Accent cells */
+	.acc {
+		flex: 0 0 90px;
+	}
+
+	.acc--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--blue {
+		background-color: var(--color-accent-blue);
+	}
+
+	.acc--red {
+		background-color: var(--color-brand-primary);
+	}
+
+	/* ===== Mobile: bands stack ===== */
+	@media (max-width: 800px) {
+		.story {
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.story-row {
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.head-link-cell {
+			padding: 0.9rem;
+		}
+
+		.letter-cell {
+			padding: 1.4rem 1.2rem 1.6rem;
+		}
+
+		.photo-cell {
+			min-height: 300px;
+		}
+
+		.motto-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.acc {
+			flex: none;
+			min-height: 22px;
+		}
+	}
+
+	/* ===== Reduced motion ===== */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal] {
+			opacity: 1;
+			transform: none;
+			transition: none;
 		}
 	}
 </style>
