@@ -1,0 +1,76 @@
+media:
+  input: static/images
+  output: /images
+
+content:
+  - name: posts
+    label: Aktuality
+    type: collection
+    path: src/lib/posts
+    filename: '{primary}.md'
+    view:
+      primary: title
+      sort: date
+      order: desc
+      fields: [title, date, draft]
+    fields:
+      - name: title
+        label: Nadpis
+        type: string
+        required: true
+      - name: date
+        label: Dátum
+        type: date
+        required: true
+      - name: excerpt
+        label: Perex (krátky úvod v zozname článkov)
+        type: text
+        required: true
+      - name: image
+        label: Úvodný obrázok
+        type: image
+      - name: draft
+        label: Koncept (nezobrazí sa na webe)
+        type: boolean
+        default: false
+      - name: body
+        label: Text článku
+        type: rich-text
+
+  - name: promotions
+    label: Akcie
+    type: collection
+    path: src/lib/promotions
+    filename: '{primary}.md'
+    view:
+      primary: title
+      sort: date
+      order: desc
+      fields: [title, date, validUntil, draft]
+    fields:
+      - name: title
+        label: Názov akcie
+        type: string
+        required: true
+      - name: date
+        label: Dátum zverejnenia
+        type: date
+        required: true
+      - name: validUntil
+        label: Platí do
+        type: date
+        required: true
+      - name: excerpt
+        label: Perex (krátky úvod v zozname akcií)
+        type: text
+        required: true
+      - name: image
+        label: Úvodný obrázok
+        type: image
+      - name: draft
+        label: Koncept (nezobrazí sa na webe)
+        type: boolean
+        default: false
+      - name: body
+        label: Text akcie
+        type: rich-text

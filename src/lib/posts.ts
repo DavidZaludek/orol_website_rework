@@ -47,12 +47,15 @@ export function getAllPosts(): PostMeta[] {
 			const { data } = parseFrontmatter(raw);
 			return {
 				slug: slugFromPath(path),
+				draft: data.draft === 'true',
 				title: data.title ?? '',
 				date: data.date ?? '',
 				excerpt: data.excerpt ?? '',
 				image: data.image ?? ''
 			};
 		})
+		.filter((post) => !post.draft)
+		.map(({ draft: _draft, ...post }) => post)
 		.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
@@ -61,6 +64,7 @@ export function getPost(slug: string): Post | undefined {
 	if (!entry) return undefined;
 
 	const { data, content } = parseFrontmatter(entry[1]);
+	if (data.draft === 'true') return undefined;
 	return {
 		slug,
 		title: data.title ?? '',
