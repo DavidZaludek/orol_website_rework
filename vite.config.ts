@@ -7,5 +7,9 @@ export default defineConfig({
 		// Pre-bundling breaks maplibre-gl's ESM worker (its sibling-chunk
 		// imports 404 under .vite/deps); serve it from source instead.
 		exclude: ['maplibre-gl']
+	},
+	server: {
+		// Allow access through Cloudflare quick tunnels (phone testing).
+		allowedHosts: ['.trycloudflare.com']
 	}
 });

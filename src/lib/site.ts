@@ -35,12 +35,12 @@ export const openingHours = [
 ] as const;
 
 export const navLinks = [
-	{ href: '/#sluzby', label: 'Služby' },
-	{ href: '/#sortiment', label: 'Produkty' },
-	{ href: '/#akcie', label: 'Akcie' },
+	{ href: '/services', label: 'Služby' },
+	{ href: '/products', label: 'Produkty' },
+	{ href: '/promotions', label: 'Akcie' },
 	{ href: '/news', label: 'Aktuality' },
 	{ href: '/gallery', label: 'Galéria' },
-	{ href: '/#o-nas', label: 'O nás' },
+	{ href: '/about', label: 'O nás' },
 	{ href: '/contact', label: 'Kontakt' }
 ] as const;
 
