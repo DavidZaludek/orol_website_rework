@@ -123,79 +123,82 @@
 	/>
 </svelte:head>
 
-<section class="hero">
-	<div class="container hero-grid">
-		<div class="hero-copy">
-			<a href="/#sluzby" class="back-link">← Späť na služby</a>
+<section class="section" aria-label="Požičovňa náradia">
+	<!-- 1. Hero composition -->
+	<div class="canvas hero-canvas">
+		<div class="copy-cell" data-reveal {@attach reveal()}>
+			<a href="/services" class="back-link">← Späť na služby</a>
 			<span class="eyebrow">Služby · Prenájom</span>
 			<h1 class="hero-title">Náradie, ktoré <span class="hero-accent">odvedie robotu.</span></h1>
 			<p class="hero-lead">
-				Od búracieho kladiva po lešenie. Požičajte si profesionálne vybavenie na jeden deň,
-				víkend alebo dlhšie — bez toho, aby ste ho museli kupovať.
+				Od búracieho kladiva po lešenie. Požičajte si profesionálne vybavenie na jeden deň, víkend
+				alebo dlhšie — bez toho, aby ste ho museli kupovať.
 			</p>
 			<div class="hero-actions">
 				<a href={contact.phoneHref} class="btn btn--primary">Overiť dostupnosť</a>
 				<a href="/contact" class="btn btn--ghost">Kde nás nájdete</a>
 			</div>
-			<p class="hero-availability">
-				<span aria-hidden="true"></span> Aktuálnu dostupnosť potvrdíme telefonicky
-			</p>
+			<p class="hero-availability">Aktuálnu dostupnosť potvrdíme telefonicky</p>
 		</div>
-		<div class="hero-media" data-reveal {@attach reveal(80)}>
+		<div class="photo-cell" data-reveal {@attach reveal(80)}>
 			<img src={demolitionPhoto} alt="Hilti búracie kladivo z požičovne Stavebnín Orol" />
-			<div class="hero-stamp" aria-hidden="true">
-				<strong>30+</strong>
-				<span>druhov<br />vybavenia</span>
-			</div>
 		</div>
+		<div class="stat-cell" data-reveal {@attach reveal(140)}>
+			<strong>30+</strong>
+			<span>druhov<br />vybavenia</span>
+		</div>
+		<div class="acc acc--hy" aria-hidden="true"></div>
+		<div class="acc acc--hb" aria-hidden="true"></div>
 	</div>
-</section>
 
-<section class="section section--catalogue" id="ponuka">
-	<div class="container">
-		<header class="section-head" data-reveal {@attach reveal()}>
-			<div>
-				<span class="eyebrow">Čo si požičiate</span>
-				<h2 class="section-title">Vybavenie podľa práce</h2>
-			</div>
-			<p class="section-note">
-				Ponuka vychádza z nášho vybavenia. Konkrétny model a voľný termín si overte pred
-				príchodom.
-			</p>
+	<!-- 2. Catalogue composition -->
+	<div class="canvas cat-canvas" id="ponuka">
+		<header class="head-cell" data-reveal {@attach reveal()}>
+			<span class="eyebrow">Čo si požičiate</span>
+			<h2 class="section-title">Vybavenie podľa práce</h2>
 		</header>
-
-		<div class="equipment-grid">
-			{#each categories as category, i (category.title)}
-				<article class="equipment-card" data-reveal {@attach reveal(Math.min(i * 45, 225))}>
-					<div class="equipment-image">
-						<img src={category.image} alt={category.alt} loading="lazy" />
-						<span>{String(i + 1).padStart(2, '0')}</span>
-					</div>
-					<div class="equipment-copy">
-						<h3>{category.title}</h3>
-						<ul>
-							{#each category.items as item (item)}
-								<li>{item}</li>
-							{/each}
-						</ul>
-					</div>
-				</article>
-			{/each}
-		</div>
-
-		<div class="catalogue-note" data-reveal {@attach reveal()}>
-			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.7 2.4 17.4A2 2 0 0 0 4.1 20h15.8a2 2 0 0 0 1.7-2.6L13.7 3.7a2 2 0 0 0-3.4 0Z" /></svg>
+		<div class="note-cell" data-reveal {@attach reveal(80)}>
 			<p>
-				Nenašli ste presne to, čo potrebujete? <a href={contact.phoneHref}>Zavolajte nám na {contact.phone}</a>
+				Ponuka vychádza z nášho vybavenia. Konkrétny model a voľný termín si overte pred príchodom.
+			</p>
+		</div>
+		<div class="acc acc--cy" aria-hidden="true"></div>
+
+		{#each categories as category, i (category.title)}
+			<article class="equip-cell" data-reveal {@attach reveal(Math.min((i % 2) * 80, 160))}>
+				<div class="equip-photo">
+					<img src={category.image} alt={category.alt} loading="lazy" />
+					<span class="equip-no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+				</div>
+				<div class="equip-copy">
+					<h3>{category.title}</h3>
+					<ul>
+						{#each category.items as item (item)}
+							<li>{item}</li>
+						{/each}
+					</ul>
+				</div>
+			</article>
+		{/each}
+
+		<div class="call-cell" data-reveal {@attach reveal()}>
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<path
+					d="M12 9v4m0 4h.01M10.3 3.7 2.4 17.4A2 2 0 0 0 4.1 20h15.8a2 2 0 0 0 1.7-2.6L13.7 3.7a2 2 0 0 0-3.4 0Z"
+				/>
+			</svg>
+			<p>
+				Nenašli ste presne to, čo potrebujete?
+				<a href={contact.phoneHref}>Zavolajte nám na {contact.phone}</a>
 				— ponuka a dostupnosť vybavenia sa priebežne menia.
 			</p>
 		</div>
+		<div class="acc acc--cr" aria-hidden="true"></div>
 	</div>
-</section>
 
-<section class="section section--process">
-	<div class="container split-grid">
-		<div data-reveal {@attach reveal()}>
+	<!-- 3. Process + conditions composition -->
+	<div class="canvas process-canvas">
+		<div class="steps-cell" data-reveal {@attach reveal()}>
 			<span class="eyebrow">Postup</span>
 			<h2 class="section-title section-title--sm">Tri kroky a môžete pracovať</h2>
 			<ol class="steps">
@@ -210,36 +213,40 @@
 				{/each}
 			</ol>
 		</div>
-		<div class="conditions-panel" data-reveal {@attach reveal(120)}>
+		<div class="cond-cell" data-reveal {@attach reveal(120)}>
 			<span class="eyebrow eyebrow--light">Podmienky</span>
-			<h2 class="section-title section-title--sm section-title--light">Čo potrebujete pri prevzatí</h2>
+			<h2 class="section-title section-title--sm section-title--light">
+				Čo potrebujete pri prevzatí
+			</h2>
 			<ul class="conditions">
 				{#each conditions as condition (condition)}
 					<li>{condition}</li>
 				{/each}
 			</ul>
 		</div>
+		<div class="acc acc--py" aria-hidden="true"></div>
 	</div>
-</section>
 
-<section class="cta-band">
-	<div class="container cta-inner">
-		<div>
+	<!-- 4. CTA composition -->
+	<div class="canvas cta-canvas">
+		<div class="cta-cell" data-reveal {@attach reveal()}>
 			<h2 class="cta-title">Povedzte nám, čo idete robiť</h2>
 			<p class="cta-sub">Pomôžeme vybrať správny stroj a overíme jeho dostupnosť.</p>
+			<div class="cta-actions">
+				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
+				<a href={contact.emailHref} class="cta-mail">Napísať e-mail</a>
+			</div>
 		</div>
-		<div class="cta-actions">
-			<a href={contact.phoneHref} class="btn btn--primary">{contact.phone}</a>
-			<a href={contact.emailHref} class="btn btn--light">Napísať e-mail</a>
-		</div>
+		<div class="acc acc--ty" aria-hidden="true"></div>
 	</div>
 </section>
 
 <style>
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-section-y-end, 4rem);
 	}
 
 	.eyebrow {
@@ -265,18 +272,6 @@
 		color: var(--color-white);
 	}
 
-	.section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-	}
-
-	.section-head {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 2rem;
-		margin-bottom: 2.75rem;
-	}
-
 	.section-title {
 		margin: 0.35rem 0 0;
 		font-family: var(--font-display);
@@ -297,95 +292,32 @@
 		color: var(--color-white);
 	}
 
-	.section-note {
-		margin: 0;
-		max-width: 39ch;
-		text-align: right;
-		font-size: var(--font-size-small);
-		color: var(--text-muted);
-		line-height: 1.55;
-	}
-
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.85rem 1.5rem;
-		font-family: var(--font-display);
-		font-size: 1.05rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.07em;
-		text-decoration: none;
-		border-radius: var(--radius-sm);
-		transition:
-			background-color var(--transition-fast),
-			border-color var(--transition-fast),
-			color var(--transition-fast),
-			transform var(--transition-fast);
-	}
-
-	.btn:hover {
-		transform: translateY(-2px);
-	}
-
-	.btn:focus-visible,
-	.back-link:focus-visible,
-	.catalogue-note a:focus-visible {
-		outline: 3px solid var(--color-brand-hover);
-		outline-offset: 3px;
-	}
-
-	.btn--primary {
-		background-color: var(--color-brand-primary);
-		color: var(--color-white);
-	}
-
-	.btn--primary:hover {
-		background-color: var(--color-brand-hover);
-	}
-
-	.btn--ghost {
-		border: 2px solid var(--color-iron);
-		color: var(--color-iron);
-	}
-
-	.btn--ghost:hover {
-		border-color: var(--color-brand-primary);
-		color: var(--color-brand-primary);
-	}
-
-	.btn--light {
-		border: 2px solid var(--color-white);
-		color: var(--color-white);
-	}
-
-	.btn--light:hover {
-		border-color: var(--color-brand-hover);
-		color: var(--color-brand-hover);
-	}
-
-	.hero {
-		padding: clamp(2.5rem, 6vw, 5rem) 0;
-		border-bottom: 1px solid var(--border-default);
-		background-image:
-			linear-gradient(to right, rgba(30, 32, 34, 0.04) 1px, transparent 1px),
-			linear-gradient(to bottom, rgba(30, 32, 34, 0.04) 1px, transparent 1px);
-		background-size: 42px 42px;
-	}
-
-	.hero-grid {
+	/* ===== Canvases — iron ground, cells paint themselves ===== */
+	.canvas {
 		display: grid;
-		grid-template-columns: 1.02fr 0.98fr;
-		gap: clamp(2.5rem, 6vw, 5rem);
-		align-items: center;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
 	}
 
-	.hero-copy {
+	/* ===== 1. Hero ===== */
+	.hero-canvas {
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: minmax(430px, auto) 110px;
+		grid-template-areas:
+			'copy copy copy copy copy photo photo photo photo photo photo photo'
+			'copy copy copy copy copy stat  stat  stat  stat  hy    hy    hb';
+	}
+
+	.copy-cell {
+		grid-area: copy;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		justify-content: center;
 		gap: 1.1rem;
+		padding: clamp(1.75rem, 3.5vw, 3.25rem);
+		background-color: var(--color-white);
 	}
 
 	.back-link {
@@ -393,6 +325,7 @@
 		font-weight: 600;
 		color: var(--text-muted);
 		text-decoration: none;
+		transition: color var(--transition-fast);
 	}
 
 	.back-link:hover {
@@ -430,116 +363,169 @@
 		margin-top: 0.25rem;
 	}
 
-	.hero-availability {
-		display: flex;
+	.btn {
+		display: inline-flex;
 		align-items: center;
-		gap: 0.6rem;
+		justify-content: center;
+		padding: 0.85rem 1.5rem;
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		text-decoration: none;
+		transition:
+			background-color var(--transition-fast),
+			border-color var(--transition-fast),
+			color var(--transition-fast);
+	}
+
+	.btn:focus-visible,
+	.back-link:focus-visible,
+	.call-cell a:focus-visible {
+		outline: 3px solid var(--color-brand-hover);
+		outline-offset: 3px;
+	}
+
+	.btn--primary {
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+	}
+
+	.btn--primary:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	.btn--ghost {
+		border: 2px solid var(--color-iron);
+		color: var(--color-iron);
+	}
+
+	.btn--ghost:hover {
+		border-color: var(--color-brand-primary);
+		color: var(--color-brand-primary);
+	}
+
+	.hero-availability {
 		margin: 0.15rem 0 0;
 		font-size: 0.82rem;
 		font-weight: 600;
 		color: var(--text-muted);
 	}
 
-	.hero-availability span {
-		width: 0.6rem;
-		height: 0.6rem;
-		border-radius: 50%;
-		background: var(--color-brand-primary);
-		box-shadow: 0 0 0 4px rgba(192, 40, 28, 0.12);
-	}
-
-	.hero-media {
+	.photo-cell {
+		grid-area: photo;
 		position: relative;
-		min-height: 570px;
-		border-radius: var(--radius-sm);
 		overflow: hidden;
-		background: var(--color-iron);
-		box-shadow: 22px 22px 0 var(--color-brand-primary);
+		min-width: 0;
+		background-color: var(--color-white);
 	}
 
-	.hero-media::before {
-		content: '';
+	.photo-cell img {
 		position: absolute;
 		inset: 0;
-		z-index: 1;
-		background: linear-gradient(180deg, transparent 55%, rgba(30, 32, 34, 0.48));
-		pointer-events: none;
-	}
-
-	.hero-media img {
-		display: block;
 		width: 100%;
 		height: 100%;
-		min-height: 570px;
 		object-fit: cover;
+		filter: grayscale(100%) contrast(1.06) brightness(0.98);
+		transition:
+			filter var(--transition-medium),
+			transform var(--transition-medium);
 	}
 
-	.hero-stamp {
-		position: absolute;
-		right: 1rem;
-		bottom: 1rem;
-		z-index: 2;
+	@media (hover: hover) {
+		.photo-cell:hover img {
+			filter: grayscale(0%) contrast(1.02);
+			transform: scale(1.02);
+		}
+	}
+
+	.stat-cell {
+		grid-area: stat;
 		display: flex;
 		align-items: center;
-		gap: 0.7rem;
-		padding: 0.8rem 1rem;
-		background: var(--color-iron);
+		justify-content: center;
+		gap: 0.8rem;
+		padding: 0.75rem 1rem;
+		background-color: var(--color-brand-primary);
 		color: var(--color-white);
 		font-family: var(--font-display);
 		text-transform: uppercase;
 	}
 
-	.hero-stamp strong {
-		font-size: 2.5rem;
+	.stat-cell strong {
+		font-size: 3rem;
 		line-height: 0.9;
-		color: var(--color-brand-hover);
+		font-weight: 700;
 	}
 
-	.hero-stamp span {
-		font-size: 0.72rem;
-		line-height: 1.05;
+	.stat-cell span {
+		font-size: 0.78rem;
+		line-height: 1.1;
 		letter-spacing: 0.1em;
 	}
 
-	.section--catalogue {
-		background: var(--color-chalk);
+	/* ===== 2. Catalogue ===== */
+	.cat-canvas {
+		grid-template-columns: repeat(12, 1fr);
 	}
 
-	.equipment-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.25rem;
+	.head-cell {
+		grid-column: span 7;
+		background-color: var(--color-white);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.equipment-card {
+	.note-cell {
+		grid-column: span 3;
+		display: flex;
+		align-items: center;
+		padding: 1.25rem 1.5rem;
+		background-color: var(--color-white);
+	}
+
+	.note-cell p {
+		margin: 0;
+		font-size: var(--font-size-small);
+		color: var(--text-muted);
+		line-height: 1.55;
+	}
+
+	.equip-cell {
+		grid-column: span 6;
 		display: grid;
 		grid-template-columns: minmax(150px, 0.72fr) minmax(0, 1.28fr);
-		min-height: 330px;
-		background: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-top: 4px solid var(--color-iron);
-		border-radius: var(--radius-sm);
-		overflow: hidden;
-		transition:
-			transform var(--transition-fast),
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
+		min-height: 320px;
+		min-width: 0;
+		background-color: var(--color-white);
 	}
 
-	.equipment-card:hover {
-		transform: translateY(-4px);
-		border-top-color: var(--color-brand-primary);
-		box-shadow: 0 12px 30px rgba(30, 32, 34, 0.09);
-	}
-
-	.equipment-image {
+	.equip-photo {
 		position: relative;
-		min-height: 100%;
 		overflow: hidden;
-		background: var(--color-concrete);
+		background-color: var(--color-chalk);
 	}
 
-	.equipment-image::after {
+	.equip-photo img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.06);
+		transition:
+			filter var(--transition-medium),
+			transform var(--transition-medium);
+	}
+
+	@media (hover: hover) {
+		.equip-cell:hover .equip-photo img {
+			filter: grayscale(0%) contrast(1.02);
+			transform: scale(1.025);
+		}
+	}
+
+	.equip-photo::after {
 		content: '';
 		position: absolute;
 		inset: 0;
@@ -547,19 +533,7 @@
 		pointer-events: none;
 	}
 
-	.equipment-image img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 400ms ease;
-	}
-
-	.equipment-card:hover .equipment-image img {
-		transform: scale(1.025);
-	}
-
-	.equipment-image span {
+	.equip-no {
 		position: absolute;
 		left: 0.75rem;
 		bottom: 0.5rem;
@@ -570,11 +544,11 @@
 		color: var(--color-white);
 	}
 
-	.equipment-copy {
+	.equip-copy {
 		padding: 1.55rem 1.4rem 1.35rem;
 	}
 
-	.equipment-copy h3 {
+	.equip-copy h3 {
 		margin: 0 0 1rem;
 		font-family: var(--font-display);
 		font-size: 1.45rem;
@@ -585,7 +559,7 @@
 		color: var(--color-iron);
 	}
 
-	.equipment-copy ul {
+	.equip-copy ul {
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -594,7 +568,7 @@
 		gap: 0.55rem;
 	}
 
-	.equipment-copy li {
+	.equip-copy li {
 		position: relative;
 		padding-left: 1rem;
 		font-size: 0.87rem;
@@ -602,27 +576,27 @@
 		color: var(--color-steel);
 	}
 
-	.equipment-copy li::before {
+	.equip-copy li::before {
 		content: '';
 		position: absolute;
 		left: 0;
 		top: 0.58em;
 		width: 0.45rem;
 		height: 2px;
-		background: var(--color-brand-primary);
+		background-color: var(--color-brand-primary);
 	}
 
-	.catalogue-note {
+	.call-cell {
+		grid-column: span 10;
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		margin-top: 1.25rem;
 		padding: 1.1rem 1.25rem;
-		background: var(--color-iron);
+		background-color: var(--color-iron);
 		color: var(--color-white);
 	}
 
-	.catalogue-note svg {
+	.call-cell svg {
 		width: 24px;
 		height: 24px;
 		flex: 0 0 auto;
@@ -633,28 +607,32 @@
 		stroke-linejoin: round;
 	}
 
-	.catalogue-note p {
+	.call-cell p {
 		margin: 0;
 		font-size: var(--font-size-small);
 		line-height: 1.5;
 	}
 
-	.catalogue-note a {
+	.call-cell a {
 		color: var(--color-white);
 		font-weight: 700;
 		text-decoration-color: var(--color-brand-hover);
 		text-underline-offset: 3px;
 	}
 
-	.section--process {
-		background: var(--color-white);
+	/* ===== 3. Process + conditions ===== */
+	.process-canvas {
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-areas:
+			'steps steps steps steps steps steps steps cond cond cond cond cond'
+			'py    py    steps steps steps steps steps cond cond cond cond cond';
+		grid-template-rows: auto 42px;
 	}
 
-	.split-grid {
-		display: grid;
-		grid-template-columns: 1.1fr 0.9fr;
-		gap: clamp(2rem, 5vw, 4.5rem);
-		align-items: start;
+	.steps-cell {
+		grid-area: steps;
+		background-color: var(--color-white);
+		padding: clamp(1.75rem, 3.5vw, 3rem);
 	}
 
 	.steps {
@@ -675,6 +653,7 @@
 
 	.steps li:last-child {
 		border-bottom: 0;
+		padding-bottom: 0;
 	}
 
 	.step-no {
@@ -704,21 +683,11 @@
 		color: var(--text-muted);
 	}
 
-	.conditions-panel {
-		position: relative;
+	.cond-cell {
+		grid-area: cond;
 		padding: clamp(1.75rem, 4vw, 3rem);
-		background: var(--color-iron);
+		background-color: var(--color-iron);
 		color: var(--color-white);
-	}
-
-	.conditions-panel::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 6px;
-		background: var(--mondrian-rule);
 	}
 
 	.conditions {
@@ -755,28 +724,20 @@
 		background-color: var(--color-brand-hover);
 	}
 
-	.cta-band {
-		position: relative;
-		background-color: var(--color-iron);
-		padding: 3rem 0;
+	/* ===== 4. CTA ===== */
+	.cta-canvas {
+		grid-template-columns: repeat(12, 1fr);
 	}
 
-	.cta-band::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 6px;
-		background: var(--mondrian-rule);
-	}
-
-	.cta-inner {
+	.cta-cell {
+		grid-column: span 10;
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 2rem;
-		flex-wrap: wrap;
+		gap: 1.5rem;
+		padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
+		background-color: var(--color-brand-primary);
 	}
 
 	.cta-title {
@@ -792,15 +753,78 @@
 	.cta-sub {
 		margin: 0.35rem 0 0;
 		font-size: var(--font-size-small);
-		color: var(--color-concrete);
+		color: rgba(255, 255, 255, 0.88);
 	}
 
 	.cta-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.85rem;
+		align-items: center;
+		gap: 1.5rem;
 	}
 
+	.cta-phone {
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 2.5vw, 2rem);
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		color: var(--color-white);
+		text-decoration: none;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.cta-phone:hover {
+		text-decoration: underline;
+	}
+
+	.cta-mail {
+		font-size: var(--font-size-small);
+		font-weight: 700;
+		color: var(--color-white);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.cta-mail:hover {
+		text-decoration-thickness: 2px;
+	}
+
+	/* ===== Accent cells ===== */
+	.acc {
+		min-width: 0;
+	}
+
+	.acc--hy {
+		grid-area: hy;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--hb {
+		grid-area: hb;
+		background-color: var(--color-accent-blue);
+	}
+
+	.acc--cy {
+		grid-column: span 2;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--cr {
+		grid-column: span 2;
+		background-color: var(--color-brand-primary);
+	}
+
+	.acc--py {
+		grid-area: py;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--ty {
+		grid-column: span 2;
+		background-color: var(--color-accent-yellow);
+	}
+
+	/* ===== Scroll reveal ===== */
 	@media (scripting: enabled) {
 		[data-reveal] {
 			opacity: 0;
@@ -817,53 +841,70 @@
 		}
 	}
 
+	/* ===== Responsive ===== */
 	@media (max-width: 1000px) {
-		.equipment-card {
-			grid-template-columns: 1fr;
+		.equip-cell {
+			grid-column: span 12;
 		}
 
-		.equipment-image {
-			min-height: 270px;
-		}
-	}
-
-	@media (max-width: 900px) {
-		.hero-grid,
-		.split-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.hero-media {
-			min-height: 460px;
-			box-shadow: 12px 12px 0 var(--color-brand-primary);
-		}
-
-		.hero-media img {
-			min-height: 460px;
-		}
-
-		.split-grid {
-			gap: 3rem;
+		.hero-canvas {
+			grid-template-rows: minmax(380px, auto) 96px;
 		}
 	}
 
-	@media (max-width: 700px) {
-		.section-head {
+	@media (max-width: 800px) {
+		.canvas {
+			display: flex;
 			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.75rem;
+			gap: 4px;
+			padding: 4px;
 		}
 
-		.section-note {
-			text-align: left;
+		.section {
+			gap: 2.5rem;
 		}
 
-		.equipment-grid {
+		.copy-cell {
+			padding: 1.5rem 1rem 1.6rem;
+		}
+
+		.photo-cell {
+			min-height: 300px;
+		}
+
+		.stat-cell {
+			padding: 1rem;
+		}
+
+		.head-cell,
+		.note-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.equip-cell {
 			grid-template-columns: 1fr;
+			min-height: 0;
+		}
+
+		.equip-photo {
+			min-height: 240px;
+		}
+
+		.steps-cell,
+		.cond-cell {
+			padding: 1.5rem 1.2rem 1.6rem;
+		}
+
+		.cta-cell {
+			padding: 1.75rem 1.2rem 1.9rem;
+		}
+
+		.acc {
+			min-height: 22px;
 		}
 	}
 
-	@media (max-width: 480px) {
+	@media (max-width: 560px) {
 		.hero-actions {
 			width: 100%;
 			flex-direction: column;
@@ -872,30 +913,9 @@
 		.hero-actions .btn {
 			width: 100%;
 		}
-
-		.hero-media,
-		.hero-media img {
-			min-height: 390px;
-		}
-
-		.hero-stamp {
-			right: 0.6rem;
-			bottom: 0.6rem;
-		}
-
-		.equipment-card {
-			min-height: 0;
-		}
-
-		.equipment-image {
-			min-height: 240px;
-		}
-
-		.catalogue-note {
-			align-items: flex-start;
-		}
 	}
 
+	/* ===== Reduced motion ===== */
 	@media (prefers-reduced-motion: reduce) {
 		[data-reveal] {
 			opacity: 1;
@@ -904,8 +924,8 @@
 		}
 
 		.btn,
-		.equipment-card,
-		.equipment-image img {
+		.photo-cell img,
+		.equip-photo img {
 			transition: none;
 		}
 	}
