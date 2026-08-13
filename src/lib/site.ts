@@ -36,6 +36,7 @@ export const openingHours = [
 
 export const navLinks = [
 	{ href: '/services', label: 'Služby' },
+	{ href: '/services/pozicovna-naradia', label: 'Požičovňa' },
 	{ href: '/products', label: 'Produkty' },
 	{ href: '/promotions', label: 'Akcie' },
 	{ href: '/news', label: 'Aktuality' },

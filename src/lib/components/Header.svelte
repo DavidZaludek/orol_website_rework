@@ -71,7 +71,13 @@
 		if (href === '/') {
 			return page.url.pathname === '/';
 		}
-		return page.url.pathname.startsWith(href);
+		if (!page.url.pathname.startsWith(href)) {
+			return false;
+		}
+		// The most specific nav match wins (Požičovňa over Služby on the rental page).
+		return !navLinks.some(
+			(l) => l.href.length > href.length && page.url.pathname.startsWith(l.href)
+		);
 	}
 
 	function closeMenu() {
