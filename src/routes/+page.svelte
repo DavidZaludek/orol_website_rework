@@ -976,6 +976,27 @@
 		transform: scale(1.03);
 	}
 
+	/* White scrim under the text zone keeps copy readable over the colored photo. */
+	.tile::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background: linear-gradient(
+			to top,
+			rgba(255, 255, 255, 0.94) 0%,
+			rgba(255, 255, 255, 0.8) 42%,
+			rgba(255, 255, 255, 0) 80%
+		);
+		opacity: 0;
+		transition: opacity var(--transition-medium);
+		pointer-events: none;
+	}
+
+	.tile:hover::after {
+		opacity: 1;
+	}
+
 	.tile-desc {
 		position: relative;
 		z-index: 1;
