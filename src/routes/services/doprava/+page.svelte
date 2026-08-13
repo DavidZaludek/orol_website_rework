@@ -72,12 +72,16 @@
 			<h2 class="section-title">Vozový park</h2>
 		</header>
 		<div class="acc acc--fy" aria-hidden="true"></div>
-		{#each fleet as item, i (item)}
-			<div class="fleet-cell" data-reveal {@attach reveal(Math.min(i * 80, 240))}>
-				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
-				<p>{item}</p>
-			</div>
-		{/each}
+		<div class="fleet-cell" data-reveal {@attach reveal(80)}>
+			<ul class="fleet-list">
+				{#each fleet as item (item)}
+					<li>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+						{item}
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 
 	<!-- 3. Area + pricing + steps composition -->
@@ -372,32 +376,44 @@
 		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
+	/* One cell, one list — items don't get cells of their own. */
 	.fleet-cell {
-		grid-column: span 4;
-		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.85rem;
-		min-height: 150px;
-		padding: 1.4rem 1.5rem 1.5rem;
+		grid-column: span 12;
 		background-color: var(--color-white);
+		padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.5rem);
 	}
 
-	.fleet-cell svg {
+	.fleet-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.fleet-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.7rem;
+		padding: 0.8rem 0;
+		border-bottom: 1px solid var(--border-default);
+		font-weight: 500;
+		line-height: 1.55;
+		color: var(--color-steel);
+	}
+
+	.fleet-list li:last-child {
+		border-bottom: 0;
+	}
+
+	.fleet-list svg {
 		width: 22px;
 		height: 22px;
+		flex: 0 0 auto;
+		margin-top: 0.1em;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 3;
 		stroke-linecap: round;
 		stroke-linejoin: round;
-	}
-
-	.fleet-cell p {
-		margin: 0;
-		font-weight: 500;
-		line-height: 1.55;
-		color: var(--color-steel);
 	}
 
 	/* ===== 3. Area + pricing + steps ===== */

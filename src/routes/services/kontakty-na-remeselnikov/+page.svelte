@@ -98,12 +98,16 @@
 			<h2 class="section-title">Aké profesie odporúčame</h2>
 		</header>
 		<div class="acc acc--ky" aria-hidden="true"></div>
-		{#each tradeCategories as trade, i (trade.name)}
-			<div class="trade-cell" data-reveal {@attach reveal(Math.min((i % 4) * 70, 210))}>
-				<h3 class="trade-name">{trade.name}</h3>
-				<p class="trade-text">{trade.description}</p>
-			</div>
-		{/each}
+		<div class="trades-cell" data-reveal {@attach reveal(80)}>
+			<ul class="trade-list">
+				{#each tradeCategories as trade (trade.name)}
+					<li>
+						<h3 class="trade-name">{trade.name}</h3>
+						<p class="trade-text">{trade.description}</p>
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 
 	<!-- 3. Steps + notice composition -->
@@ -377,20 +381,40 @@
 		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.trade-cell {
-		grid-column: span 3;
-		min-width: 0;
-		padding: 1.3rem 1.3rem 1.4rem;
+	/* One cell, one list — items don't get cells of their own. */
+	.trades-cell {
+		grid-column: span 12;
 		background-color: var(--color-white);
+		padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.5rem);
 	}
 
-	.trade-cell::before {
+	.trade-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: clamp(2rem, 5vw, 4.5rem);
+	}
+
+	.trade-list li {
+		padding: 1.05rem 0 1.15rem 1.35rem;
+		position: relative;
+		border-bottom: 1px solid var(--border-default);
+	}
+
+	.trade-list li::before {
 		content: '';
-		display: block;
-		width: 24px;
+		position: absolute;
+		left: 0;
+		top: 1.55rem;
+		width: 0.55rem;
 		height: 3px;
 		background-color: var(--color-brand-primary);
-		margin-bottom: 0.75rem;
+	}
+
+	.trade-list li:nth-last-child(-n + 2) {
+		border-bottom: 0;
 	}
 
 	.trade-name {
@@ -592,10 +616,6 @@
 			grid-template-rows: minmax(380px, auto) 92px;
 		}
 
-		.trade-cell {
-			grid-column: span 6;
-		}
-
 		.steps-cell {
 			grid-column: span 12;
 		}
@@ -633,8 +653,16 @@
 			padding: 1.25rem 1rem 1.4rem;
 		}
 
-		.trade-cell {
-			padding: 1.2rem 1rem 1.3rem;
+		.trade-list {
+			grid-template-columns: 1fr;
+		}
+
+		.trade-list li:nth-last-child(-n + 2) {
+			border-bottom: 1px solid var(--border-default);
+		}
+
+		.trade-list li:last-child {
+			border-bottom: 0;
 		}
 
 		.steps-cell,

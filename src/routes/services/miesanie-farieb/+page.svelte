@@ -76,17 +76,16 @@
 			<h2 class="section-title">Čo tónujeme</h2>
 		</header>
 		<div class="acc acc--py" aria-hidden="true"></div>
-		{#each products as item, i (item)}
-			<div
-				class="product-cell"
-				class:product-cell--wide={i > 2}
-				data-reveal
-				{@attach reveal(Math.min((i % 3) * 80, 240))}
-			>
-				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
-				<p>{item}</p>
-			</div>
-		{/each}
+		<div class="products-cell" data-reveal {@attach reveal(80)}>
+			<ul class="product-list">
+				{#each products as item (item)}
+					<li>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+						{item}
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 
 	<!-- 3. Swatchbooks + steps + tip composition -->
@@ -378,36 +377,47 @@
 		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.product-cell {
-		grid-column: span 4;
-		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.85rem;
-		min-height: 140px;
-		padding: 1.4rem 1.5rem 1.5rem;
+	/* One cell, one list — items don't get cells of their own. */
+	.products-cell {
+		grid-column: span 12;
 		background-color: var(--color-white);
+		padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.5rem);
 	}
 
-	.product-cell--wide {
-		grid-column: span 6;
+	.product-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: clamp(2rem, 5vw, 4.5rem);
 	}
 
-	.product-cell svg {
+	.product-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.7rem;
+		padding: 0.8rem 0;
+		border-bottom: 1px solid var(--border-default);
+		font-weight: 500;
+		line-height: 1.55;
+		color: var(--color-steel);
+	}
+
+	.product-list li:nth-last-child(-n + 2) {
+		border-bottom: 0;
+	}
+
+	.product-list svg {
 		width: 22px;
 		height: 22px;
+		flex: 0 0 auto;
+		margin-top: 0.1em;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 3;
 		stroke-linecap: round;
 		stroke-linejoin: round;
-	}
-
-	.product-cell p {
-		margin: 0;
-		font-weight: 500;
-		line-height: 1.55;
-		color: var(--color-steel);
 	}
 
 	/* ===== 3. Swatchbooks + steps + tip ===== */
@@ -638,12 +648,6 @@
 			grid-template-rows: minmax(380px, auto) 80px;
 		}
 
-		.product-cell,
-		.product-cell--wide {
-			grid-column: span 6;
-			min-height: 0;
-		}
-
 		.swatch-cell {
 			grid-column: span 12;
 		}
@@ -681,10 +685,16 @@
 			padding: 1.25rem 1rem 1.4rem;
 		}
 
-		.product-cell {
-			flex-direction: row;
-			align-items: flex-start;
-			padding: 1.2rem 1rem 1.3rem;
+		.product-list {
+			grid-template-columns: 1fr;
+		}
+
+		.product-list li:nth-last-child(-n + 2) {
+			border-bottom: 1px solid var(--border-default);
+		}
+
+		.product-list li:last-child {
+			border-bottom: 0;
 		}
 
 		.swatch-cell,

@@ -196,6 +196,12 @@ holding the white eagle mark.
 - Do add new icons to the shared 24×24 stroke set in `src/lib/icons.ts` —
   never mix icon families.
 - Don't use box shadows, borders, or rounded corners inside compositions.
+- Don't over-fragment: cells are for major content blocks, not list items.
+  A run of short same-kind items (professions, product types, vehicles,
+  bullet facts) lives as a list _inside one cell_ — red dash or check per
+  item, 1px interior separators, two columns on desktop when longer than
+  ~4 items. If a cell would contain only one line of text, it should
+  probably be a list row instead.
 - Don't use pure black anywhere, or red for error states.
 - Don't let compositions cause horizontal overflow — full-bleed means exactly
   viewport width; verify `document.documentElement.scrollWidth`.

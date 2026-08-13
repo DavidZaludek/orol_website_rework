@@ -70,12 +70,16 @@
 			<h2 class="section-title">S čím Vám poradíme</h2>
 		</header>
 		<div class="acc acc--ry" aria-hidden="true"></div>
-		{#each topics as item, i (item)}
-			<div class="topic-cell" data-reveal {@attach reveal(Math.min((i % 3) * 80, 240))}>
-				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
-				<p>{item}</p>
-			</div>
-		{/each}
+		<div class="topics-cell" data-reveal {@attach reveal(80)}>
+			<ul class="topic-list">
+				{#each topics as item (item)}
+					<li>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+						{item}
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 
 	<!-- 3. Steps composition -->
@@ -343,32 +347,47 @@
 		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.topic-cell {
-		grid-column: span 4;
-		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.85rem;
-		min-height: 150px;
-		padding: 1.4rem 1.5rem 1.5rem;
+	/* One cell, one list — items don't get cells of their own. */
+	.topics-cell {
+		grid-column: span 12;
 		background-color: var(--color-white);
+		padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.5rem);
 	}
 
-	.topic-cell svg {
+	.topic-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: clamp(2rem, 5vw, 4.5rem);
+	}
+
+	.topic-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.7rem;
+		padding: 0.8rem 0;
+		border-bottom: 1px solid var(--border-default);
+		font-weight: 500;
+		line-height: 1.55;
+		color: var(--color-steel);
+	}
+
+	.topic-list li:nth-last-child(-n + 2) {
+		border-bottom: 0;
+	}
+
+	.topic-list svg {
 		width: 22px;
 		height: 22px;
+		flex: 0 0 auto;
+		margin-top: 0.1em;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 3;
 		stroke-linecap: round;
 		stroke-linejoin: round;
-	}
-
-	.topic-cell p {
-		margin: 0;
-		font-weight: 500;
-		line-height: 1.55;
-		color: var(--color-steel);
 	}
 
 	/* ===== 3. Steps ===== */
@@ -537,11 +556,6 @@
 		.hero-canvas {
 			grid-template-rows: minmax(380px, auto) 92px;
 		}
-
-		.topic-cell {
-			grid-column: span 6;
-			min-height: 0;
-		}
 	}
 
 	@media (max-width: 800px) {
@@ -572,10 +586,16 @@
 			padding: 1.25rem 1rem 1.4rem;
 		}
 
-		.topic-cell {
-			flex-direction: row;
-			align-items: flex-start;
-			padding: 1.2rem 1rem 1.3rem;
+		.topic-list {
+			grid-template-columns: 1fr;
+		}
+
+		.topic-list li:nth-last-child(-n + 2) {
+			border-bottom: 1px solid var(--border-default);
+		}
+
+		.topic-list li:last-child {
+			border-bottom: 0;
 		}
 
 		.steps-cell {
