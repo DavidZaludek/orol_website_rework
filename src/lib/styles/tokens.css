@@ -12,6 +12,15 @@
 	--space-section-y: 4rem; /* content section vertical padding */
 	--space-section-y-end: 5rem; /* extra bottom space when section ends the page */
 
+	/* === Font families === */
+	--font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+	--font-body: 'Inter', system-ui, sans-serif;
+
+	/* === Display typography (Industrial Modern) === */
+	--font-size-display-xl: clamp(3rem, 7vw, 5.25rem); /* homepage hero */
+	--font-size-display-lg: clamp(2rem, 4.5vw, 3.25rem); /* section headings */
+	--font-size-display-md: clamp(1.4rem, 2.5vw, 1.85rem); /* card / tile headings */
+
 	/* === Typography sizes === */
 	--font-size-h1: clamp(2rem, 5vw, 3rem); /* page hero */
 	--font-size-h1-compact: clamp(1.75rem, 4vw, 2.5rem); /* detail page hero with back-link */
@@ -34,8 +43,27 @@
 
 	/* === Transitions === */
 	--transition-fast: 0.18s ease;
+	--transition-medium: 0.3s ease;
+	--transition-reveal: 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 
 	/* === Z-index === */
 	--z-header: 50;
 	--z-float: 100;
+
+	/* === Mondrian rule ===
+	   Signature accent strip echoing the company's Mondrian-inspired marketing
+	   design: blocks of red/white/yellow/blue separated by dark lines. */
+	--mondrian-rule: repeating-linear-gradient(
+		90deg,
+		var(--color-brand-primary) 0 132px,
+		var(--color-iron) 132px 135px,
+		var(--color-white) 135px 205px,
+		var(--color-iron) 205px 208px,
+		var(--color-accent-yellow) 208px 292px,
+		var(--color-iron) 292px 295px,
+		var(--color-white) 295px 361px,
+		var(--color-iron) 361px 364px,
+		var(--color-accent-blue) 364px 384px,
+		var(--color-iron) 384px 387px
+	);
 }

@@ -1,222 +1,365 @@
 <script lang="ts">
-	const services = [
-		{
-			href: '/services/poradenstvo',
-			title: 'Poradenstvo',
-			description:
-				'Odborné poradenstvo pri výbere stavebných materiálov, technológií a riešení pre hrubú stavbu, interiér aj exteriér.'
-		},
-		{
-			href: '/services/stavbyveduci',
-			title: 'Stavbyvedúci',
-			description:
-				'Sprostredkovanie skúsených stavbyvedúcich s certifikátom, ktorí dohliadnu na priebeh stavby a dodržiavanie technologických postupov.'
-		},
-		{
-			href: '/services/cenova-ponuka',
-			title: 'Vypracovanie cenovej ponuky',
-			description:
-				'Bezplatné vypracovanie podrobnej cenovej ponuky na materiál podľa Vášho výkazu výmer alebo projektovej dokumentácie.'
-		},
-		{
-			href: '/services/doprava',
-			title: 'Doprava materiálu',
-			description:
-				'Doprava stavebného materiálu priamo na stavbu vlastnými vozidlami s hydraulickou rukou v rámci celého regiónu.'
-		},
-		{
-			href: '/services/pozicovna-naradia',
-			title: 'Požičovňa náradia',
-			description:
-				'Krátkodobý aj dlhodobý prenájom stavebného a remeselníckeho náradia – miešačky, lešenia, búracie kladivá a ďalšie.'
-		},
-		{
-			href: '/services/miesanie-farieb',
-			title: 'Miešanie farieb',
-			description:
-				'Tónovanie interiérových aj fasádnych farieb a omietok podľa vzorkovníkov RAL, NCS a ďalších priamo na predajni.'
-		},
-		{
-			href: '/services/kontakty-na-remeselnikov',
-			title: 'Kontakty na staviteľov, živnostníkov, remeselníkov a architektov',
-			description:
-				'Odporúčame overených odborníkov z regiónu – murárov, tesárov, klampiarov, kúrenárov, architektov a ďalších remeselníkov.'
-		}
-	] as const;
+	import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
+	import svcCenova from '$lib/assets/services/cenova-ponuka.jpg';
+	import svcDoprava from '$lib/assets/services/doprava.jpg';
+	import svcPoradenstvo from '$lib/assets/services/poradenstvo.jpg';
+	import svcStavbyveduci from '$lib/assets/services/stavbyveduci.jpg';
+	import svcFarby from '$lib/assets/services/miesanie-farieb.jpg';
+	import svcRemeselnici from '$lib/assets/services/kontakty-na-remeselnikov.jpg';
+
+	import { services } from '$lib/site';
+	import { serviceIcons } from '$lib/icons';
+	import { reveal } from '$lib/reveal';
+
+	const photos: Record<string, string> = {
+		'/services/cenova-ponuka': svcCenova,
+		'/services/doprava': svcDoprava,
+		'/services/poradenstvo': svcPoradenstvo,
+		'/services/stavbyveduci': svcStavbyveduci,
+		'/services/pozicovna-naradia': toolsPhoto,
+		'/services/miesanie-farieb': svcFarby,
+		'/services/kontakty-na-remeselnikov': svcRemeselnici
+	};
+
+	// Presentation order: the main offer first, the featured rental as the
+	// red band in the middle, supporting services after.
+	const order = [
+		'/services/cenova-ponuka',
+		'/services/doprava',
+		'/services/poradenstvo',
+		'/services/stavbyveduci',
+		'/services/pozicovna-naradia',
+		'/services/miesanie-farieb',
+		'/services/kontakty-na-remeselnikov'
+	];
+	const flow = order
+		.map((href) => services.find((s) => s.href === href))
+		.filter((s): s is (typeof services)[number] => s !== undefined);
+
+	const accentCycle = ['yellow', 'blue', 'red'] as const;
 </script>
 
 <svelte:head>
 	<title>Služby – Stavebniny Orol</title>
 	<meta
 		name="description"
-		content="Prehľad služieb Stavebniny Orol – poradenstvo, doprava materiálu, požičovňa náradia, miešanie farieb a ďalšie."
+		content="Okrem predaja stavebného materiálu ponúkame komplexné služby – poradenstvo, cenové ponuky, dopravu, požičovňu náradia aj kontakty na remeselníkov."
 	/>
 </svelte:head>
 
-<section class="hero">
-	<div class="container">
-		<h1>Služby</h1>
-		<p class="hero-lead">
-			Okrem predaja stavebného materiálu Vám ponúkame aj komplexné služby, ktoré uľahčia realizáciu
-			Vašej stavby od prvého nákresu až po odovzdanie.
-		</p>
-	</div>
-</section>
+<section class="section" aria-label="Služby">
+	<div class="flow">
+		<div class="flow-row flow-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Služby</span>
+				<h1 class="section-title">Viac než predajňa</h1>
+				<p class="head-note">
+					Okrem predaja stavebného materiálu Vám ponúkame aj komplexné služby, ktoré uľahčia
+					realizáciu Vašej stavby od prvého nákresu až po odovzdanie.
+				</p>
+			</header>
+			<a href="/quote" class="head-link-cell">Cenová ponuka →</a>
+			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
 
-<section class="list-section">
-	<div class="container">
-		<ol class="service-list">
-			{#each services as service, i (service.href)}
-				<li class="service-item">
-					<a href={service.href} class="service-card">
-						<span class="service-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-						<div class="service-body">
-							<h2 class="service-title">{service.title}</h2>
-							<p class="service-description">{service.description}</p>
-						</div>
-						<span class="service-arrow" aria-hidden="true">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								width="24"
-								height="24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							>
-								<line x1="5" y1="12" x2="19" y2="12"></line>
-								<polyline points="12 5 19 12 12 19"></polyline>
-							</svg>
-						</span>
-					</a>
-				</li>
-			{/each}
-		</ol>
+		{#each flow as service, i (service.href)}
+			{@const featured = service.href === '/services/pozicovna-naradia'}
+			<div class="flow-row" class:flow-row--reverse={i % 2 === 1}>
+				<div class="flow-photo" data-reveal {@attach reveal()}>
+					<img src={photos[service.href]} alt="" loading={i < 2 ? undefined : 'lazy'} />
+				</div>
+				<div class="flow-body" class:flow-body--red={featured} data-reveal {@attach reveal(100)}>
+					<svg class="flow-icon" viewBox="0 0 24 24" aria-hidden="true">
+						{#each serviceIcons[service.href] ?? [] as d (d)}
+							<path {d} />
+						{/each}
+					</svg>
+					<h2 class="flow-title">{service.short}</h2>
+					<p class="flow-desc">{service.description}</p>
+					<a href={service.href} class="flow-link">Zistiť viac →</a>
+				</div>
+				<div class="acc acc--{accentCycle[i % accentCycle.length]}" aria-hidden="true"></div>
+			</div>
+		{/each}
 	</div>
 </section>
 
 <style>
-	.container {
-		max-width: var(--container-default);
-		margin: 0 auto;
-		padding-inline: var(--container-px);
+	.section {
+		padding: 0 0 var(--space-section-y-end);
 	}
 
-	.hero {
-		background-color: var(--color-brand-dark);
-		padding: var(--space-hero-y) 0;
-	}
-
-	.hero h1 {
-		margin: 0;
-		font-size: var(--font-size-h1);
-		font-weight: 800;
-		color: var(--text-on-dark);
-		letter-spacing: 0.02em;
-	}
-
-	.hero-lead {
-		margin: 0.75rem 0 0;
-		font-size: var(--font-size-body);
-		line-height: 1.7;
-		color: var(--color-concrete);
-		max-width: 60ch;
-	}
-
-	.list-section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-		background-color: var(--color-white);
-	}
-
-	.service-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.service-card {
-		display: grid;
-		grid-template-columns: auto 1fr auto;
+	.eyebrow {
+		display: inline-flex;
 		align-items: center;
-		gap: 1.5rem;
-		padding: 1.5rem 1.75rem;
-		background-color: var(--color-white);
-		border: 1px solid var(--border-default);
-		border-left: 4px solid var(--color-brand-primary);
-		border-radius: var(--radius-md);
-		text-decoration: none;
-		color: inherit;
-		box-shadow: var(--shadow-card);
-		transition:
-			transform var(--transition-fast),
-			box-shadow var(--transition-fast),
-			border-color var(--transition-fast);
-	}
-
-	.service-card:hover {
-		transform: translateX(4px);
-		box-shadow: var(--shadow-card-hover);
-		border-left-color: var(--color-brand-hover);
-	}
-
-	.service-index {
-		font-size: 1.5rem;
-		font-weight: 800;
+		gap: 0.6rem;
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
 		color: var(--color-brand-primary);
-		font-variant-numeric: tabular-nums;
-		letter-spacing: 0.05em;
 	}
 
-	.service-body {
-		min-width: 0;
+	.eyebrow::before {
+		content: '';
+		width: 24px;
+		height: 3px;
+		background-color: var(--color-brand-primary);
 	}
 
-	.service-title {
-		margin: 0 0 0.35rem;
-		font-size: var(--font-size-h3);
+	.section-title {
+		margin: 0.35rem 0 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
 		font-weight: 700;
+		line-height: 1.02;
+		text-transform: uppercase;
+		letter-spacing: 0.015em;
 		color: var(--color-iron);
-		line-height: 1.3;
 	}
 
-	.service-description {
-		margin: 0;
-		font-size: 0.95rem;
+	.head-cell {
+		flex: 4 1 0;
+		min-width: 0;
+		background-color: var(--color-white);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
+	}
+
+	.head-note {
+		margin: 0.6rem 0 0;
+		font-size: var(--font-size-small);
 		color: var(--text-muted);
-		line-height: 1.6;
+		max-width: 60ch;
+		line-height: 1.55;
 	}
 
-	.service-arrow {
+	.head-link-cell {
+		flex: 1 1 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--color-brand-primary);
-		transition: transform var(--transition-fast);
+		padding: 1rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-align: center;
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
 	}
 
-	.service-card:hover .service-arrow {
-		transform: translateX(4px);
+	.head-link-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
+		}
+
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* ===== Flow canvas ===== */
+	.flow {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.flow-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	.flow-row--reverse {
+		flex-direction: row-reverse;
+	}
+
+	.flow-photo {
+		flex: 5 1 0;
+		min-width: 0;
+		position: relative;
+		overflow: hidden;
+		min-height: 300px;
+		background-color: var(--color-white);
+	}
+
+	.flow-photo img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.08) brightness(0.97);
+	}
+
+	.flow-photo::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(160deg, rgba(192, 40, 28, 0.24) 0%, rgba(30, 32, 34, 0.35) 100%);
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	.flow-body {
+		flex: 6 1 0;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 0.8rem;
+		padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+		background-color: var(--color-white);
+	}
+
+	.flow-icon {
+		width: 34px;
+		height: 34px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 1.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.flow-title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-md);
+		font-weight: 700;
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-iron);
+	}
+
+	.flow-desc {
+		margin: 0;
+		max-width: 58ch;
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--text-muted);
+	}
+
+	.flow-link {
+		font-size: var(--font-size-small);
+		font-weight: 700;
+		color: var(--color-brand-primary);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		transition: color var(--transition-fast);
+	}
+
+	.flow-link:hover {
 		color: var(--color-brand-hover);
 	}
 
-	@media (max-width: 600px) {
-		.service-card {
-			grid-template-columns: auto 1fr;
-			gap: 1rem;
-			padding: 1.25rem 1.25rem;
+	/* Featured band — Požičovňa náradia as the red cell */
+	.flow-body--red {
+		background-color: var(--color-brand-primary);
+	}
+
+	.flow-body--red .flow-icon {
+		stroke: var(--color-white);
+	}
+
+	.flow-body--red .flow-title {
+		color: var(--color-white);
+	}
+
+	.flow-body--red .flow-desc {
+		color: rgba(255, 255, 255, 0.88);
+	}
+
+	.flow-body--red .flow-link {
+		color: var(--color-white);
+	}
+
+	.flow-body--red .flow-link:hover {
+		color: var(--color-white);
+		text-decoration-thickness: 2px;
+	}
+
+	/* Accent cells */
+	.acc {
+		flex: 0 0 90px;
+	}
+
+	.acc--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	.acc--blue {
+		background-color: var(--color-accent-blue);
+	}
+
+	.acc--red {
+		background-color: var(--color-brand-primary);
+	}
+
+	/* ===== Mobile: bands stack ===== */
+	@media (max-width: 800px) {
+		.flow {
+			gap: 4px;
+			padding: 4px;
 		}
 
-		.service-arrow {
-			display: none;
+		.flow-row,
+		.flow-row--reverse {
+			flex-direction: column;
+			gap: 4px;
 		}
 
-		.service-title {
-			font-size: 1.1rem;
+		.flow-row--head {
+			flex-direction: column;
+		}
+
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.head-link-cell {
+			padding: 0.9rem;
+		}
+
+		.flow-photo {
+			min-height: 190px;
+		}
+
+		.flow-body {
+			padding: 1.4rem 1.2rem 1.6rem;
+		}
+
+		.acc {
+			flex: none;
+			min-height: 22px;
+		}
+	}
+
+	/* ===== Reduced motion ===== */
+	@media (prefers-reduced-motion: reduce) {
+		[data-reveal] {
+			opacity: 1;
+			transform: none;
+			transition: none;
 		}
 	}
 </style>

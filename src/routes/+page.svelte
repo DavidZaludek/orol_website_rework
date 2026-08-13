@@ -1,81 +1,92 @@
 <script lang="ts">
-	import acoLogo from '$lib/assets/logos/Aco.svg';
-	import alcaLogo from '$lib/assets/logos/Alca.svg';
-	import anavekLogo from '$lib/assets/logos/Anavek.png';
-	import barvyALakyLogo from '$lib/assets/logos/Barvy-a-laky.svg';
-	import baumitLogo from '$lib/assets/logos/Baumit.jpg';
-	import bauwebLogo from '$lib/assets/logos/Bauweb.svg';
-	import bramacLogo from '$lib/assets/logos/Bramac.jpg';
-	import brittermLogo from '$lib/assets/logos/Britterm.png';
-	import cemixLogo from '$lib/assets/logos/Cemix.svg';
-	import ceresitLogo from '$lib/assets/logos/Ceresit.jpg';
-	import chyzbetLogo from '$lib/assets/logos/Chyzbet.png';
-	import dechtochemaLogo from '$lib/assets/logos/Dechtochema.png';
-	import dedraLogo from '$lib/assets/logos/Dedra.jpg';
-	import fakroLogo from '$lib/assets/logos/Fakro.png';
-	import fischerLogo from '$lib/assets/logos/Fischer.svg';
-	import foliarexLogo from '$lib/assets/logos/Foliarex.png';
-	import hacoLogo from '$lib/assets/logos/Haco.png';
-	import hasoftLogo from '$lib/assets/logos/Hasoft.png';
-	import heluzLogo from '$lib/assets/logos/Heluz.jpg';
-	import henkelLogo from '$lib/assets/logos/Henkel.svg';
-	import hermanLogo from '$lib/assets/logos/Herman.svg';
-	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
-	import isoverLogo from '$lib/assets/logos/Isover.png';
-	import jutaLogo from '$lib/assets/logos/Juta.png';
-	import keramikaSoukupLogo from '$lib/assets/logos/Keramika-soukup.jpg';
-	import knaufLogo from '$lib/assets/logos/Knauf.png';
-	import kreiselLogo from '$lib/assets/logos/Kreisel.png';
-	import levelysLogo from '$lib/assets/logos/Levelys.svg';
-	import makitaLogo from '$lib/assets/logos/Makita.svg';
-	import meaLogo from '$lib/assets/logos/Mea.svg';
-	import milwaukeeLogo from '$lib/assets/logos/Milwaukee.svg';
-	import penosilLogo from '$lib/assets/logos/Penosil.svg';
-	import polifarbeLogo from '$lib/assets/logos/Polifarbe.png';
-	import porfixLogo from '$lib/assets/logos/Porfix.png';
-	import prefabetonLogo from '$lib/assets/logos/Prefabeton-Diviaky.webp';
-	import premacLogo from '$lib/assets/logos/Premac.svg';
-	import ravenLogo from '$lib/assets/logos/Raven.png';
-	import rigipsLogo from '$lib/assets/logos/Rigips.png';
-	import rotoLogo from '$lib/assets/logos/Roto.webp';
-	import sakretLogo from '$lib/assets/logos/Sakret.png';
-	import sapeliLogo from '$lib/assets/logos/Sapeli.svg';
-	import schiedelLogo from '$lib/assets/logos/Schiedel.svg';
-	import sikaLogo from '$lib/assets/logos/Sika.webp';
-	import solaLogo from '$lib/assets/logos/Sola.svg';
-	import soudalLogo from '$lib/assets/logos/soudal.jpg';
-	import stachemaLogo from '$lib/assets/logos/Stachema.svg';
-	import storchLogo from '$lib/assets/logos/Storch.svg';
-	import stroherLogo from '$lib/assets/logos/Stroher.svg';
-	import tegolaLogo from '$lib/assets/logos/Tegola.svg';
-	import topstoneLogo from '$lib/assets/logos/Topstone.svg';
-	import tytanLogo from '$lib/assets/logos/Tytan.webp';
-	import vaspoLogo from '$lib/assets/logos/Vaspo.svg';
-	import veloxLogo from '$lib/assets/logos/Velox.svg';
-	import veluxLogo from '$lib/assets/logos/Velux.png';
-	import weberLogo from '$lib/assets/logos/Weber.png';
-	import wienerbergerLogo from '$lib/assets/logos/Wienerberger.svg';
-	import wuerthLogo from '$lib/assets/logos/Wuerth.svg';
-	import xellaLogo from '$lib/assets/logos/Xella.png';
+	import heroPhoto from '$lib/assets/gallery/IMG_8605.jpg';
+	import brickPhoto from '$lib/assets/gallery/IMG_2264.jpg';
+	import steelSitePhoto from '$lib/assets/gallery/IMG_3214.jpg';
+	import screedPhoto from '$lib/assets/gallery/IMG_3239.jpg';
+	import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
+	import ownerPhoto from '$lib/assets/koloman_zaludek.jpg';
+
+	import svcCenova from '$lib/assets/services/cenova-ponuka.jpg';
+	import svcDoprava from '$lib/assets/services/doprava.jpg';
+	import svcPoradenstvo from '$lib/assets/services/poradenstvo.jpg';
+	import svcStavbyveduci from '$lib/assets/services/stavbyveduci.jpg';
+	import svcFarby from '$lib/assets/services/miesanie-farieb.jpg';
+	import svcRemeselnici from '$lib/assets/services/kontakty-na-remeselnikov.jpg';
+
+	import { fade } from 'svelte/transition';
+	import { company, contact, products, services } from '$lib/site';
+	import { reveal } from '$lib/reveal';
+	import { partners } from '$lib/partners';
+	import { categoryIcons, serviceIcons } from '$lib/icons';
+
+	// Požičovňa náradia is the featured service; the main offer row follows.
+	const featuredService = services.find((s) => s.href === '/services/pozicovna-naradia');
+	const mainServiceOrder = [
+		'/services/cenova-ponuka',
+		'/services/doprava',
+		'/services/poradenstvo',
+		'/services/stavbyveduci'
+	];
+	const mainServices = mainServiceOrder
+		.map((href) => services.find((s) => s.href === href))
+		.filter((s): s is (typeof services)[number] => s !== undefined);
+	const secondaryServices = services.filter(
+		(s) => s.href !== '/services/pozicovna-naradia' && !mainServiceOrder.includes(s.href)
+	);
+
+	// Monochrome background photos for the service tiles (own photos from the
+	// old site's gallery).
+	const serviceBg: Record<string, string> = {
+		'/services/cenova-ponuka': svcCenova,
+		'/services/doprava': svcDoprava,
+		'/services/poradenstvo': svcPoradenstvo,
+		'/services/stavbyveduci': svcStavbyveduci,
+		'/services/miesanie-farieb': svcFarby,
+		'/services/kontakty-na-remeselnikov': svcRemeselnici
+	};
 
 	let { data } = $props();
 
-	let newsIndex = $state(0);
 	let promoIndex = $state(0);
+	let heroIndex = $state(0);
+
+	const heroSlides = [
+		{
+			src: heroPhoto,
+			caption: 'Vlastná doprava až na stavbu',
+			alt: 'Nákladné auto Stavebnín Orol s hydraulickou rukou pri vykládke materiálu'
+		},
+		{
+			src: brickPhoto,
+			caption: 'Tehly a murovací materiál',
+			alt: 'Vzorky tehál a murovacieho materiálu pred predajňou'
+		},
+		{
+			src: steelSitePhoto,
+			caption: 'Od základov po strechu',
+			alt: 'Betonárska výstuž pripravená na stavbe'
+		},
+		{
+			src: screedPhoto,
+			caption: 'Materiál, ktorý stavia',
+			alt: 'Strojové hladenie betónového poteru'
+		}
+	];
 
 	$effect(() => {
-		if (data.posts.length <= 1) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 		const id = setInterval(() => {
-			newsIndex = (newsIndex + 1) % data.posts.length;
-		}, 6000);
+			heroIndex = (heroIndex + 1) % heroSlides.length;
+		}, 5000);
 		return () => clearInterval(id);
 	});
 
 	$effect(() => {
 		if (data.promotions.length <= 1) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 		const id = setInterval(() => {
 			promoIndex = (promoIndex + 1) % data.promotions.length;
-		}, 5500);
+		}, 5000);
 		return () => clearInterval(id);
 	});
 
@@ -87,67 +98,37 @@
 		});
 	}
 
-	const partners = [
-		{ name: 'ACO', logo: acoLogo, href: 'https://www.aco.sk' },
-		{ name: 'Alcadrain', logo: alcaLogo, href: 'https://www.alcadrain.sk' },
-		{ name: 'Anavek', logo: anavekLogo, href: 'https://www.anavek.sk' },
-		{ name: 'Barvy a laky', logo: barvyALakyLogo, href: 'https://www.bal.cz' },
-		{ name: 'Baumit', logo: baumitLogo, href: 'https://www.baumit.sk' },
-		{ name: 'Bauweb', logo: bauwebLogo, href: 'https://www.bauweb.sk' },
-		{ name: 'Bramac', logo: bramacLogo, href: 'https://www.bramac.sk' },
-		{ name: 'Britterm', logo: brittermLogo, href: 'https://www.britterm.sk' },
-		{ name: 'Cemix', logo: cemixLogo, href: 'https://www.cemix.sk' },
-		{ name: 'Ceresit', logo: ceresitLogo, href: 'https://www.ceresit.sk' },
-		{ name: 'Chyžbet', logo: chyzbetLogo, href: 'https://www.chyzbet.sk' },
-		{ name: 'Dechtochema', logo: dechtochemaLogo, href: 'https://www.dechtochema.sk' },
-		{ name: 'Dedra', logo: dedraLogo, href: 'https://www.dedra.pl' },
-		{ name: 'Fakro', logo: fakroLogo, href: 'https://www.fakro.sk' },
-		{ name: 'Fischer', logo: fischerLogo, href: 'https://www.fischer-sk.sk' },
-		{ name: 'Foliarex', logo: foliarexLogo, href: 'https://foliarex.pl' },
-		{ name: 'Haco', logo: hacoLogo, href: 'https://www.haco.cz' },
-		{ name: 'Hasoft', logo: hasoftLogo, href: 'https://www.hasoft.cz' },
-		{ name: 'Heluz', logo: heluzLogo, href: 'https://www.heluz.sk' },
-		{ name: 'Henkel', logo: henkelLogo, href: 'https://www.henkel.sk' },
-		{ name: 'Herman', logo: hermanLogo, href: 'https://www.herman.sk' },
-		{ name: 'Hilti', logo: hiltiLogo, href: 'https://www.hilti.sk' },
-		{ name: 'Isover', logo: isoverLogo, href: 'https://www.isover.sk' },
-		{ name: 'Juta', logo: jutaLogo, href: 'https://www.juta.cz' },
-		{ name: 'Keramika Soukup', logo: keramikaSoukupLogo, href: 'https://www.keramikasoukup.cz' },
-		{ name: 'Knauf', logo: knaufLogo, href: 'https://www.knauf.sk' },
-		{ name: 'Kreisel', logo: kreiselLogo, href: 'https://www.kreisel.sk' },
-		{ name: 'Levelys', logo: levelysLogo, href: 'https://www.levelys.sk' },
-		{ name: 'Makita', logo: makitaLogo, href: 'https://www.makita.sk' },
-		{ name: 'MEA', logo: meaLogo, href: 'https://www.mea-group.com' },
-		{ name: 'Milwaukee', logo: milwaukeeLogo, href: 'https://www.milwaukeetool.eu' },
-		{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.sk' },
-		{ name: 'Polifarbe', logo: polifarbeLogo, href: 'https://www.polifarbe.hu/' },
-		{ name: 'Porfix', logo: porfixLogo, href: 'https://www.porfix.sk' },
-		{ name: 'Prefabeton Diviaky', logo: prefabetonLogo, href: 'https://www.prefabeton.sk' },
-		{ name: 'Premac', logo: premacLogo, href: 'https://www.premac.sk' },
-		{ name: 'Raven', logo: ravenLogo, href: 'https://www.raven.sk' },
-		{ name: 'Rigips', logo: rigipsLogo, href: 'https://www.rigips.sk' },
-		{ name: 'Roto', logo: rotoLogo, href: 'https://www.roto-frank.com/cs-cz/dst' },
-		{ name: 'Sakret', logo: sakretLogo, href: 'https://www.sakret.sk' },
-		{ name: 'Sapeli', logo: sapeliLogo, href: 'https://www.sapeli.sk' },
-		{ name: 'Schiedel', logo: schiedelLogo, href: 'https://www.schiedel.sk' },
-		{ name: 'Sika', logo: sikaLogo, href: 'https://svk.sika.com' },
-		{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at' },
-		{ name: 'Soudal', logo: soudalLogo, href: 'https://www.soudal.sk' },
-		{ name: 'Stachema', logo: stachemaLogo, href: 'https://www.stachema.sk' },
-		{ name: 'Storch', logo: storchLogo, href: 'https://www.storch.sk' },
-		{ name: 'Ströher', logo: stroherLogo, href: 'https://www.stroeher.de' },
-		{ name: 'Tegola', logo: tegolaLogo, href: 'https://tegolacanadese.com' },
-		{ name: 'TopStone', logo: topstoneLogo, href: 'https://www.topstone.sk' },
-		{ name: 'Tytan', logo: tytanLogo, href: 'https://www.tytan.pl' },
-		{ name: 'Vaspo', logo: vaspoLogo, href: 'https://www.vaspo.sk' },
-		{ name: 'Velox', logo: veloxLogo, href: 'https://www.velox.sk' },
-		{ name: 'Velux', logo: veluxLogo, href: 'https://www.velux.sk' },
-		{ name: 'Weber', logo: weberLogo, href: 'https://sk.weber' },
-		{ name: 'Wienerberger', logo: wienerbergerLogo, href: 'https://www.wienerberger.sk' },
-		{ name: 'Würth', logo: wuerthLogo, href: 'https://www.wurth.sk' },
-		{ name: 'Xella', logo: xellaLogo, href: 'https://www.xella.sk' }
-	] as const;
-	const partnerTrack = [...partners, ...partners];
+	// Bento rows of four — on desktop the hovered tile flex-expands within its
+	// row; below 700px the rows flatten into one horizontal snap carousel.
+	const bentoRows = [products.slice(0, 4), products.slice(4, 8), products.slice(8, 12)];
+
+	const heroHighlights = [
+		'Doprava s hydraulickou rukou',
+		'Miešanie farieb na počkanie',
+		'Požičovňa náradia',
+		'Bezplatná cenová ponuka'
+	];
+
+	// Cycling supplier logos per category tile, resolved from the partner list.
+	const partnerLogoByName = new Map<string, string>(partners.map((p) => [p.name, p.logo]));
+	const supplierLogos: Record<string, { name: string; logo: string }[]> = Object.fromEntries(
+		products.map((p) => [
+			p.href,
+			p.suppliers
+				.map((name: string) => ({ name, logo: partnerLogoByName.get(name) }))
+				.filter((s): s is { name: string; logo: string } => s.logo !== undefined)
+		])
+	);
+
+	const stats = [
+		{ value: company.foundedYear, label: 'rok založenia' },
+		{ value: products.length, label: 'kategórií materiálu' },
+		{ value: partners.length, label: 'partnerských značiek' },
+		{ value: services.length, label: 'služieb pre stavebníkov' }
+	];
+
+	const motto =
+		'Spokojný zákazník je zárukou prosperity firmy. Prosperujúca firma je zárukou spokojnosti pracovníkov. Spokojný a aktívny pracovník je zárukou spokojnosti zákazníkov.';
 </script>
 
 <svelte:head>
@@ -158,191 +139,270 @@
 	/>
 </svelte:head>
 
-<!-- 1. Promo rotator -->
+<!-- 1. Hero — Mondrian composition -->
+<section class="hero" aria-label="Stavebniny Orol">
+	<div class="hero-mondrian">
+		<div class="hero-copy cell">
+			<span class="eyebrow">Stavebniny · Liptovský Mikuláš</span>
+			<h1 class="hero-title">
+				Všetko pre<br />vašu <span class="hero-accent">stavbu.</span>
+			</h1>
+			<p class="hero-lead">
+				Kompletný sortiment stavebného materiálu, odborné poradenstvo a vlastná doprava s
+				hydraulickou rukou priamo na vašu stavbu.
+			</p>
+			<div class="hero-actions">
+				<a href="/quote" class="btn btn--primary">Cenová ponuka</a>
+				<a href={contact.phoneHref} class="btn btn--ghost">{contact.phone}</a>
+			</div>
+			<ul class="hero-highlights">
+				{#each heroHighlights as item (item)}
+					<li>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+						{item}
+					</li>
+				{/each}
+			</ul>
+		</div>
+		<div class="hero-media cell">
+			{#each heroSlides as slide, i (slide.src)}
+				<img
+					src={slide.src}
+					alt={slide.alt}
+					class="hero-photo-img"
+					class:active={i === heroIndex}
+					fetchpriority={i === 0 ? 'high' : undefined}
+					loading={i === 0 ? undefined : 'lazy'}
+					aria-hidden={i !== heroIndex ? 'true' : undefined}
+				/>
+			{/each}
+			{#key heroIndex}
+				<span class="hero-photo-caption" in:fade={{ duration: 300, delay: 450 }}>
+					{heroSlides[heroIndex].caption}
+				</span>
+			{/key}
+		</div>
+		<div class="hero-acc hero-acc--yellow cell" aria-hidden="true"></div>
+		<div class="hero-acc hero-acc--white cell" aria-hidden="true"></div>
+		<div class="hero-acc hero-acc--red cell" aria-hidden="true"></div>
+		<div class="hero-acc hero-acc--white2 cell" aria-hidden="true"></div>
+		<div class="hero-acc hero-acc--blue cell" aria-hidden="true"></div>
+	</div>
+</section>
+
+<!-- 2. Promo ticker -->
 {#if data.promotions.length > 0}
-	<section class="promo-rotator" aria-label="Aktuálne akcie">
-		<div class="promo-stage">
-			{#each data.promotions as promo, i (promo.slug)}
-				<a
-					href="/promotions/{promo.slug}"
-					class="promo-slide"
-					class:active={i === promoIndex}
-					aria-hidden={i !== promoIndex ? 'true' : undefined}
-					tabindex={i === promoIndex ? 0 : -1}
-				>
-					<img
-						src={promo.image}
-						alt={promo.title}
-						class="promo-image"
-						loading={i === 0 ? 'eager' : 'lazy'}
-					/>
-					<div class="promo-overlay">
-						<div class="container promo-overlay-inner">
-							<span class="promo-eyebrow">Akcia</span>
-							<h2 class="promo-title">{promo.title}</h2>
-							{#if promo.validUntil}
-								<p class="promo-valid">Platí do <strong>{formatDate(promo.validUntil)}</strong></p>
-							{/if}
-						</div>
-					</div>
+	<section class="ticker" id="akcie" aria-label="Aktuálne akcie">
+		<div class="container ticker-inner">
+			<span class="ticker-chip">Akcia</span>
+			{#key promoIndex}
+				<a href="/promotions/{data.promotions[promoIndex].slug}" class="ticker-item">
+					<strong>{data.promotions[promoIndex].title}</strong>
+					{#if data.promotions[promoIndex].validUntil}
+						<span class="ticker-valid">
+							platí do {formatDate(data.promotions[promoIndex].validUntil)}
+						</span>
+					{/if}
+				</a>
+			{/key}
+			<a href="/promotions" class="ticker-all">Všetky akcie →</a>
+		</div>
+	</section>
+{/if}
+
+<!-- 3. Services -->
+<section class="section section--blueprint" id="sluzby" aria-label="Služby">
+	<div class="services-grid">
+		<div class="services-row services-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Služby</span>
+				<h2 class="section-title">Viac než predajňa</h2>
+			</header>
+			<a href="/services" class="head-link-cell">Všetky služby →</a>
+			<div class="head-acc head-acc--yellow" aria-hidden="true"></div>
+		</div>
+		{#if featuredService}
+			<a href={featuredService.href} class="featured-cell" data-reveal {@attach reveal()}>
+				<img src={toolsPhoto} alt="" class="featured-photo" loading="lazy" />
+				<div class="featured-body">
+					<svg class="featured-icon" viewBox="0 0 24 24" aria-hidden="true">
+						{#each serviceIcons[featuredService.href] ?? [] as d (d)}
+							<path {d} />
+						{/each}
+					</svg>
+					<span class="featured-title">{featuredService.short}</span>
+					<p class="featured-desc">{featuredService.description}</p>
+					<span class="featured-cta">Pozrieť ponuku náradia →</span>
+				</div>
+			</a>
+		{/if}
+		<div class="services-row">
+			{#each mainServices as service, i (service.href)}
+				<a href={service.href} class="tile" data-reveal {@attach reveal(Math.min(i * 50, 300))}>
+					{#if serviceBg[service.href]}
+						<img src={serviceBg[service.href]} alt="" class="tile-bg" loading="lazy" />
+					{/if}
+					{#if serviceIcons[service.href]}
+						<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+							{#each serviceIcons[service.href] ?? [] as d (d)}
+								<path {d} />
+							{/each}
+						</svg>
+						{#if !serviceBg[service.href]}
+							<svg class="tile-watermark" viewBox="0 0 24 24" aria-hidden="true">
+								{#each serviceIcons[service.href] ?? [] as d (d)}
+									<path {d} />
+								{/each}
+							</svg>
+						{/if}
+					{/if}
+					<span class="tile-label">{service.short}</span>
+					<span class="tile-desc">{service.description}</span>
+					<svg class="tile-arrow" viewBox="0 0 24 24" aria-hidden="true">
+						<line x1="5" y1="12" x2="19" y2="12" />
+						<polyline points="12 5 19 12 12 19" />
+					</svg>
 				</a>
 			{/each}
 		</div>
-		{#if data.promotions.length > 1}
-			<div class="promo-dots" role="tablist" aria-label="Prepínač akcií">
-				{#each data.promotions as promo, i (promo.slug)}
-					<button
-						type="button"
-						class="promo-dot"
-						class:active={i === promoIndex}
-						role="tab"
-						aria-selected={i === promoIndex}
-						aria-label={`Akcia ${i + 1}: ${promo.title}`}
-						onclick={() => (promoIndex = i)}
-					></button>
-				{/each}
-			</div>
-		{/if}
-	</section>
-{/if}
-
-<!-- 1.5 Quote + Order CTAs -->
-<section class="home-ctas" aria-label="Cenová ponuka a objednávka">
-	<div class="container home-ctas-inner">
-		<a href="/quote" class="home-cta home-cta--primary">
-			<span class="home-cta-title">Cenová ponuka</span>
-			<span class="home-cta-sub">Nezáväzná kalkulácia šitá na mieru Vašej stavby.</span>
-		</a>
-		<a href="/order" class="home-cta home-cta--secondary">
-			<span class="home-cta-title">Objednávkový formulár</span>
-			<span class="home-cta-sub">Objednajte materiál priamo online – pripravíme ho k odberu.</span>
-		</a>
+		<div class="services-row">
+			{#each secondaryServices as service, i (service.href)}
+				<a href={service.href} class="tile" data-reveal {@attach reveal(Math.min(i * 50, 300))}>
+					{#if serviceBg[service.href]}
+						<img src={serviceBg[service.href]} alt="" class="tile-bg" loading="lazy" />
+					{/if}
+					{#if serviceIcons[service.href]}
+						<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+							{#each serviceIcons[service.href] ?? [] as d (d)}
+								<path {d} />
+							{/each}
+						</svg>
+						{#if !serviceBg[service.href]}
+							<svg class="tile-watermark" viewBox="0 0 24 24" aria-hidden="true">
+								{#each serviceIcons[service.href] ?? [] as d (d)}
+									<path {d} />
+								{/each}
+							</svg>
+						{/if}
+					{/if}
+					<span class="tile-label">{service.short}</span>
+					<span class="tile-desc">{service.description}</span>
+					<svg class="tile-arrow" viewBox="0 0 24 24" aria-hidden="true">
+						<line x1="5" y1="12" x2="19" y2="12" />
+						<polyline points="12 5 19 12 12 19" />
+					</svg>
+				</a>
+			{/each}
+			<div class="service-accent service-accent--yellow" aria-hidden="true"></div>
+			<div class="service-accent service-accent--blue" aria-hidden="true"></div>
+		</div>
 	</div>
 </section>
 
-<!-- 2. Products / Services split -->
-<section class="split" aria-label="Hlavné sekcie">
-	<a href="/products" class="split-tile split-tile--products">
-		<div class="split-inner">
-			<h2 class="split-title">Produkty</h2>
-			<p class="split-text">
-				Hrubá stavba, izolácie, omietky, strešné krytiny, farby, okná a ďalšie kategórie stavebného
-				materiálu.
-			</p>
-			<span class="split-cta">
-				Pozrieť produkty
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					width="20"
-					height="20"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					aria-hidden="true"
-				>
-					<line x1="5" y1="12" x2="19" y2="12"></line>
-					<polyline points="12 5 19 12 12 19"></polyline>
-				</svg>
-			</span>
-		</div>
-	</a>
-	<a href="/services" class="split-tile split-tile--services">
-		<div class="split-inner">
-			<h2 class="split-title">Služby</h2>
-			<p class="split-text">
-				Poradenstvo, vypracovanie cenovej ponuky, doprava materiálu, požičovňa náradia, miešanie
-				farieb a kontakty na remeselníkov.
-			</p>
-			<span class="split-cta">
-				Pozrieť služby
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 24 24"
-					width="20"
-					height="20"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					aria-hidden="true"
-				>
-					<line x1="5" y1="12" x2="19" y2="12"></line>
-					<polyline points="12 5 19 12 12 19"></polyline>
-				</svg>
-			</span>
-		</div>
-	</a>
-</section>
-
-<!-- 3. News rotator -->
-{#if data.posts.length > 0}
-	<section class="news-rotator" aria-label="Aktuality">
-		<div class="container">
-			<header class="rotator-header">
-				<h2 class="rotator-heading">Aktuality</h2>
-				<a href="/news" class="rotator-link">Všetky aktuality →</a>
+<!-- 4. Category bento -->
+<section class="section" id="sortiment" aria-label="Sortiment">
+	<div class="bento">
+		<div class="bento-row bento-row--head">
+			<header class="head-cell" data-reveal {@attach reveal()}>
+				<span class="eyebrow">Sortiment</span>
+				<h2 class="section-title">Materiál na celú stavbu</h2>
+				<p class="head-note">Od základov po strechu – 12 kategórií pod jednou strechou.</p>
 			</header>
-			<div class="rotator-stage">
-				{#each data.posts as post, i (post.slug)}
-					<article
-						class="rotator-slide"
-						class:active={i === newsIndex}
-						aria-hidden={i !== newsIndex ? 'true' : undefined}
-					>
-						<a href="/news/{post.slug}" class="rotator-card" tabindex={i === newsIndex ? 0 : -1}>
-							<img src={post.image} alt={post.title} class="rotator-image" loading="lazy" />
-							<div class="rotator-body">
-								<time class="rotator-date" datetime={post.date}>{formatDate(post.date)}</time>
-								<h3 class="rotator-title">{post.title}</h3>
-								<p class="rotator-excerpt">{post.excerpt}</p>
-								<span class="rotator-cta">Čítať viac →</span>
-							</div>
-						</a>
-					</article>
+			<a href="/products" class="head-link-cell">Všetky produkty →</a>
+			<div class="head-acc head-acc--yellow" aria-hidden="true"></div>
+		</div>
+		{#each bentoRows as row, r (r)}
+			<div class="bento-row">
+				{#each row as product, c (product.href)}
+					{@const i = r * 4 + c}
+					<a href={product.href} class="tile" data-reveal {@attach reveal(Math.min(i * 45, 360))}>
+						{#if categoryIcons[product.href]}
+							<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+								{#each categoryIcons[product.href] as d (d)}
+									<path {d} />
+								{/each}
+							</svg>
+							<svg class="tile-watermark" viewBox="0 0 24 24" aria-hidden="true">
+								{#each categoryIcons[product.href] as d (d)}
+									<path {d} />
+								{/each}
+							</svg>
+						{/if}
+						<span class="tile-label">{product.title}</span>
+						<span class="tile-desc">{product.description}</span>
+						{#if supplierLogos[product.href].length > 0}
+							{@const logos = supplierLogos[product.href]}
+							<span
+								class="tile-logo-slot"
+								aria-hidden="true"
+								style="--marquee-t: {Math.max(logos.length * 3, 8)}s"
+							>
+								<span class="tile-logo-track">
+									{#each [...logos, ...logos] as s, li (li)}
+										<img src={s.logo} alt="" class="tile-logo-item" loading="lazy" />
+									{/each}
+								</span>
+							</span>
+							<span class="tile-logos-all" aria-hidden="true">
+								{#each logos as s (s.name)}
+									<img src={s.logo} alt="" class="tile-logo-mini" loading="lazy" />
+								{/each}
+							</span>
+							<span class="visually-hidden">Značky: {product.suppliers.join(', ')}</span>
+						{/if}
+						<svg class="tile-arrow" viewBox="0 0 24 24" aria-hidden="true">
+							<line x1="5" y1="12" x2="19" y2="12" />
+							<polyline points="12 5 19 12 12 19" />
+						</svg>
+					</a>
 				{/each}
 			</div>
-			{#if data.posts.length > 1}
-				<div class="rotator-dots" role="tablist" aria-label="Prepínač aktualít">
-					{#each data.posts as post, i (post.slug)}
-						<button
-							type="button"
-							class="rotator-dot"
-							class:active={i === newsIndex}
-							role="tab"
-							aria-selected={i === newsIndex}
-							aria-label={`Aktualita ${i + 1}: ${post.title}`}
-							onclick={() => (newsIndex = i)}
-						></button>
-					{/each}
-				</div>
-			{/if}
-		</div>
-	</section>
-{/if}
-
-<!-- 4. Partners marquee -->
-<section class="partners-marquee" aria-label="Naši partneri">
-	<div class="container">
-		<h2 class="partners-heading">Naši partneri</h2>
-	</div>
-	<div class="partners-track">
-		{#each partnerTrack as partner, i (i)}
-			<a
-				href={partner.href}
-				class="partner-item"
-				target="_blank"
-				rel="noopener noreferrer"
-				aria-label={partner.name}
-				aria-hidden={i >= partners.length ? 'true' : undefined}
-				tabindex={i >= partners.length ? -1 : 0}
-			>
-				<img src={partner.logo} alt={partner.name} loading="lazy" />
-			</a>
 		{/each}
+	</div>
+</section>
+
+<!-- 5. Stats band -->
+<section class="stats" aria-label="Stavebniny Orol v číslach">
+	<div class="container">
+		<div class="stats-grid">
+			{#each stats as stat, i (stat.label)}
+				<div class="stat" data-reveal {@attach reveal(i * 80)}>
+					<span class="stat-value">{stat.value}</span>
+					<span class="stat-label">{stat.label}</span>
+				</div>
+			{/each}
+			<div class="stat-acc stat-acc--yellow" aria-hidden="true"></div>
+			<div class="stat-acc stat-acc--red" aria-hidden="true"></div>
+			<div class="stat-acc stat-acc--blue" aria-hidden="true"></div>
+		</div>
+	</div>
+</section>
+
+<!-- 6. O nás -->
+<section class="section" id="o-nas" aria-label="O nás">
+	<div class="container about-grid">
+		<div class="about-copy" data-reveal {@attach reveal()}>
+			<span class="eyebrow">O nás</span>
+			<h2 class="section-title">Na trhu od roku {company.foundedYear}</h2>
+			<p class="about-text">
+				Stavebniny OROL predávajú stavebný materiál a poskytujú doplnkové služby pre stavebníkov od
+				roku {company.foundedYear}. Za ten čas sme si získali stálych zákazníkov po celom
+				Mikulášskom a Ružomberskom okrese – naše materiály nájdete na rodinných domoch aj
+				priemyselných stavbách.
+			</p>
+			<blockquote class="motto">{motto}</blockquote>
+			<a href="/about" class="section-link">Celý príbeh →</a>
+		</div>
+		<div class="about-media" data-reveal {@attach reveal(120)}>
+			<div class="photo-frame photo-frame--portrait about-photo">
+				<img
+					src={ownerPhoto}
+					alt="Ing. Koloman Žalúdek, majiteľ spoločnosti Stavebniny Orol"
+					loading="lazy"
+				/>
+				<span class="hero-photo-caption">Ing. Koloman Žalúdek · Majiteľ</span>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -353,574 +413,1116 @@
 		padding-inline: var(--container-px);
 	}
 
-	/* ---- 1. Promo rotator ---- */
-	.promo-rotator {
-		position: relative;
-		background-color: var(--color-iron);
-		overflow: hidden;
-	}
-
-	.promo-stage {
-		position: relative;
-		width: 100%;
-		aspect-ratio: 21 / 9;
-		max-height: 540px;
-		min-height: 340px;
-	}
-
-	.promo-slide {
-		position: absolute;
-		inset: 0;
-		display: block;
-		text-decoration: none;
-		color: var(--text-on-dark);
-		opacity: 0;
-		visibility: hidden;
-		transition:
-			opacity 0.7s ease,
-			visibility 0s linear 0.7s;
-	}
-
-	.promo-slide.active {
-		opacity: 1;
-		visibility: visible;
-		transition:
-			opacity 0.7s ease,
-			visibility 0s linear 0s;
-	}
-
-	.promo-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	.promo-overlay {
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(
-			to top,
-			rgba(0, 0, 0, 0.8) 0%,
-			rgba(0, 0, 0, 0.5) 35%,
-			rgba(0, 0, 0, 0.15) 70%,
-			rgba(0, 0, 0, 0) 100%
-		);
-		display: flex;
-		align-items: flex-end;
-	}
-
-	.promo-overlay-inner.container {
-		max-width: none;
-		margin: 0;
-		padding-inline: clamp(1.5rem, 5vw, 4.5rem);
-	}
-
-	.promo-overlay-inner {
-		display: flex;
-		flex-direction: column;
-		gap: 0.65rem;
-		max-width: 640px;
-		padding-block: 2rem 4rem;
-	}
-
-	.promo-eyebrow {
-		display: inline-block;
-		align-self: flex-start;
-		background-color: var(--color-brand-primary);
-		color: var(--text-on-dark);
-		font-size: var(--font-size-xs);
-		font-weight: 700;
+	/* ===== Shared vocabulary ===== */
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 1rem;
 		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		padding: 0.35rem 0.75rem;
-		border-radius: var(--radius-sm);
+		letter-spacing: 0.16em;
+		color: var(--color-brand-primary);
 	}
 
-	.promo-title {
-		margin: 0.25rem 0 0;
-		font-size: var(--font-size-h1);
-		font-weight: 800;
-		line-height: 1.15;
-		letter-spacing: 0.01em;
-	}
-
-	.promo-valid {
-		margin: 0.25rem 0 0;
-		font-size: var(--font-size-small);
-		color: var(--color-concrete);
-	}
-
-	.promo-dots {
-		position: absolute;
-		bottom: 1.5rem;
-		left: 0;
-		right: 0;
-		display: flex;
-		justify-content: center;
-		gap: 0.85rem;
-		z-index: 2;
-	}
-
-	.promo-dot {
-		width: 72px;
-		height: 12px;
-		border: 2px solid rgba(255, 255, 255, 0.6);
-		border-radius: 999px;
-		background-color: rgba(0, 0, 0, 0.35);
-		cursor: pointer;
-		padding: 0;
-		transition:
-			background-color var(--transition-fast),
-			border-color var(--transition-fast),
-			transform var(--transition-fast);
-	}
-
-	.promo-dot:hover {
-		background-color: rgba(255, 255, 255, 0.85);
-		border-color: var(--color-white);
-		transform: scale(1.08);
-	}
-
-	.promo-dot.active {
+	.eyebrow::before {
+		content: '';
+		width: 24px;
+		height: 3px;
 		background-color: var(--color-brand-primary);
-		border-color: var(--color-brand-primary);
 	}
 
-	.promo-dot:focus-visible {
-		outline: 2px solid var(--color-white);
-		outline-offset: 3px;
+	.section {
+		padding: var(--space-section-y) 0 var(--space-section-y-end);
 	}
 
-	@media (max-width: 720px) {
-		.promo-stage {
-			aspect-ratio: 4 / 5;
-			max-height: none;
-		}
-
-		.promo-overlay-inner {
-			padding-block: 1.5rem 4.5rem;
-		}
-
-		.promo-title {
-			font-size: clamp(1.5rem, 6vw, 2.2rem);
-		}
-	}
-
-	/* ---- 1.5 Home CTAs ---- */
-	.home-ctas {
+	.section--blueprint {
 		background-color: var(--color-chalk);
-		padding: var(--space-section-y) 0;
+		background-image:
+			linear-gradient(to right, rgba(30, 32, 34, 0.045) 1px, transparent 1px),
+			linear-gradient(to bottom, rgba(30, 32, 34, 0.045) 1px, transparent 1px);
+		background-size: 36px 36px;
 	}
 
-	.home-ctas-inner {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1.5rem;
+	/* Section headers live inside the compositions as their own cells. */
+	.head-cell {
+		flex: 4 1 0;
+		min-width: 0;
+		background-color: var(--color-white);
+		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
 
-	.home-cta {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding: 1.75rem 2rem;
-		border-radius: var(--radius-md);
-		text-decoration: none;
-		border: 1px solid transparent;
-		box-shadow: var(--shadow-card);
-		transition:
-			transform var(--transition-fast),
-			box-shadow var(--transition-fast),
-			background-color var(--transition-fast);
-	}
-
-	.home-cta:hover {
-		transform: translateY(-3px);
-		box-shadow: var(--shadow-card-hover);
-	}
-
-	.home-cta--primary {
-		background-color: var(--color-brand-primary);
-		color: var(--color-white);
-	}
-
-	.home-cta--primary:hover {
-		background-color: var(--color-brand-hover);
-	}
-
-	.home-cta--secondary {
-		background-color: var(--color-iron);
-		color: var(--color-white);
-	}
-
-	.home-cta--secondary:hover {
-		background-color: var(--color-brand-primary);
-	}
-
-	.home-cta-title {
-		font-size: var(--font-size-h3);
-		font-weight: 800;
-		letter-spacing: 0.01em;
-	}
-
-	.home-cta-sub {
+	.head-note {
+		margin: 0.6rem 0 0;
 		font-size: var(--font-size-small);
-		line-height: 1.5;
-		opacity: 0.92;
+		color: var(--text-muted);
+		max-width: 44ch;
+		line-height: 1.55;
 	}
 
-	@media (max-width: 720px) {
-		.home-ctas-inner {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	/* ---- 2. Products / Services split ---- */
-	.split {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-	}
-
-	.split-tile {
-		position: relative;
-		display: block;
-		padding: 5rem 2.5rem 4rem;
-		min-height: 360px;
+	.head-link-cell {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-align: center;
 		text-decoration: none;
-		color: var(--text-on-dark);
-		overflow: hidden;
 		transition: background-color var(--transition-fast);
 	}
 
-	.split-tile--products {
-		background-color: var(--color-brand-primary);
-	}
-
-	.split-tile--services {
-		background-color: var(--color-iron);
-	}
-
-	.split-tile::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.25) 100%);
-		pointer-events: none;
-		transition: opacity var(--transition-fast);
-	}
-
-	.split-tile:hover {
+	.head-link-cell:hover {
 		background-color: var(--color-brand-hover);
 	}
 
-	.split-tile:hover::after {
-		opacity: 0.6;
+	.head-acc {
+		flex: 0 0 110px;
 	}
 
-	.split-inner {
-		position: relative;
-		z-index: 1;
-		max-width: 480px;
-		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		height: 100%;
-		justify-content: flex-start;
+	.head-acc--yellow {
+		background-color: var(--color-accent-yellow);
 	}
 
-	.split-title {
-		margin: 0;
-		font-size: var(--font-size-h1);
-		font-weight: 800;
-		letter-spacing: 0.01em;
-	}
-
-	.split-text {
-		margin: 0;
-		font-size: var(--font-size-body);
-		line-height: 1.6;
-		color: var(--color-concrete);
-		max-width: 44ch;
-	}
-
-	.split-cta {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		margin-top: 0.75rem;
-		font-size: var(--font-size-small);
+	.section-title {
+		margin: 0.35rem 0 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-lg);
 		font-weight: 700;
+		line-height: 1.02;
 		text-transform: uppercase;
-		letter-spacing: 0.06em;
-	}
-
-	.split-cta svg {
-		transition: transform var(--transition-fast);
-	}
-
-	.split-tile:hover .split-cta svg {
-		transform: translateX(4px);
-	}
-
-	@media (max-width: 720px) {
-		.split {
-			grid-template-columns: 1fr;
-		}
-
-		.split-tile {
-			min-height: 260px;
-			padding: 3rem 1.75rem;
-		}
-	}
-
-	/* ---- 3. News rotator ---- */
-	.news-rotator {
-		background-color: var(--color-chalk);
-		padding: var(--space-section-y) 0;
-	}
-
-	.rotator-header {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 1rem;
-		margin-bottom: 2rem;
-	}
-
-	.rotator-heading {
-		margin: 0;
-		font-size: var(--font-size-h2);
-		font-weight: 700;
+		letter-spacing: 0.015em;
 		color: var(--color-iron);
 	}
 
-	.rotator-link {
-		font-size: var(--font-size-small);
+	.section-link {
+		flex-shrink: 0;
 		font-weight: 600;
+		font-size: var(--font-size-small);
 		color: var(--color-brand-primary);
 		text-decoration: none;
 	}
 
-	.rotator-link:hover {
-		text-decoration: underline;
+	.section-link:hover {
 		color: var(--color-brand-hover);
+		text-decoration: underline;
 	}
 
-	.rotator-stage {
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.85rem 1.75rem;
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		border-radius: var(--radius-sm);
+		transition:
+			background-color var(--transition-fast),
+			border-color var(--transition-fast),
+			color var(--transition-fast),
+			transform var(--transition-fast);
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn--primary {
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+	}
+
+	.btn--primary:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	.btn--ghost {
+		border: 2px solid var(--color-iron);
+		color: var(--color-iron);
+	}
+
+	.btn--ghost:hover {
+		border-color: var(--color-brand-primary);
+		color: var(--color-brand-primary);
+	}
+
+	/* ===== Section anchors ===== */
+	section[id] {
+		/* Mondrian header: 72px cells + 5px grid line + 7px breathing room */
+		scroll-margin-top: 84px;
+	}
+
+	/* ===== Scroll reveal ===== */
+	@media (scripting: enabled) {
+		[data-reveal] {
+			opacity: 0;
+			transform: translateY(18px);
+			transition:
+				opacity var(--transition-reveal),
+				transform var(--transition-reveal);
+			transition-delay: var(--reveal-delay, 0ms);
+		}
+
+		[data-reveal]:global(.is-revealed) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	/* ===== 1. Hero — Mondrian composition ===== */
+	.hero-mondrian {
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-areas:
+			'copy copy copy copy copy copy copy photo photo photo photo photo'
+			'copy copy copy copy copy copy copy photo photo photo photo photo'
+			'yell yell white white red red red red red white2 white2 blue';
+		gap: 5px;
+		padding-bottom: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.hero-mondrian .cell {
+		background-color: var(--color-white);
+	}
+
+	.hero-copy {
+		grid-area: copy;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.25rem;
+		padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 5vw, 5rem);
+	}
+
+	.hero-media {
+		grid-area: photo;
 		position: relative;
-		min-height: 340px;
+		overflow: hidden;
+		min-height: 320px;
 	}
 
-	.rotator-slide {
+	.hero-photo-img {
 		position: absolute;
 		inset: 0;
-		opacity: 0;
-		visibility: hidden;
-		transition:
-			opacity 0.6s ease,
-			visibility 0s linear 0.6s;
-	}
-
-	.rotator-slide.active {
-		opacity: 1;
-		visibility: visible;
-		transition:
-			opacity 0.6s ease,
-			visibility 0s linear 0s;
-	}
-
-	.rotator-card {
-		display: grid;
-		grid-template-columns: 1.1fr 1fr;
-		background-color: var(--color-white);
-		border-radius: var(--radius-lg);
-		overflow: hidden;
-		text-decoration: none;
-		color: inherit;
-		box-shadow: var(--shadow-card);
-		min-height: 340px;
-		transition: box-shadow var(--transition-fast);
-	}
-
-	.rotator-card:hover {
-		box-shadow: var(--shadow-card-hover);
-	}
-
-	.rotator-image {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		display: block;
+		filter: grayscale(100%) contrast(1.08) brightness(0.97);
+		opacity: 0;
+		transition: opacity 0.8s ease;
 	}
 
-	.rotator-body {
-		padding: 2.5rem;
+	.hero-photo-img.active {
+		opacity: 1;
+	}
+
+	.hero-media::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(160deg, rgba(192, 40, 28, 0.28) 0%, rgba(30, 32, 34, 0.4) 100%);
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	.hero-acc {
+		min-height: 44px;
+	}
+
+	.hero-acc--yellow {
+		grid-area: yell;
+	}
+
+	.hero-mondrian .hero-acc--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	.hero-acc--white {
+		grid-area: white;
+	}
+
+	.hero-acc--red {
+		grid-area: red;
+	}
+
+	.hero-mondrian .hero-acc--red {
+		background-color: var(--color-brand-primary);
+	}
+
+	.hero-acc--white2 {
+		grid-area: white2;
+	}
+
+	.hero-acc--blue {
+		grid-area: blue;
+	}
+
+	.hero-mondrian .hero-acc--blue {
+		background-color: var(--color-accent-blue);
+	}
+
+	.hero-title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-xl);
+		font-weight: 700;
+		line-height: 0.95;
+		text-transform: uppercase;
+		letter-spacing: 0.01em;
+		color: var(--color-iron);
+	}
+
+	.hero-accent {
+		color: var(--color-brand-primary);
+	}
+
+	.hero-lead {
+		margin: 0;
+		max-width: 46ch;
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--text-muted);
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
+	.hero-highlights {
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, auto);
+		gap: 0.55rem 2rem;
+	}
+
+	.hero-highlights li {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		font-size: var(--font-size-small);
+		font-weight: 500;
+		color: var(--color-steel);
+	}
+
+	.hero-highlights svg {
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 3;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.hero-media {
+		min-width: 0;
+	}
+
+	.photo-frame {
+		position: relative;
+		overflow: hidden;
+		border-radius: var(--radius-sm);
+	}
+
+	.photo-frame::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 5px;
+		background: var(--mondrian-rule);
+		z-index: 2;
+	}
+
+	.photo-frame img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.08) brightness(0.97);
+	}
+
+	.photo-frame::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(160deg, rgba(192, 40, 28, 0.34) 0%, rgba(30, 32, 34, 0.5) 100%);
+		mix-blend-mode: multiply;
+		pointer-events: none;
+	}
+
+	.hero-photo-caption {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		z-index: 1;
+		background-color: var(--color-iron);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		padding: 0.5rem 1rem;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-copy > *,
+		.hero-media {
+			animation: hero-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+		}
+
+		.hero-copy > :nth-child(2) {
+			animation-delay: 0.06s;
+		}
+		.hero-copy > :nth-child(3) {
+			animation-delay: 0.12s;
+		}
+		.hero-copy > :nth-child(4) {
+			animation-delay: 0.18s;
+		}
+		.hero-copy > :nth-child(5) {
+			animation-delay: 0.24s;
+		}
+		.hero-media {
+			animation-delay: 0.2s;
+		}
+	}
+
+	@keyframes hero-in {
+		from {
+			opacity: 0;
+			transform: translateY(16px);
+		}
+	}
+
+	/* ===== 2. Promo ticker ===== */
+	.ticker {
+		background-color: var(--color-iron);
+	}
+
+	.ticker-inner {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding-block: 0.7rem;
+		min-height: 3.1rem;
+	}
+
+	.ticker-chip {
+		flex-shrink: 0;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 0.9rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		padding: 0.25rem 0.7rem;
+		border-radius: var(--radius-sm);
+	}
+
+	.ticker-item {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.75rem;
+		min-width: 0;
+		color: var(--color-white);
+		text-decoration: none;
+		font-size: var(--font-size-small);
+	}
+
+	.ticker-item strong {
+		font-weight: 600;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.ticker-item:hover strong {
+		text-decoration: underline;
+	}
+
+	.ticker-valid {
+		flex-shrink: 0;
+		color: var(--color-concrete);
+		font-size: var(--font-size-xs);
+	}
+
+	.ticker-all {
+		flex-shrink: 0;
+		margin-left: auto;
+		color: var(--color-concrete);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.ticker-all:hover {
+		color: var(--color-white);
+	}
+
+	/* ===== 3. Category bento — Mondrian composition ===== */
+	.bento {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.bento-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	.tile {
+		position: relative;
+		flex: 1 1 0;
+		min-width: 0;
+		height: 240px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		/* Top padding reserves the icon zone so expanded content never overlaps it. */
+		padding: 3.25rem 1.2rem 1.1rem;
+		background-color: var(--color-white);
+		text-decoration: none;
+		overflow: hidden;
+		transition:
+			flex-grow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			background-color var(--transition-fast),
+			opacity var(--transition-reveal) var(--reveal-delay, 0ms),
+			transform var(--transition-reveal) var(--reveal-delay, 0ms);
+	}
+
+	.tile:hover {
+		flex-grow: 3.2;
+		background-color: var(--color-chalk);
+	}
+
+	/* Monochrome photo backdrop for tiles that carry one */
+	.tile-bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.05);
+		opacity: 0.16;
+		transition:
+			opacity var(--transition-medium),
+			transform var(--transition-medium);
+	}
+
+	.tile:hover .tile-bg {
+		opacity: 0.32;
+		transform: scale(1.03);
+	}
+
+	.tile-desc {
+		position: relative;
+		z-index: 1;
+		margin-top: 0.35rem;
+		padding-right: 2rem;
+		font-size: 0.8rem;
+		line-height: 1.5;
+		color: var(--text-muted);
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		transition:
+			max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			opacity 0.3s ease 0.12s;
+	}
+
+	.tile:hover .tile-desc {
+		max-height: 3.2em;
+		opacity: 1;
+	}
+
+	.tile-label {
+		position: relative;
+		z-index: 1;
+		font-family: var(--font-display);
+		font-size: 1.3rem;
+		font-weight: 600;
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-iron);
+		padding-right: 2rem;
+	}
+
+	.tile-logo-slot {
+		position: relative;
+		z-index: 1;
+		margin-top: 0.5rem;
+		height: 22px;
+		width: calc(100% - 2.25rem);
+		overflow: hidden;
+		mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+	}
+
+	.tile-logo-track {
+		display: flex;
+		align-items: center;
+		gap: 1.2rem;
+		width: max-content;
+		height: 100%;
+		animation: scroll-right var(--marquee-t, 18s) linear infinite;
+	}
+
+	.tile-logo-item {
+		height: 18px;
+		max-width: 84px;
+		object-fit: contain;
+		filter: grayscale(100%) contrast(1.15);
+		opacity: 0.7;
+	}
+
+	/* On hover the expanded tile swaps the cycling logo for the full brand row. */
+	.tile:hover .tile-logo-slot {
+		display: none;
+	}
+
+	.tile-logos-all {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem 0.9rem;
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
+		transition:
+			max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			opacity 0.3s ease 0.12s;
+	}
+
+	.tile:hover .tile-logos-all {
+		margin-top: 0.6rem;
+		max-height: 6em;
+		opacity: 1;
+	}
+
+	.tile-logo-mini {
+		height: 22px;
+		max-width: 96px;
+		object-fit: contain;
+	}
+
+	.tile-arrow {
+		position: absolute;
+		right: 1rem;
+		bottom: 1.1rem;
+		z-index: 1;
+		width: 20px;
+		height: 20px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		transition: transform var(--transition-fast);
+	}
+
+	.tile-icon {
+		position: absolute;
+		top: 1rem;
+		left: 1.15rem;
+		z-index: 1;
+		width: 26px;
+		height: 26px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 1.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.tile:hover .tile-arrow {
+		transform: translateX(4px);
+	}
+
+	.tile-watermark {
+		position: absolute;
+		right: -16px;
+		bottom: -18px;
+		width: 120px;
+		height: 120px;
+		fill: none;
+		stroke: var(--color-mist);
+		stroke-width: 0.6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		opacity: 0.9;
+		pointer-events: none;
+		transition: stroke var(--transition-fast);
+	}
+
+	.tile:hover .tile-watermark {
+		stroke: color-mix(in srgb, var(--color-brand-primary) 30%, var(--color-white));
+	}
+
+	/* Mobile: plain vertical list — icon, name, cycling brand logo, arrow. */
+	@media (max-width: 700px) {
+		.bento {
+			flex-direction: column;
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.bento-row {
+			display: contents;
+		}
+
+		.tile {
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			gap: 0.8rem;
+			height: auto;
+			min-height: 58px;
+			padding: 0.75rem 0.9rem;
+		}
+
+		.tile:hover {
+			flex-grow: 1;
+		}
+
+		.tile-icon {
+			position: static;
+			width: 22px;
+			height: 22px;
+			flex-shrink: 0;
+		}
+
+		.tile-watermark,
+		.tile-desc,
+		.tile-logos-all,
+		.tile-bg {
+			display: none;
+		}
+
+		.tile-label {
+			flex: 1;
+			padding-right: 0;
+			font-size: 1.05rem;
+		}
+
+		.tile:hover .tile-logo-slot {
+			display: block;
+		}
+
+		.tile-logo-slot {
+			margin: 0;
+			height: 16px;
+			width: 76px;
+			flex-shrink: 0;
+		}
+
+		.tile-logo-item {
+			height: 14px;
+			max-width: 64px;
+		}
+
+		.tile-arrow {
+			position: static;
+			width: 18px;
+			height: 18px;
+			flex-shrink: 0;
+		}
+	}
+
+	@media (max-width: 360px) {
+		.tile-logo-slot {
+			display: none;
+		}
+	}
+
+	/* ===== 4. Services — Mondrian composition with hover-expanding rows ===== */
+	.services-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.services-row {
+		display: flex;
+		gap: 5px;
+	}
+
+	.service-accent {
+		flex: 1 1 0;
+	}
+
+	.service-accent--yellow {
+		background-color: var(--color-accent-yellow);
+	}
+
+	.service-accent--blue {
+		background-color: var(--color-accent-blue);
+	}
+
+	@media (max-width: 700px) {
+		.services-grid {
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.services-row {
+			display: contents;
+		}
+
+		.service-accent {
+			flex: none;
+			min-height: 24px;
+		}
+	}
+
+	/* Featured service: Požičovňa náradia — the red cell of the composition */
+	.featured-cell {
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		align-items: stretch;
+		min-height: 210px;
+		background-color: var(--color-brand-primary);
+		text-decoration: none;
+		transition:
+			background-color var(--transition-fast),
+			opacity var(--transition-reveal) var(--reveal-delay, 0ms),
+			transform var(--transition-reveal) var(--reveal-delay, 0ms);
+	}
+
+	.featured-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	.featured-body {
+		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		gap: 0.6rem;
+		padding: 1.9rem;
+		max-width: 58%;
 	}
 
-	.rotator-date {
-		font-size: var(--font-size-xs);
-		color: var(--text-muted);
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
+	.featured-icon {
+		width: 32px;
+		height: 32px;
+		fill: none;
+		stroke: var(--color-white);
+		stroke-width: 1.8;
+		stroke-linecap: round;
+		stroke-linejoin: round;
 	}
 
-	.rotator-title {
-		margin: 0;
-		font-size: 1.5rem;
-		font-weight: 700;
-		color: var(--color-iron);
-		line-height: 1.3;
-	}
-
-	.rotator-excerpt {
-		margin: 0;
-		font-size: var(--font-size-body);
-		color: var(--text-muted);
-		line-height: 1.6;
-	}
-
-	.rotator-cta {
-		margin-top: 0.5rem;
-		font-size: var(--font-size-small);
+	.featured-title {
+		font-family: var(--font-display);
+		font-size: 1.65rem;
 		font-weight: 600;
-		color: var(--color-brand-primary);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		line-height: 1.1;
+		color: var(--color-white);
 	}
 
-	.rotator-card:hover .rotator-cta {
-		color: var(--color-brand-hover);
+	.featured-desc {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.55;
+		color: rgba(255, 255, 255, 0.88);
 	}
 
-	.rotator-dots {
-		display: flex;
-		justify-content: center;
-		gap: 0.6rem;
-		margin-top: 1.75rem;
-	}
-
-	.rotator-dot {
-		width: 10px;
-		height: 10px;
-		border: none;
-		border-radius: 50%;
-		background-color: var(--color-mist);
-		cursor: pointer;
-		padding: 0;
-		transition:
-			background-color var(--transition-fast),
-			transform var(--transition-fast);
-	}
-
-	.rotator-dot:hover {
-		background-color: var(--color-slate);
-	}
-
-	.rotator-dot.active {
-		background-color: var(--color-brand-primary);
-		transform: scale(1.25);
-	}
-
-	@media (max-width: 720px) {
-		.rotator-card {
-			grid-template-columns: 1fr;
-			min-height: 0;
-		}
-
-		.rotator-image {
-			aspect-ratio: 16 / 9;
-			height: auto;
-		}
-
-		.rotator-body {
-			padding: 1.5rem 1.5rem 2rem;
-		}
-
-		.rotator-stage {
-			min-height: 460px;
-		}
-
-		.rotator-title {
-			font-size: 1.25rem;
-		}
-	}
-
-	/* ---- 4. Partners marquee ---- */
-	.partners-marquee {
-		background-color: var(--color-white);
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
-		overflow: hidden;
-	}
-
-	.partners-heading {
-		margin: 0 0 2rem;
-		font-size: var(--font-size-h2);
+	.featured-cta {
+		margin-top: 0.25rem;
+		font-size: var(--font-size-small);
 		font-weight: 700;
-		color: var(--color-iron);
-		text-align: center;
+		color: var(--color-white);
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
-	.partners-track {
-		display: flex;
-		width: max-content;
-		animation: scroll-right 50s linear infinite;
+	.featured-photo {
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 48%;
+		object-fit: cover;
+		filter: grayscale(100%) contrast(1.05);
+		opacity: 0.75;
+		mask-image: linear-gradient(to left, #000 65%, transparent);
+		-webkit-mask-image: linear-gradient(to left, #000 65%, transparent);
 	}
 
-	@keyframes scroll-right {
-		from {
-			transform: translateX(-50%);
+	@media (max-width: 700px) {
+		.featured-body {
+			max-width: 100%;
+			padding: 1.4rem;
 		}
-		to {
-			transform: translateX(0);
+
+		.featured-photo {
+			opacity: 0.25;
+			width: 70%;
 		}
 	}
 
-	.partners-marquee:hover .partners-track {
-		animation-play-state: paused;
+	/* ===== 5. Stats — Mondrian composition ===== */
+	.stats {
+		background-color: var(--color-iron);
+		padding: 3rem 0;
 	}
 
-	.partner-item {
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.stat {
+		grid-column: span 2;
 		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		background-color: var(--color-white);
+		padding: 1.4rem 1.5rem;
+	}
+
+	.stat-value {
+		font-family: var(--font-display);
+		font-size: clamp(2.4rem, 4vw, 3.4rem);
+		font-weight: 700;
+		line-height: 1;
+		color: var(--color-brand-primary);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stat-label {
+		font-size: var(--font-size-small);
+		color: var(--text-muted);
+	}
+
+	.stat-acc {
+		min-height: 48px;
+	}
+
+	.stat-acc--yellow {
+		grid-column: span 2;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.stat-acc--red {
+		grid-column: span 1;
+		background-color: var(--color-brand-primary);
+	}
+
+	.stat-acc--blue {
+		grid-column: span 1;
+		background-color: var(--color-accent-blue);
+	}
+
+	@media (max-width: 1000px) and (min-width: 701px) {
+		.stats-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		.stat {
+			grid-column: span 2;
+		}
+
+		.stat-acc--yellow {
+			grid-column: span 2;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.stats-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.stat {
+			grid-column: auto;
+		}
+
+		.stat-acc--yellow {
+			grid-column: 1 / -1;
+			min-height: 26px;
+		}
+
+		.stat-acc--red,
+		.stat-acc--blue {
+			display: none;
+		}
+	}
+
+	/* ===== 6. News ===== */
+	/* ===== 6. O nás ===== */
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1.15fr 0.85fr;
+		gap: clamp(2rem, 5vw, 4rem);
 		align-items: center;
-		justify-content: center;
-		margin-right: 2.5rem;
-		padding: 0.75rem 1.5rem;
-		width: 200px;
-		height: 100px;
-		flex-shrink: 0;
-		border-radius: var(--radius-md);
-		transition:
-			filter var(--transition-fast),
-			opacity var(--transition-fast),
-			transform var(--transition-fast);
-		filter: grayscale(100%);
-		opacity: 0.7;
 	}
 
-	.partner-item:hover,
-	.partner-item:focus-visible {
-		filter: grayscale(0);
-		opacity: 1;
-		transform: scale(1.05);
+	.about-copy {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.1rem;
 	}
 
-	.partner-item img {
-		max-width: 100%;
-		max-height: 100%;
-		object-fit: contain;
-		display: block;
+	.about-text {
+		margin: 0;
+		max-width: 56ch;
+		line-height: 1.7;
+		color: var(--text-muted);
 	}
 
+	.motto {
+		margin: 0.25rem 0 0;
+		padding: 0.9rem 1.25rem;
+		border-left: 3px solid var(--color-brand-primary);
+		background-color: var(--color-chalk);
+		max-width: 54ch;
+		font-size: var(--font-size-small);
+		font-weight: 500;
+		font-style: italic;
+		line-height: 1.7;
+		color: var(--color-steel);
+	}
+
+	.photo-frame--portrait::after {
+		background: linear-gradient(160deg, rgba(192, 40, 28, 0.16) 0%, rgba(30, 32, 34, 0.32) 100%);
+	}
+
+	.about-photo {
+		aspect-ratio: 3 / 4;
+		max-width: 380px;
+		margin-left: auto;
+	}
+
+	@media (max-width: 900px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.about-photo {
+			margin-left: 0;
+			max-width: none;
+			aspect-ratio: 4 / 3;
+		}
+	}
+
+	/* ===== Responsive: hero ===== */
+	@media (max-width: 900px) {
+		.hero-mondrian {
+			grid-template-columns: repeat(4, 1fr);
+			grid-template-areas:
+				'photo photo photo photo'
+				'copy copy copy copy'
+				'yell red red blue';
+			gap: 4px;
+			padding-bottom: 4px;
+		}
+
+		.hero-media {
+			min-height: 220px;
+		}
+
+		.hero-acc--white,
+		.hero-acc--white2 {
+			display: none;
+		}
+
+		.hero-acc {
+			min-height: 32px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.hero-highlights {
+			grid-template-columns: 1fr;
+		}
+
+		.ticker-valid,
+		.ticker-all {
+			display: none;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.head-cell {
+			padding: 1.25rem 1rem 1.4rem;
+		}
+
+		.head-link-cell {
+			padding: 0.9rem;
+		}
+
+		.head-acc {
+			flex: none;
+			min-height: 24px;
+		}
+	}
+
+	/* ===== Mobile: stats composition runs edge to edge ===== */
+	@media (max-width: 700px) {
+		.stats-grid {
+			margin-inline: calc(-1 * var(--container-px));
+		}
+	}
+
+	/* ===== Reduced motion ===== */
 	@media (prefers-reduced-motion: reduce) {
-		.partners-track {
+		[data-reveal] {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.tile-logo-track {
 			animation: none;
 		}
 
-		.promo-slide,
-		.rotator-slide {
+		.tile,
+		.tile-desc,
+		.btn {
 			transition: none;
 		}
 	}

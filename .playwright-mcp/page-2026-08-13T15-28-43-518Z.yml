@@ -1,0 +1,410 @@
+- generic [ref=f139e2]:
+  - link "Preskočiť na obsah" [ref=f139e3] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f139e4]:
+    - generic [ref=f139e5]:
+      - link [ref=f139e6] [cursor=pointer]:
+        - /url: /
+      - button "Otvoriť menu" [ref=f139e8] [cursor=pointer]
+  - main [ref=f139e10]:
+    - region "Produkty" [ref=f139e11]:
+      - generic [ref=f139e12]:
+        - generic [ref=f139e13]:
+          - generic [ref=f139e14]:
+            - generic [ref=f139e15]: Sortiment
+            - heading "Produkty" [level=1] [ref=f139e16]
+            - paragraph [ref=f139e17]: Kompletný sortiment stavebného materiálu pre rodinné domy, rekonštrukcie aj väčšie stavby. Pozrite si jednotlivé kategórie a overených dodávateľov, s ktorými spolupracujeme.
+          - link "Cenová ponuka →" [ref=f139e18] [cursor=pointer]:
+            - /url: /quote
+        - generic [ref=f139e20]:
+          - 'link "Hrubá stavba Značky: Xella, Porfix, Wienerberger, Heluz, Schiedel, Velox" [ref=f139e21] [cursor=pointer]':
+            - /url: /products/hruba-stavba
+            - generic [ref=f139e24]: Hrubá stavba
+            - generic [ref=f139e27]: "Značky: Xella, Porfix, Wienerberger, Heluz, Schiedel, Velox"
+          - 'link "Suché zmesy, malty a omietky Značky: Kreisel, Weber, Baumit, Knauf, Rigips, Cemix, Sakret" [ref=f139e30] [cursor=pointer]':
+            - /url: /products/suche-zmesy-malty-omietky
+            - generic [ref=f139e33]: Suché zmesy, malty a omietky
+            - generic [ref=f139e36]: "Značky: Kreisel, Weber, Baumit, Knauf, Rigips, Cemix, Sakret"
+          - 'link "Tepelné izolácie Značky: Isover, Knauf, Britterm" [ref=f139e39] [cursor=pointer]':
+            - /url: /products/tepelne-izolacie
+            - generic [ref=f139e44]: Tepelné izolácie
+            - generic [ref=f139e47]: "Značky: Isover, Knauf, Britterm"
+          - 'link "Fasádne omietky, fasádne a interiérové farby Značky: Polifarbe, Baumit, Stachema, Barvy a laky" [ref=f139e50] [cursor=pointer]':
+            - /url: /products/fasadne-a-interierove-farby
+            - generic [ref=f139e54]: Fasádne omietky, fasádne a interiérové farby
+            - generic [ref=f139e57]: "Značky: Polifarbe, Baumit, Stachema, Barvy a laky"
+        - generic [ref=f139e60]:
+          - 'link "Strešné krytiny Značky: Bramac, Bauweb, Tegola, Juta, Foliarex" [ref=f139e61] [cursor=pointer]':
+            - /url: /products/stresne-krytiny
+            - generic [ref=f139e66]: Strešné krytiny
+            - generic [ref=f139e69]: "Značky: Bramac, Bauweb, Tegola, Juta, Foliarex"
+          - 'link "Hydroizolácia Značky: Hasoft, Sika, Kreisel, Dechtochema" [ref=f139e72] [cursor=pointer]':
+            - /url: /products/hydroizolacia
+            - generic [ref=f139e75]: Hydroizolácia
+            - generic [ref=f139e78]: "Značky: Hasoft, Sika, Kreisel, Dechtochema"
+          - 'link "Stavebná chémia Značky: Ceresit, Sika, Soudal, Henkel, Penosil, Tytan" [ref=f139e81] [cursor=pointer]':
+            - /url: /products/stavebna-chemia
+            - generic [ref=f139e86]: Stavebná chémia
+            - generic [ref=f139e89]: "Značky: Ceresit, Sika, Soudal, Henkel, Penosil, Tytan"
+          - 'link "Dlažby a betónové tvárnice Značky: Chyžbet, Premac, Prefabeton Diviaky, Ströher, Vaspo, TopStone" [ref=f139e92] [cursor=pointer]':
+            - /url: /products/dlazby-betonove-tvarnice
+            - generic [ref=f139e98]: Dlažby a betónové tvárnice
+            - generic [ref=f139e101]: "Značky: Chyžbet, Premac, Prefabeton Diviaky, Ströher, Vaspo, TopStone"
+        - generic [ref=f139e104]:
+          - link "Betonárska oceľ" [ref=f139e105] [cursor=pointer]:
+            - /url: /products/betonarska-ocel
+          - 'link "Okná a dvere Značky: Roto, Fakro, Velux, Anavek, Sapeli" [ref=f139e110] [cursor=pointer]':
+            - /url: /products/okna-a-dvere
+            - generic [ref=f139e113]: Okná a dvere
+            - generic [ref=f139e116]: "Značky: Roto, Fakro, Velux, Anavek, Sapeli"
+          - 'link "Kanalizácia, voda a sanita Značky: Keramika Soukup, Alcadrain, ACO, Haco, MEA, Raven" [ref=f139e119] [cursor=pointer]':
+            - /url: /products/kanalizacia-voda-sanita
+            - generic [ref=f139e123]: Kanalizácia, voda a sanita
+            - generic [ref=f139e126]: "Značky: Keramika Soukup, Alcadrain, ACO, Haco, MEA, Raven"
+          - 'link "Náradie a doplnky Značky: Makita, Milwaukee, Hilti, Würth, Fischer, Dedra, Herman, Sola, Storch, Levelys" [ref=f139e129] [cursor=pointer]':
+            - /url: /products/naradie-a-doplnky
+            - generic [ref=f139e133]: Náradie a doplnky
+            - generic [ref=f139e136]: "Značky: Makita, Milwaukee, Hilti, Würth, Fischer, Dedra, Herman, Sola, Storch, Levelys"
+  - contentinfo [ref=f139e139]:
+    - generic [ref=f139e140]:
+      - link "Stavebniny Orol — domov" [ref=f139e141] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f139e142]: StavebninyOrol
+      - generic [ref=f139e143]:
+        - generic [ref=f139e144]: Otváracie hodiny
+        - generic [ref=f139e145]:
+          - generic [ref=f139e146]:
+            - term [ref=f139e147]: Pondelok – Piatok
+            - definition [ref=f139e148]: 7:00 – 16:00
+          - generic [ref=f139e149]:
+            - term [ref=f139e150]: Sobota
+            - definition [ref=f139e151]: 7:00 – 12:00
+          - generic [ref=f139e152]:
+            - term [ref=f139e153]: Nedeľa
+            - definition [ref=f139e154]: zatvorené
+      - navigation "Pätičková navigácia" [ref=f139e156]:
+        - generic [ref=f139e157]: Navigácia
+        - link "Služby" [ref=f139e158] [cursor=pointer]:
+          - /url: /#sluzby
+        - link "Produkty" [ref=f139e159] [cursor=pointer]:
+          - /url: /#sortiment
+        - link "Akcie" [ref=f139e160] [cursor=pointer]:
+          - /url: /#akcie
+        - link "Aktuality" [ref=f139e161] [cursor=pointer]:
+          - /url: /news
+        - link "Galéria" [ref=f139e162] [cursor=pointer]:
+          - /url: /gallery
+        - link "O nás" [ref=f139e163] [cursor=pointer]:
+          - /url: /#o-nas
+        - link "Kontakt" [ref=f139e164] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=f139e166]:
+        - link "+421 903 777 741" [ref=f139e167] [cursor=pointer]:
+          - /url: tel:+421903777741
+        - link "stavebniny.orol@gmail.com" [ref=f139e168] [cursor=pointer]:
+          - /url: mailto:stavebniny.orol@gmail.com
+      - generic [ref=f139e169]:
+        - link "Instagram" [ref=f139e170] [cursor=pointer]:
+          - /url: https://www.instagram.com/orol_stavebniny/
+        - link "Facebook" [ref=f139e175] [cursor=pointer]:
+          - /url: https://www.facebook.com/stavebninyOROL
+      - generic "Naši partneri" [ref=f139e180]:
+        - generic [ref=f139e181]:
+          - link "ACO" [ref=f139e182] [cursor=pointer]:
+            - /url: https://www.aco.sk
+            - img "ACO" [ref=f139e183]
+          - link "Alcadrain" [ref=f139e184] [cursor=pointer]:
+            - /url: https://www.alcadrain.sk
+            - img "Alcadrain" [ref=f139e185]
+          - link "Anavek" [ref=f139e186] [cursor=pointer]:
+            - /url: https://www.anavek.sk
+            - img "Anavek" [ref=f139e187]
+          - link "Barvy a laky" [ref=f139e188] [cursor=pointer]:
+            - /url: https://www.bal.cz
+            - img "Barvy a laky" [ref=f139e189]
+          - link "Baumit" [ref=f139e190] [cursor=pointer]:
+            - /url: https://www.baumit.sk
+            - img "Baumit" [ref=f139e191]
+          - link "Bauweb" [ref=f139e192] [cursor=pointer]:
+            - /url: https://www.bauweb.sk
+            - img "Bauweb" [ref=f139e193]
+          - link "Bramac" [ref=f139e194] [cursor=pointer]:
+            - /url: https://www.bramac.sk
+            - img "Bramac" [ref=f139e195]
+          - link "Britterm" [ref=f139e196] [cursor=pointer]:
+            - /url: https://www.britterm.sk
+            - img "Britterm" [ref=f139e197]
+          - link "Cemix" [ref=f139e198] [cursor=pointer]:
+            - /url: https://www.cemix.sk
+            - img "Cemix" [ref=f139e199]
+          - link "Ceresit" [ref=f139e200] [cursor=pointer]:
+            - /url: https://www.ceresit.sk
+            - img "Ceresit" [ref=f139e201]
+          - link "Chyžbet" [ref=f139e202] [cursor=pointer]:
+            - /url: https://www.chyzbet.sk
+            - img "Chyžbet" [ref=f139e203]
+          - link "Dechtochema" [ref=f139e204] [cursor=pointer]:
+            - /url: https://www.dechtochema.sk
+            - img "Dechtochema" [ref=f139e205]
+          - link "Dedra" [ref=f139e206] [cursor=pointer]:
+            - /url: https://www.dedra.pl
+            - img "Dedra" [ref=f139e207]
+          - link "Fakro" [ref=f139e208] [cursor=pointer]:
+            - /url: https://www.fakro.sk
+            - img "Fakro" [ref=f139e209]
+          - link "Fischer" [ref=f139e210] [cursor=pointer]:
+            - /url: https://www.fischer-sk.sk
+            - img "Fischer" [ref=f139e211]
+          - link "Foliarex" [ref=f139e212] [cursor=pointer]:
+            - /url: https://foliarex.pl
+            - img "Foliarex" [ref=f139e213]
+          - link "Haco" [ref=f139e214] [cursor=pointer]:
+            - /url: https://www.haco.cz
+            - img "Haco" [ref=f139e215]
+          - link "Hasoft" [ref=f139e216] [cursor=pointer]:
+            - /url: https://www.hasoft.cz
+            - img "Hasoft" [ref=f139e217]
+          - link "Heluz" [ref=f139e218] [cursor=pointer]:
+            - /url: https://www.heluz.sk
+            - img "Heluz" [ref=f139e219]
+          - link "Henkel" [ref=f139e220] [cursor=pointer]:
+            - /url: https://www.henkel.sk
+            - img "Henkel" [ref=f139e221]
+          - link "Herman" [ref=f139e222] [cursor=pointer]:
+            - /url: https://www.herman.sk
+            - img "Herman" [ref=f139e223]
+          - link "Hilti" [ref=f139e224] [cursor=pointer]:
+            - /url: https://www.hilti.sk
+            - img "Hilti" [ref=f139e225]
+          - link "Isover" [ref=f139e226] [cursor=pointer]:
+            - /url: https://www.isover.sk
+            - img "Isover" [ref=f139e227]
+          - link "Juta" [ref=f139e228] [cursor=pointer]:
+            - /url: https://www.juta.cz
+            - img "Juta" [ref=f139e229]
+          - link "Keramika Soukup" [ref=f139e230] [cursor=pointer]:
+            - /url: https://www.keramikasoukup.cz
+            - img "Keramika Soukup" [ref=f139e231]
+          - link "Knauf" [ref=f139e232] [cursor=pointer]:
+            - /url: https://www.knauf.sk
+            - img "Knauf" [ref=f139e233]
+          - link "Kreisel" [ref=f139e234] [cursor=pointer]:
+            - /url: https://www.kreisel.sk
+            - img "Kreisel" [ref=f139e235]
+          - link "Levelys" [ref=f139e236] [cursor=pointer]:
+            - /url: https://www.levelys.sk
+            - img "Levelys" [ref=f139e237]
+          - link "Makita" [ref=f139e238] [cursor=pointer]:
+            - /url: https://www.makita.sk
+            - img "Makita" [ref=f139e239]
+          - link "MEA" [ref=f139e240] [cursor=pointer]:
+            - /url: https://www.mea-group.com
+            - img "MEA" [ref=f139e241]
+          - link "Milwaukee" [ref=f139e242] [cursor=pointer]:
+            - /url: https://www.milwaukeetool.eu
+            - img "Milwaukee" [ref=f139e243]
+          - link "Penosil" [ref=f139e244] [cursor=pointer]:
+            - /url: https://www.penosil.sk
+            - img "Penosil" [ref=f139e245]
+          - link "Polifarbe" [ref=f139e246] [cursor=pointer]:
+            - /url: https://www.polifarbe.hu/
+            - img "Polifarbe" [ref=f139e247]
+          - link "Porfix" [ref=f139e248] [cursor=pointer]:
+            - /url: https://www.porfix.sk
+            - img "Porfix" [ref=f139e249]
+          - link "Prefabeton Diviaky" [ref=f139e250] [cursor=pointer]:
+            - /url: https://www.prefabeton.sk
+            - img "Prefabeton Diviaky" [ref=f139e251]
+          - link "Premac" [ref=f139e252] [cursor=pointer]:
+            - /url: https://www.premac.sk
+            - img "Premac" [ref=f139e253]
+          - link "Raven" [ref=f139e254] [cursor=pointer]:
+            - /url: https://www.raven.sk
+            - img "Raven" [ref=f139e255]
+          - link "Rigips" [ref=f139e256] [cursor=pointer]:
+            - /url: https://www.rigips.sk
+            - img "Rigips" [ref=f139e257]
+          - link "Roto" [ref=f139e258] [cursor=pointer]:
+            - /url: https://www.roto-frank.com/cs-cz/dst
+            - img "Roto" [ref=f139e259]
+          - link "Sakret" [ref=f139e260] [cursor=pointer]:
+            - /url: https://www.sakret.sk
+            - img "Sakret" [ref=f139e261]
+          - link "Sapeli" [ref=f139e262] [cursor=pointer]:
+            - /url: https://www.sapeli.sk
+            - img "Sapeli" [ref=f139e263]
+          - link "Schiedel" [ref=f139e264] [cursor=pointer]:
+            - /url: https://www.schiedel.sk
+            - img "Schiedel" [ref=f139e265]
+          - link "Sika" [ref=f139e266] [cursor=pointer]:
+            - /url: https://svk.sika.com
+            - img "Sika" [ref=f139e267]
+          - link "Sola" [ref=f139e268] [cursor=pointer]:
+            - /url: https://www.sola.at
+            - img "Sola" [ref=f139e269]
+          - link "Soudal" [ref=f139e270] [cursor=pointer]:
+            - /url: https://www.soudal.sk
+            - img "Soudal" [ref=f139e271]
+          - link "Stachema" [ref=f139e272] [cursor=pointer]:
+            - /url: https://www.stachema.sk
+            - img "Stachema" [ref=f139e273]
+          - link "Storch" [ref=f139e274] [cursor=pointer]:
+            - /url: https://www.storch.sk
+            - img "Storch" [ref=f139e275]
+          - link "Ströher" [ref=f139e276] [cursor=pointer]:
+            - /url: https://www.stroeher.de
+            - img "Ströher" [ref=f139e277]
+          - link "Tegola" [ref=f139e278] [cursor=pointer]:
+            - /url: https://tegolacanadese.com
+            - img "Tegola" [ref=f139e279]
+          - link "TopStone" [ref=f139e280] [cursor=pointer]:
+            - /url: https://www.topstone.sk
+            - img "TopStone" [ref=f139e281]
+          - link "Tytan" [ref=f139e282] [cursor=pointer]:
+            - /url: https://www.tytan.pl
+            - img "Tytan" [ref=f139e283]
+          - link "Vaspo" [ref=f139e284] [cursor=pointer]:
+            - /url: https://www.vaspo.sk
+            - img "Vaspo" [ref=f139e285]
+          - link "Velox" [ref=f139e286] [cursor=pointer]:
+            - /url: https://www.velox.sk
+            - img "Velox" [ref=f139e287]
+          - link "Velux" [ref=f139e288] [cursor=pointer]:
+            - /url: https://www.velux.sk
+            - img "Velux" [ref=f139e289]
+          - link "Weber" [ref=f139e290] [cursor=pointer]:
+            - /url: https://sk.weber
+            - img "Weber" [ref=f139e291]
+          - link "Wienerberger" [ref=f139e292] [cursor=pointer]:
+            - /url: https://www.wienerberger.sk
+            - img "Wienerberger" [ref=f139e293]
+          - link "Würth" [ref=f139e294] [cursor=pointer]:
+            - /url: https://www.wurth.sk
+            - img "Würth" [ref=f139e295]
+          - link "Xella" [ref=f139e296] [cursor=pointer]:
+            - /url: https://www.xella.sk
+            - img "Xella" [ref=f139e297]
+          - link [ref=f139e298] [cursor=pointer]:
+            - /url: https://www.aco.sk
+          - link [ref=f139e300] [cursor=pointer]:
+            - /url: https://www.alcadrain.sk
+          - link [ref=f139e302] [cursor=pointer]:
+            - /url: https://www.anavek.sk
+          - link [ref=f139e304] [cursor=pointer]:
+            - /url: https://www.bal.cz
+          - link [ref=f139e306] [cursor=pointer]:
+            - /url: https://www.baumit.sk
+          - link [ref=f139e308] [cursor=pointer]:
+            - /url: https://www.bauweb.sk
+          - link [ref=f139e310] [cursor=pointer]:
+            - /url: https://www.bramac.sk
+          - link [ref=f139e312] [cursor=pointer]:
+            - /url: https://www.britterm.sk
+          - link [ref=f139e314] [cursor=pointer]:
+            - /url: https://www.cemix.sk
+          - link [ref=f139e316] [cursor=pointer]:
+            - /url: https://www.ceresit.sk
+          - link [ref=f139e318] [cursor=pointer]:
+            - /url: https://www.chyzbet.sk
+          - link [ref=f139e320] [cursor=pointer]:
+            - /url: https://www.dechtochema.sk
+          - link [ref=f139e322] [cursor=pointer]:
+            - /url: https://www.dedra.pl
+          - link [ref=f139e324] [cursor=pointer]:
+            - /url: https://www.fakro.sk
+          - link [ref=f139e326] [cursor=pointer]:
+            - /url: https://www.fischer-sk.sk
+          - link [ref=f139e328] [cursor=pointer]:
+            - /url: https://foliarex.pl
+          - link [ref=f139e330] [cursor=pointer]:
+            - /url: https://www.haco.cz
+          - link [ref=f139e332] [cursor=pointer]:
+            - /url: https://www.hasoft.cz
+          - link [ref=f139e334] [cursor=pointer]:
+            - /url: https://www.heluz.sk
+          - link [ref=f139e336] [cursor=pointer]:
+            - /url: https://www.henkel.sk
+          - link [ref=f139e338] [cursor=pointer]:
+            - /url: https://www.herman.sk
+          - link [ref=f139e340] [cursor=pointer]:
+            - /url: https://www.hilti.sk
+          - link [ref=f139e342] [cursor=pointer]:
+            - /url: https://www.isover.sk
+          - link [ref=f139e344] [cursor=pointer]:
+            - /url: https://www.juta.cz
+          - link [ref=f139e346] [cursor=pointer]:
+            - /url: https://www.keramikasoukup.cz
+          - link [ref=f139e348] [cursor=pointer]:
+            - /url: https://www.knauf.sk
+          - link [ref=f139e350] [cursor=pointer]:
+            - /url: https://www.kreisel.sk
+          - link [ref=f139e352] [cursor=pointer]:
+            - /url: https://www.levelys.sk
+          - link [ref=f139e354] [cursor=pointer]:
+            - /url: https://www.makita.sk
+          - link [ref=f139e356] [cursor=pointer]:
+            - /url: https://www.mea-group.com
+          - link [ref=f139e358] [cursor=pointer]:
+            - /url: https://www.milwaukeetool.eu
+          - link [ref=f139e360] [cursor=pointer]:
+            - /url: https://www.penosil.sk
+          - link [ref=f139e362] [cursor=pointer]:
+            - /url: https://www.polifarbe.hu/
+          - link [ref=f139e364] [cursor=pointer]:
+            - /url: https://www.porfix.sk
+          - link [ref=f139e366] [cursor=pointer]:
+            - /url: https://www.prefabeton.sk
+          - link [ref=f139e368] [cursor=pointer]:
+            - /url: https://www.premac.sk
+          - link [ref=f139e370] [cursor=pointer]:
+            - /url: https://www.raven.sk
+          - link [ref=f139e372] [cursor=pointer]:
+            - /url: https://www.rigips.sk
+          - link [ref=f139e374] [cursor=pointer]:
+            - /url: https://www.roto-frank.com/cs-cz/dst
+          - link [ref=f139e376] [cursor=pointer]:
+            - /url: https://www.sakret.sk
+          - link [ref=f139e378] [cursor=pointer]:
+            - /url: https://www.sapeli.sk
+          - link [ref=f139e380] [cursor=pointer]:
+            - /url: https://www.schiedel.sk
+          - link [ref=f139e382] [cursor=pointer]:
+            - /url: https://svk.sika.com
+          - link [ref=f139e384] [cursor=pointer]:
+            - /url: https://www.sola.at
+          - link [ref=f139e386] [cursor=pointer]:
+            - /url: https://www.soudal.sk
+          - link [ref=f139e388] [cursor=pointer]:
+            - /url: https://www.stachema.sk
+          - link [ref=f139e390] [cursor=pointer]:
+            - /url: https://www.storch.sk
+          - link [ref=f139e392] [cursor=pointer]:
+            - /url: https://www.stroeher.de
+          - link [ref=f139e394] [cursor=pointer]:
+            - /url: https://tegolacanadese.com
+          - link [ref=f139e396] [cursor=pointer]:
+            - /url: https://www.topstone.sk
+          - link [ref=f139e398] [cursor=pointer]:
+            - /url: https://www.tytan.pl
+          - link [ref=f139e400] [cursor=pointer]:
+            - /url: https://www.vaspo.sk
+          - link [ref=f139e402] [cursor=pointer]:
+            - /url: https://www.velox.sk
+          - link [ref=f139e404] [cursor=pointer]:
+            - /url: https://www.velux.sk
+          - link [ref=f139e406] [cursor=pointer]:
+            - /url: https://sk.weber
+          - link [ref=f139e408] [cursor=pointer]:
+            - /url: https://www.wienerberger.sk
+          - link [ref=f139e410] [cursor=pointer]:
+            - /url: https://www.wurth.sk
+          - link [ref=f139e412] [cursor=pointer]:
+            - /url: https://www.xella.sk
+    - generic [ref=f139e415]:
+      - generic [ref=f139e416]:
+        - link "Ochrana osobných údajov" [ref=f139e417] [cursor=pointer]:
+          - /url: /ochrana-osobnych-udajov
+        - link "Cookies" [ref=f139e418] [cursor=pointer]:
+          - /url: /cookies
+      - paragraph [ref=f139e419]: "IČO: 36378313 · DIČ: 2020126196 · IČ DPH: SK2020126196"
+      - paragraph [ref=f139e420]: © 2026 OROL, spol. s r.o.

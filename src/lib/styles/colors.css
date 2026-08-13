@@ -20,6 +20,10 @@
 	--color-warning: #e65100;
 	--color-error: #c62828;
 
+	/* === Mondrian accents (from the company's marketing tarp design) === */
+	--color-accent-yellow: #f0c808;
+	--color-accent-blue: #2436b8;
+
 	/* === Typography === */
 	--text-on-dark: #ffffff;
 	--text-on-light: #1e2022;

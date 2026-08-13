@@ -11,6 +11,7 @@
 	let menuOpen = $state(false);
 	let compact = $state(false);
 	let hidden = $state(false);
+	let activeSection = $state('');
 
 	$effect(() => {
 		let lastY = window.scrollY;
@@ -32,7 +33,41 @@
 		return () => window.removeEventListener('scroll', onScroll);
 	});
 
+	// Scroll-spy: on the homepage, highlight the nav link of the section in view.
+	$effect(() => {
+		if (page.url.pathname !== '/') {
+			activeSection = '';
+			return;
+		}
+
+		const ids = navLinks
+			.map((l) => l.href)
+			.filter((href) => href.startsWith('/#'))
+			.map((href) => href.slice(2));
+		const sections = ids
+			.map((id) => document.getElementById(id))
+			.filter((el): el is HTMLElement => el !== null);
+		if (sections.length === 0) return;
+
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						activeSection = entry.target.id;
+					}
+				}
+			},
+			// A slim horizontal band ~1/3 down the viewport decides the active section.
+			{ rootMargin: '-30% 0px -65% 0px' }
+		);
+		for (const el of sections) io.observe(el);
+		return () => io.disconnect();
+	});
+
 	function isActive(href: string): boolean {
+		if (href.startsWith('/#')) {
+			return activeSection === href.slice(2);
+		}
 		if (href === '/') {
 			return page.url.pathname === '/';
 		}
@@ -147,6 +182,10 @@
 						{link.label}
 					</a>
 				{/each}
+				<div class="mobile-index-links">
+					<a href="/products" class="mobile-index-link" onclick={closeMenu}>Všetky produkty →</a>
+					<a href="/services" class="mobile-index-link" onclick={closeMenu}>Všetky služby →</a>
+				</div>
 			</nav>
 			<div class="mobile-contact">
 				<a href={contact.phoneHref} class="mobile-phone">{contact.phone}</a>
@@ -184,7 +223,8 @@
 		position: sticky;
 		top: 0;
 		z-index: var(--z-header);
-		background-color: var(--color-brand-dark);
+		/* The iron ground shows through cell gaps as the Mondrian grid lines. */
+		background-color: var(--color-iron);
 		color: var(--text-on-dark);
 		/* Never let header content push the page wider than the viewport
 		   (e.g. before the overflow-observer switches to the hamburger). */
@@ -205,20 +245,20 @@
 
 	.header-inner {
 		display: flex;
-		align-items: center;
+		align-items: stretch;
 		justify-content: space-between;
-		max-width: var(--container-wide);
-		margin: 0 auto;
-		padding: 0 var(--container-px);
-		height: 80px;
-		gap: 1.5rem;
+		height: 72px;
+		gap: 5px;
+		padding-bottom: 5px;
 	}
 
-	/* ---- Brand ---- */
+	/* ---- Brand — red cell ---- */
 	.brand {
 		display: flex;
 		align-items: center;
 		gap: 0.65rem;
+		padding: 0 clamp(1rem, 3vw, 2rem);
+		background-color: var(--color-brand-primary);
 		text-decoration: none;
 		/* Allowed to shrink so the logo can never push the hamburger off-screen. */
 		min-width: 0;
@@ -249,12 +289,15 @@
 		display: none;
 	}
 
-	/* ---- Desktop nav ---- */
+	/* ---- Desktop nav — white cell ---- */
 	.desktop-nav {
 		display: flex;
 		align-items: center;
+		justify-content: flex-end;
 		gap: 0.25rem;
-		margin-left: auto;
+		flex: 1;
+		background-color: var(--color-white);
+		padding: 0 1.25rem;
 	}
 
 	.nav-link {
@@ -262,9 +305,8 @@
 		padding: 0.45rem 0.85rem;
 		font-size: 0.95rem;
 		font-weight: 500;
-		color: var(--text-on-dark);
+		color: var(--color-steel);
 		text-decoration: none;
-		border-radius: 4px;
 		transition: color var(--transition-fast);
 		white-space: nowrap;
 	}
@@ -283,7 +325,7 @@
 	}
 
 	.nav-link:hover {
-		color: var(--color-brand-hover);
+		color: var(--color-brand-primary);
 	}
 
 	.nav-link:hover::after {
@@ -298,26 +340,30 @@
 		transform: scaleX(1);
 	}
 
-	/* ---- Desktop contact ---- */
+	/* ---- Desktop contact — red cell ---- */
 	.desktop-contact {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
 		flex-shrink: 0;
+		background-color: var(--color-brand-primary);
+		padding: 0 clamp(1rem, 2.5vw, 1.75rem);
 	}
 
 	.phone {
-		font-size: 0.9rem;
+		font-family: var(--font-display);
+		font-size: 1.05rem;
 		font-weight: 600;
-		color: var(--text-on-dark);
+		color: var(--color-white);
 		text-decoration: none;
-		letter-spacing: 0.02em;
+		letter-spacing: 0.04em;
 		white-space: nowrap;
 		transition: color var(--transition-fast);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.phone:hover {
-		color: var(--color-brand-hover);
+		text-decoration: underline;
 	}
 
 	.social-links {
@@ -330,38 +376,37 @@
 		display: flex;
 		align-items: center;
 		gap: 0.4rem;
-		color: var(--color-concrete);
+		color: rgba(255, 255, 255, 0.8);
 		text-decoration: none;
 		transition: color var(--transition-fast);
 		line-height: 1;
 	}
 
 	.social-link:hover {
-		color: var(--color-brand-hover);
+		color: var(--color-white);
 	}
 
-	/* ---- Hamburger ---- */
+	/* ---- Hamburger — red cell ---- */
 	.hamburger {
 		display: none;
-		background: none;
+		background-color: var(--color-brand-primary);
 		border: none;
-		color: var(--text-on-dark);
+		color: var(--color-white);
 		cursor: pointer;
-		padding: 0.35rem;
-		border-radius: 4px;
+		padding: 0 1.2rem;
 		line-height: 1;
-		transition: color var(--transition-fast);
+		transition: background-color var(--transition-fast);
 		flex-shrink: 0;
 	}
 
 	.hamburger:hover {
-		color: var(--color-brand-hover);
+		background-color: var(--color-brand-hover);
 	}
 
-	/* ---- Mobile menu ---- */
+	/* ---- Mobile menu — white cell ---- */
 	.mobile-menu {
-		background-color: var(--color-steel);
-		border-top: 1px solid rgba(255, 255, 255, 0.07);
+		background-color: var(--color-white);
+		border-top: 5px solid var(--color-iron);
 		padding: 1rem 1.5rem 1.5rem;
 	}
 
@@ -377,9 +422,8 @@
 		padding: 0.65rem 0.75rem;
 		font-size: 1rem;
 		font-weight: 500;
-		color: var(--text-on-dark);
+		color: var(--color-steel);
 		text-decoration: none;
-		border-radius: 4px;
 		border-left: 3px solid transparent;
 		transition:
 			color var(--transition-fast),
@@ -388,19 +432,47 @@
 	}
 
 	.mobile-nav-link:hover {
-		color: var(--color-brand-hover);
-		background-color: rgba(255, 255, 255, 0.05);
+		color: var(--color-brand-primary);
+		background-color: var(--color-chalk);
 		border-left-color: var(--color-brand-hover);
 	}
 
 	.mobile-nav-link.active {
 		color: var(--color-brand-primary);
 		border-left-color: var(--color-brand-primary);
-		background-color: rgba(192, 40, 28, 0.1);
+		background-color: rgba(192, 40, 28, 0.06);
+	}
+
+	.mobile-index-links {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 5px;
+		margin-top: 0.85rem;
+	}
+
+	.mobile-index-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.85rem 0.5rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		text-align: center;
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
+	}
+
+	.mobile-index-link:hover {
+		background-color: var(--color-brand-hover);
 	}
 
 	.mobile-contact {
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		border-top: 1px solid var(--border-default);
 		padding-top: 1rem;
 		display: flex;
 		flex-direction: column;
@@ -408,16 +480,17 @@
 	}
 
 	.mobile-phone {
-		font-size: 1rem;
+		font-family: var(--font-display);
+		font-size: 1.1rem;
 		font-weight: 600;
-		color: var(--text-on-dark);
+		color: var(--color-iron);
 		text-decoration: none;
-		letter-spacing: 0.02em;
+		letter-spacing: 0.04em;
 		transition: color var(--transition-fast);
 	}
 
 	.mobile-phone:hover {
-		color: var(--color-brand-hover);
+		color: var(--color-brand-primary);
 	}
 
 	.mobile-social {
@@ -428,7 +501,7 @@
 	.mobile-social .social-link {
 		font-size: 0.9rem;
 		font-weight: 500;
-		color: var(--color-concrete);
+		color: var(--color-steel);
 	}
 
 	/* ---- Dynamic collapse (JS sets .compact when content would overflow) ---- */

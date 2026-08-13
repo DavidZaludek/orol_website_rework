@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { contact, mapsEmbedSrc, company } from '$lib/site';
+	import { env } from '$env/dynamic/public';
+	import { contact, company } from '$lib/site';
+	import GoogleMap from '$lib/components/GoogleMap.svelte';
+	import OrolMap from '$lib/components/OrolMap.svelte';
+
+	const useGoogleMap = Boolean(env.PUBLIC_GOOGLE_MAPS_KEY);
 
 	const staff = [
 		{ role: 'majiteľ, konateľ', name: 'Ing. Koloman ŽALÚDEK', mobile: '+421 903 521 884' },
@@ -67,16 +72,11 @@
 
 			<!-- Right: map -->
 			<div class="map-wrapper">
-				<iframe
-					src={mapsEmbedSrc}
-					width="100%"
-					height="100%"
-					style="border:0;"
-					allowfullscreen
-					loading="lazy"
-					referrerpolicy="no-referrer-when-downgrade"
-					title="Poloha {company.name} na mape"
-				></iframe>
+				{#if useGoogleMap}
+					<GoogleMap />
+				{:else}
+					<OrolMap />
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -186,14 +186,26 @@
 
 	/* ---- Map ---- */
 	.map-wrapper {
+		position: relative;
 		height: 340px;
-		border-radius: var(--radius-md);
+		border-radius: var(--radius-sm);
 		overflow: hidden;
 		border: 1px solid var(--border-default);
 	}
 
-	.map-wrapper iframe {
-		display: block;
+	.map-wrapper::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 5px;
+		background: var(--mondrian-rule);
+		z-index: 2;
+	}
+
+	.map-wrapper :global(.map) {
+		min-height: 338px;
 	}
 
 	/* ---- Staff section ---- */
