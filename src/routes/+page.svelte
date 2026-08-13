@@ -13,6 +13,19 @@
 	import svcFarby from '$lib/assets/services/miesanie-farieb.jpg';
 	import svcRemeselnici from '$lib/assets/services/kontakty-na-remeselnikov.jpg';
 
+	import prodHruba from '$lib/assets/products/hruba-stavba-generated.jpg';
+	import prodZmesy from '$lib/assets/products/suche-zmesy-malty-omietky-generated.jpg';
+	import prodIzolacie from '$lib/assets/products/tepelne-izolacie-generated.jpg';
+	import prodFarby from '$lib/assets/products/fasadne-a-interierove-farby-generated.jpg';
+	import prodKrytiny from '$lib/assets/products/stresne-krytiny-generated.jpg';
+	import prodHydroizolacia from '$lib/assets/products/hydroizolacia-generated.jpg';
+	import prodChemia from '$lib/assets/products/stavebna-chemia-generated.jpg';
+	import prodDlazby from '$lib/assets/products/dlazby-betonove-tvarnice-generated.jpg';
+	import prodOcel from '$lib/assets/products/betonarska-ocel-generated.jpg';
+	import prodOkna from '$lib/assets/products/okna-a-dvere-generated.jpg';
+	import prodSanita from '$lib/assets/products/kanalizacia-voda-sanita-generated.jpg';
+	import prodNaradie from '$lib/assets/products/naradie-a-doplnky-generated.jpg';
+
 	import { fade } from 'svelte/transition';
 	import { company, contact, products, services } from '$lib/site';
 	import { reveal } from '$lib/reveal';
@@ -43,6 +56,21 @@
 		'/services/stavbyveduci': svcStavbyveduci,
 		'/services/miesanie-farieb': svcFarby,
 		'/services/kontakty-na-remeselnikov': svcRemeselnici
+	};
+
+	const productBg: Record<string, string> = {
+		'/products/hruba-stavba': prodHruba,
+		'/products/suche-zmesy-malty-omietky': prodZmesy,
+		'/products/tepelne-izolacie': prodIzolacie,
+		'/products/fasadne-a-interierove-farby': prodFarby,
+		'/products/stresne-krytiny': prodKrytiny,
+		'/products/hydroizolacia': prodHydroizolacia,
+		'/products/stavebna-chemia': prodChemia,
+		'/products/dlazby-betonove-tvarnice': prodDlazby,
+		'/products/betonarska-ocel': prodOcel,
+		'/products/okna-a-dvere': prodOkna,
+		'/products/kanalizacia-voda-sanita': prodSanita,
+		'/products/naradie-a-doplnky': prodNaradie
 	};
 
 	let { data } = $props();
@@ -316,13 +344,9 @@
 				{#each row as product, c (product.href)}
 					{@const i = r * 4 + c}
 					<a href={product.href} class="tile" data-reveal {@attach reveal(Math.min(i * 45, 360))}>
+						<img src={productBg[product.href]} alt="" class="tile-bg" loading="lazy" />
 						{#if categoryIcons[product.href]}
 							<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
-								{#each categoryIcons[product.href] as d (d)}
-									<path {d} />
-								{/each}
-							</svg>
-							<svg class="tile-watermark" viewBox="0 0 24 24" aria-hidden="true">
 								{#each categoryIcons[product.href] as d (d)}
 									<path {d} />
 								{/each}
@@ -910,6 +934,7 @@
 		overflow: hidden;
 		transition:
 			flex-grow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
 			background-color var(--transition-fast),
 			opacity var(--transition-reveal) var(--reveal-delay, 0ms),
 			transform var(--transition-reveal) var(--reveal-delay, 0ms);
@@ -918,6 +943,15 @@
 	.tile:hover {
 		flex-grow: 3.2;
 		background-color: var(--color-chalk);
+	}
+
+	/* The row with the hovered tile grows taller, so the selected tile
+	   expands on both axes while the composition stays gap-sealed. */
+	@media (hover: hover) {
+		.bento-row:has(.tile:hover) .tile,
+		.services-row:has(.tile:hover) .tile {
+			height: 312px;
+		}
 	}
 
 	/* Monochrome photo backdrop for tiles that carry one */
