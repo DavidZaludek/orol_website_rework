@@ -2,7 +2,6 @@
 	import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
 	import svcCenova from '$lib/assets/services/cenova-ponuka.jpg';
 	import svcDoprava from '$lib/assets/services/doprava.jpg';
-	import svcPoradenstvo from '$lib/assets/services/poradenstvo.jpg';
 	import svcStavbyveduci from '$lib/assets/services/stavbyveduci.jpg';
 	import svcFarby from '$lib/assets/services/miesanie-farieb.jpg';
 	import svcRemeselnici from '$lib/assets/services/kontakty-na-remeselnikov.jpg';
@@ -11,32 +10,28 @@
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
 
-	const photos: Record<string, string> = {
-		'/services/cenova-ponuka': svcCenova,
-		'/services/doprava': svcDoprava,
-		'/services/poradenstvo': svcPoradenstvo,
-		'/services/stavbyveduci': svcStavbyveduci,
-		'/services/pozicovna-naradia': toolsPhoto,
-		'/services/miesanie-farieb': svcFarby,
-		'/services/kontakty-na-remeselnikov': svcRemeselnici
-	};
+	interface Cell {
+		href: string;
+		area: string;
+		photo?: string;
+		featured?: boolean;
+	}
 
-	// Presentation order: the main offer first, the featured rental as the
-	// red band in the middle, supporting services after.
-	const order = [
-		'/services/cenova-ponuka',
-		'/services/doprava',
-		'/services/poradenstvo',
-		'/services/stavbyveduci',
-		'/services/pozicovna-naradia',
-		'/services/miesanie-farieb',
-		'/services/kontakty-na-remeselnikov'
+	// The composition: Požičovňa is the dominant red cell, Poradenstvo stays a
+	// calm white cell with a watermark, the rest carry monochrome photos.
+	const cells: Cell[] = [
+		{ href: '/services/cenova-ponuka', area: 'cenova', photo: svcCenova },
+		{ href: '/services/pozicovna-naradia', area: 'pozic', photo: toolsPhoto, featured: true },
+		{ href: '/services/doprava', area: 'doprava', photo: svcDoprava },
+		{ href: '/services/poradenstvo', area: 'porad' },
+		{ href: '/services/stavbyveduci', area: 'stavby', photo: svcStavbyveduci },
+		{ href: '/services/miesanie-farieb', area: 'farby', photo: svcFarby },
+		{ href: '/services/kontakty-na-remeselnikov', area: 'kontakty', photo: svcRemeselnici }
 	];
-	const flow = order
-		.map((href) => services.find((s) => s.href === href))
-		.filter((s): s is (typeof services)[number] => s !== undefined);
 
-	const accentCycle = ['yellow', 'blue', 'red'] as const;
+	function service(href: string) {
+		return services.find((s) => s.href === href);
+	}
 </script>
 
 <svelte:head>
@@ -48,38 +43,58 @@
 </svelte:head>
 
 <section class="section" aria-label="Služby">
-	<div class="flow">
-		<div class="flow-row flow-row--head">
-			<header class="head-cell" data-reveal {@attach reveal()}>
-				<span class="eyebrow">Služby</span>
-				<h1 class="section-title">Viac než predajňa</h1>
-				<p class="head-note">
-					Okrem predaja stavebného materiálu Vám ponúkame aj komplexné služby, ktoré uľahčia
-					realizáciu Vašej stavby od prvého nákresu až po odovzdanie.
-				</p>
-			</header>
-			<div class="acc acc--yellow" aria-hidden="true"></div>
-		</div>
+	<div class="canvas">
+		<header class="head-cell" data-reveal {@attach reveal()}>
+			<span class="eyebrow">Služby</span>
+			<h1 class="section-title">Viac než predajňa</h1>
+			<p class="head-note">
+				Okrem predaja stavebného materiálu Vám ponúkame aj komplexné služby, ktoré uľahčia
+				realizáciu Vašej stavby od prvého nákresu až po odovzdanie.
+			</p>
+		</header>
+		<div class="acc acc--head" aria-hidden="true"></div>
 
-		{#each flow as service, i (service.href)}
-			{@const featured = service.href === '/services/pozicovna-naradia'}
-			<div class="flow-row" class:flow-row--reverse={i % 2 === 1}>
-				<div class="flow-photo" data-reveal {@attach reveal()}>
-					<img src={photos[service.href]} alt="" loading={i < 2 ? undefined : 'lazy'} />
-				</div>
-				<div class="flow-body" class:flow-body--red={featured} data-reveal {@attach reveal(100)}>
-					<svg class="flow-icon" viewBox="0 0 24 24" aria-hidden="true">
-						{#each serviceIcons[service.href] ?? [] as d (d)}
-							<path {d} />
-						{/each}
-					</svg>
-					<h2 class="flow-title">{service.short}</h2>
-					<p class="flow-desc">{service.description}</p>
-					<a href={service.href} class="flow-link">Zistiť viac →</a>
-				</div>
-				<div class="acc acc--{accentCycle[i % accentCycle.length]}" aria-hidden="true"></div>
-			</div>
+		{#each cells as cell, i (cell.href)}
+			{@const s = service(cell.href)}
+			{#if s}
+				<a
+					href={cell.href}
+					class="cell cell--{cell.area}"
+					class:cell--featured={cell.featured}
+					class:cell--photo={cell.photo !== undefined}
+					data-reveal
+					{@attach reveal(Math.min(i * 60, 300))}
+				>
+					{#if cell.photo}
+						<img src={cell.photo} alt="" class="cell-bg" loading={i < 2 ? undefined : 'lazy'} />
+					{:else}
+						<svg class="cell-watermark" viewBox="0 0 24 24" aria-hidden="true">
+							{#each serviceIcons[cell.href] ?? [] as d (d)}
+								<path {d} />
+							{/each}
+						</svg>
+					{/if}
+					<span class="cell-chip" aria-hidden="true">
+						<svg viewBox="0 0 24 24">
+							{#each serviceIcons[cell.href] ?? [] as d (d)}
+								<path {d} />
+							{/each}
+						</svg>
+					</span>
+					<span class="cell-body">
+						<span class="cell-title">{s.short}</span>
+						<span class="cell-desc">{s.description}</span>
+						<span class="cell-more">
+							{cell.featured ? 'Pozrieť ponuku náradia →' : 'Zistiť viac →'}
+						</span>
+					</span>
+				</a>
+			{/if}
 		{/each}
+
+		<div class="acc acc--yellow" aria-hidden="true"></div>
+		<div class="acc acc--blue" aria-hidden="true"></div>
+		<div class="acc acc--red" aria-hidden="true"></div>
 	</div>
 </section>
 
@@ -119,8 +134,7 @@
 	}
 
 	.head-cell {
-		flex: 4 1 0;
-		min-width: 0;
+		grid-area: head;
 		background-color: var(--color-white);
 		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
 	}
@@ -150,66 +164,107 @@
 		}
 	}
 
-	/* ===== Flow canvas ===== */
-	.flow {
-		display: flex;
-		flex-direction: column;
+	/* ===== Mondrian canvas ===== */
+	.canvas {
+		display: grid;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: auto minmax(380px, auto) minmax(300px, auto) minmax(280px, auto);
+		grid-template-areas:
+			'head    head    head    head    head    head    head    head    head    hacc    hacc    hacc'
+			'cenova  cenova  cenova  cenova  cenova  pozic   pozic   pozic   pozic   pozic   pozic   pozic'
+			'doprava doprava doprava doprava bacc    porad   porad   porad   porad   stavby  stavby  stavby'
+			'yacc    farby   farby   farby   farby   farby   kontakty kontakty kontakty kontakty kontakty racc';
 		gap: 5px;
 		padding: 5px;
 		background-color: var(--color-iron);
 	}
 
-	.flow-row {
-		display: flex;
-		gap: 5px;
-	}
-
-	.flow-row--reverse {
-		flex-direction: row-reverse;
-	}
-
-	.flow-photo {
-		flex: 5 1 0;
-		min-width: 0;
+	/* ===== Service cells ===== */
+	.cell {
 		position: relative;
 		overflow: hidden;
-		min-height: 300px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		min-width: 0;
+		padding: clamp(1.3rem, 2.5vw, 2rem);
 		background-color: var(--color-white);
+		text-decoration: none;
 	}
 
-	.flow-photo img {
+	.cell--cenova {
+		grid-area: cenova;
+	}
+	.cell--pozic {
+		grid-area: pozic;
+	}
+	.cell--doprava {
+		grid-area: doprava;
+	}
+	.cell--porad {
+		grid-area: porad;
+	}
+	.cell--stavby {
+		grid-area: stavby;
+	}
+	.cell--farby {
+		grid-area: farby;
+	}
+	.cell--kontakty {
+		grid-area: kontakty;
+	}
+
+	/* Monochrome photo backdrop — regains color on hover. */
+	.cell-bg {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		filter: grayscale(100%) contrast(1.08) brightness(0.97);
+		filter: grayscale(100%) contrast(1.06) brightness(0.98);
+		transition:
+			filter var(--transition-medium),
+			transform var(--transition-medium);
 	}
 
-	.flow-photo::after {
+	@media (hover: hover) {
+		.cell:hover .cell-bg {
+			filter: grayscale(0%) contrast(1.02);
+			transform: scale(1.025);
+		}
+	}
+
+	/* White scrim keeps the text zone readable over the photo. */
+	.cell--photo::after {
 		content: '';
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(160deg, rgba(192, 40, 28, 0.24) 0%, rgba(30, 32, 34, 0.35) 100%);
-		mix-blend-mode: multiply;
+		background: linear-gradient(
+			to top,
+			rgba(255, 255, 255, 0.96) 0%,
+			rgba(255, 255, 255, 0.84) 30%,
+			rgba(255, 255, 255, 0) 65%
+		);
 		pointer-events: none;
 	}
 
-	.flow-body {
-		flex: 6 1 0;
-		min-width: 0;
+	/* Icon chip — a small white cell pinned top-left, its own Mondrian block. */
+	.cell-chip {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 2;
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
+		align-items: center;
 		justify-content: center;
-		gap: 0.8rem;
-		padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+		width: 52px;
+		height: 52px;
 		background-color: var(--color-white);
 	}
 
-	.flow-icon {
-		width: 34px;
-		height: 34px;
+	.cell-chip svg {
+		width: 26px;
+		height: 26px;
 		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
@@ -217,8 +272,16 @@
 		stroke-linejoin: round;
 	}
 
-	.flow-title {
-		margin: 0;
+	.cell-body {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.45rem;
+	}
+
+	.cell-title {
 		font-family: var(--font-display);
 		font-size: var(--font-size-display-md);
 		font-weight: 700;
@@ -228,15 +291,15 @@
 		color: var(--color-iron);
 	}
 
-	.flow-desc {
-		margin: 0;
-		max-width: 58ch;
-		font-size: 1rem;
-		line-height: 1.65;
+	.cell-desc {
+		max-width: 52ch;
+		font-size: var(--font-size-small);
+		line-height: 1.6;
 		color: var(--text-muted);
 	}
 
-	.flow-link {
+	.cell-more {
+		margin-top: 0.35rem;
 		font-size: var(--font-size-small);
 		font-weight: 700;
 		color: var(--color-brand-primary);
@@ -245,84 +308,151 @@
 		transition: color var(--transition-fast);
 	}
 
-	.flow-link:hover {
+	.cell:hover .cell-more {
 		color: var(--color-brand-hover);
 	}
 
-	/* Featured band — Požičovňa náradia as the red cell */
-	.flow-body--red {
+	/* Poradenstvo — the calm white cell with a ghost watermark. */
+	.cell-watermark {
+		position: absolute;
+		right: -1.5rem;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 180px;
+		height: 180px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 0.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		opacity: 0.16;
+		pointer-events: none;
+	}
+
+	/* ===== Featured — Požičovňa as the dominant red cell ===== */
+	.cell--featured {
 		background-color: var(--color-brand-primary);
 	}
 
-	.flow-body--red .flow-icon {
-		stroke: var(--color-white);
+	.cell--featured .cell-bg {
+		filter: grayscale(100%) contrast(1.05) brightness(0.95);
+		mix-blend-mode: multiply;
+		opacity: 0.9;
 	}
 
-	.flow-body--red .flow-title {
+	@media (hover: hover) {
+		.cell--featured:hover .cell-bg {
+			/* The red cell stays red — the photo just leans closer. */
+			filter: grayscale(100%) contrast(1.05) brightness(1);
+			transform: scale(1.025);
+		}
+	}
+
+	.cell--featured::after {
+		background: linear-gradient(
+			to top,
+			rgba(140, 26, 16, 0.95) 0%,
+			rgba(140, 26, 16, 0.72) 32%,
+			rgba(140, 26, 16, 0) 68%
+		);
+	}
+
+	.cell--featured .cell-chip svg {
+		stroke: var(--color-brand-primary);
+	}
+
+	.cell--featured .cell-title {
+		font-size: var(--font-size-display-lg);
 		color: var(--color-white);
 	}
 
-	.flow-body--red .flow-desc {
-		color: rgba(255, 255, 255, 0.88);
+	.cell--featured .cell-desc {
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 1rem;
 	}
 
-	.flow-body--red .flow-link {
+	.cell--featured .cell-more {
 		color: var(--color-white);
 	}
 
-	.flow-body--red .flow-link:hover {
+	.cell--featured:hover .cell-more {
 		color: var(--color-white);
 		text-decoration-thickness: 2px;
 	}
 
-	/* Accent cells */
+	/* ===== Accent cells ===== */
 	.acc {
-		flex: 0 0 90px;
+		min-width: 0;
+	}
+
+	.acc--head {
+		grid-area: hacc;
+		background-color: var(--color-accent-yellow);
 	}
 
 	.acc--yellow {
+		grid-area: yacc;
 		background-color: var(--color-accent-yellow);
 	}
 
 	.acc--blue {
+		grid-area: bacc;
 		background-color: var(--color-accent-blue);
 	}
 
 	.acc--red {
+		grid-area: racc;
 		background-color: var(--color-brand-primary);
 	}
 
-	/* ===== Mobile: bands stack ===== */
+	/* ===== Mobile: the composition stacks ===== */
 	@media (max-width: 800px) {
-		.flow {
+		.canvas {
+			display: flex;
+			flex-direction: column;
 			gap: 4px;
 			padding: 4px;
-		}
-
-		.flow-row,
-		.flow-row--reverse {
-			flex-direction: column;
-			gap: 4px;
-		}
-
-		.flow-row--head {
-			flex-direction: column;
 		}
 
 		.head-cell {
 			padding: 1.25rem 1rem 1.4rem;
 		}
 
-		.flow-photo {
-			min-height: 190px;
+		.cell {
+			min-height: 220px;
+			padding: 1.25rem 1rem 1.3rem;
 		}
 
-		.flow-body {
-			padding: 1.4rem 1.2rem 1.6rem;
+		.cell--featured {
+			min-height: 300px;
+		}
+
+		.cell-watermark {
+			width: 130px;
+			height: 130px;
+			right: -1rem;
+		}
+
+		/* Stacked cells put text higher up — the scrim has to reach it. */
+		.cell--photo::after {
+			background: linear-gradient(
+				to top,
+				rgba(255, 255, 255, 0.96) 0%,
+				rgba(255, 255, 255, 0.88) 55%,
+				rgba(255, 255, 255, 0.08) 92%
+			);
+		}
+
+		.cell--featured::after {
+			background: linear-gradient(
+				to top,
+				rgba(140, 26, 16, 0.95) 0%,
+				rgba(140, 26, 16, 0.8) 55%,
+				rgba(140, 26, 16, 0.08) 92%
+			);
 		}
 
 		.acc {
-			flex: none;
 			min-height: 22px;
 		}
 	}
@@ -332,6 +462,10 @@
 		[data-reveal] {
 			opacity: 1;
 			transform: none;
+			transition: none;
+		}
+
+		.cell-bg {
 			transition: none;
 		}
 	}
