@@ -965,11 +965,14 @@
 		opacity: 0.16;
 		transition:
 			opacity var(--transition-medium),
+			filter var(--transition-medium),
 			transform var(--transition-medium);
 	}
 
+	/* The selected tile's photo regains full color. */
 	.tile:hover .tile-bg {
-		opacity: 0.32;
+		opacity: 0.45;
+		filter: grayscale(0%) contrast(1.02);
 		transform: scale(1.03);
 	}
 
