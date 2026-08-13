@@ -126,6 +126,9 @@
 			{/each}
 		</nav>
 
+		<!-- Persistent CTA — red cell -->
+		<a href="/quote" class="desktop-cta">Cenová ponuka</a>
+
 		<!-- Desktop contact + social -->
 		<div class="desktop-contact">
 			<a href={contact.phoneHref} class="phone">{contact.phone}</a>
@@ -183,6 +186,9 @@
 					</a>
 				{/each}
 				<div class="mobile-index-links">
+					<a href="/quote" class="mobile-index-link mobile-index-link--cta" onclick={closeMenu}>
+						Cenová ponuka →
+					</a>
 					<a href="/products" class="mobile-index-link" onclick={closeMenu}>Všetky produkty →</a>
 					<a href="/services" class="mobile-index-link" onclick={closeMenu}>Všetky služby →</a>
 				</div>
@@ -340,13 +346,35 @@
 		transform: scaleX(1);
 	}
 
-	/* ---- Desktop contact — red cell ---- */
+	/* ---- Persistent CTA — red cell ---- */
+	.desktop-cta {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+		padding: 0 clamp(1rem, 2.5vw, 1.75rem);
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-decoration: none;
+		white-space: nowrap;
+		transition: background-color var(--transition-fast);
+	}
+
+	.desktop-cta:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	/* ---- Desktop contact — white cell ---- */
 	.desktop-contact {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
 		flex-shrink: 0;
-		background-color: var(--color-brand-primary);
+		background-color: var(--color-white);
 		padding: 0 clamp(1rem, 2.5vw, 1.75rem);
 	}
 
@@ -354,7 +382,7 @@
 		font-family: var(--font-display);
 		font-size: 1.05rem;
 		font-weight: 600;
-		color: var(--color-white);
+		color: var(--color-iron);
 		text-decoration: none;
 		letter-spacing: 0.04em;
 		white-space: nowrap;
@@ -363,7 +391,7 @@
 	}
 
 	.phone:hover {
-		text-decoration: underline;
+		color: var(--color-brand-primary);
 	}
 
 	.social-links {
@@ -376,14 +404,14 @@
 		display: flex;
 		align-items: center;
 		gap: 0.4rem;
-		color: rgba(255, 255, 255, 0.8);
+		color: var(--color-steel);
 		text-decoration: none;
 		transition: color var(--transition-fast);
 		line-height: 1;
 	}
 
 	.social-link:hover {
-		color: var(--color-white);
+		color: var(--color-brand-primary);
 	}
 
 	/* ---- Hamburger — red cell ---- */
@@ -471,6 +499,12 @@
 		background-color: var(--color-brand-hover);
 	}
 
+	/* The quote CTA spans the full drawer width above the two index links. */
+	.mobile-index-link--cta {
+		grid-column: 1 / -1;
+		font-size: 1.05rem;
+	}
+
 	.mobile-contact {
 		border-top: 1px solid var(--border-default);
 		padding-top: 1rem;
@@ -506,6 +540,7 @@
 
 	/* ---- Dynamic collapse (JS sets .compact when content would overflow) ---- */
 	.header-inner.compact .desktop-nav,
+	.header-inner.compact .desktop-cta,
 	.header-inner.compact .desktop-contact {
 		display: none;
 	}
@@ -519,6 +554,7 @@
 	/* No-JS / very narrow fallback */
 	@media (max-width: 1280px) {
 		.desktop-nav,
+		.desktop-cta,
 		.desktop-contact {
 			display: none;
 		}

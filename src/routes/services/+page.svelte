@@ -58,7 +58,6 @@
 					realizáciu Vašej stavby od prvého nákresu až po odovzdanie.
 				</p>
 			</header>
-			<a href="/quote" class="head-link-cell">Cenová ponuka →</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 
@@ -132,28 +131,6 @@
 		color: var(--text-muted);
 		max-width: 60ch;
 		line-height: 1.55;
-	}
-
-	.head-link-cell {
-		flex: 1 1 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem;
-		background-color: var(--color-brand-primary);
-		color: var(--color-white);
-		font-family: var(--font-display);
-		font-size: 1.1rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		text-align: center;
-		text-decoration: none;
-		transition: background-color var(--transition-fast);
-	}
-
-	.head-link-cell:hover {
-		background-color: var(--color-brand-hover);
 	}
 
 	/* ===== Scroll reveal ===== */
@@ -334,10 +311,6 @@
 
 		.head-cell {
 			padding: 1.25rem 1rem 1.4rem;
-		}
-
-		.head-link-cell {
-			padding: 0.9rem;
 		}
 
 		.flow-photo {
