@@ -71,3 +71,10 @@ main {
 	white-space: nowrap;
 	border: 0;
 }
+
+/* White/near-white brand logos sit on a dark chip so they stay visible on light cells. */
+img.logo-chip {
+	background-color: var(--color-iron);
+	padding: 3px 7px;
+	box-sizing: content-box;
+}

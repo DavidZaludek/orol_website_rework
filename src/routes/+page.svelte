@@ -138,15 +138,17 @@
 	];
 
 	// Cycling supplier logos per category tile, resolved from the partner list.
-	const partnerLogoByName = new Map<string, string>(partners.map((p) => [p.name, p.logo]));
-	const supplierLogos: Record<string, { name: string; logo: string }[]> = Object.fromEntries(
-		products.map((p) => [
-			p.href,
-			p.suppliers
-				.map((name: string) => ({ name, logo: partnerLogoByName.get(name) }))
-				.filter((s): s is { name: string; logo: string } => s.logo !== undefined)
-		])
-	);
+	const partnerByName = new Map(partners.map((p) => [p.name, p]));
+	const supplierLogos: Record<string, { name: string; logo: string; light?: boolean }[]> =
+		Object.fromEntries(
+			products.map((p) => [
+				p.href,
+				p.suppliers
+					.map((name: string) => partnerByName.get(name))
+					.filter((s) => s !== undefined)
+					.map((s) => ({ name: s.name, logo: s.logo, light: s.light }))
+			])
+		);
 
 	const stats = [
 		{ value: company.foundedYear, label: 'rok založenia' },
@@ -363,13 +365,25 @@
 							>
 								<span class="tile-logo-track">
 									{#each [...logos, ...logos] as s, li (li)}
-										<img src={s.logo} alt="" class="tile-logo-item" loading="lazy" />
+										<img
+											src={s.logo}
+											alt=""
+											class="tile-logo-item"
+											class:logo-chip={s.light}
+											loading="lazy"
+										/>
 									{/each}
 								</span>
 							</span>
 							<span class="tile-logos-all" aria-hidden="true">
 								{#each logos as s (s.name)}
-									<img src={s.logo} alt="" class="tile-logo-mini" loading="lazy" />
+									<img
+										src={s.logo}
+										alt=""
+										class="tile-logo-mini"
+										class:logo-chip={s.light}
+										loading="lazy"
+									/>
 								{/each}
 							</span>
 							<span class="visually-hidden">Značky: {product.suppliers.join(', ')}</span>

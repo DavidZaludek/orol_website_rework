@@ -1,15 +1,16 @@
 <script lang="ts">
-	import prodOcel from '$lib/assets/products/betonarska-ocel.jpg';
-	import prodDlazby from '$lib/assets/products/dlazby-betonove-tvarnice.jpg';
-	import prodFarby from '$lib/assets/products/fasadne-a-interierove-farby.jpg';
-	import prodHruba from '$lib/assets/products/hruba-stavba.jpg';
-	import prodSanita from '$lib/assets/products/kanalizacia-voda-sanita.jpg';
-	import prodNaradie from '$lib/assets/products/naradie-a-doplnky.jpg';
-	import prodOkna from '$lib/assets/products/okna-a-dvere.jpg';
-	import prodChemia from '$lib/assets/products/stavebna-chemia.jpg';
-	import prodKrytiny from '$lib/assets/products/stresne-krytiny.jpg';
-	import prodZmesy from '$lib/assets/products/suche-zmesy-malty-omietky.jpg';
-	import prodIzolacie from '$lib/assets/products/tepelne-izolacie.jpg';
+	import prodOcel from '$lib/assets/products/betonarska-ocel-generated.jpg';
+	import prodDlazby from '$lib/assets/products/dlazby-betonove-tvarnice-generated.jpg';
+	import prodFarby from '$lib/assets/products/fasadne-a-interierove-farby-generated.jpg';
+	import prodHruba from '$lib/assets/products/hruba-stavba-generated.jpg';
+	import prodHydroizolacia from '$lib/assets/products/hydroizolacia-generated.jpg';
+	import prodSanita from '$lib/assets/products/kanalizacia-voda-sanita-generated.jpg';
+	import prodNaradie from '$lib/assets/products/naradie-a-doplnky-generated.jpg';
+	import prodOkna from '$lib/assets/products/okna-a-dvere-generated.jpg';
+	import prodChemia from '$lib/assets/products/stavebna-chemia-generated.jpg';
+	import prodKrytiny from '$lib/assets/products/stresne-krytiny-generated.jpg';
+	import prodZmesy from '$lib/assets/products/suche-zmesy-malty-omietky-generated.jpg';
+	import prodIzolacie from '$lib/assets/products/tepelne-izolacie-generated.jpg';
 
 	import { categoryIcons } from '$lib/icons';
 	import { partners } from '$lib/partners';
@@ -24,6 +25,7 @@
 		'dlazby-betonove-tvarnice': prodDlazby,
 		'fasadne-a-interierove-farby': prodFarby,
 		'hruba-stavba': prodHruba,
+		hydroizolacia: prodHydroizolacia,
 		'kanalizacia-voda-sanita': prodSanita,
 		'naradie-a-doplnky': prodNaradie,
 		'okna-a-dvere': prodOkna,
@@ -33,7 +35,7 @@
 		'tepelne-izolacie': prodIzolacie
 	};
 
-	const partnerLogoByName = new Map<string, string>(partners.map((p) => [p.name, p.logo]));
+	const partnerByName = new Map(partners.map((p) => [p.name, p]));
 
 	const slug = $derived(data.product.href.replace('/products/', ''));
 	const detail = $derived(productDetails[slug]);
@@ -41,8 +43,9 @@
 	const iconPaths = $derived(categoryIcons[data.product.href] ?? []);
 	const supplierLogos = $derived(
 		data.product.suppliers
-			.map((name: string) => ({ name, logo: partnerLogoByName.get(name) }))
-			.filter((s): s is { name: string; logo: string } => s.logo !== undefined)
+			.map((name: string) => partnerByName.get(name))
+			.filter((s) => s !== undefined)
+			.map((s) => ({ name: s.name, logo: s.logo, light: s.light }))
 	);
 </script>
 
@@ -105,7 +108,7 @@
 				{#if supplierLogos.length > 0}
 					<div class="flow-brands" aria-hidden="true">
 						{#each supplierLogos as s (s.name)}
-							<img src={s.logo} alt="" loading="lazy" />
+							<img src={s.logo} alt="" class:logo-chip={s.light} loading="lazy" />
 						{/each}
 					</div>
 					<span class="visually-hidden">Značky: {data.product.suppliers.join(', ')}</span>

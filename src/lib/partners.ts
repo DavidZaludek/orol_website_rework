@@ -58,7 +58,15 @@ import wienerbergerLogo from '$lib/assets/logos/Wienerberger.svg';
 import wuerthLogo from '$lib/assets/logos/Wuerth.svg';
 import xellaLogo from '$lib/assets/logos/Xella.png';
 
-export const partners = [
+export interface Partner {
+	name: string;
+	logo: string;
+	href: string;
+	/** Logo artwork is white/near-white — needs a dark chip on light cells. */
+	light?: boolean;
+}
+
+export const partners: readonly Partner[] = [
 	{ name: 'ACO', logo: acoLogo, href: 'https://www.aco.sk' },
 	{ name: 'Alcadrain', logo: alcaLogo, href: 'https://www.alcadrain.sk' },
 	{ name: 'Anavek', logo: anavekLogo, href: 'https://www.anavek.sk' },
@@ -86,11 +94,11 @@ export const partners = [
 	{ name: 'Keramika Soukup', logo: keramikaSoukupLogo, href: 'https://www.keramikasoukup.cz' },
 	{ name: 'Knauf', logo: knaufLogo, href: 'https://www.knauf.sk' },
 	{ name: 'Kreisel', logo: kreiselLogo, href: 'https://www.kreisel.sk' },
-	{ name: 'Levelys', logo: levelysLogo, href: 'https://www.levelys.sk' },
+	{ name: 'Levelys', logo: levelysLogo, href: 'https://www.levelys.sk', light: true },
 	{ name: 'Makita', logo: makitaLogo, href: 'https://www.makita.sk' },
 	{ name: 'MEA', logo: meaLogo, href: 'https://www.mea-group.com' },
 	{ name: 'Milwaukee', logo: milwaukeeLogo, href: 'https://www.milwaukeetool.eu' },
-	{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.sk' },
+	{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.sk', light: true },
 	{ name: 'Polifarbe', logo: polifarbeLogo, href: 'https://www.polifarbe.hu/' },
 	{ name: 'Porfix', logo: porfixLogo, href: 'https://www.porfix.sk' },
 	{ name: 'Prefabeton Diviaky', logo: prefabetonLogo, href: 'https://www.prefabeton.sk' },
@@ -102,11 +110,11 @@ export const partners = [
 	{ name: 'Sapeli', logo: sapeliLogo, href: 'https://www.sapeli.sk' },
 	{ name: 'Schiedel', logo: schiedelLogo, href: 'https://www.schiedel.sk' },
 	{ name: 'Sika', logo: sikaLogo, href: 'https://svk.sika.com' },
-	{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at' },
+	{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at', light: true },
 	{ name: 'Soudal', logo: soudalLogo, href: 'https://www.soudal.sk' },
 	{ name: 'Stachema', logo: stachemaLogo, href: 'https://www.stachema.sk' },
 	{ name: 'Storch', logo: storchLogo, href: 'https://www.storch.sk' },
-	{ name: 'Ströher', logo: stroherLogo, href: 'https://www.stroeher.de' },
+	{ name: 'Ströher', logo: stroherLogo, href: 'https://www.stroeher.de', light: true },
 	{ name: 'Tegola', logo: tegolaLogo, href: 'https://tegolacanadese.com' },
 	{ name: 'TopStone', logo: topstoneLogo, href: 'https://www.topstone.sk' },
 	{ name: 'Tytan', logo: tytanLogo, href: 'https://www.tytan.pl' },

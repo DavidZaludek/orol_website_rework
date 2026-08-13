@@ -82,7 +82,12 @@
 						aria-hidden={i >= partners.length ? 'true' : undefined}
 						tabindex={i >= partners.length ? -1 : 0}
 					>
-						<img src={partner.logo} alt={partner.name} loading="lazy" />
+						<img
+							src={partner.logo}
+							alt={partner.name}
+							class:logo-chip={partner.light}
+							loading="lazy"
+						/>
 					</a>
 				{/each}
 			</div>
