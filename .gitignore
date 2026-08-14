@@ -18,8 +18,13 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+.google-drive-token.json
+credentials.json
 
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .playwright-mcp/
+
+# Python
+__pycache__/

@@ -310,14 +310,14 @@
 	.tile-image {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
 		display: block;
 		transition: transform var(--transition-medium);
 	}
 
 	.tile:hover .tile-image,
 	.tile:focus-visible .tile-image {
-		transform: scale(1.04);
+		transform: none;
 	}
 
 	/* ===== Lightbox ===== */

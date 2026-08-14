@@ -1,11 +1,7 @@
 <script lang="ts">
-	import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
-	import svcCenova from '$lib/assets/services/cenova-ponuka.jpg';
-	import svcDoprava from '$lib/assets/services/doprava.jpg';
-	import svcStavbyveduci from '$lib/assets/services/stavbyveduci.jpg';
-	import svcFarby from '$lib/assets/services/miesanie-farieb.jpg';
-	import svcRemeselnici from '$lib/assets/services/kontakty-na-remeselnikov.jpg';
-
+	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
+	import type { ServiceImageSet } from '$lib/serviceMedia';
+	import { serviceMedia } from '$lib/serviceMedia';
 	import { services } from '$lib/site';
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
@@ -13,20 +9,41 @@
 	interface Cell {
 		href: string;
 		area: string;
-		photo?: string;
+		photo?: ServiceImageSet;
 		featured?: boolean;
 	}
 
 	// The composition: Požičovňa is the dominant red cell, Poradenstvo stays a
 	// calm white cell with a watermark, the rest carry monochrome photos.
 	const cells: Cell[] = [
-		{ href: '/services/cenova-ponuka', area: 'cenova', photo: svcCenova },
-		{ href: '/services/pozicovna-naradia', area: 'pozic', photo: toolsPhoto, featured: true },
-		{ href: '/services/doprava', area: 'doprava', photo: svcDoprava },
-		{ href: '/services/poradenstvo', area: 'porad' },
-		{ href: '/services/stavbyveduci', area: 'stavby', photo: svcStavbyveduci },
-		{ href: '/services/miesanie-farieb', area: 'farby', photo: svcFarby },
-		{ href: '/services/kontakty-na-remeselnikov', area: 'kontakty', photo: svcRemeselnici }
+		{
+			href: '/services/cenova-ponuka',
+			area: 'cenova',
+			photo: serviceMedia['/services/cenova-ponuka']
+		},
+		{
+			href: '/services/pozicovna-naradia',
+			area: 'pozic',
+			photo: serviceMedia['/services/pozicovna-naradia'],
+			featured: true
+		},
+		{ href: '/services/doprava', area: 'doprava', photo: serviceMedia['/services/doprava'] },
+		{ href: '/services/poradenstvo', area: 'porad', photo: serviceMedia['/services/poradenstvo'] },
+		{
+			href: '/services/stavbyveduci',
+			area: 'stavby',
+			photo: serviceMedia['/services/stavbyveduci']
+		},
+		{
+			href: '/services/miesanie-farieb',
+			area: 'farby',
+			photo: serviceMedia['/services/miesanie-farieb']
+		},
+		{
+			href: '/services/kontakty-na-remeselnikov',
+			area: 'kontakty',
+			photo: serviceMedia['/services/kontakty-na-remeselnikov']
+		}
 	];
 
 	function service(href: string) {
@@ -66,7 +83,13 @@
 					{@attach reveal(Math.min(i * 60, 300))}
 				>
 					{#if cell.photo}
-						<img src={cell.photo} alt="" class="cell-bg" loading={i < 2 ? undefined : 'lazy'} />
+						<ResponsiveServiceImage
+							media={cell.photo}
+							fit="cover"
+							alt=""
+							class="cell-bg"
+							loading="eager"
+						/>
 					{:else}
 						<svg class="cell-watermark" viewBox="0 0 24 24" aria-hidden="true">
 							{#each serviceIcons[cell.href] ?? [] as d (d)}
@@ -215,12 +238,11 @@
 	}
 
 	/* Monochrome photo backdrop — regains color on hover. */
-	.cell-bg {
+	.cell :global(.cell-bg) {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
 		filter: grayscale(100%) contrast(1.06) brightness(0.98);
 		transition:
 			filter var(--transition-medium),
@@ -228,9 +250,8 @@
 	}
 
 	@media (hover: hover) {
-		.cell:hover .cell-bg {
+		.cell:hover :global(.cell-bg) {
 			filter: grayscale(0%) contrast(1.02);
-			transform: scale(1.025);
 		}
 	}
 
@@ -334,17 +355,16 @@
 		background-color: var(--color-brand-primary);
 	}
 
-	.cell--featured .cell-bg {
+	.cell--featured :global(.cell-bg) {
 		filter: grayscale(100%) contrast(1.05) brightness(0.95);
 		mix-blend-mode: multiply;
 		opacity: 0.9;
 	}
 
 	@media (hover: hover) {
-		.cell--featured:hover .cell-bg {
+		.cell--featured:hover :global(.cell-bg) {
 			/* The red cell stays red — the photo just leans closer. */
 			filter: grayscale(100%) contrast(1.05) brightness(1);
-			transform: scale(1.025);
 		}
 	}
 
@@ -465,7 +485,7 @@
 			transition: none;
 		}
 
-		.cell-bg {
+		.cell :global(.cell-bg) {
 			transition: none;
 		}
 	}

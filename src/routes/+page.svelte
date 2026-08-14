@@ -3,15 +3,16 @@
 	import brickPhoto from '$lib/assets/gallery/IMG_2264.jpg';
 	import steelSitePhoto from '$lib/assets/gallery/IMG_3214.jpg';
 	import screedPhoto from '$lib/assets/gallery/IMG_3239.jpg';
-	import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
 	import ownerPhoto from '$lib/assets/koloman_zaludek.jpg';
+	import presentationTruckJpg from '$lib/assets/home/presentation/doprava-orol.jpg';
+	import presentationHouseJpg from '$lib/assets/home/presentation/realizacia-dom.jpg';
+	import presentationYardVideo from '$lib/assets/home/video/sklad-materialu-2026.mp4';
+	import presentationYardPoster from '$lib/assets/home/video/sklad-materialu-2026-poster.png';
+	import presentationEntranceVideo from '$lib/assets/home/video/areal-vstup-2026.mp4';
+	import presentationEntrancePoster from '$lib/assets/home/video/areal-vstup-2026-poster.jpg';
 
-	import svcCenova from '$lib/assets/services/cenova-ponuka.jpg';
-	import svcDoprava from '$lib/assets/services/doprava.jpg';
-	import svcPoradenstvo from '$lib/assets/services/poradenstvo.jpg';
-	import svcStavbyveduci from '$lib/assets/services/stavbyveduci.jpg';
-	import svcFarby from '$lib/assets/services/miesanie-farieb.jpg';
-	import svcRemeselnici from '$lib/assets/services/kontakty-na-remeselnikov.jpg';
+	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
+	import { serviceMedia } from '$lib/serviceMedia';
 
 	import prodHruba from '$lib/assets/products/hruba-stavba-generated.jpg';
 	import prodZmesy from '$lib/assets/products/suche-zmesy-malty-omietky-generated.jpg';
@@ -49,14 +50,7 @@
 
 	// Monochrome background photos for the service tiles (own photos from the
 	// old site's gallery).
-	const serviceBg: Record<string, string> = {
-		'/services/cenova-ponuka': svcCenova,
-		'/services/doprava': svcDoprava,
-		'/services/poradenstvo': svcPoradenstvo,
-		'/services/stavbyveduci': svcStavbyveduci,
-		'/services/miesanie-farieb': svcFarby,
-		'/services/kontakty-na-remeselnikov': svcRemeselnici
-	};
+	const serviceBg = serviceMedia;
 
 	const productBg: Record<string, string> = {
 		'/products/hruba-stavba': prodHruba,
@@ -77,6 +71,24 @@
 
 	let promoIndex = $state(0);
 	let heroIndex = $state(0);
+	let presentationVideoElement = $state<HTMLVideoElement | null>(null);
+	let presentationVideoIndex = $state(0);
+
+	const presentationVideos = [
+		{
+			src: presentationYardVideo,
+			poster: presentationYardPoster,
+			number: '01A',
+			label: 'Sklad materiálu · priamo v areáli'
+		},
+		{
+			src: presentationEntranceVideo,
+			poster: presentationEntrancePoster,
+			number: '01B',
+			label: 'Areál Orolu · hlavný vstup'
+		}
+	];
+	const currentPresentationVideo = $derived(presentationVideos[presentationVideoIndex]);
 
 	const heroSlides = [
 		{
@@ -118,11 +130,37 @@
 		return () => clearInterval(id);
 	});
 
+	$effect(() => {
+		const video = presentationVideoElement;
+		if (!video) return;
+
+		const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const syncPlayback = () => {
+			if (motionPreference.matches) {
+				video.pause();
+				return;
+			}
+			void video.play().catch(() => undefined);
+		};
+
+		syncPlayback();
+		motionPreference.addEventListener('change', syncPlayback);
+		return () => motionPreference.removeEventListener('change', syncPlayback);
+	});
+
 	function formatDate(value: string): string {
 		return new Date(value).toLocaleDateString('sk-SK', {
 			day: 'numeric',
 			month: 'long',
 			year: 'numeric'
+		});
+	}
+
+	function playNextPresentationVideo() {
+		presentationVideoIndex = (presentationVideoIndex + 1) % presentationVideos.length;
+		requestAnimationFrame(() => {
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			void presentationVideoElement?.play().catch(() => undefined);
 		});
 	}
 
@@ -159,6 +197,21 @@
 
 	const motto =
 		'Spokojný zákazník je zárukou prosperity firmy. Prosperujúca firma je zárukou spokojnosti pracovníkov. Spokojný a aktívny pracovník je zárukou spokojnosti zákazníkov.';
+
+	const presentationPhotos = [
+		{
+			jpg: presentationTruckJpg,
+			alt: 'Modré nákladné vozidlo Stavebnín Orol s hydraulickou rukou a pracovníkom',
+			label: 'Vlastná doprava',
+			text: 'Materiál privezieme a hydraulickou rukou zložíme priamo na stavbe.'
+		},
+		{
+			jpg: presentationHouseJpg,
+			alt: 'Dokončený rodinný dom so škridlovou strechou a upravenou záhradou',
+			label: 'Od materiálu po výsledok',
+			text: 'Náš materiál je súčasťou domov a stavieb naprieč Liptovom.'
+		}
+	];
 </script>
 
 <svelte:head>
@@ -253,7 +306,12 @@
 		</div>
 		{#if featuredService}
 			<a href={featuredService.href} class="featured-cell" data-reveal {@attach reveal()}>
-				<img src={toolsPhoto} alt="" class="featured-photo" loading="lazy" />
+				<ResponsiveServiceImage
+					media={serviceMedia['/services/pozicovna-naradia']}
+					fit="cover"
+					alt=""
+					class="featured-photo"
+				/>
 				<div class="featured-body">
 					<svg class="featured-icon" viewBox="0 0 24 24" aria-hidden="true">
 						{#each serviceIcons[featuredService.href] ?? [] as d (d)}
@@ -270,7 +328,12 @@
 			{#each mainServices as service, i (service.href)}
 				<a href={service.href} class="tile" data-reveal {@attach reveal(Math.min(i * 50, 300))}>
 					{#if serviceBg[service.href]}
-						<img src={serviceBg[service.href]} alt="" class="tile-bg" loading="lazy" />
+						<ResponsiveServiceImage
+							media={serviceBg[service.href]}
+							fit="cover"
+							alt=""
+							class="tile-bg"
+						/>
 					{/if}
 					{#if serviceIcons[service.href]}
 						<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -299,7 +362,12 @@
 			{#each secondaryServices as service, i (service.href)}
 				<a href={service.href} class="tile" data-reveal {@attach reveal(Math.min(i * 50, 300))}>
 					{#if serviceBg[service.href]}
-						<img src={serviceBg[service.href]} alt="" class="tile-bg" loading="lazy" />
+						<ResponsiveServiceImage
+							media={serviceBg[service.href]}
+							fit="cover"
+							alt=""
+							class="tile-bg"
+						/>
 					{/if}
 					{#if serviceIcons[service.href]}
 						<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -399,7 +467,58 @@
 	</div>
 </section>
 
-<!-- 5. Stats band -->
+<!-- 5. Curated presentation -->
+<section
+	class="section presentation-section"
+	id="prezentacia"
+	aria-label="Stavebniny Orol v obraze"
+>
+	<div class="presentation-grid">
+		<header class="presentation-copy" data-reveal {@attach reveal()}>
+			<span class="eyebrow">Priamo z Orolu</span>
+			<h2 class="section-title">Predajňa, doprava, výsledok.</h2>
+			<p>
+				Pohľady na to, čo robíme každý deň: držíme materiál skladom, vozíme ho vlastnými autami a
+				pomáhame, aby sa z neho stala hotová stavba.
+			</p>
+			<a href="/gallery" class="section-link">Pozrieť celú galériu →</a>
+		</header>
+
+		<figure class="presentation-video" data-reveal {@attach reveal(80)}>
+			<video
+				bind:this={presentationVideoElement}
+				muted
+				autoplay
+				playsinline
+				preload="metadata"
+				src={currentPresentationVideo.src}
+				poster={currentPresentationVideo.poster}
+				onended={playNextPresentationVideo}
+				aria-label={currentPresentationVideo.label}
+			></video>
+			<figcaption>
+				<span>{currentPresentationVideo.number}</span>
+				{currentPresentationVideo.label}
+			</figcaption>
+		</figure>
+
+		{#each presentationPhotos as photo, i (photo.jpg)}
+			<figure class="presentation-photo" data-reveal {@attach reveal(140 + i * 60)}>
+				<img src={photo.jpg} alt={photo.alt} loading="eager" decoding="async" />
+				<figcaption>
+					<span>0{i + 2}</span>
+					<strong>{photo.label}</strong>
+					<small>{photo.text}</small>
+				</figcaption>
+			</figure>
+		{/each}
+
+		<div class="presentation-accent presentation-accent--yellow" aria-hidden="true"></div>
+		<div class="presentation-accent presentation-accent--blue" aria-hidden="true"></div>
+	</div>
+</section>
+
+<!-- 6. Stats band -->
 <section class="stats" aria-label="Stavebniny Orol v číslach">
 	<div class="container">
 		<div class="stats-grid">
@@ -416,7 +535,7 @@
 	</div>
 </section>
 
-<!-- 6. O nás -->
+<!-- 7. O nás -->
 <section class="section" id="o-nas" aria-label="O nás">
 	<div class="container about-grid">
 		<div class="about-copy" data-reveal {@attach reveal()}>
@@ -656,7 +775,8 @@
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		background-color: #111315;
 		filter: grayscale(100%) contrast(1.08) brightness(0.97);
 		opacity: 0;
 		transition: opacity 0.8s ease;
@@ -795,7 +915,8 @@
 		display: block;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		background-color: #111315;
 		filter: grayscale(100%) contrast(1.08) brightness(0.97);
 	}
 
@@ -969,7 +1090,7 @@
 	}
 
 	/* Monochrome photo backdrop for tiles that carry one */
-	.tile-bg {
+	.tile :global(.tile-bg) {
 		position: absolute;
 		inset: 0;
 		width: 100%;
@@ -984,7 +1105,7 @@
 	}
 
 	/* The selected tile's photo regains full color. */
-	.tile:hover .tile-bg {
+	.tile:hover :global(.tile-bg) {
 		opacity: 0.45;
 		filter: grayscale(0%) contrast(1.02);
 		transform: scale(1.03);
@@ -1198,7 +1319,7 @@
 		.tile-watermark,
 		.tile-desc,
 		.tile-logos-all,
-		.tile-bg {
+		.tile :global(.tile-bg) {
 			display: none;
 		}
 
@@ -1274,6 +1395,28 @@
 			display: contents;
 		}
 
+		/* Keep every service visually identifiable without turning the compact
+		   mobile list back into a stack of oversized image cards. */
+		.services-grid .tile {
+			min-height: 76px;
+			padding-right: 38%;
+		}
+
+		.services-grid .tile :global(.tile-bg) {
+			display: block;
+			left: auto;
+			width: 42%;
+			opacity: 0.32;
+			filter: grayscale(100%) contrast(1.08);
+			mask-image: linear-gradient(to left, #000 62%, transparent 100%);
+			-webkit-mask-image: linear-gradient(to left, #000 62%, transparent 100%);
+		}
+
+		.services-grid .tile:hover :global(.tile-bg) {
+			opacity: 0.44;
+			filter: grayscale(0%) contrast(1.04);
+		}
+
 		.service-accent {
 			flex: none;
 			min-height: 24px;
@@ -1346,7 +1489,7 @@
 		text-underline-offset: 3px;
 	}
 
-	.featured-photo {
+	.featured-cell :global(.featured-photo) {
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -1359,13 +1502,185 @@
 		-webkit-mask-image: linear-gradient(to left, #000 65%, transparent);
 	}
 
+	/* ===== Curated presentation — one real moving moment, two full-frame proofs ===== */
+	.presentation-section {
+		background-color: var(--color-iron);
+	}
+
+	.presentation-grid {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		grid-template-areas:
+			'copy copy copy copy video video video video video video video video'
+			'photoa photoa photoa photoa photoa photob photob photob photob photob yellow blue';
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.presentation-copy {
+		grid-area: copy;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 1rem;
+		padding: clamp(2rem, 4vw, 3.75rem);
+		background-color: var(--color-white);
+	}
+
+	.presentation-copy p {
+		margin: 0;
+		max-width: 48ch;
+		line-height: 1.7;
+		color: var(--text-muted);
+	}
+
+	.presentation-video,
+	.presentation-photo {
+		position: relative;
+		min-width: 0;
+		margin: 0;
+		overflow: hidden;
+		background-color: #111315;
+	}
+
+	.presentation-video {
+		grid-area: video;
+		min-height: 430px;
+	}
+
+	.presentation-photo:nth-of-type(2) {
+		grid-area: photoa;
+	}
+
+	.presentation-photo:nth-of-type(3) {
+		grid-area: photob;
+	}
+
+	.presentation-video video,
+	.presentation-photo img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		background-color: #111315;
+	}
+
+	.presentation-photo {
+		min-height: 320px;
+	}
+
+	.presentation-video::after,
+	.presentation-photo::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, rgba(15, 17, 19, 0.82), transparent 38%);
+		pointer-events: none;
+	}
+
+	.presentation-video figcaption,
+	.presentation-photo figcaption {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 0.15rem 0.75rem;
+		align-items: baseline;
+		padding: 1rem 1.15rem;
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+
+	.presentation-video figcaption span,
+	.presentation-photo figcaption span {
+		grid-row: 1 / span 2;
+		color: var(--color-accent-yellow);
+		font-size: 0.8rem;
+		letter-spacing: 0.12em;
+	}
+
+	.presentation-photo figcaption small {
+		font-family: var(--font-body);
+		font-size: 0.72rem;
+		font-weight: 400;
+		line-height: 1.45;
+		letter-spacing: 0;
+		text-transform: none;
+		color: rgba(255, 255, 255, 0.82);
+	}
+
+	.presentation-accent--yellow {
+		grid-area: yellow;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.presentation-accent--blue {
+		grid-area: blue;
+		background-color: var(--color-accent-blue);
+	}
+
+	@media (max-width: 900px) {
+		.presentation-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-areas:
+				'copy copy'
+				'video video'
+				'photoa photob'
+				'yellow blue';
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.presentation-video {
+			min-height: 0;
+			aspect-ratio: 16 / 9;
+		}
+
+		.presentation-photo {
+			min-height: 0;
+			aspect-ratio: 4 / 3;
+		}
+
+		.presentation-accent {
+			min-height: 24px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.presentation-grid {
+			grid-template-columns: 1fr;
+			grid-template-areas: 'copy' 'video' 'photoa' 'photob' 'yellow' 'blue';
+		}
+
+		.presentation-copy {
+			padding: 1.75rem 1.25rem;
+		}
+
+		.presentation-photo {
+			aspect-ratio: auto;
+		}
+
+		.presentation-photo img {
+			height: auto;
+		}
+	}
+
 	@media (max-width: 700px) {
 		.featured-body {
 			max-width: 100%;
 			padding: 1.4rem;
 		}
 
-		.featured-photo {
+		.featured-cell :global(.featured-photo) {
 			opacity: 0.25;
 			width: 70%;
 		}
@@ -1463,8 +1778,7 @@
 		}
 	}
 
-	/* ===== 6. News ===== */
-	/* ===== 6. O nás ===== */
+	/* ===== 7. O nás ===== */
 	.about-grid {
 		display: grid;
 		grid-template-columns: 1.15fr 0.85fr;

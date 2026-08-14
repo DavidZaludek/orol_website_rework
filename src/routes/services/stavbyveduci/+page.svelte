@@ -1,10 +1,12 @@
 <script lang="ts">
-	import heroPhoto from '$lib/assets/services/stavbyveduci.jpg';
+	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
+	import { serviceMedia } from '$lib/serviceMedia';
 	import { contact } from '$lib/site';
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
 
 	const icon = serviceIcons['/services/stavbyveduci'] ?? [];
+	const heroPhoto = serviceMedia['/services/stavbyveduci'];
 
 	const duties = [
 		'Odborné vedenie realizácie stavby v súlade s projektovou dokumentáciou',
@@ -48,7 +50,12 @@
 			</div>
 		</div>
 		<div class="photo-cell" data-reveal {@attach reveal(80)}>
-			<img src={heroPhoto} alt="Stavbyvedúci počas dohľadu nad realizáciou stavby" />
+			<ResponsiveServiceImage
+				media={heroPhoto}
+				alt="Dokončený moderný rodinný dom ako výsledok riadenej realizácie stavby"
+				loading="eager"
+				fetchpriority="high"
+			/>
 			<span class="chip" aria-hidden="true">
 				<svg viewBox="0 0 24 24"
 					>{#each icon as d (d)}<path {d} />{/each}</svg
@@ -196,7 +203,7 @@
 		justify-content: center;
 		gap: 1.1rem;
 		padding: clamp(1.75rem, 3.5vw, 3.25rem);
-		background-color: var(--color-white);
+		background-color: #111315;
 	}
 
 	.back-link {
@@ -293,12 +300,11 @@
 		background-color: var(--color-white);
 	}
 
-	.photo-cell img {
+	.photo-cell :global(img) {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
 		filter: grayscale(100%) contrast(1.06) brightness(0.98);
 		transition:
 			filter var(--transition-medium),
@@ -306,9 +312,8 @@
 	}
 
 	@media (hover: hover) {
-		.photo-cell:hover img {
+		.photo-cell:hover :global(img) {
 			filter: grayscale(0%) contrast(1.02);
-			transform: scale(1.02);
 		}
 	}
 
@@ -664,7 +669,7 @@
 		}
 
 		.btn,
-		.photo-cell img {
+		.photo-cell :global(img) {
 			transition: none;
 		}
 	}

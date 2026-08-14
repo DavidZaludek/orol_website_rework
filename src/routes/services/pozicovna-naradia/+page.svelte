@@ -7,8 +7,12 @@
 	import mixingPhoto from '$lib/assets/rental/mixing-plastering.jpg';
 	import scaffoldingPhoto from '$lib/assets/rental/scaffolding.jpg';
 	import seasonalPhoto from '$lib/assets/rental/seasonal-log-splitter.jpg';
+	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
+	import { serviceMedia } from '$lib/serviceMedia';
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
+
+	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
 	const categories = [
 		{
@@ -141,7 +145,12 @@
 			<p class="hero-availability">Aktuálnu dostupnosť potvrdíme telefonicky</p>
 		</div>
 		<div class="photo-cell" data-reveal {@attach reveal(80)}>
-			<img src={demolitionPhoto} alt="Hilti búracie kladivo z požičovne Stavebnín Orol" />
+			<ResponsiveServiceImage
+				media={heroPhoto}
+				alt="Profesionálne búracie kladivo s odsávaním pri práci"
+				loading="eager"
+				fetchpriority="high"
+			/>
 		</div>
 		<div class="stat-cell" data-reveal {@attach reveal(140)}>
 			<strong>30+</strong>
@@ -317,7 +326,7 @@
 		justify-content: center;
 		gap: 1.1rem;
 		padding: clamp(1.75rem, 3.5vw, 3.25rem);
-		background-color: var(--color-white);
+		background-color: #111315;
 	}
 
 	.back-link {
@@ -421,12 +430,11 @@
 		background-color: var(--color-white);
 	}
 
-	.photo-cell img {
+	.photo-cell :global(img) {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
 		filter: grayscale(100%) contrast(1.06) brightness(0.98);
 		transition:
 			filter var(--transition-medium),
@@ -434,9 +442,8 @@
 	}
 
 	@media (hover: hover) {
-		.photo-cell:hover img {
+		.photo-cell:hover :global(img) {
 			filter: grayscale(0%) contrast(1.02);
-			transform: scale(1.02);
 		}
 	}
 
@@ -507,11 +514,12 @@
 	}
 
 	.equip-photo img {
-		position: absolute;
-		inset: 0;
+		display: block;
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
+		height: auto;
+		max-height: 340px;
+		object-fit: contain;
+		margin: auto;
 		filter: grayscale(100%) contrast(1.06);
 		transition:
 			filter var(--transition-medium),
@@ -521,7 +529,6 @@
 	@media (hover: hover) {
 		.equip-cell:hover .equip-photo img {
 			filter: grayscale(0%) contrast(1.02);
-			transform: scale(1.025);
 		}
 	}
 
@@ -924,7 +931,7 @@
 		}
 
 		.btn,
-		.photo-cell img,
+		.photo-cell :global(img),
 		.equip-photo img {
 			transition: none;
 		}
