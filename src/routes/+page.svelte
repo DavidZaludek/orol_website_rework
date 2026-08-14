@@ -7,9 +7,17 @@
 	import presentationTruckJpg from '$lib/assets/home/presentation/doprava-orol.jpg';
 	import presentationHouseJpg from '$lib/assets/home/presentation/realizacia-dom.jpg';
 	import presentationYardVideo from '$lib/assets/home/video/sklad-materialu-2026.mp4';
-	import presentationYardPoster from '$lib/assets/home/video/sklad-materialu-2026-poster.png';
+	import presentationYardPoster from '$lib/assets/home/video/sklad-materialu-2026-poster.jpg';
 	import presentationEntranceVideo from '$lib/assets/home/video/areal-vstup-2026.mp4';
 	import presentationEntrancePoster from '$lib/assets/home/video/areal-vstup-2026-poster.jpg';
+	import presentationAisleVideo from '$lib/assets/home/video/skladova-alej-2026.mp4';
+	import presentationAislePoster from '$lib/assets/home/video/skladova-alej-2026-poster.jpg';
+	import presentationCoveredStoreVideo from '$lib/assets/home/video/kryty-sklad-2026.mp4';
+	import presentationCoveredStorePoster from '$lib/assets/home/video/kryty-sklad-2026-poster.jpg';
+	import presentationPalletsVideo from '$lib/assets/home/video/palety-materialu-2026.mp4';
+	import presentationPalletsPoster from '$lib/assets/home/video/palety-materialu-2026-poster.jpg';
+	import presentationWarehouseTruckVideo from '$lib/assets/home/video/nakladne-auto-sklad-2026.mp4';
+	import presentationWarehouseTruckPoster from '$lib/assets/home/video/nakladne-auto-sklad-2026-poster.jpg';
 
 	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
 	import { serviceMedia } from '$lib/serviceMedia';
@@ -73,19 +81,46 @@
 	let heroIndex = $state(0);
 	let presentationVideoElement = $state<HTMLVideoElement | null>(null);
 	let presentationVideoIndex = $state(0);
+	let presentationVideoPaused = $state(false);
 
 	const presentationVideos = [
-		{
-			src: presentationYardVideo,
-			poster: presentationYardPoster,
-			number: '01A',
-			label: 'Sklad materiálu · priamo v areáli'
-		},
+		// DJI_0371 and DJI_0382 are exported in reverse so both moves invite
+		// the viewer into the site instead of backing away from the subject.
 		{
 			src: presentationEntranceVideo,
 			poster: presentationEntrancePoster,
+			number: '01A',
+			label: 'Vstup do areálu · smerom k predajni'
+		},
+		{
+			src: presentationAisleVideo,
+			poster: presentationAislePoster,
 			number: '01B',
-			label: 'Areál Orolu · hlavný vstup'
+			label: 'Skladová alej · medzi materiálom'
+		},
+		{
+			src: presentationCoveredStoreVideo,
+			poster: presentationCoveredStorePoster,
+			number: '01C',
+			label: 'Krytý sklad · sortiment na sklade'
+		},
+		{
+			src: presentationPalletsVideo,
+			poster: presentationPalletsPoster,
+			number: '01D',
+			label: 'Palety materiálu · pripravené na odber'
+		},
+		{
+			src: presentationWarehouseTruckVideo,
+			poster: presentationWarehouseTruckPoster,
+			number: '01E',
+			label: 'Vlastná doprava · vozidlo v sklade'
+		},
+		{
+			src: presentationYardVideo,
+			poster: presentationYardPoster,
+			number: '01F',
+			label: 'Sklad materiálu · priamo v areáli'
 		}
 	];
 	const currentPresentationVideo = $derived(presentationVideos[presentationVideoIndex]);
@@ -157,11 +192,28 @@
 	}
 
 	function playNextPresentationVideo() {
-		presentationVideoIndex = (presentationVideoIndex + 1) % presentationVideos.length;
+		selectPresentationVideo((presentationVideoIndex + 1) % presentationVideos.length);
+	}
+
+	function selectPresentationVideo(index: number, userInitiated = false) {
+		presentationVideoIndex = index;
 		requestAnimationFrame(() => {
-			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-			void presentationVideoElement?.play().catch(() => undefined);
+			const video = presentationVideoElement;
+			if (!video) return;
+			if (!userInitiated && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			video.currentTime = 0;
+			void video.play().catch(() => undefined);
 		});
+	}
+
+	function togglePresentationVideo() {
+		const video = presentationVideoElement;
+		if (!video) return;
+		if (video.paused) {
+			void video.play().catch(() => undefined);
+		} else {
+			video.pause();
+		}
 	}
 
 	// Bento rows of four — on desktop the hovered tile flex-expands within its
@@ -248,20 +300,52 @@
 			</ul>
 		</div>
 		<div class="hero-media cell">
-			{#each heroSlides as slide, i (slide.src)}
-				<img
-					src={slide.src}
-					alt={slide.alt}
-					class="hero-photo-img"
-					class:active={i === heroIndex}
-					fetchpriority={i === 0 ? 'high' : undefined}
-					loading={i === 0 ? undefined : 'lazy'}
-					aria-hidden={i !== heroIndex ? 'true' : undefined}
-				/>
-			{/each}
-			{#key heroIndex}
-				<span class="hero-photo-caption" in:fade={{ duration: 300, delay: 450 }}>
-					{heroSlides[heroIndex].caption}
+			<video
+				bind:this={presentationVideoElement}
+				muted
+				autoplay
+				playsinline
+				preload="metadata"
+				src={currentPresentationVideo.src}
+				poster={currentPresentationVideo.poster}
+				class="hero-video"
+				onended={playNextPresentationVideo}
+				onplay={() => (presentationVideoPaused = false)}
+				onpause={() => (presentationVideoPaused = true)}
+				aria-label={currentPresentationVideo.label}
+			></video>
+			<div class="hero-video-controls">
+				<button
+					type="button"
+					class="hero-video-toggle"
+					onclick={togglePresentationVideo}
+					aria-label={presentationVideoPaused ? 'Prehrať video' : 'Pozastaviť video'}
+				>
+					{#if presentationVideoPaused}
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+					{:else}
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M7 5h4v14H7zm6 0h4v14h-4z" />
+						</svg>
+					{/if}
+				</button>
+				<div class="hero-video-steps" aria-label="Vybrať záber">
+					{#each presentationVideos as video, i (video.src)}
+						<button
+							type="button"
+							class:active={i === presentationVideoIndex}
+							onclick={() => selectPresentationVideo(i, true)}
+							aria-label={`Prehrať: ${video.label}`}
+							aria-current={i === presentationVideoIndex ? 'true' : undefined}
+						>
+							{i + 1}
+						</button>
+					{/each}
+				</div>
+			</div>
+			{#key presentationVideoIndex}
+				<span class="hero-photo-caption" in:fade={{ duration: 300, delay: 200 }}>
+					{currentPresentationVideo.label}
 				</span>
 			{/key}
 		</div>
@@ -484,21 +568,22 @@
 			<a href="/gallery" class="section-link">Pozrieť celú galériu →</a>
 		</header>
 
-		<figure class="presentation-video" data-reveal {@attach reveal(80)}>
-			<video
-				bind:this={presentationVideoElement}
-				muted
-				autoplay
-				playsinline
-				preload="metadata"
-				src={currentPresentationVideo.src}
-				poster={currentPresentationVideo.poster}
-				onended={playNextPresentationVideo}
-				aria-label={currentPresentationVideo.label}
-			></video>
+		<figure class="presentation-rotator" data-reveal {@attach reveal(80)}>
+			{#each heroSlides as slide, i (slide.src)}
+				<img
+					src={slide.src}
+					alt={slide.alt}
+					class:active={i === heroIndex}
+					loading="lazy"
+					decoding="async"
+					aria-hidden={i !== heroIndex ? 'true' : undefined}
+				/>
+			{/each}
 			<figcaption>
-				<span>{currentPresentationVideo.number}</span>
-				{currentPresentationVideo.label}
+				<span>01</span>
+				{#key heroIndex}
+					<em in:fade={{ duration: 300, delay: 450 }}>{heroSlides[heroIndex].caption}</em>
+				{/key}
 			</figcaption>
 		</figure>
 
@@ -770,29 +855,67 @@
 		min-height: 320px;
 	}
 
-	.hero-photo-img {
+	.hero-video {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: contain;
+		object-fit: cover;
 		background-color: #111315;
-		filter: grayscale(100%) contrast(1.08) brightness(0.97);
-		opacity: 0;
-		transition: opacity 0.8s ease;
 	}
 
-	.hero-photo-img.active {
-		opacity: 1;
-	}
-
-	.hero-media::after {
-		content: '';
+	.hero-video-controls {
 		position: absolute;
-		inset: 0;
-		background: linear-gradient(160deg, rgba(192, 40, 28, 0.28) 0%, rgba(30, 32, 34, 0.4) 100%);
-		mix-blend-mode: multiply;
-		pointer-events: none;
+		top: 0.9rem;
+		right: 0.9rem;
+		z-index: 2;
+		display: flex;
+		gap: 3px;
+		padding: 3px;
+		background-color: rgba(17, 19, 21, 0.78);
+		backdrop-filter: blur(8px);
+	}
+
+	.hero-video-toggle,
+	.hero-video-steps button {
+		display: grid;
+		width: 34px;
+		height: 34px;
+		place-items: center;
+		border: 0;
+		background: transparent;
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 0.72rem;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.hero-video-toggle {
+		background-color: var(--color-white);
+		color: var(--color-iron);
+	}
+
+	.hero-video-toggle svg {
+		width: 15px;
+		height: 15px;
+		fill: currentColor;
+	}
+
+	.hero-video-steps {
+		display: flex;
+		gap: 2px;
+	}
+
+	.hero-video-steps button.active {
+		background-color: var(--color-accent-yellow);
+		color: var(--color-iron);
+	}
+
+	.hero-video-toggle:focus-visible,
+	.hero-video-steps button:focus-visible {
+		outline: 2px solid var(--color-white);
+		outline-offset: 2px;
 	}
 
 	.hero-acc {
@@ -1536,7 +1659,7 @@
 		color: var(--text-muted);
 	}
 
-	.presentation-video,
+	.presentation-rotator,
 	.presentation-photo {
 		position: relative;
 		min-width: 0;
@@ -1545,7 +1668,7 @@
 		background-color: #111315;
 	}
 
-	.presentation-video {
+	.presentation-rotator {
 		grid-area: video;
 		min-height: 430px;
 	}
@@ -1558,7 +1681,7 @@
 		grid-area: photob;
 	}
 
-	.presentation-video video,
+	.presentation-rotator img,
 	.presentation-photo img {
 		display: block;
 		width: 100%;
@@ -1567,11 +1690,27 @@
 		background-color: #111315;
 	}
 
+	/* Rotator photos crossfade in place. */
+	.presentation-rotator img {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transition: opacity 0.8s ease;
+	}
+
+	.presentation-rotator img.active {
+		opacity: 1;
+	}
+
+	.presentation-rotator figcaption em {
+		font-style: normal;
+	}
+
 	.presentation-photo {
 		min-height: 320px;
 	}
 
-	.presentation-video::after,
+	.presentation-rotator::after,
 	.presentation-photo::after {
 		content: '';
 		position: absolute;
@@ -1580,7 +1719,7 @@
 		pointer-events: none;
 	}
 
-	.presentation-video figcaption,
+	.presentation-rotator figcaption,
 	.presentation-photo figcaption {
 		position: absolute;
 		left: 0;
@@ -1600,7 +1739,7 @@
 		text-transform: uppercase;
 	}
 
-	.presentation-video figcaption span,
+	.presentation-rotator figcaption span,
 	.presentation-photo figcaption span {
 		grid-row: 1 / span 2;
 		color: var(--color-accent-yellow);
@@ -1640,7 +1779,7 @@
 			padding: 4px;
 		}
 
-		.presentation-video {
+		.presentation-rotator {
 			min-height: 0;
 			aspect-ratio: 16 / 9;
 		}
