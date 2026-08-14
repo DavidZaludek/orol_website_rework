@@ -39,7 +39,6 @@
 			items: [
 				'Uhlová brúska Hilti AG230',
 				'Okružná píla Hilti SCW 70',
-				'Rozbrusovacia píla Hilti DSH 700-X',
 				'Drážkovací stroj Hilti DC-SE20',
 				'Brúska na betón Bosch'
 			]

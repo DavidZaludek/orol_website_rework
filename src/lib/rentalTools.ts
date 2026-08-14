@@ -7,14 +7,14 @@ import productTe1000 from '$lib/assets/rental/hilti/te-1000-avr.png';
 import productTe500 from '$lib/assets/rental/hilti/te-500-avr.png';
 import productTe70 from '$lib/assets/rental/hilti/te-70.png';
 import productAg230 from '$lib/assets/rental/hilti/ag-230.png';
-import productDsh700 from '$lib/assets/rental/hilti/dsh-700-x.png';
 // Manufacturer photos of the tool in use, for the detail-page hero.
 import useTe3000 from '$lib/assets/rental/hilti/te-3000-avr-use.jpg';
 import useTe1000 from '$lib/assets/rental/hilti/te-1000-avr-use.jpg';
 import useTe500 from '$lib/assets/rental/hilti/te-500-avr-use.jpg';
 import useTe70 from '$lib/assets/rental/hilti/te-70-use.jpg';
 import useAg230 from '$lib/assets/rental/hilti/ag-230-use.jpg';
-import useDsh700 from '$lib/assets/rental/hilti/dsh-700-x-use.jpg';
+import productTe230w from '$lib/assets/rental/hilti/te-230w.png';
+import useTe230w from '$lib/assets/rental/hilti/te-230w-use.jpg';
 // Where Hilti no longer publishes the discontinued model, its successor's
 // photo stands in — the page still names the model actually rented.
 import productGx120 from '$lib/assets/rental/hilti/gx-120-me.png';
@@ -140,6 +140,31 @@ export const rentalTools: RentalTool[] = [
 		drivePhotoId: '1svCRkVX_xMlOgodLADC0FvOiW1FbZKBx'
 	},
 	{
+		slug: 'te-230w',
+		match: 'TE 230W',
+		name: 'Vŕtacie kladivo Hilti TE 230W',
+		model: 'TE 230W',
+		category: 'Búranie a vŕtanie',
+		lead: 'Kompaktné a ľahké vŕtacie kladivo s D rukoväťou na bežné montážne práce – kotvenie a vŕtanie do betónu, tehly a kameňa.',
+		uses: [
+			'Vŕtanie do betónu, tehly a kameňa',
+			'Kotvenie konštrukcií a zariaďovacích predmetov',
+			'Montážne práce pri rekonštrukciách'
+		],
+		specs: [
+			'Upínanie SDS-Plus (TE-C)',
+			'Hmotnosť 2,9 kg',
+			'Vŕtanie 4 – 24 mm, optimálne 4 – 12 mm'
+		],
+		hiltiUrl:
+			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7124/CLS_ROTARY_HAMMERS_SDSPLUS_7124/CLS_CORDED_ROTARY_HAMMERS_SDSPLUS_7124/r3684',
+		hiltiSuccessor: 'TE 2-M',
+		useImage: useTe230w,
+		productImage: productTe230w,
+		image: demolitionPhoto,
+		drivePhotoId: '1j61JyAM7BbYa7fd-ONUUXcpUk56FjQst'
+	},
+	{
 		slug: 'gx-120-me',
 		match: 'GX 120-ME',
 		name: 'Plynový vsadzovací prístroj Hilti GX 120-ME',
@@ -196,25 +221,6 @@ export const rentalTools: RentalTool[] = [
 		youtubeId: 'jkGcumfLU0A',
 		useImage: useScw70,
 		productImage: productScw70,
-		image: cuttingPhoto,
-		drivePhotoId: '1tt_gBDyUeqC5eP71HVs5l3DjQY3AWhEG'
-	},
-	{
-		slug: 'dsh-700-x',
-		match: 'DSH 700-X',
-		name: 'Rozbrusovacia píla Hilti DSH 700-X',
-		model: 'DSH 700-X',
-		category: 'Rezanie a brúsenie',
-		lead: 'Benzínová rozbrusovacia píla na hlboké rezy v betóne a asfalte. Pracuje bez prípojky elektriny priamo na stavbe.',
-		uses: [
-			'Rezanie betónu, asfaltu a obrubníkov',
-			'Delenie dlažby a betónových tvárnic',
-			'Práca v teréne bez prístupu k elektrine'
-		],
-		specs: ['Kotúč 350 mm', 'Hĺbka rezu 125 mm', 'Mokré aj suché rezanie'],
-		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_CONCRETE_SAWS_7125/r13340236',
-		useImage: useDsh700,
-		productImage: productDsh700,
 		image: cuttingPhoto,
 		drivePhotoId: '1tt_gBDyUeqC5eP71HVs5l3DjQY3AWhEG'
 	},
@@ -287,13 +293,13 @@ export const toolJobs: ToolJob[] = [
 		id: 'vrtanie',
 		label: 'Vŕtam',
 		hint: 'Otvory, prestupy, kotvenie',
-		slugs: ['te-70']
+		slugs: ['te-70', 'te-230w']
 	},
 	{
 		id: 'rezanie',
 		label: 'Režem',
 		hint: 'Betón, tehla, dlažba, drevo',
-		slugs: ['dsh-700-x', 'ag-230', 'scw-70']
+		slugs: ['ag-230', 'scw-70']
 	},
 	{
 		id: 'drazky',
@@ -305,7 +311,7 @@ export const toolJobs: ToolJob[] = [
 		id: 'montaz',
 		label: 'Montujem',
 		hint: 'Profily, rozvody, kotvenie',
-		slugs: ['gx-120-me']
+		slugs: ['gx-120-me', 'te-230w']
 	},
 	{
 		id: 'cistenie',
