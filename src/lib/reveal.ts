@@ -3,11 +3,19 @@ import type { Attachment } from 'svelte/attachments';
 /**
  * Scroll-reveal attachment. Usage: `<div data-reveal {@attach reveal(120)}>`.
  * The `data-reveal` attribute must be set in markup so prerendered HTML and
- * the CSS hiding rule (guarded by `@media (scripting: enabled)`) agree; the
- * attachment only flips `is-revealed` once the element enters the viewport.
+ * the CSS hiding rule agree. That rule only applies while `<html>` carries
+ * `data-reveal-ready` (set by the inline script in app.html), so a blocked or
+ * broken bundle can never leave the page stuck invisible — see app.html.
  */
 export function reveal(delayMs = 0): Attachment<HTMLElement> {
 	return (el) => {
+		// The bundle booted: cancel the failsafe that would unhide everything.
+		const w = window as unknown as { __orolRevealFallback?: ReturnType<typeof setTimeout> };
+		if (w.__orolRevealFallback !== undefined) {
+			clearTimeout(w.__orolRevealFallback);
+			w.__orolRevealFallback = undefined;
+		}
+
 		if (delayMs) el.style.setProperty('--reveal-delay', `${delayMs}ms`);
 
 		if (

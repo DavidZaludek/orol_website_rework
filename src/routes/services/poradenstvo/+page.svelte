@@ -184,7 +184,7 @@
 		justify-content: center;
 		gap: 1.1rem;
 		padding: clamp(1.75rem, 3.5vw, 3.25rem);
-		background-color: #111315;
+		background-color: var(--color-white);
 	}
 
 	.back-link {
@@ -537,20 +537,20 @@
 	}
 
 	/* ===== Scroll reveal ===== */
-	@media (scripting: enabled) {
-		[data-reveal] {
-			opacity: 0;
-			transform: translateY(18px);
-			transition:
-				opacity var(--transition-reveal),
-				transform var(--transition-reveal);
-			transition-delay: var(--reveal-delay, 0ms);
-		}
+	/* Hidden only while the reveal script is armed (see app.html) — a
+	   blocked bundle can never leave content permanently invisible. */
+	:global(html[data-reveal-ready]) [data-reveal] {
+		opacity: 0;
+		transform: translateY(18px);
+		transition:
+			opacity var(--transition-reveal),
+			transform var(--transition-reveal);
+		transition-delay: var(--reveal-delay, 0ms);
+	}
 
-		[data-reveal]:global(.is-revealed) {
-			opacity: 1;
-			transform: none;
-		}
+	:global(html[data-reveal-ready]) [data-reveal]:global(.is-revealed) {
+		opacity: 1;
+		transform: none;
 	}
 
 	/* ===== Responsive ===== */
