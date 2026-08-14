@@ -227,8 +227,8 @@ export const rentalTools: RentalTool[] = [
 	{
 		slug: 'dc-se-20',
 		match: 'DC-SE20',
-		name: 'Drážkovací stroj Hilti DC-SE 20',
-		model: 'DC-SE 20',
+		name: 'Drážkovací stroj Hilti DC-SE 20 DLX',
+		model: 'DC-SE 20 DLX',
 		category: 'Rezanie a brúsenie',
 		lead: 'Drážkovačka na čisté drážky pre elektroinštaláciu a rozvody v murive a betóne, s odsávaním prachu.',
 		uses: [
@@ -243,10 +243,10 @@ export const rentalTools: RentalTool[] = [
 		drivePhotoId: '1kVH9LeK5n7hqJ2Fbg5Y1OZRiqg8n78Jv'
 	},
 	{
-		slug: 'vc-40-ul',
-		match: 'VC 40-UL',
-		name: 'Univerzálny vysávač Hilti VC 40-UL',
-		model: 'VC 40-UL',
+		slug: 'vc-20-ul',
+		match: 'VC 20-UL',
+		name: 'Univerzálny vysávač Hilti VC 20-UL',
+		model: 'VC 20-UL',
 		category: 'Meranie a čistenie',
 		lead: 'Priemyselný vysávač na mokré aj suché vysávanie. Pripája sa priamo k náradiu a udrží stavbu bez prachu.',
 		uses: [
@@ -254,10 +254,10 @@ export const rentalTools: RentalTool[] = [
 			'Vysávanie mokrých aj suchých nečistôt',
 			'Upratanie stavby po búracích prácach'
 		],
-		specs: ['Trieda prachu L, nádoba 30 l', 'Hmotnosť 14,4 kg', 'Zásuvka pre náradie 1 200 W'],
+		specs: ['Kapacita nádoby 21 l', 'Trieda prašnosti L', 'Sací výkon 74 l/s'],
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_DUST_WATER_MANAGEMENT/CLS_CONSTRUCTION_VACUUMS_DUST_EXTRACTORS/r21748819',
-		hiltiSuccessor: 'VC 40L-X',
+		hiltiSuccessor: 'VC 20L-X',
 		image: toolsPhoto,
 		drivePhotoId: '1c51CYIRzoSs5GRWV-GgKlLgEw_SiIlo_'
 	}

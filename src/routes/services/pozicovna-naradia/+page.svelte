@@ -70,7 +70,7 @@
 			items: [
 				'Optický nivelačný prístroj Sokkia K2',
 				'Merač vlhkosti v murive',
-				'Univerzálny vysávač Hilti VC 40-UL',
+				'Univerzálny vysávač Hilti VC 20-UL',
 				'Vysokotlakový čistič Kärcher'
 			]
 		},

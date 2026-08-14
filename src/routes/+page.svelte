@@ -1653,13 +1653,14 @@
 	.featured-tool-visual {
 		position: absolute;
 		inset: 2.5rem 1rem 3.75rem;
-		display: grid;
-		place-items: center;
+		display: block;
 		min-width: 0;
 		min-height: 0;
 	}
 
 	.featured-tool-image {
+		position: absolute;
+		inset: 0;
 		display: block;
 		width: 100%;
 		height: 100%;
