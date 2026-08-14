@@ -15,12 +15,17 @@
 	import { rentalTools, toolForItem } from '$lib/rentalTools';
 	import { toolIcons } from '$lib/icons';
 	import boschGrinder from '$lib/assets/rental/bosch-gbr-15-cag.png';
+	import levelPhoto from '$lib/assets/rental/nivelacny-pristroj.jpg';
+	import plasteringMachine from '$lib/assets/rental/strojova-omietacka.png';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
 	// Machines we rent that are not Hilti, so they have no detail page (yet).
+	// Labelled by what the machine does, not by its model name.
 	const otherProductImages: Record<string, { src: string; label: string }> = {
-		'Brúska na betón Bosch': { src: boschGrinder, label: 'Bosch GBR 15 CAG' }
+		'Brúska na betón Bosch': { src: boschGrinder, label: 'Brúska na betón' },
+		'Optický nivelačný prístroj Sokkia K2': { src: levelPhoto, label: 'Nivelačný prístroj' },
+		'Strojová omietačka RITMO': { src: plasteringMachine, label: 'Strojová omietačka' }
 	};
 
 	// Bento rows — the hovered tile expands sideways and its row grows taller.
