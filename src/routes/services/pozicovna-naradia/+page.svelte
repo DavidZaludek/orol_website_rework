@@ -13,6 +13,7 @@
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
 	import { rentalTools, toolForItem } from '$lib/rentalTools';
+	import { toolIcons } from '$lib/icons';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
@@ -180,11 +181,17 @@
 				data-reveal
 				{@attach reveal(Math.min(i * 40, 320))}
 			>
-				{#if tool.productImage}
-					<span class="hilti-thumb">
+				<span class="hilti-thumb">
+					{#if tool.productImage}
 						<img src={tool.productImage} alt="" loading="lazy" />
-					</span>
-				{/if}
+					{:else}
+						<svg class="hilti-icon" viewBox="0 0 24 24" aria-hidden="true">
+							{#each toolIcons[tool.slug] ?? [] as d (d)}
+								<path {d} />
+							{/each}
+						</svg>
+					{/if}
+				</span>
 				<span class="hilti-text">
 					<span class="hilti-model">{tool.model}</span>
 					<span class="hilti-name">{tool.category}</span>
@@ -583,6 +590,16 @@
 		max-width: 100%;
 		max-height: 100%;
 		object-fit: contain;
+	}
+
+	.hilti-icon {
+		width: 46px;
+		height: 46px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 1.6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
 	}
 
 	.hilti-text {

@@ -63,3 +63,19 @@ export const serviceIcons: Record<string, string[]> = {
 		'M16 3.13a4 4 0 0 1 0 7.75'
 	]
 };
+
+// Rental-tool pictograms, keyed by tool slug. Used where the manufacturer's
+// product shot cannot be used because the model is discontinued and Hilti now
+// serves the successor's photo — an honest icon beats a photo of another tool.
+export const toolIcons: Record<string, string[]> = {
+	// Rotary hammer: body, D-handle, chuck and bit.
+	'te-7': ['M4 9h9v6H4z', 'M4 15v3', 'M13 11h3v2h-3z', 'M16 12h5', 'M8 9V6h4v3'],
+	// Gas nailer: body with angled magazine and nose.
+	'gx-120-me': ['M5 6h10v7H5z', 'M15 8h3v3h-3z', 'M18 9.5h3', 'M7 13l-2 6', 'M9 13l-2 6'],
+	// Circular saw: blade, base plate and handle.
+	'sc-70w-a22': ['M9 12a5 5 0 1 1 10 0', 'M4 17h17', 'M9 7V4h4v3', 'M14 12h-1'],
+	// Wall chaser: twin discs cutting a wall line.
+	'dc-se-20': ['M8 13a4.5 4.5 0 1 1 9 0', 'M6.5 13a6 6 0 1 1 12 0', 'M3 20h18', 'M12 4v3'],
+	// Vacuum: canister, hose and wheels.
+	'vc-20-ul': ['M5 9h11v10H5z', 'M16 12c3 0 4-2 4-4V6', 'M7 19v2', 'M14 19v2', 'M8 5h5v4H8z']
+};
