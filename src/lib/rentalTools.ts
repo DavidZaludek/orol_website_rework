@@ -14,6 +14,11 @@ export interface RentalTool {
 	specs: string[];
 	/** Official Hilti Slovakia product page. */
 	hiltiUrl: string;
+	/**
+	 * Set when this model is discontinued and `hiltiUrl` points at its
+	 * successor — the page says so rather than pretending it is the same tool.
+	 */
+	hiltiSuccessor?: string;
 	/** YouTube id of the manufacturer's instructional video, if one exists. */
 	youtubeId?: string;
 	image: string;
@@ -38,9 +43,9 @@ export const rentalTools: RentalTool[] = [
 			'Demolácia priečok a nosných konštrukcií',
 			'Práce, pri ktorých menšie kladivo už nestačí'
 		],
-		specs: ['Hmotnosť 27,1 kg', 'Energia príklepu 85 J', 'Frekvencia 858 úderov/min'],
+		specs: ['Hmotnosť 27,1 kg', 'Energia jedného úderu 85 J', 'Upínanie TE-H (Hilti HEX 28)'],
 		hiltiUrl:
-			'https://www.hilti.cz/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r11668382',
+			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7124/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7124/CLS_DEMOLITION_HAMMER_BREAKER_7124/r11668382',
 		image: demolitionPhoto,
 		drivePhotoId: '1aV97iMhaHhLyiNLlQTr1u3WWE8HrLbsd'
 	},
@@ -56,9 +61,9 @@ export const rentalTools: RentalTool[] = [
 			'Búranie priečok a otvorov v murive',
 			'Práca v interiéri, kde je dôležitá manipulovateľnosť'
 		],
-		specs: ['Hmotnosť 12,5 kg', 'Energia príklepu 26 J', 'Frekvencia 1 950 úderov/min'],
+		specs: ['Hmotnosť 12,5 kg', 'Energia jedného úderu 26 J', 'Upínanie TE-S'],
 		hiltiUrl:
-			'https://www.hilti.cz/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r9672135',
+			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r9672135',
 		image: demolitionPhoto,
 		drivePhotoId: '14DpneincikbA4FmGZdZSyLX2-8srf1w-'
 	},
@@ -74,9 +79,9 @@ export const rentalTools: RentalTool[] = [
 			'Odstraňovanie obkladov a omietok',
 			'Menšie búracie práce v interiéri'
 		],
-		specs: ['Hmotnosť 6,3 kg', 'Energia príklepu 8,5 J', 'Frekvencia 3 510 úderov/min'],
+		specs: ['Hmotnosť 6,3 kg', 'Energia jedného úderu 8,5 J', 'Upínanie TE-Y (SDS Max)'],
 		hiltiUrl:
-			'https://www.hilti.cz/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r7770032',
+			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r7770032',
 		image: demolitionPhoto,
 		drivePhotoId: '1HLrGCBzTwgqa25JkTQKsfN89hIT748vX'
 	},
@@ -92,8 +97,8 @@ export const rentalTools: RentalTool[] = [
 			'Kotvenie do betónu',
 			'Sekacie práce bez výmeny stroja'
 		],
-		specs: ['Hmotnosť 10 kg', 'Energia príklepu 14,5 J', 'Vŕtanie s príklepom 12 – 150 mm'],
-		hiltiUrl: 'https://www.hilti.cz/c/CLS_POWER_TOOLS_7125/CLS_ROTARY_HAMMERS_7125/r6851673',
+		specs: ['Hmotnosť 10 kg', 'Energia jedného úderu 14,5 J', 'Vŕtanie 12 – 150 mm, SDS Max'],
+		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_ROTARY_HAMMERS_7125/r6851673',
 		image: demolitionPhoto,
 		drivePhotoId: '1svCRkVX_xMlOgodLADC0FvOiW1FbZKBx'
 	},
@@ -109,8 +114,9 @@ export const rentalTools: RentalTool[] = [
 			'Kotvenie konštrukcií a zariaďovacích predmetov',
 			'Montážne práce na stavbe aj v domácnosti'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Hmotnosť 3,1 kg', 'Príkon 850 W', 'Vŕtanie 4 – 28 mm, SDS-Plus'],
+		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_ROTARY_HAMMERS_7125/r5269167',
+		hiltiSuccessor: 'TE 3-M',
 		image: demolitionPhoto,
 		drivePhotoId: '1j61JyAM7BbYa7fd-ONUUXcpUk56FjQst'
 	},
@@ -126,8 +132,10 @@ export const rentalTools: RentalTool[] = [
 			'Uchytenie elektroinštalácie a rozvodov',
 			'Rýchla montáž bez predvŕtavania'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Hmotnosť 3,99 kg', 'Klince 14 – 39 mm', 'Zásobník na 40 klincov'],
+		hiltiUrl:
+			'https://www.hilti.sk/c/CLS_DIRECT_FASTENING/CLS_DX_TOOLS2/CLS_DX_TOOLS2_GAS/r4410162',
+		hiltiSuccessor: 'GX 3-ME',
 		image: demolitionPhoto,
 		drivePhotoId: '146i_uACiwQUx9eZc-XeBaQ3cLR7UOZWc'
 	},
@@ -143,8 +151,8 @@ export const rentalTools: RentalTool[] = [
 			'Delenie ocelových profilov a výstuže',
 			'Brúsenie a čistenie povrchov'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Príkon 2 400 W', 'Kotúč 230 mm, hĺbka rezu 68 mm', 'Hmotnosť 6,5 kg'],
+		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_GRINDERS_SANDERS_7125/r6118333',
 		image: cuttingPhoto,
 		drivePhotoId: '1IcljW0w_0Q8EplTd5HippRcw05mq7m45'
 	},
@@ -160,8 +168,9 @@ export const rentalTools: RentalTool[] = [
 			'Práca na streche a v priestoroch bez elektriny',
 			'Presné rovné rezy s vodiacou lištou'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Kotúč 190 mm, hĺbka rezu 70 mm', 'Hmotnosť 4,02 kg', 'Akumulátorová platforma 22 V'],
+		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_SAWS_7125/r21975965',
+		hiltiSuccessor: 'SC 30WR-22',
 		youtubeId: 'jkGcumfLU0A',
 		image: cuttingPhoto,
 		drivePhotoId: '1tt_gBDyUeqC5eP71HVs5l3DjQY3AWhEG'
@@ -178,8 +187,8 @@ export const rentalTools: RentalTool[] = [
 			'Delenie dlažby a betónových tvárnic',
 			'Práca v teréne bez prístupu k elektrine'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Kotúč 350 mm', 'Hĺbka rezu 125 mm', 'Mokré aj suché rezanie'],
+		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_CONCRETE_SAWS_7125/r13340236',
 		image: cuttingPhoto,
 		drivePhotoId: '1tt_gBDyUeqC5eP71HVs5l3DjQY3AWhEG'
 	},
@@ -195,8 +204,9 @@ export const rentalTools: RentalTool[] = [
 			'Rezanie v tehle, betóne a pórobetóne',
 			'Práca s odsávaním – menej prachu v interiéri'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Kotúč 150 mm', 'Drážka do 50 × 50 mm', 'Hmotnosť 7,6 kg'],
+		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_CONCRETE_SAWS_7125/r6703894',
+		hiltiSuccessor: 'DCH 150-SL',
 		image: cuttingPhoto,
 		drivePhotoId: '1kVH9LeK5n7hqJ2Fbg5Y1OZRiqg8n78Jv'
 	},
@@ -212,8 +222,10 @@ export const rentalTools: RentalTool[] = [
 			'Vysávanie mokrých aj suchých nečistôt',
 			'Upratanie stavby po búracích prácach'
 		],
-		specs: [],
-		hiltiUrl: '',
+		specs: ['Trieda prachu L, nádoba 30 l', 'Hmotnosť 14,4 kg', 'Zásuvka pre náradie 1 200 W'],
+		hiltiUrl:
+			'https://www.hilti.sk/c/CLS_DUST_WATER_MANAGEMENT/CLS_CONSTRUCTION_VACUUMS_DUST_EXTRACTORS/r21748819',
+		hiltiSuccessor: 'VC 40L-X',
 		image: toolsPhoto,
 		drivePhotoId: '1c51CYIRzoSs5GRWV-GgKlLgEw_SiIlo_'
 	}

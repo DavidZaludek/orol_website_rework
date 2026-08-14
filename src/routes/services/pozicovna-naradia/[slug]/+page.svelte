@@ -33,7 +33,7 @@
 				<a href={contact.phoneHref} class="btn btn--primary">Overiť dostupnosť</a>
 				{#if tool.hiltiUrl}
 					<a href={tool.hiltiUrl} class="btn btn--ghost" target="_blank" rel="noopener noreferrer">
-						Detail na Hilti.sk →
+						{tool.hiltiSuccessor ? 'Nástupca na Hilti.sk →' : 'Detail na Hilti.sk →'}
 					</a>
 				{/if}
 			</div>
@@ -74,6 +74,12 @@
 						<li>{spec}</li>
 					{/each}
 				</ul>
+			{/if}
+			{#if tool.hiltiSuccessor}
+				<p class="successor-note">
+					Tento model už výrobca nevyrába – u nás si ho stále požičiate. Na Hilti.sk nájdete jeho
+					nástupcu <strong>{tool.hiltiSuccessor}</strong>.
+				</p>
 			{/if}
 		</div>
 	</div>
@@ -403,6 +409,19 @@
 		background-color: var(--color-chalk);
 		font-size: var(--font-size-small);
 		font-weight: 600;
+		color: var(--color-iron);
+	}
+
+	.successor-note {
+		margin: 1.25rem 0 0;
+		padding-left: 1rem;
+		border-left: 3px solid var(--color-accent-yellow);
+		font-size: var(--font-size-small);
+		line-height: 1.6;
+		color: var(--text-muted);
+	}
+
+	.successor-note strong {
 		color: var(--color-iron);
 	}
 
