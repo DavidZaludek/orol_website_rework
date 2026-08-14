@@ -9,8 +9,10 @@
 	import seasonalPhoto from '$lib/assets/rental/seasonal-log-splitter.jpg';
 	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
 	import { serviceMedia } from '$lib/serviceMedia';
+	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
+	import { rentalTools, toolForItem } from '$lib/rentalTools';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
@@ -160,7 +162,32 @@
 		<div class="acc acc--hb" aria-hidden="true"></div>
 	</div>
 
-	<!-- 2. Catalogue composition -->
+	<!-- 2. Hilti band — the professional line we stock -->
+	<div class="canvas hilti-canvas" id="hilti">
+		<div class="hilti-copy" data-reveal {@attach reveal()}>
+			<img src={hiltiLogo} alt="Hilti" class="hilti-logo" />
+			<h2 class="hilti-title">Profesionálne náradie Hilti</h2>
+			<p class="hilti-lead">
+				Jadro našej požičovne tvorí náradie Hilti – búracie a kombinované kladivá, píly, drážkovačky
+				aj priemyselné vysávače. Sú to stroje, ktoré denne znesú zaťaženie na stavbe a my ich
+				udržiavame v prevádzkyschopnom stave.
+			</p>
+		</div>
+		{#each rentalTools as tool, i (tool.slug)}
+			<a
+				href="/services/pozicovna-naradia/{tool.slug}"
+				class="hilti-cell"
+				data-reveal
+				{@attach reveal(Math.min(i * 40, 320))}
+			>
+				<span class="hilti-model">{tool.model}</span>
+				<span class="hilti-name">{tool.category}</span>
+			</a>
+		{/each}
+		<div class="acc acc--hiy" aria-hidden="true"></div>
+	</div>
+
+	<!-- 3. Catalogue composition -->
 	<div class="canvas cat-canvas" id="ponuka">
 		<header class="head-cell" data-reveal {@attach reveal()}>
 			<span class="eyebrow">Čo si požičiate</span>
@@ -183,7 +210,14 @@
 					<h3>{category.title}</h3>
 					<ul>
 						{#each category.items as item (item)}
-							<li>{item}</li>
+							{@const tool = toolForItem(item)}
+							<li>
+								{#if tool}
+									<a href="/services/pozicovna-naradia/{tool.slug}">{item}</a>
+								{:else}
+									{item}
+								{/if}
+							</li>
 						{/each}
 					</ul>
 				</div>
@@ -472,7 +506,81 @@
 		letter-spacing: 0.1em;
 	}
 
-	/* ===== 2. Catalogue ===== */
+	/* ===== 2. Hilti band ===== */
+	.hilti-canvas {
+		grid-template-columns: repeat(12, 1fr);
+	}
+
+	.hilti-copy {
+		grid-column: span 12;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.9rem;
+		padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.5rem, 3vw, 3rem);
+		background-color: var(--color-white);
+	}
+
+	.hilti-logo {
+		height: 34px;
+		width: auto;
+	}
+
+	.hilti-title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--font-size-display-md);
+		font-weight: 700;
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: var(--color-iron);
+	}
+
+	.hilti-lead {
+		margin: 0;
+		max-width: 70ch;
+		line-height: 1.7;
+		color: var(--text-muted);
+	}
+
+	.hilti-cell {
+		grid-column: span 3;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		min-width: 0;
+		padding: 1.1rem 1.2rem 1.25rem;
+		background-color: var(--color-brand-primary);
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
+	}
+
+	.hilti-cell:hover {
+		background-color: var(--color-brand-hover);
+	}
+
+	.hilti-model {
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--color-white);
+	}
+
+	.hilti-name {
+		font-size: var(--font-size-small);
+		color: rgba(255, 255, 255, 0.85);
+	}
+
+	.acc--hiy {
+		grid-column: span 1;
+		min-height: 22px;
+		background-color: var(--color-accent-yellow);
+	}
+
+	/* ===== 3. Catalogue ===== */
 	.cat-canvas {
 		grid-template-columns: repeat(12, 1fr);
 	}
@@ -583,6 +691,18 @@
 		font-size: 0.87rem;
 		line-height: 1.42;
 		color: var(--color-steel);
+	}
+
+	.equip-copy li a {
+		color: inherit;
+		text-decoration: underline;
+		text-decoration-color: var(--color-brand-primary);
+		text-underline-offset: 3px;
+		transition: color var(--transition-fast);
+	}
+
+	.equip-copy li a:hover {
+		color: var(--color-brand-primary);
 	}
 
 	.equip-copy li::before {

@@ -1919,7 +1919,9 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		object-position: center 20%;
+		/* Anchored to the top: keeps the head whole and crops the bottom, which
+		   carries a burned-in watermark on this old 200px source photo. */
+		object-position: center top;
 		filter: grayscale(100%) contrast(1.06);
 		transition:
 			filter var(--transition-medium),
