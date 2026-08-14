@@ -13,7 +13,7 @@
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
 	import { rentalTools, toolForItem } from '$lib/rentalTools';
-	import { toolIcons } from '$lib/icons';
+	import { toolIcons, genericIconFor } from '$lib/icons';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
@@ -181,6 +181,12 @@
 		<div class="acc acc--cy" aria-hidden="true"></div>
 
 		{#each categories as category, i (category.title)}
+			{@const carded = category.items.filter(
+				(it) => toolForItem(it)?.productImage || genericIconFor(it)
+			)}
+			{@const plain = category.items.filter(
+				(it) => !toolForItem(it)?.productImage && !genericIconFor(it)
+			)}
 			<article class="equip-cell" data-reveal {@attach reveal(Math.min((i % 2) * 80, 160))}>
 				<div class="equip-photo">
 					<img src={category.image} alt={category.alt} loading="lazy" />
@@ -188,21 +194,36 @@
 				</div>
 				<div class="equip-copy">
 					<h3>{category.title}</h3>
-					<ul>
-						{#each category.items as item (item)}
-							{@const tool = toolForItem(item)}
-							<li class:has-thumb={tool?.productImage}>
+					{#if carded.length > 0}
+						<div class="tool-cards">
+							{#each carded as item (item)}
+								{@const tool = toolForItem(item)}
+								{@const icon = genericIconFor(item)}
 								{#if tool?.productImage}
-									<img src={tool.productImage} alt="" class="item-thumb" loading="lazy" />
+									<a href="/services/pozicovna-naradia/{tool.slug}" class="tool-card">
+										<img src={tool.productImage} alt="" loading="lazy" />
+										<span class="tool-card-model">{tool.model}</span>
+									</a>
+								{:else if icon}
+									<span class="tool-card tool-card--icon">
+										<svg viewBox="0 0 24 24" aria-hidden="true">
+											{#each icon as d (d)}
+												<path {d} />
+											{/each}
+										</svg>
+										<span class="tool-card-model">{item}</span>
+									</span>
 								{/if}
-								{#if tool}
-									<a href="/services/pozicovna-naradia/{tool.slug}">{item}</a>
-								{:else}
-									{item}
-								{/if}
-							</li>
-						{/each}
-					</ul>
+							{/each}
+						</div>
+					{/if}
+					{#if plain.length > 0}
+						<ul>
+							{#each plain as item (item)}
+								<li>{item}</li>
+							{/each}
+						</ul>
+					{/if}
 				</div>
 			</article>
 		{/each}
@@ -810,37 +831,73 @@
 		color: var(--color-steel);
 	}
 
-	/* List rows that carry a product miniature swap the dash for the photo. */
-	.equip-copy li.has-thumb {
+	/* Tools with a product photo become cards; anything else stays a dash row. */
+	.tool-cards {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 5px;
+		margin: 0 0 1rem;
+	}
+
+	.tool-card {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		gap: 0.6rem;
-		padding-left: 0;
-		min-height: 34px;
+		gap: 0.4rem;
+		padding: 0.75rem 0.6rem 0.8rem;
+		background-color: var(--color-chalk);
+		text-decoration: none;
+		transition: background-color var(--transition-fast);
 	}
 
-	.equip-copy li.has-thumb::before {
-		display: none;
+	.tool-card:hover {
+		background-color: #e6e9eb;
 	}
 
-	.item-thumb {
-		width: 52px;
-		height: 30px;
-		flex: 0 0 auto;
+	.tool-card img {
+		width: 100%;
+		height: 74px;
 		object-fit: contain;
-		object-position: left center;
 	}
 
-	.equip-copy li a {
-		color: inherit;
-		text-decoration: underline;
-		text-decoration-color: var(--color-brand-primary);
-		text-underline-offset: 3px;
+	/* Items we carry that are not Hilti get a pictogram instead of a photo. */
+	.tool-card--icon {
+		cursor: default;
+	}
+
+	.tool-card--icon svg {
+		width: 100%;
+		height: 74px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 1.4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.tool-card--icon .tool-card-model {
+		font-size: 0.78rem;
+		line-height: 1.3;
+	}
+
+	.tool-card-model {
+		font-family: var(--font-display);
+		font-size: 0.92rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		text-align: center;
+		color: var(--color-iron);
 		transition: color var(--transition-fast);
 	}
 
-	.equip-copy li a:hover {
+	.tool-card:hover .tool-card-model {
 		color: var(--color-brand-primary);
+	}
+
+	.tool-card:focus-visible {
+		outline: 3px solid var(--color-brand-hover);
+		outline-offset: 2px;
 	}
 
 	.equip-copy li::before {

@@ -79,3 +79,24 @@ export const toolIcons: Record<string, string[]> = {
 	// Vacuum: canister, hose and wheels.
 	'vc-20-ul': ['M5 9h11v10H5z', 'M16 12c3 0 4-2 4-4V6', 'M7 19v2', 'M14 19v2', 'M8 5h5v4H8z']
 };
+
+/**
+ * Pictograms for rental items we carry that are not Hilti, so no manufacturer
+ * product shot applies. Keyed by a substring of the catalogue item text.
+ */
+export const genericToolIcons: Record<string, string[]> = {
+	// Concrete grinder: body, side handle and the cup wheel underneath.
+	'Brúska na betón': [
+		'M6 7h10v6H6z',
+		'M16 9h3v2h-3z',
+		'M8 7V5h5v2',
+		'M4.5 16h13',
+		'M6 13v3',
+		'M16 13v3'
+	]
+};
+
+export function genericIconFor(item: string): string[] | undefined {
+	const key = Object.keys(genericToolIcons).find((k) => item.includes(k));
+	return key ? genericToolIcons[key] : undefined;
+}
