@@ -632,9 +632,11 @@
 	/* ===== 3. Process + conditions ===== */
 	.process-canvas {
 		grid-template-columns: repeat(12, 1fr);
+		/* Every named area must stay rectangular — an L-shaped area invalidates
+		   the whole declaration and the cells fall back to auto-placement. */
 		grid-template-areas:
 			'steps steps steps steps steps steps steps cond cond cond cond cond'
-			'py    py    steps steps steps steps steps cond cond cond cond cond';
+			'py    py    py    py    py    py    py    cond cond cond cond cond';
 		grid-template-rows: auto 42px;
 	}
 
