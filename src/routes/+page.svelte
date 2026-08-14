@@ -1,8 +1,4 @@
 <script lang="ts">
-	import heroPhoto from '$lib/assets/gallery/IMG_8605.jpg';
-	import brickPhoto from '$lib/assets/gallery/IMG_2264.jpg';
-	import steelSitePhoto from '$lib/assets/gallery/IMG_3214.jpg';
-	import screedPhoto from '$lib/assets/gallery/IMG_3239.jpg';
 	import ownerPhoto from '$lib/assets/koloman_zaludek.jpg';
 	import presentationTruckJpg from '$lib/assets/home/presentation/doprava-orol.jpg';
 	import presentationHouseJpg from '$lib/assets/home/presentation/realizacia-dom.jpg';
@@ -36,6 +32,7 @@
 	import prodNaradie from '$lib/assets/products/naradie-a-doplnky-generated.jpg';
 
 	import { fade } from 'svelte/transition';
+	import { galleryPhotos } from '$lib/gallery';
 	import { company, contact, products, services } from '$lib/site';
 	import { reveal } from '$lib/reveal';
 	import { partners } from '$lib/partners';
@@ -78,7 +75,7 @@
 	let { data } = $props();
 
 	let promoIndex = $state(0);
-	let heroIndex = $state(0);
+	let galleryIndex = $state(0);
 	let presentationVideoElement = $state<HTMLVideoElement | null>(null);
 	let presentationVideoIndex = $state(0);
 	let presentationVideoPaused = $state(false);
@@ -125,33 +122,13 @@
 	];
 	const currentPresentationVideo = $derived(presentationVideos[presentationVideoIndex]);
 
-	const heroSlides = [
-		{
-			src: heroPhoto,
-			caption: 'Vlastná doprava až na stavbu',
-			alt: 'Nákladné auto Stavebnín Orol s hydraulickou rukou pri vykládke materiálu'
-		},
-		{
-			src: brickPhoto,
-			caption: 'Tehly a murovací materiál',
-			alt: 'Vzorky tehál a murovacieho materiálu pred predajňou'
-		},
-		{
-			src: steelSitePhoto,
-			caption: 'Od základov po strechu',
-			alt: 'Betonárska výstuž pripravená na stavbe'
-		},
-		{
-			src: screedPhoto,
-			caption: 'Materiál, ktorý stavia',
-			alt: 'Strojové hladenie betónového poteru'
-		}
-	];
-
 	$effect(() => {
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 		const id = setInterval(() => {
-			heroIndex = (heroIndex + 1) % heroSlides.length;
+			galleryIndex = (galleryIndex + 1) % galleryPhotos.length;
+			// Warm the next slide so the crossfade never waits on the network.
+			const upcoming = new Image();
+			upcoming.src = galleryPhotos[(galleryIndex + 1) % galleryPhotos.length].src;
 		}, 5000);
 		return () => clearInterval(id);
 	});
@@ -569,20 +546,18 @@
 		</header>
 
 		<figure class="presentation-rotator" data-reveal {@attach reveal(80)}>
-			{#each heroSlides as slide, i (slide.src)}
+			{#key galleryIndex}
 				<img
-					src={slide.src}
-					alt={slide.alt}
-					class:active={i === heroIndex}
-					loading="lazy"
+					src={galleryPhotos[galleryIndex].src}
+					alt={galleryPhotos[galleryIndex].alt}
+					transition:fade={{ duration: 600 }}
 					decoding="async"
-					aria-hidden={i !== heroIndex ? 'true' : undefined}
 				/>
-			{/each}
+			{/key}
 			<figcaption>
 				<span>01</span>
-				{#key heroIndex}
-					<em in:fade={{ duration: 300, delay: 450 }}>{heroSlides[heroIndex].caption}</em>
+				{#key galleryIndex}
+					<em in:fade={{ duration: 300, delay: 300 }}>{galleryPhotos[galleryIndex].title}</em>
 				{/key}
 			</figcaption>
 		</figure>
@@ -1690,16 +1665,10 @@
 		background-color: #111315;
 	}
 
-	/* Rotator photos crossfade in place. */
+	/* Rotator photos crossfade in place (Svelte fade handles the opacity). */
 	.presentation-rotator img {
 		position: absolute;
 		inset: 0;
-		opacity: 0;
-		transition: opacity 0.8s ease;
-	}
-
-	.presentation-rotator img.active {
-		opacity: 1;
 	}
 
 	.presentation-rotator figcaption em {
