@@ -338,13 +338,24 @@
 	}
 
 	/* Manufacturer in-use photos stay in colour — the point is to show the
-	   tool itself, not to set a mood like our own site photography does. */
+	   tool itself, not to set a mood like our own site photography does.
+	   They also come in wildly different ratios (2.2:1 panoramas through to
+	   portrait), so they are fitted whole rather than cropped to the cell. */
 	.photo-cell--use {
 		background-color: var(--color-white);
 	}
 
 	.photo-cell--use img {
 		filter: none;
+		object-fit: contain;
+		padding: clamp(0.5rem, 1.5vw, 1.25rem);
+		box-sizing: border-box;
+	}
+
+	@media (hover: hover) {
+		.photo-cell--use:hover img {
+			transform: none;
+		}
 	}
 
 	/* Model plate — the Hilti mark next to the model code. */
