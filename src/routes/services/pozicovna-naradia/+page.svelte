@@ -558,23 +558,25 @@
 		grid-column: span 3;
 		display: flex;
 		align-items: center;
-		gap: 0.9rem;
+		gap: 1rem;
 		min-width: 0;
-		padding: 0.9rem 1.2rem 0.9rem 0.9rem;
-		background-color: var(--color-brand-primary);
+		padding: 1rem 1.2rem;
+		background-color: var(--color-white);
 		text-decoration: none;
 		transition: background-color var(--transition-fast);
 	}
 
-	/* Product shot on its own white chip — a small cell inside the red one. */
+	.hilti-cell:hover {
+		background-color: var(--color-chalk);
+	}
+
+	/* Cut-out product shot sits straight on the white cell. */
 	.hilti-thumb {
 		display: grid;
 		place-items: center;
-		width: 84px;
-		height: 58px;
+		width: 96px;
+		height: 64px;
 		flex: 0 0 auto;
-		padding: 5px;
-		background-color: var(--color-white);
 	}
 
 	.hilti-thumb img {
@@ -590,22 +592,23 @@
 		min-width: 0;
 	}
 
-	.hilti-cell:hover {
-		background-color: var(--color-brand-hover);
-	}
-
 	.hilti-model {
 		font-family: var(--font-display);
 		font-size: 1.15rem;
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: var(--color-white);
+		color: var(--color-iron);
+		transition: color var(--transition-fast);
+	}
+
+	.hilti-cell:hover .hilti-model {
+		color: var(--color-brand-primary);
 	}
 
 	.hilti-name {
 		font-size: var(--font-size-small);
-		color: rgba(255, 255, 255, 0.85);
+		color: var(--text-muted);
 	}
 
 	.acc--hiy {
