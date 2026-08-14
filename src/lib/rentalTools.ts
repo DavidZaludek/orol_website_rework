@@ -21,6 +21,7 @@ import productGx120 from '$lib/assets/rental/hilti/gx-120-me.png';
 import productScw70 from '$lib/assets/rental/hilti/scw-70.png';
 import productDcSe20 from '$lib/assets/rental/hilti/dc-se-20.png';
 import productVc20 from '$lib/assets/rental/hilti/vc-20-ul.png';
+import useVc20 from '$lib/assets/rental/hilti/vc-20-ul-use.jpg';
 import useGx120 from '$lib/assets/rental/hilti/gx-120-me-use.jpg';
 import useScw70 from '$lib/assets/rental/hilti/scw-70-use.jpg';
 import useDcSe20 from '$lib/assets/rental/hilti/dc-se-20-use.jpg';
@@ -265,6 +266,7 @@ export const rentalTools: RentalTool[] = [
 		hiltiUrl:
 			'https://www.hilti.cz/c/CLS_DUST_WATER_MANAGEMENT/CLS_CONSTRUCTION_VACUUMS_DUST_EXTRACTORS/r21748816',
 		hiltiSuccessor: 'VC 20L-X',
+		useImage: useVc20,
 		productImage: productVc20,
 		image: toolsPhoto,
 		drivePhotoId: '1c51CYIRzoSs5GRWV-GgKlLgEw_SiIlo_'
