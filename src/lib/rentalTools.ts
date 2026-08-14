@@ -21,7 +21,6 @@ import productGx120 from '$lib/assets/rental/hilti/gx-120-me.png';
 import productScw70 from '$lib/assets/rental/hilti/scw-70.png';
 import productDcSe20 from '$lib/assets/rental/hilti/dc-se-20.png';
 import productVc20 from '$lib/assets/rental/hilti/vc-20-ul.png';
-import useTe7 from '$lib/assets/rental/hilti/te-7-use.jpg';
 import useGx120 from '$lib/assets/rental/hilti/gx-120-me-use.jpg';
 import useScw70 from '$lib/assets/rental/hilti/scw-70-use.jpg';
 import useDcSe20 from '$lib/assets/rental/hilti/dc-se-20-use.jpg';
@@ -139,25 +138,6 @@ export const rentalTools: RentalTool[] = [
 		productImage: productTe70,
 		image: demolitionPhoto,
 		drivePhotoId: '1svCRkVX_xMlOgodLADC0FvOiW1FbZKBx'
-	},
-	{
-		slug: 'te-7',
-		match: 'TE 7',
-		name: 'Vŕtacie kladivo Hilti TE 7',
-		model: 'TE 7',
-		category: 'Búranie a vŕtanie',
-		lead: 'Ľahké vŕtacie kladivo na bežné montážne práce – kotvenie, vŕtanie do betónu a tehly pri rekonštrukciách.',
-		uses: [
-			'Vŕtanie do betónu, tehly a kameňa',
-			'Kotvenie konštrukcií a zariaďovacích predmetov',
-			'Montážne práce na stavbe aj v domácnosti'
-		],
-		specs: ['Hmotnosť 3,1 kg', 'Príkon 850 W', 'Vŕtanie 4 – 28 mm, SDS-Plus'],
-		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_ROTARY_HAMMERS_7125/r5269167',
-		hiltiSuccessor: 'TE 3-M',
-		useImage: useTe7,
-		image: demolitionPhoto,
-		drivePhotoId: '1j61JyAM7BbYa7fd-ONUUXcpUk56FjQst'
 	},
 	{
 		slug: 'gx-120-me',
@@ -282,4 +262,64 @@ export const rentalTools: RentalTool[] = [
 
 export function toolForItem(item: string): RentalTool | undefined {
 	return rentalTools.find((t) => item.includes(t.match));
+}
+
+/**
+ * Job-first navigation: people arrive knowing the work they need done, not the
+ * model they want. Each entry maps a job to the machines that do it — a tool
+ * can appear under several jobs.
+ */
+export interface ToolJob {
+	id: string;
+	label: string;
+	hint: string;
+	slugs: string[];
+}
+
+export const toolJobs: ToolJob[] = [
+	{
+		id: 'buranie',
+		label: 'Búram',
+		hint: 'Priečky, podlahy, základy',
+		slugs: ['te-3000-avr', 'te-1000-avr', 'te-500-avr', 'dsh-700-x']
+	},
+	{
+		id: 'vrtanie',
+		label: 'Vŕtam',
+		hint: 'Otvory, prestupy, kotvenie',
+		slugs: ['te-70', 'te-3000-avr']
+	},
+	{
+		id: 'rezanie',
+		label: 'Režem',
+		hint: 'Betón, tehla, dlažba, drevo',
+		slugs: ['dsh-700-x', 'ag-230', 'scw-70']
+	},
+	{
+		id: 'drazky',
+		label: 'Robím drážky',
+		hint: 'Elektrina, voda, kúrenie',
+		slugs: ['dc-se-20', 'te-500-avr']
+	},
+	{
+		id: 'montaz',
+		label: 'Montujem',
+		hint: 'Profily, rozvody, kotvenie',
+		slugs: ['gx-120-me']
+	},
+	{
+		id: 'cistenie',
+		label: 'Odsávam prach',
+		hint: 'Čistenie počas aj po práci',
+		slugs: ['vc-20-ul']
+	}
+];
+
+export function toolsForJob(jobId: string): RentalTool[] {
+	if (jobId === 'all') return rentalTools;
+	const job = toolJobs.find((j) => j.id === jobId);
+	if (!job) return rentalTools;
+	return job.slugs
+		.map((s) => rentalTools.find((t) => t.slug === s))
+		.filter((t): t is RentalTool => t !== undefined);
 }

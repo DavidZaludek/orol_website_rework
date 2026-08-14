@@ -12,10 +12,20 @@
 	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
-	import { rentalTools, toolForItem } from '$lib/rentalTools';
+	import { rentalTools, toolForItem, toolJobs, toolsForJob } from '$lib/rentalTools';
 	import { toolIcons } from '$lib/icons';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
+
+	// Pick by the job you came to do; the bento re-flows to the matching
+	// machines. The hovered tile expands sideways and its row grows taller.
+	let activeJob = $state('all');
+	const visibleTools = $derived(toolsForJob(activeJob));
+	const hiltiRows = $derived(
+		Array.from({ length: Math.ceil(visibleTools.length / 4) }, (_, i) =>
+			visibleTools.slice(i * 4, i * 4 + 4)
+		)
+	);
 
 	const categories = [
 		{
@@ -25,7 +35,7 @@
 			items: [
 				'Hilti TE 3000-AVR, TE 1000-AVR a TE 500-AVR',
 				'Kombinované kladivo Hilti TE 70',
-				'Vŕtacie kladivo Hilti TE 7',
+				'Vŕtacie kladivo Hilti TE 230W',
 				'Plynový vsadzovací prístroj Hilti GX 120-ME'
 			]
 		},
@@ -163,7 +173,7 @@
 		<div class="acc acc--hb" aria-hidden="true"></div>
 	</div>
 
-	<!-- 2. Hilti band — the professional line we stock -->
+	<!-- 2. Hilti bento — the professional line we stock -->
 	<div class="canvas hilti-canvas" id="hilti">
 		<div class="hilti-copy" data-reveal {@attach reveal()}>
 			<img src={hiltiLogo} alt="Hilti" class="hilti-logo" />
@@ -174,31 +184,67 @@
 				udržiavame v prevádzkyschopnom stave.
 			</p>
 		</div>
-		{#each rentalTools as tool, i (tool.slug)}
-			<a
-				href="/services/pozicovna-naradia/{tool.slug}"
-				class="hilti-cell"
-				data-reveal
-				{@attach reveal(Math.min(i * 40, 320))}
-			>
-				<span class="hilti-thumb">
-					{#if tool.productImage}
-						<img src={tool.productImage} alt="" loading="lazy" />
-					{:else}
-						<svg class="hilti-icon" viewBox="0 0 24 24" aria-hidden="true">
-							{#each toolIcons[tool.slug] ?? [] as d (d)}
-								<path {d} />
-							{/each}
+
+		<div class="job-bar" data-reveal {@attach reveal(60)}>
+			<span class="job-question">Čo idete robiť?</span>
+			<div class="job-chips" role="group" aria-label="Vybrať náradie podľa práce">
+				<button
+					type="button"
+					class="job-chip"
+					class:active={activeJob === 'all'}
+					aria-pressed={activeJob === 'all'}
+					onclick={() => (activeJob = 'all')}
+				>
+					Všetko náradie
+				</button>
+				{#each toolJobs as job (job.id)}
+					<button
+						type="button"
+						class="job-chip"
+						class:active={activeJob === job.id}
+						aria-pressed={activeJob === job.id}
+						onclick={() => (activeJob = job.id)}
+					>
+						{job.label}
+						<small>{job.hint}</small>
+					</button>
+				{/each}
+			</div>
+		</div>
+
+		{#each hiltiRows as row, r (r)}
+			<div class="hilti-row">
+				{#each row as tool, i (tool.slug)}
+					<a
+						href="/services/pozicovna-naradia/{tool.slug}"
+						class="tool-tile"
+						data-reveal
+						{@attach reveal(Math.min((r * 4 + i) * 50, 320))}
+					>
+						<span class="tool-shot">
+							{#if tool.productImage}
+								<img src={tool.productImage} alt="" loading="lazy" />
+							{:else}
+								<svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
+									{#each toolIcons[tool.slug] ?? [] as d (d)}
+										<path {d} />
+									{/each}
+								</svg>
+							{/if}
+						</span>
+						<span class="tool-model">{tool.model}</span>
+						<span class="tool-cat">{tool.category}</span>
+						<svg class="tool-arrow" viewBox="0 0 24 24" aria-hidden="true">
+							<line x1="5" y1="12" x2="19" y2="12" />
+							<polyline points="13 6 19 12 13 18" />
 						</svg>
-					{/if}
-				</span>
-				<span class="hilti-text">
-					<span class="hilti-model">{tool.model}</span>
-					<span class="hilti-name">{tool.category}</span>
-				</span>
-			</a>
+					</a>
+				{/each}
+				{#if r === hiltiRows.length - 1}
+					<div class="acc acc--hiy" aria-hidden="true"></div>
+				{/if}
+			</div>
 		{/each}
-		<div class="acc acc--hiy" aria-hidden="true"></div>
 	</div>
 
 	<!-- 3. Catalogue composition -->
@@ -523,13 +569,13 @@
 		letter-spacing: 0.1em;
 	}
 
-	/* ===== 2. Hilti band ===== */
+	/* ===== 2. Hilti bento ===== */
 	.hilti-canvas {
-		grid-template-columns: repeat(12, 1fr);
+		display: flex;
+		flex-direction: column;
 	}
 
 	.hilti-copy {
-		grid-column: span 12;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -561,55 +607,141 @@
 		color: var(--text-muted);
 	}
 
-	.hilti-cell {
-		grid-column: span 3;
+	.job-bar {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.75rem 1.25rem;
+		padding: 1rem clamp(1.5rem, 3vw, 3rem);
+		background-color: var(--color-white);
+	}
+
+	.job-question {
+		font-family: var(--font-display);
+		font-size: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--color-brand-primary);
+	}
+
+	.job-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 5px;
+	}
+
+	.job-chip {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.1rem;
+		padding: 0.5rem 0.9rem 0.55rem;
+		border: 0;
+		background-color: var(--color-chalk);
+		color: var(--color-iron);
+		font-family: var(--font-display);
+		font-size: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		cursor: pointer;
+		transition:
+			background-color var(--transition-fast),
+			color var(--transition-fast);
+	}
+
+	.job-chip small {
+		font-family: var(--font-body);
+		font-size: 0.72rem;
+		font-weight: 400;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--text-muted);
+		transition: color var(--transition-fast);
+	}
+
+	.job-chip:hover {
+		background-color: var(--color-concrete, #e4e7e9);
+	}
+
+	.job-chip.active {
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+	}
+
+	.job-chip.active small {
+		color: rgba(255, 255, 255, 0.85);
+	}
+
+	.job-chip:focus-visible {
+		outline: 3px solid var(--color-brand-hover);
+		outline-offset: 2px;
+	}
+
+	.hilti-row {
+		display: flex;
+		gap: 5px;
+		height: 232px;
+		transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.tool-tile {
+		position: relative;
+		flex: 1 1 0;
 		min-width: 0;
-		padding: 1rem 1.2rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		gap: 0.15rem;
+		padding: 1rem 1.2rem 1.1rem;
 		background-color: var(--color-white);
 		text-decoration: none;
-		transition: background-color var(--transition-fast);
+		overflow: hidden;
+		transition:
+			flex-grow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			background-color var(--transition-fast),
+			opacity var(--transition-reveal) var(--reveal-delay, 0ms),
+			transform var(--transition-reveal) var(--reveal-delay, 0ms);
 	}
 
-	.hilti-cell:hover {
-		background-color: var(--color-chalk);
+	/* The product shot fills the free space above the label and grows with it. */
+	/* Every product shot sits on the same 640×360 canvas, so the tiles show
+	   them at one consistent size no matter the tool's real proportions. */
+	.tool-shot {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		/* flex-basis 0 gives the box a definite height inside the fixed-height
+		   row, so the shot scales to the tile instead of setting its height. */
+		flex: 1 1 0;
+		min-height: 0;
+		width: 100%;
+		margin-bottom: 0.35rem;
+		overflow: hidden;
 	}
 
-	/* Cut-out product shot sits straight on the white cell. */
-	.hilti-thumb {
-		display: grid;
-		place-items: center;
-		width: 96px;
-		height: 64px;
-		flex: 0 0 auto;
-	}
-
-	.hilti-thumb img {
+	.tool-shot img {
+		/* max-constraints, not width/height:100% — a percentage height inside the
+		   flexed box resolves against the wrong thing and overflows on hover. */
 		max-width: 100%;
 		max-height: 100%;
+		width: auto;
+		height: auto;
 		object-fit: contain;
 	}
 
-	.hilti-icon {
-		width: 46px;
-		height: 46px;
+	.tool-icon {
+		width: 54px;
+		height: 54px;
 		fill: none;
 		stroke: var(--color-brand-primary);
-		stroke-width: 1.6;
+		stroke-width: 1.5;
 		stroke-linecap: round;
 		stroke-linejoin: round;
 	}
 
-	.hilti-text {
-		display: flex;
-		flex-direction: column;
-		gap: 0.2rem;
-		min-width: 0;
-	}
-
-	.hilti-model {
+	.tool-model {
 		font-family: var(--font-display);
 		font-size: 1.15rem;
 		font-weight: 700;
@@ -619,18 +751,52 @@
 		transition: color var(--transition-fast);
 	}
 
-	.hilti-cell:hover .hilti-model {
-		color: var(--color-brand-primary);
-	}
-
-	.hilti-name {
+	.tool-cat {
 		font-size: var(--font-size-small);
 		color: var(--text-muted);
 	}
 
+	.tool-arrow {
+		position: absolute;
+		right: 1.1rem;
+		bottom: 1.2rem;
+		width: 20px;
+		height: 20px;
+		fill: none;
+		stroke: var(--color-brand-primary);
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		opacity: 0;
+		transform: translateX(-6px);
+		transition:
+			opacity var(--transition-fast),
+			transform var(--transition-fast);
+	}
+
+	@media (hover: hover) {
+		.tool-tile:hover {
+			flex-grow: 3;
+			background-color: var(--color-chalk);
+		}
+
+		.tool-tile:hover .tool-model {
+			color: var(--color-brand-primary);
+		}
+
+		.tool-tile:hover .tool-arrow {
+			opacity: 1;
+			transform: none;
+		}
+
+		/* The row grows with the selected tile, so the picture gets real room. */
+		.hilti-row:has(.tool-tile:hover) {
+			height: 320px;
+		}
+	}
+
 	.acc--hiy {
-		grid-column: span 1;
-		min-height: 22px;
+		flex: 0 0 90px;
 		background-color: var(--color-accent-yellow);
 	}
 
@@ -1059,6 +1225,29 @@
 	}
 
 	@media (max-width: 800px) {
+		.hilti-row {
+			flex-direction: column;
+			height: auto;
+			gap: 4px;
+		}
+
+		.tool-tile {
+			height: 190px;
+		}
+
+		.job-bar {
+			padding: 1rem 1.2rem;
+		}
+
+		.job-chip small {
+			display: none;
+		}
+
+		.acc--hiy {
+			flex: none;
+			min-height: 22px;
+		}
+
 		.canvas {
 			display: flex;
 			flex-direction: column;
