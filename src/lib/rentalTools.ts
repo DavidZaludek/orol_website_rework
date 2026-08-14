@@ -44,6 +44,8 @@ export interface RentalTool {
 	 * successor — the page says so rather than pretending it is the same tool.
 	 */
 	hiltiSuccessor?: string;
+	/** True when `productImage` shows the successor rather than this machine. */
+	photoIsSuccessor?: boolean;
 	/** Manufacturer photo of the tool in use — fills the detail-page hero. */
 	useImage?: string;
 	/** Official Hilti product shot, shown as a miniature beside the model. */
@@ -159,6 +161,7 @@ export const rentalTools: RentalTool[] = [
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7124/CLS_ROTARY_HAMMERS_SDSPLUS_7124/CLS_CORDED_ROTARY_HAMMERS_SDSPLUS_7124/r3684',
 		hiltiSuccessor: 'TE 2-M',
+		photoIsSuccessor: true,
 		useImage: useTe230w,
 		productImage: productTe230w,
 		image: demolitionPhoto,
@@ -180,6 +183,7 @@ export const rentalTools: RentalTool[] = [
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_DIRECT_FASTENING/CLS_DX_TOOLS2/CLS_DX_TOOLS2_GAS/r4410162',
 		hiltiSuccessor: 'GX 3-ME',
+		photoIsSuccessor: true,
 		useImage: useGx120,
 		productImage: productGx120,
 		image: demolitionPhoto,
@@ -239,6 +243,7 @@ export const rentalTools: RentalTool[] = [
 		specs: ['Kotúč 150 mm', 'Drážka do 50 × 50 mm', 'Hmotnosť 7,6 kg'],
 		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_CONCRETE_SAWS_7125/r6703894',
 		hiltiSuccessor: 'DCH 150-SL',
+		photoIsSuccessor: true,
 		useImage: useDcSe20,
 		productImage: productDcSe20,
 		image: cuttingPhoto,

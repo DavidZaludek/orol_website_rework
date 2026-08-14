@@ -54,7 +54,7 @@
 			<img src={hiltiLogo} alt="Hilti" class="model-logo" />
 			<span class="model-text">
 				<span class="model-code">{tool.model}</span>
-				{#if tool.hiltiSuccessor && tool.productImage}
+				{#if tool.photoIsSuccessor && tool.productImage}
 					<small class="model-note">Na fotografii nástupca {tool.hiltiSuccessor}</small>
 				{/if}
 			</span>
