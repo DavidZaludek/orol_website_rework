@@ -44,6 +44,9 @@
 		</div>
 
 		<div class="model-cell" data-reveal {@attach reveal(140)}>
+			{#if tool.productImage}
+				<img src={tool.productImage} alt={tool.model} class="model-shot" />
+			{/if}
 			<img src={hiltiLogo} alt="Hilti" class="model-logo" />
 			<span class="model-code">{tool.model}</span>
 		</div>
@@ -124,6 +127,9 @@
 				data-reveal
 				{@attach reveal(Math.min(i * 60, 240))}
 			>
+				{#if item.productImage}
+					<img src={item.productImage} alt="" class="related-thumb" loading="lazy" />
+				{/if}
 				<span class="related-model">{item.model}</span>
 				<span class="related-name">{item.name}</span>
 			</a>
@@ -330,6 +336,14 @@
 		gap: 1.25rem;
 		padding: 0.75rem clamp(1rem, 2.5vw, 2rem);
 		background-color: var(--color-white);
+	}
+
+	.model-shot {
+		height: 72px;
+		width: auto;
+		max-width: 96px;
+		object-fit: contain;
+		flex: 0 0 auto;
 	}
 
 	.model-logo {
@@ -553,6 +567,14 @@
 
 	.related-cell:hover {
 		background-color: var(--color-chalk);
+	}
+
+	.related-thumb {
+		width: 100%;
+		height: 84px;
+		object-fit: contain;
+		object-position: left center;
+		margin-bottom: 0.4rem;
 	}
 
 	.related-model {

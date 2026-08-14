@@ -77,14 +77,18 @@
 				<p class="sign-off">Ing. Koloman ŽALÚDEK, Majiteľ spoločnosti OROL, spol. s r.o.</p>
 			</div>
 
-			<div class="photo-cell" data-reveal {@attach reveal(120)}>
-				<img
-					src={ownerPhoto}
-					alt="Ing. Koloman Žalúdek, majiteľ spoločnosti Stavebniny Orol"
-					loading="lazy"
-				/>
-				<span class="photo-caption">Ing. Koloman Žalúdek · Majiteľ</span>
-			</div>
+			<figure class="photo-cell" data-reveal {@attach reveal(120)}>
+				<div class="photo-media">
+					<img
+						src={ownerPhoto}
+						alt="Ing. Koloman Žalúdek, majiteľ spoločnosti Stavebniny Orol"
+						width="200"
+						height="269"
+						loading="lazy"
+					/>
+				</div>
+				<figcaption class="photo-caption">Ing. Koloman Žalúdek · Majiteľ</figcaption>
+			</figure>
 
 			<div class="acc acc--blue" aria-hidden="true"></div>
 		</div>
@@ -230,27 +234,31 @@
 		color: var(--text-muted);
 	}
 
-	/* Owner photo — monochrome with light red multiply, caption chip */
+	/* Owner photo — a self-contained portrait card, independent of the letter height. */
 	.photo-cell {
-		flex: 4 1 0;
+		flex: 0 1 clamp(280px, 30vw, 420px);
+		width: clamp(280px, 30vw, 420px);
 		min-width: 0;
-		position: relative;
+		align-self: flex-start;
+		margin: 0;
 		overflow: hidden;
-		min-height: 420px;
-		background-color: var(--color-white);
+		background-color: var(--color-iron);
 	}
 
-	.photo-cell img {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
+	.photo-media {
+		position: relative;
+		overflow: hidden;
 		background-color: #111315;
+	}
+
+	.photo-media img {
+		display: block;
+		width: 100%;
+		height: auto;
 		filter: grayscale(100%) contrast(1.08) brightness(0.97);
 	}
 
-	.photo-cell::after {
+	.photo-media::after {
 		content: '';
 		position: absolute;
 		inset: 0;
@@ -260,10 +268,7 @@
 	}
 
 	.photo-caption {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		z-index: 1;
+		display: block;
 		background-color: var(--color-iron);
 		color: var(--color-white);
 		font-family: var(--font-display);
@@ -341,7 +346,8 @@
 		}
 
 		.photo-cell {
-			min-height: 300px;
+			flex: none;
+			width: 100%;
 		}
 
 		.motto-cell {

@@ -180,8 +180,15 @@
 				data-reveal
 				{@attach reveal(Math.min(i * 40, 320))}
 			>
-				<span class="hilti-model">{tool.model}</span>
-				<span class="hilti-name">{tool.category}</span>
+				{#if tool.productImage}
+					<span class="hilti-thumb">
+						<img src={tool.productImage} alt="" loading="lazy" />
+					</span>
+				{/if}
+				<span class="hilti-text">
+					<span class="hilti-model">{tool.model}</span>
+					<span class="hilti-name">{tool.category}</span>
+				</span>
 			</a>
 		{/each}
 		<div class="acc acc--hiy" aria-hidden="true"></div>
@@ -211,7 +218,10 @@
 					<ul>
 						{#each category.items as item (item)}
 							{@const tool = toolForItem(item)}
-							<li>
+							<li class:has-thumb={tool?.productImage}>
+								{#if tool?.productImage}
+									<img src={tool.productImage} alt="" class="item-thumb" loading="lazy" />
+								{/if}
 								{#if tool}
 									<a href="/services/pozicovna-naradia/{tool.slug}">{item}</a>
 								{:else}
@@ -547,13 +557,37 @@
 	.hilti-cell {
 		grid-column: span 3;
 		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
+		align-items: center;
+		gap: 0.9rem;
 		min-width: 0;
-		padding: 1.1rem 1.2rem 1.25rem;
+		padding: 0.9rem 1.2rem 0.9rem 0.9rem;
 		background-color: var(--color-brand-primary);
 		text-decoration: none;
 		transition: background-color var(--transition-fast);
+	}
+
+	/* Product shot on its own white chip — a small cell inside the red one. */
+	.hilti-thumb {
+		display: grid;
+		place-items: center;
+		width: 56px;
+		height: 56px;
+		flex: 0 0 auto;
+		padding: 4px;
+		background-color: var(--color-white);
+	}
+
+	.hilti-thumb img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	.hilti-text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		min-width: 0;
 	}
 
 	.hilti-cell:hover {
@@ -691,6 +725,26 @@
 		font-size: 0.87rem;
 		line-height: 1.42;
 		color: var(--color-steel);
+	}
+
+	/* List rows that carry a product miniature swap the dash for the photo. */
+	.equip-copy li.has-thumb {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding-left: 0;
+		min-height: 34px;
+	}
+
+	.equip-copy li.has-thumb::before {
+		display: none;
+	}
+
+	.item-thumb {
+		width: 34px;
+		height: 34px;
+		flex: 0 0 auto;
+		object-fit: contain;
 	}
 
 	.equip-copy li a {

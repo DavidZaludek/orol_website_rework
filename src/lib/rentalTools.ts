@@ -1,4 +1,13 @@
 import demolitionPhoto from '$lib/assets/rental/hilti-demolition.jpg';
+// Official Hilti product shots — usable under the company's distribution
+// agreement as a licensed Hilti supplier. Only models whose photo really is
+// the tool we rent; discontinued ones wait for our own photos (issue #2).
+import productTe3000 from '$lib/assets/rental/hilti/te-3000-avr.jpg';
+import productTe1000 from '$lib/assets/rental/hilti/te-1000-avr.jpg';
+import productTe500 from '$lib/assets/rental/hilti/te-500-avr.jpg';
+import productTe70 from '$lib/assets/rental/hilti/te-70.jpg';
+import productAg230 from '$lib/assets/rental/hilti/ag-230.jpg';
+import productDsh700 from '$lib/assets/rental/hilti/dsh-700-x.jpg';
 import cuttingPhoto from '$lib/assets/rental/hilti-cutting.jpg';
 import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
 
@@ -19,6 +28,8 @@ export interface RentalTool {
 	 * successor — the page says so rather than pretending it is the same tool.
 	 */
 	hiltiSuccessor?: string;
+	/** Official Hilti product shot, shown as a miniature beside the model. */
+	productImage?: string;
 	/** YouTube id of the manufacturer's instructional video, if one exists. */
 	youtubeId?: string;
 	image: string;
@@ -46,6 +57,7 @@ export const rentalTools: RentalTool[] = [
 		specs: ['Hmotnosť 27,1 kg', 'Energia jedného úderu 85 J', 'Upínanie TE-H (Hilti HEX 28)'],
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7124/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7124/CLS_DEMOLITION_HAMMER_BREAKER_7124/r11668382',
+		productImage: productTe3000,
 		image: demolitionPhoto,
 		drivePhotoId: '1aV97iMhaHhLyiNLlQTr1u3WWE8HrLbsd'
 	},
@@ -64,6 +76,7 @@ export const rentalTools: RentalTool[] = [
 		specs: ['Hmotnosť 12,5 kg', 'Energia jedného úderu 26 J', 'Upínanie TE-S'],
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r9672135',
+		productImage: productTe1000,
 		image: demolitionPhoto,
 		drivePhotoId: '14DpneincikbA4FmGZdZSyLX2-8srf1w-'
 	},
@@ -82,6 +95,7 @@ export const rentalTools: RentalTool[] = [
 		specs: ['Hmotnosť 6,3 kg', 'Energia jedného úderu 8,5 J', 'Upínanie TE-Y (SDS Max)'],
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_DEMOLITION_HAMMER_BREAKER_SUB_7125/r7770032',
+		productImage: productTe500,
 		image: demolitionPhoto,
 		drivePhotoId: '1HLrGCBzTwgqa25JkTQKsfN89hIT748vX'
 	},
@@ -99,6 +113,7 @@ export const rentalTools: RentalTool[] = [
 		],
 		specs: ['Hmotnosť 10 kg', 'Energia jedného úderu 14,5 J', 'Vŕtanie 12 – 150 mm, SDS Max'],
 		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_ROTARY_HAMMERS_7125/r6851673',
+		productImage: productTe70,
 		image: demolitionPhoto,
 		drivePhotoId: '1svCRkVX_xMlOgodLADC0FvOiW1FbZKBx'
 	},
@@ -153,6 +168,7 @@ export const rentalTools: RentalTool[] = [
 		],
 		specs: ['Príkon 2 400 W', 'Kotúč 230 mm, hĺbka rezu 68 mm', 'Hmotnosť 6,5 kg'],
 		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_GRINDERS_SANDERS_7125/r6118333',
+		productImage: productAg230,
 		image: cuttingPhoto,
 		drivePhotoId: '1IcljW0w_0Q8EplTd5HippRcw05mq7m45'
 	},
@@ -189,6 +205,7 @@ export const rentalTools: RentalTool[] = [
 		],
 		specs: ['Kotúč 350 mm', 'Hĺbka rezu 125 mm', 'Mokré aj suché rezanie'],
 		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_CONCRETE_SAWS_7125/r13340236',
+		productImage: productDsh700,
 		image: cuttingPhoto,
 		drivePhotoId: '1tt_gBDyUeqC5eP71HVs5l3DjQY3AWhEG'
 	},
