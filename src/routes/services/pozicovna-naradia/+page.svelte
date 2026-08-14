@@ -26,7 +26,9 @@
 			image: demolitionPhoto,
 			alt: 'Hilti búracie kladivo pri práci',
 			items: [
-				'Hilti TE 3000-AVR, TE 1000-AVR a TE 500-AVR',
+				'Búracie kladivo Hilti TE 3000-AVR',
+				'Búracie kladivo Hilti TE 1000-AVR',
+				'Sekacie kladivo Hilti TE 500-AVR',
 				'Kombinované kladivo Hilti TE 70',
 				'Vŕtacie kladivo Hilti TE 230W',
 				'Plynový vsadzovací prístroj Hilti GX 120-ME'
