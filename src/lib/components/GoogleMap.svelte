@@ -1,12 +1,44 @@
-<script lang="ts">
+<script module lang="ts">
 	import { env } from '$env/dynamic/public';
+
+	const KEY = env.PUBLIC_GOOGLE_MAPS_KEY;
+
+	/* Minimal typings for the Maps JS bootstrap — the SDK loads at runtime. */
+	interface GMaps {
+		importLibrary: (name: string) => Promise<Record<string, unknown>>;
+		Point?: new (x: number, y: number) => unknown;
+	}
+
+	function getGoogleMaps(): GMaps | undefined {
+		return (window as unknown as { google?: { maps?: GMaps } }).google?.maps;
+	}
+
+	// Singleton loader shared by every map instance on the page (footer +
+	// contact both mount in the same hydration tick — without this they race
+	// and inject the bootstrap twice, which crashes the Maps API).
+	let loaderPromise: Promise<void> | undefined;
+
+	function loadMapsApi(): Promise<void> {
+		if (getGoogleMaps()) return Promise.resolve();
+		loaderPromise ??= new Promise<void>((resolve, reject) => {
+			const w = window as unknown as { __orolGmapsReady?: () => void };
+			w.__orolGmapsReady = () => resolve();
+			const s = document.createElement('script');
+			s.src = `https://maps.googleapis.com/maps/api/js?key=${KEY}&v=weekly&loading=async&callback=__orolGmapsReady`;
+			s.onerror = () => reject(new Error('Google Maps JS failed to load'));
+			document.head.appendChild(s);
+		});
+		return loaderPromise;
+	}
+</script>
+
+<script lang="ts">
 	import orolMark from '$lib/assets/orol_loga/orol_all_white.svg';
 	import orolMarkRaw from '$lib/assets/orol_loga/orol_all_white.svg?raw';
 
 	// OROL, spol. s r.o., Kpt. Nálepku 2218, Liptovský Mikuláš
 	const center = { lat: 49.0835165, lng: 19.6254822 };
 
-	const KEY = env.PUBLIC_GOOGLE_MAPS_KEY;
 	const MAP_ID = env.PUBLIC_GOOGLE_MAPS_MAP_ID;
 
 	// Brand styling used when no cloud-styled Map ID is configured. Once a
@@ -36,30 +68,11 @@
 	const pinSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44"><circle cx="22" cy="22" r="20" fill="#c0281c" stroke="#ffffff" stroke-width="3"/>${eagleInner}</svg>`;
 	const pinUrl = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(pinSvg)}`;
 
-	/* Minimal typings for the Maps JS bootstrap — the SDK loads at runtime. */
-	interface GMaps {
-		importLibrary: (name: string) => Promise<Record<string, unknown>>;
-		Point?: new (x: number, y: number) => unknown;
-	}
-
-	function getGoogleMaps(): GMaps | undefined {
-		return (window as unknown as { google?: { maps?: GMaps } }).google?.maps;
-	}
-
 	function initMap(el: HTMLElement) {
 		let cancelled = false;
 
 		(async () => {
-			if (!getGoogleMaps()) {
-				await new Promise<void>((resolve, reject) => {
-					const w = window as unknown as { __orolGmapsReady?: () => void };
-					w.__orolGmapsReady = () => resolve();
-					const s = document.createElement('script');
-					s.src = `https://maps.googleapis.com/maps/api/js?key=${KEY}&v=weekly&loading=async&callback=__orolGmapsReady`;
-					s.onerror = () => reject(new Error('Google Maps JS failed to load'));
-					document.head.appendChild(s);
-				});
-			}
+			await loadMapsApi();
 			if (cancelled) return;
 
 			const gmaps = getGoogleMaps();
