@@ -13,9 +13,15 @@
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
 	import { rentalTools, toolForItem } from '$lib/rentalTools';
-	import { toolIcons, genericIconFor } from '$lib/icons';
+	import { toolIcons } from '$lib/icons';
+	import boschGrinder from '$lib/assets/rental/bosch-gbr-15-cag.png';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
+
+	// Machines we rent that are not Hilti, so they have no detail page (yet).
+	const otherProductImages: Record<string, { src: string; label: string }> = {
+		'Brúska na betón Bosch': { src: boschGrinder, label: 'Bosch GBR 15 CAG' }
+	};
 
 	// Bento rows — the hovered tile expands sideways and its row grows taller.
 	const hiltiRows = [rentalTools.slice(0, 4), rentalTools.slice(4, 8), rentalTools.slice(8)];
@@ -182,10 +188,10 @@
 
 		{#each categories as category, i (category.title)}
 			{@const carded = category.items.filter(
-				(it) => toolForItem(it)?.productImage || genericIconFor(it)
+				(it) => toolForItem(it)?.productImage || otherProductImages[it]
 			)}
 			{@const plain = category.items.filter(
-				(it) => !toolForItem(it)?.productImage && !genericIconFor(it)
+				(it) => !toolForItem(it)?.productImage && !otherProductImages[it]
 			)}
 			<article class="equip-cell" data-reveal {@attach reveal(Math.min((i % 2) * 80, 160))}>
 				<div class="equip-photo">
@@ -198,20 +204,16 @@
 						<div class="tool-cards">
 							{#each carded as item (item)}
 								{@const tool = toolForItem(item)}
-								{@const icon = genericIconFor(item)}
+								{@const other = otherProductImages[item]}
 								{#if tool?.productImage}
 									<a href="/services/pozicovna-naradia/{tool.slug}" class="tool-card">
 										<img src={tool.productImage} alt="" loading="lazy" />
 										<span class="tool-card-model">{tool.model}</span>
 									</a>
-								{:else if icon}
-									<span class="tool-card tool-card--icon">
-										<svg viewBox="0 0 24 24" aria-hidden="true">
-											{#each icon as d (d)}
-												<path {d} />
-											{/each}
-										</svg>
-										<span class="tool-card-model">{item}</span>
+								{:else if other}
+									<span class="tool-card">
+										<img src={other.src} alt="" loading="lazy" />
+										<span class="tool-card-model">{other.label}</span>
 									</span>
 								{/if}
 							{/each}
@@ -858,26 +860,6 @@
 		width: 100%;
 		height: 74px;
 		object-fit: contain;
-	}
-
-	/* Items we carry that are not Hilti get a pictogram instead of a photo. */
-	.tool-card--icon {
-		cursor: default;
-	}
-
-	.tool-card--icon svg {
-		width: 100%;
-		height: 74px;
-		fill: none;
-		stroke: var(--color-brand-primary);
-		stroke-width: 1.4;
-		stroke-linecap: round;
-		stroke-linejoin: round;
-	}
-
-	.tool-card--icon .tool-card-model {
-		font-size: 0.78rem;
-		line-height: 1.3;
 	}
 
 	.tool-card-model {
