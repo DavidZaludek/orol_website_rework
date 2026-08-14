@@ -10,5 +10,10 @@
 	},
 	"observability": {
 		"enabled": true
+	},
+	// Public, referrer-restricted Maps JS key — ships in page HTML by design.
+	// Runtime copy for SSR pages; .env.production bakes it into prerendered ones.
+	"vars": {
+		"PUBLIC_GOOGLE_MAPS_KEY": "AIzaSyCI8oxCvhbd64gzLmZZeWoWBlhnrqXJmok"
 	}
 }

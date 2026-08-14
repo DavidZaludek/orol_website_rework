@@ -18,6 +18,8 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+# Committed on purpose: holds only the public referrer-locked Maps key.
+!.env.production
 .google-drive-token.json
 credentials.json
 
