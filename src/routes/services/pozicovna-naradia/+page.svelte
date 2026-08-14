@@ -12,20 +12,13 @@
 	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
-	import { rentalTools, toolForItem, toolJobs, toolsForJob } from '$lib/rentalTools';
+	import { rentalTools, toolForItem } from '$lib/rentalTools';
 	import { toolIcons } from '$lib/icons';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
-	// Pick by the job you came to do; the bento re-flows to the matching
-	// machines. The hovered tile expands sideways and its row grows taller.
-	let activeJob = $state('all');
-	const visibleTools = $derived(toolsForJob(activeJob));
-	const hiltiRows = $derived(
-		Array.from({ length: Math.ceil(visibleTools.length / 4) }, (_, i) =>
-			visibleTools.slice(i * 4, i * 4 + 4)
-		)
-	);
+	// Bento rows — the hovered tile expands sideways and its row grows taller.
+	const hiltiRows = [rentalTools.slice(0, 4), rentalTools.slice(4, 8), rentalTools.slice(8)];
 
 	const categories = [
 		{
@@ -153,7 +146,7 @@
 			</p>
 			<div class="hero-actions">
 				<a href={contact.phoneHref} class="btn btn--primary">Overiť dostupnosť</a>
-				<a href="/contact" class="btn btn--ghost">Kde nás nájdete</a>
+				<a href="#hilti" class="btn btn--ghost">Náradie Hilti →</a>
 			</div>
 			<p class="hero-availability">Aktuálnu dostupnosť potvrdíme telefonicky</p>
 		</div>
@@ -173,81 +166,7 @@
 		<div class="acc acc--hb" aria-hidden="true"></div>
 	</div>
 
-	<!-- 2. Hilti bento — the professional line we stock -->
-	<div class="canvas hilti-canvas" id="hilti">
-		<div class="hilti-copy" data-reveal {@attach reveal()}>
-			<img src={hiltiLogo} alt="Hilti" class="hilti-logo" />
-			<h2 class="hilti-title">Profesionálne náradie Hilti</h2>
-			<p class="hilti-lead">
-				Jadro našej požičovne tvorí náradie Hilti – búracie a kombinované kladivá, píly, drážkovačky
-				aj priemyselné vysávače. Sú to stroje, ktoré denne znesú zaťaženie na stavbe a my ich
-				udržiavame v prevádzkyschopnom stave.
-			</p>
-		</div>
-
-		<div class="job-bar" data-reveal {@attach reveal(60)}>
-			<span class="job-question">Čo idete robiť?</span>
-			<div class="job-chips" role="group" aria-label="Vybrať náradie podľa práce">
-				<button
-					type="button"
-					class="job-chip"
-					class:active={activeJob === 'all'}
-					aria-pressed={activeJob === 'all'}
-					onclick={() => (activeJob = 'all')}
-				>
-					Všetko náradie
-				</button>
-				{#each toolJobs as job (job.id)}
-					<button
-						type="button"
-						class="job-chip"
-						class:active={activeJob === job.id}
-						aria-pressed={activeJob === job.id}
-						onclick={() => (activeJob = job.id)}
-					>
-						{job.label}
-						<small>{job.hint}</small>
-					</button>
-				{/each}
-			</div>
-		</div>
-
-		{#each hiltiRows as row, r (r)}
-			<div class="hilti-row">
-				{#each row as tool, i (tool.slug)}
-					<a
-						href="/services/pozicovna-naradia/{tool.slug}"
-						class="tool-tile"
-						data-reveal
-						{@attach reveal(Math.min((r * 4 + i) * 50, 320))}
-					>
-						<span class="tool-shot">
-							{#if tool.productImage}
-								<img src={tool.productImage} alt="" loading="lazy" />
-							{:else}
-								<svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
-									{#each toolIcons[tool.slug] ?? [] as d (d)}
-										<path {d} />
-									{/each}
-								</svg>
-							{/if}
-						</span>
-						<span class="tool-model">{tool.model}</span>
-						<span class="tool-cat">{tool.category}</span>
-						<svg class="tool-arrow" viewBox="0 0 24 24" aria-hidden="true">
-							<line x1="5" y1="12" x2="19" y2="12" />
-							<polyline points="13 6 19 12 13 18" />
-						</svg>
-					</a>
-				{/each}
-				{#if r === hiltiRows.length - 1}
-					<div class="acc acc--hiy" aria-hidden="true"></div>
-				{/if}
-			</div>
-		{/each}
-	</div>
-
-	<!-- 3. Catalogue composition -->
+	<!-- 2. Catalogue composition -->
 	<div class="canvas cat-canvas" id="ponuka">
 		<header class="head-cell" data-reveal {@attach reveal()}>
 			<span class="eyebrow">Čo si požičiate</span>
@@ -302,7 +221,54 @@
 		<div class="acc acc--cr" aria-hidden="true"></div>
 	</div>
 
-	<!-- 3. Process + conditions composition -->
+	<!-- 3. Hilti bento — the professional line we stock -->
+	<div class="canvas hilti-canvas" id="hilti">
+		<div class="hilti-copy" data-reveal {@attach reveal()}>
+			<img src={hiltiLogo} alt="Hilti" class="hilti-logo" />
+			<h2 class="hilti-title">Profesionálne náradie Hilti</h2>
+			<p class="hilti-lead">
+				Jadro našej požičovne tvorí náradie Hilti – búracie a kombinované kladivá, píly, drážkovačky
+				aj priemyselné vysávače. Sú to stroje, ktoré denne znesú zaťaženie na stavbe a my ich
+				udržiavame v prevádzkyschopnom stave.
+			</p>
+		</div>
+
+		{#each hiltiRows as row, r (r)}
+			<div class="hilti-row">
+				{#each row as tool, i (tool.slug)}
+					<a
+						href="/services/pozicovna-naradia/{tool.slug}"
+						class="tool-tile"
+						data-reveal
+						{@attach reveal(Math.min((r * 4 + i) * 50, 320))}
+					>
+						<span class="tool-shot">
+							{#if tool.productImage}
+								<img src={tool.productImage} alt="" loading="lazy" />
+							{:else}
+								<svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
+									{#each toolIcons[tool.slug] ?? [] as d (d)}
+										<path {d} />
+									{/each}
+								</svg>
+							{/if}
+						</span>
+						<span class="tool-model">{tool.model}</span>
+						<span class="tool-cat">{tool.category}</span>
+						<svg class="tool-arrow" viewBox="0 0 24 24" aria-hidden="true">
+							<line x1="5" y1="12" x2="19" y2="12" />
+							<polyline points="13 6 19 12 13 18" />
+						</svg>
+					</a>
+				{/each}
+				{#if r === hiltiRows.length - 1}
+					<div class="acc acc--hiy" aria-hidden="true"></div>
+				{/if}
+			</div>
+		{/each}
+	</div>
+
+	<!-- 4. Process + conditions composition -->
 	<div class="canvas process-canvas">
 		<div class="steps-cell" data-reveal {@attach reveal()}>
 			<span class="eyebrow">Postup</span>
@@ -333,7 +299,7 @@
 		<div class="acc acc--py" aria-hidden="true"></div>
 	</div>
 
-	<!-- 4. CTA composition -->
+	<!-- 5. CTA composition -->
 	<div class="canvas cta-canvas">
 		<div class="cta-cell" data-reveal {@attach reveal()}>
 			<h2 class="cta-title">Povedzte nám, čo idete robiť</h2>
@@ -400,6 +366,8 @@
 
 	/* ===== Canvases — iron ground, cells paint themselves ===== */
 	.canvas {
+		/* Clears the sticky header when jumped to from the banner. */
+		scroll-margin-top: 84px;
 		display: grid;
 		gap: 5px;
 		padding: 5px;
@@ -605,78 +573,6 @@
 		max-width: 70ch;
 		line-height: 1.7;
 		color: var(--text-muted);
-	}
-
-	.job-bar {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem 1.25rem;
-		padding: 1rem clamp(1.5rem, 3vw, 3rem);
-		background-color: var(--color-white);
-	}
-
-	.job-question {
-		font-family: var(--font-display);
-		font-size: 1rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: var(--color-brand-primary);
-	}
-
-	.job-chips {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 5px;
-	}
-
-	.job-chip {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.1rem;
-		padding: 0.5rem 0.9rem 0.55rem;
-		border: 0;
-		background-color: var(--color-chalk);
-		color: var(--color-iron);
-		font-family: var(--font-display);
-		font-size: 1rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		cursor: pointer;
-		transition:
-			background-color var(--transition-fast),
-			color var(--transition-fast);
-	}
-
-	.job-chip small {
-		font-family: var(--font-body);
-		font-size: 0.72rem;
-		font-weight: 400;
-		letter-spacing: 0;
-		text-transform: none;
-		color: var(--text-muted);
-		transition: color var(--transition-fast);
-	}
-
-	.job-chip:hover {
-		background-color: var(--color-concrete, #e4e7e9);
-	}
-
-	.job-chip.active {
-		background-color: var(--color-brand-primary);
-		color: var(--color-white);
-	}
-
-	.job-chip.active small {
-		color: rgba(255, 255, 255, 0.85);
-	}
-
-	.job-chip:focus-visible {
-		outline: 3px solid var(--color-brand-hover);
-		outline-offset: 2px;
 	}
 
 	.hilti-row {
@@ -1233,14 +1129,6 @@
 
 		.tool-tile {
 			height: 190px;
-		}
-
-		.job-bar {
-			padding: 1rem 1.2rem;
-		}
-
-		.job-chip small {
-			display: none;
 		}
 
 		.acc--hiy {

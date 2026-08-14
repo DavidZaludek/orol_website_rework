@@ -281,13 +281,13 @@ export const toolJobs: ToolJob[] = [
 		id: 'buranie',
 		label: 'Búram',
 		hint: 'Priečky, podlahy, základy',
-		slugs: ['te-3000-avr', 'te-1000-avr', 'te-500-avr', 'dsh-700-x']
+		slugs: ['te-3000-avr', 'te-1000-avr', 'te-500-avr']
 	},
 	{
 		id: 'vrtanie',
 		label: 'Vŕtam',
 		hint: 'Otvory, prestupy, kotvenie',
-		slugs: ['te-70', 'te-3000-avr']
+		slugs: ['te-70']
 	},
 	{
 		id: 'rezanie',
@@ -299,7 +299,7 @@ export const toolJobs: ToolJob[] = [
 		id: 'drazky',
 		label: 'Robím drážky',
 		hint: 'Elektrina, voda, kúrenie',
-		slugs: ['dc-se-20', 'te-500-avr']
+		slugs: ['dc-se-20', 'ag-230']
 	},
 	{
 		id: 'montaz',
