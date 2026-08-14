@@ -596,8 +596,8 @@
 </section>
 
 <!-- 7. O nás -->
-<section class="section" id="o-nas" aria-label="O nás">
-	<div class="container about-grid">
+<section class="about-section" id="o-nas" aria-label="O nás">
+	<div class="about-canvas">
 		<div class="about-copy" data-reveal {@attach reveal()}>
 			<span class="eyebrow">O nás</span>
 			<h2 class="section-title">Na trhu od roku {company.foundedYear}</h2>
@@ -607,19 +607,22 @@
 				Mikulášskom a Ružomberskom okrese – naše materiály nájdete na rodinných domoch aj
 				priemyselných stavbách.
 			</p>
-			<blockquote class="motto">{motto}</blockquote>
 			<a href="/about" class="section-link">Celý príbeh →</a>
 		</div>
-		<div class="about-media" data-reveal {@attach reveal(120)}>
-			<div class="photo-frame photo-frame--portrait about-photo">
-				<img
-					src={ownerPhoto}
-					alt="Ing. Koloman Žalúdek, majiteľ spoločnosti Stavebniny Orol"
-					loading="lazy"
-				/>
-				<span class="hero-photo-caption">Ing. Koloman Žalúdek · Majiteľ</span>
-			</div>
+
+		<blockquote class="about-motto" data-reveal {@attach reveal(80)}>{motto}</blockquote>
+
+		<div class="about-photo" data-reveal {@attach reveal(120)}>
+			<img
+				src={ownerPhoto}
+				alt="Ing. Koloman Žalúdek, majiteľ spoločnosti Stavebniny Orol"
+				loading="lazy"
+			/>
+			<span class="hero-photo-caption">Ing. Koloman Žalúdek · Majiteľ</span>
 		</div>
+
+		<div class="about-acc about-acc--yellow" aria-hidden="true"></div>
+		<div class="about-acc about-acc--blue" aria-hidden="true"></div>
 	</div>
 </section>
 
@@ -990,41 +993,6 @@
 
 	.hero-media {
 		min-width: 0;
-	}
-
-	.photo-frame {
-		position: relative;
-		overflow: hidden;
-		border-radius: var(--radius-sm);
-	}
-
-	.photo-frame::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 5px;
-		background: var(--mondrian-rule);
-		z-index: 2;
-	}
-
-	.photo-frame img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		background-color: #111315;
-		filter: grayscale(100%) contrast(1.08) brightness(0.97);
-	}
-
-	.photo-frame::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(160deg, rgba(192, 40, 28, 0.34) 0%, rgba(30, 32, 34, 0.5) 100%);
-		mix-blend-mode: multiply;
-		pointer-events: none;
 	}
 
 	.hero-photo-caption {
@@ -1886,19 +1854,34 @@
 		}
 	}
 
-	/* ===== 7. O nás ===== */
-	.about-grid {
+	/* ===== 7. O nás — Mondrian composition ===== */
+	.about-section {
+		padding: 0 0 var(--space-section-y-end);
+	}
+
+	.about-canvas {
 		display: grid;
-		grid-template-columns: 1.15fr 0.85fr;
-		gap: clamp(2rem, 5vw, 4rem);
-		align-items: center;
+		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: auto auto 56px;
+		/* Every named area stays rectangular. */
+		grid-template-areas:
+			'copy  copy  copy  copy  copy  copy  copy  photo photo photo photo photo'
+			'motto motto motto motto motto motto motto photo photo photo photo photo'
+			'yacc  yacc  yacc  bacc  bacc  bacc  bacc  photo photo photo photo photo';
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
 	}
 
 	.about-copy {
+		grid-area: copy;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		justify-content: center;
 		gap: 1.1rem;
+		padding: clamp(1.75rem, 3.5vw, 3.25rem);
+		background-color: var(--color-white);
 	}
 
 	.about-text {
@@ -1908,38 +1891,84 @@
 		color: var(--text-muted);
 	}
 
-	.motto {
-		margin: 0.25rem 0 0;
-		padding: 0.9rem 1.25rem;
-		border-left: 3px solid var(--color-brand-primary);
-		background-color: var(--color-chalk);
-		max-width: 54ch;
-		font-size: var(--font-size-small);
+	/* The company motto — one statement, its own red cell. */
+	.about-motto {
+		grid-area: motto;
+		margin: 0;
+		padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.75rem, 3.5vw, 3.25rem);
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: clamp(1.1rem, 1.7vw, 1.45rem);
 		font-weight: 500;
-		font-style: italic;
-		line-height: 1.7;
-		color: var(--color-steel);
-	}
-
-	.photo-frame--portrait::after {
-		background: linear-gradient(160deg, rgba(192, 40, 28, 0.16) 0%, rgba(30, 32, 34, 0.32) 100%);
+		line-height: 1.45;
 	}
 
 	.about-photo {
-		aspect-ratio: 3 / 4;
-		max-width: 380px;
-		margin-left: auto;
+		grid-area: photo;
+		position: relative;
+		overflow: hidden;
+		min-width: 0;
+		min-height: 460px;
+		background-color: #111315;
 	}
 
-	@media (max-width: 900px) {
-		.about-grid {
-			grid-template-columns: 1fr;
+	.about-photo img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 20%;
+		filter: grayscale(100%) contrast(1.06);
+		transition:
+			filter var(--transition-medium),
+			transform var(--transition-medium);
+	}
+
+	@media (hover: hover) {
+		.about-photo:hover img {
+			filter: grayscale(0%) contrast(1.02);
+			transform: scale(1.02);
+		}
+	}
+
+	.about-acc {
+		min-width: 0;
+	}
+
+	.about-acc--yellow {
+		grid-area: yacc;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.about-acc--blue {
+		grid-area: bacc;
+		background-color: var(--color-accent-blue);
+	}
+
+	@media (max-width: 800px) {
+		.about-canvas {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			padding: 4px;
+		}
+
+		.about-copy {
+			padding: 1.5rem 1.2rem 1.6rem;
+		}
+
+		.about-motto {
+			padding: 1.4rem 1.2rem 1.5rem;
 		}
 
 		.about-photo {
-			margin-left: 0;
-			max-width: none;
-			aspect-ratio: 4 / 3;
+			min-height: 340px;
+		}
+
+		.about-acc {
+			min-height: 22px;
 		}
 	}
 

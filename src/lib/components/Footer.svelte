@@ -120,8 +120,8 @@
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-areas:
-			'brand brand brand hours hours hours hours map map map map map'
-			'brand brand brand nav   nav   nav   nav   map map map map map'
+			'brand brand brand hours hours hours hours hours nav nav nav nav'
+			'map   map   map   map   map   map   map   map   map map map map'
 			'contact contact contact contact yellow social social social blue blue wsm wsm'
 			'partners partners partners partners partners partners partners partners partners partners racc racc';
 		gap: 5px;
@@ -225,7 +225,7 @@
 		grid-area: map;
 		position: relative;
 		padding: 0;
-		min-height: 300px;
+		min-height: 460px;
 		background-color: var(--color-white);
 	}
 
