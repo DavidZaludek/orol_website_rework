@@ -37,6 +37,8 @@
 	import { reveal } from '$lib/reveal';
 	import { partners } from '$lib/partners';
 	import { categoryIcons, serviceIcons } from '$lib/icons';
+	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
+	import { rentalTools, type RentalTool } from '$lib/rentalTools';
 
 	// Požičovňa náradia is the featured service; the main offer row follows.
 	const featuredService = services.find((s) => s.href === '/services/pozicovna-naradia');
@@ -79,6 +81,13 @@
 	let presentationVideoElement = $state<HTMLVideoElement | null>(null);
 	let presentationVideoIndex = $state(0);
 	let presentationVideoPaused = $state(false);
+	let rentalToolIndex = $state(0);
+	let rentalRotationPaused = $state(false);
+
+	const rotatingRentalTools = rentalTools.filter(
+		(tool): tool is RentalTool & { productImage: string } => Boolean(tool.productImage)
+	);
+	const currentRentalTool = $derived(rotatingRentalTools[rentalToolIndex]);
 
 	const presentationVideos = [
 		// DJI_0371 and DJI_0382 are exported in reverse so both moves invite
@@ -139,6 +148,20 @@
 		const id = setInterval(() => {
 			promoIndex = (promoIndex + 1) % data.promotions.length;
 		}, 5000);
+		return () => clearInterval(id);
+	});
+
+	$effect(() => {
+		if (rotatingRentalTools.length <= 1 || rentalRotationPaused) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const id = setInterval(() => {
+			rentalToolIndex = (rentalToolIndex + 1) % rotatingRentalTools.length;
+			const nextTool = rotatingRentalTools[(rentalToolIndex + 1) % rotatingRentalTools.length];
+			const upcoming = new Image();
+			upcoming.src = nextTool.productImage;
+		}, 3600);
+
 		return () => clearInterval(id);
 	});
 
@@ -366,13 +389,17 @@
 			<div class="head-acc head-acc--yellow" aria-hidden="true"></div>
 		</div>
 		{#if featuredService}
-			<a href={featuredService.href} class="featured-cell" data-reveal {@attach reveal()}>
-				<ResponsiveServiceImage
-					media={serviceMedia['/services/pozicovna-naradia']}
-					fit="cover"
-					alt=""
-					class="featured-photo"
-				/>
+			<a
+				href={featuredService.href}
+				class="featured-cell"
+				aria-label="Požičovňa náradia – pozrieť ponuku profesionálneho náradia"
+				onmouseenter={() => (rentalRotationPaused = true)}
+				onmouseleave={() => (rentalRotationPaused = false)}
+				onfocus={() => (rentalRotationPaused = true)}
+				onblur={() => (rentalRotationPaused = false)}
+				data-reveal
+				{@attach reveal()}
+			>
 				<div class="featured-body">
 					<svg class="featured-icon" viewBox="0 0 24 24" aria-hidden="true">
 						{#each serviceIcons[featuredService.href] ?? [] as d (d)}
@@ -383,6 +410,40 @@
 					<p class="featured-desc">{featuredService.description}</p>
 					<span class="featured-cta">Pozrieť ponuku náradia →</span>
 				</div>
+
+				{#if currentRentalTool}
+					<div class="featured-tool-stage" aria-hidden="true">
+						<img src={hiltiLogo} alt="" class="featured-hilti-logo" />
+						{#key currentRentalTool.slug}
+							<div class="featured-tool-frame" transition:fade={{ duration: 420 }}>
+								<div class="featured-tool-visual">
+									<img
+										src={currentRentalTool.productImage}
+										alt=""
+										class="featured-tool-image"
+										decoding="async"
+									/>
+								</div>
+								<div class="featured-tool-meta">
+									<strong>{currentRentalTool.model}</strong>
+									<span>{currentRentalTool.category}</span>
+								</div>
+							</div>
+						{/key}
+						<div class="featured-tool-progress">
+							<span class="featured-tool-count">
+								{String(rentalToolIndex + 1).padStart(2, '0')} / {String(
+									rotatingRentalTools.length
+								).padStart(2, '0')}
+							</span>
+							<span class="featured-tool-dots">
+								{#each rotatingRentalTools as tool, index (tool.slug)}
+									<i class:active={index === rentalToolIndex}></i>
+								{/each}
+							</span>
+						</div>
+					</div>
+				{/if}
 			</a>
 		{/if}
 		<div class="services-row">
@@ -1489,23 +1550,29 @@
 		}
 	}
 
-	/* Featured service: Požičovňa náradia — the red cell of the composition */
+	/* Featured service: a live Hilti equipment stage inside the red bento cell. */
 	.featured-cell {
 		position: relative;
 		overflow: hidden;
-		display: flex;
-		align-items: stretch;
-		min-height: 210px;
-		background-color: var(--color-brand-primary);
+		display: grid;
+		grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
+		gap: 5px;
+		min-height: 300px;
+		background-color: var(--color-iron);
 		text-decoration: none;
 		transition:
-			background-color var(--transition-fast),
 			opacity var(--transition-reveal) var(--reveal-delay, 0ms),
 			transform var(--transition-reveal) var(--reveal-delay, 0ms);
 	}
 
-	.featured-cell:hover {
+	.featured-cell:hover .featured-body,
+	.featured-cell:focus-visible .featured-body {
 		background-color: var(--color-brand-hover);
+	}
+
+	.featured-cell:focus-visible {
+		outline: 3px solid var(--color-accent-yellow);
+		outline-offset: -3px;
 	}
 
 	.featured-body {
@@ -1516,7 +1583,8 @@
 		justify-content: center;
 		gap: 0.6rem;
 		padding: 1.9rem;
-		max-width: 58%;
+		background-color: var(--color-brand-primary);
+		transition: background-color var(--transition-fast);
 	}
 
 	.featured-icon {
@@ -1555,17 +1623,140 @@
 		text-underline-offset: 3px;
 	}
 
-	.featured-cell :global(.featured-photo) {
+	.featured-tool-stage {
+		position: relative;
+		min-width: 0;
+		min-height: 300px;
+		overflow: hidden;
+		background-color: var(--color-white);
+		background-image:
+			linear-gradient(rgba(30, 32, 34, 0.045) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(30, 32, 34, 0.045) 1px, transparent 1px);
+		background-size: 24px 24px;
+	}
+
+	.featured-hilti-logo {
 		position: absolute;
-		right: 0;
-		top: 0;
+		top: 1rem;
+		left: 1rem;
+		z-index: 3;
+		display: block;
+		width: 88px;
+		height: auto;
+	}
+
+	.featured-tool-frame {
+		position: absolute;
+		inset: 0;
+	}
+
+	.featured-tool-visual {
+		position: absolute;
+		inset: 2.5rem 1rem 3.75rem;
+		display: grid;
+		place-items: center;
+		min-width: 0;
+		min-height: 0;
+	}
+
+	.featured-tool-image {
+		display: block;
+		width: 100%;
 		height: 100%;
-		width: 48%;
-		object-fit: cover;
-		filter: grayscale(100%) contrast(1.05);
-		opacity: 0.75;
-		mask-image: linear-gradient(to left, #000 65%, transparent);
-		-webkit-mask-image: linear-gradient(to left, #000 65%, transparent);
+		object-fit: contain;
+		transition: transform var(--transition-medium);
+	}
+
+	.featured-cell:hover .featured-tool-image,
+	.featured-cell:focus-visible .featured-tool-image {
+		transform: translateY(-3px);
+	}
+
+	.featured-tool-meta {
+		position: absolute;
+		left: 1rem;
+		bottom: 0.9rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.05rem;
+		max-width: calc(100% - 9rem);
+		color: var(--color-iron);
+	}
+
+	.featured-tool-meta strong {
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		line-height: 1;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	.featured-tool-meta span {
+		font-size: 0.68rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-slate);
+	}
+
+	.featured-tool-progress {
+		position: absolute;
+		right: 1rem;
+		bottom: 0.9rem;
+		z-index: 3;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.35rem;
+	}
+
+	.featured-tool-count {
+		font-family: var(--font-display);
+		font-size: 0.7rem;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.1em;
+		color: var(--color-brand-primary);
+	}
+
+	.featured-tool-dots {
+		display: flex;
+		gap: 3px;
+	}
+
+	.featured-tool-dots i {
+		display: block;
+		width: 11px;
+		height: 3px;
+		background-color: var(--color-concrete);
+	}
+
+	.featured-tool-dots i.active {
+		background-color: var(--color-brand-primary);
+	}
+
+	.featured-tool-stage::after {
+		content: 'NÁRADIE NA PRENÁJOM';
+		position: absolute;
+		top: 1.1rem;
+		right: 1rem;
+		z-index: 3;
+		font-family: var(--font-display);
+		font-size: 0.65rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--color-slate);
+	}
+
+	.featured-tool-stage::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 100%;
+		width: 5px;
+		background-color: var(--color-accent-yellow);
 	}
 
 	/* ===== Curated presentation — one real moving moment, two full-frame proofs ===== */
@@ -1751,14 +1942,21 @@
 	}
 
 	@media (max-width: 700px) {
+		.featured-cell {
+			grid-template-columns: 1fr;
+			gap: 4px;
+		}
+
 		.featured-body {
-			max-width: 100%;
 			padding: 1.4rem;
 		}
 
-		.featured-cell :global(.featured-photo) {
-			opacity: 0.25;
-			width: 70%;
+		.featured-tool-stage {
+			min-height: 260px;
+		}
+
+		.featured-tool-visual {
+			inset: 2.65rem 0.75rem 3.75rem;
 		}
 	}
 

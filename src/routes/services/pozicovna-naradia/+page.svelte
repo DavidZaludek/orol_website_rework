@@ -570,10 +570,10 @@
 	.hilti-thumb {
 		display: grid;
 		place-items: center;
-		width: 56px;
-		height: 56px;
+		width: 84px;
+		height: 58px;
 		flex: 0 0 auto;
-		padding: 4px;
+		padding: 5px;
 		background-color: var(--color-white);
 	}
 
@@ -741,10 +741,11 @@
 	}
 
 	.item-thumb {
-		width: 34px;
-		height: 34px;
+		width: 52px;
+		height: 30px;
 		flex: 0 0 auto;
 		object-fit: contain;
+		object-position: left center;
 	}
 
 	.equip-copy li a {

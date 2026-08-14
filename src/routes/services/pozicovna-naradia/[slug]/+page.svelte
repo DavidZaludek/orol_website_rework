@@ -39,8 +39,12 @@
 			</div>
 		</div>
 
-		<div class="photo-cell" data-reveal {@attach reveal(80)}>
-			<img src={tool.image} alt={tool.name} loading="eager" />
+		<div class="photo-cell" class:photo-cell--use={tool.useImage} data-reveal {@attach reveal(80)}>
+			<img
+				src={tool.useImage ?? tool.image}
+				alt={tool.useImage ? `${tool.model} pri práci` : tool.name}
+				loading="eager"
+			/>
 		</div>
 
 		<div class="model-cell" data-reveal {@attach reveal(140)}>
@@ -328,6 +332,16 @@
 		}
 	}
 
+	/* Manufacturer in-use photos stay in colour — the point is to show the
+	   tool itself, not to set a mood like our own site photography does. */
+	.photo-cell--use {
+		background-color: var(--color-white);
+	}
+
+	.photo-cell--use img {
+		filter: none;
+	}
+
 	/* Model plate — the Hilti mark next to the model code. */
 	.model-cell {
 		grid-area: model;
@@ -339,10 +353,11 @@
 	}
 
 	.model-shot {
-		height: 72px;
+		height: 74px;
 		width: auto;
-		max-width: 96px;
+		max-width: 150px;
 		object-fit: contain;
+		object-position: left center;
 		flex: 0 0 auto;
 	}
 
@@ -571,10 +586,10 @@
 
 	.related-thumb {
 		width: 100%;
-		height: 84px;
+		height: 72px;
 		object-fit: contain;
 		object-position: left center;
-		margin-bottom: 0.4rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.related-model {
