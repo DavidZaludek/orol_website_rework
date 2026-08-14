@@ -5,6 +5,19 @@ Drive image archive. Each line is keyed by the immutable Drive file ID and
 contains a Slovak description, searchable tags, quality assessment and
 recommended website uses.
 
+`google-drive-video-selection.json` records the reviewed homepage video
+playlist, including immutable Drive IDs, trim windows, Slovak labels and the
+clips intentionally reversed for a more natural camera direction.
+
+`google-drive-gallery-selection.json` records the 15 Drive images curated for
+the website gallery. It keeps each immutable Drive ID, its gallery category,
+the optimized output filename and the designated lead image, so the selection
+can be reproduced without repeating the full archive review.
+
+`media-selections/shop-interior/` contains eight full-resolution shop-interior
+photos preselected and ordered for a short video, plus a contact sheet and
+motion/crop guidance in `selection.json`.
+
 To preview a Drive metadata update without writing anything:
 
 ```sh

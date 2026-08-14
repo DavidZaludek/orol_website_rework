@@ -1,48 +1,41 @@
 <script lang="ts">
+	import {
+		galleryFilters,
+		galleryGroups,
+		type GalleryFilter,
+		type GalleryPhoto
+	} from '$lib/gallery';
 	import { reveal } from '$lib/reveal';
 
-	type Photo = { src: string; thumb: string; alt: string };
-
-	const fullModules = import.meta.glob(
-		'../../lib/assets/gallery/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
-		{ eager: true, query: '?url', import: 'default' }
-	) as Record<string, string>;
-
-	const thumbModules = import.meta.glob(
-		'../../lib/assets/gallery/thumbs/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
-		{ eager: true, query: '?url', import: 'default' }
-	) as Record<string, string>;
-
-	function filenameOf(path: string): string {
-		return path.split('/').pop() ?? path;
-	}
-
-	function filenameToAlt(path: string): string {
-		const noExt = filenameOf(path).replace(/\.[^.]+$/, '');
-		const cleaned = noExt.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
-		return cleaned.length > 0 ? cleaned.charAt(0).toUpperCase() + cleaned.slice(1) : 'Fotografia';
-	}
-
-	const thumbsByName: Record<string, string> = Object.fromEntries(
-		Object.entries(thumbModules).map(([path, src]) => [filenameOf(path), src])
-	);
-
-	const photos: Photo[] = Object.entries(fullModules)
-		.sort(([a], [b]) => a.localeCompare(b))
-		.map(([path, src]) => ({
-			src,
-			thumb: thumbsByName[filenameOf(path)] ?? src,
-			alt: filenameToAlt(path)
-		}));
-
+	let activeCategory = $state<GalleryFilter>('all');
 	let dialog = $state<HTMLDialogElement | null>(null);
 	let currentIndex = $state(0);
 	let isOpen = $state(false);
 
-	const currentPhoto = $derived<Photo | null>(photos[currentIndex] ?? null);
+	const visibleGroups = $derived(
+		activeCategory === 'all'
+			? galleryGroups
+			: galleryGroups.filter((group) => group.category === activeCategory)
+	);
+	const visiblePhotos = $derived<GalleryPhoto[]>(visibleGroups.flatMap((group) => group.photos));
+	const currentPhoto = $derived<GalleryPhoto | null>(visiblePhotos[currentIndex] ?? null);
+	const currentCategory = $derived(
+		currentPhoto
+			? (galleryGroups.find((group) => group.category === currentPhoto.category)?.label ?? '')
+			: ''
+	);
 
-	function openLightbox(index: number) {
-		currentIndex = index;
+	function selectCategory(category: GalleryFilter) {
+		if (isOpen) dialog?.close();
+		activeCategory = category;
+		currentIndex = 0;
+	}
+
+	function openLightbox(photo: GalleryPhoto) {
+		const photoIndex = visiblePhotos.findIndex((candidate) => candidate.src === photo.src);
+		if (photoIndex < 0) return;
+
+		currentIndex = photoIndex;
 		isOpen = true;
 		dialog?.showModal();
 	}
@@ -52,17 +45,18 @@
 	}
 
 	function showPrev() {
-		if (photos.length === 0) return;
-		currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+		if (visiblePhotos.length === 0) return;
+		currentIndex = (currentIndex - 1 + visiblePhotos.length) % visiblePhotos.length;
 	}
 
 	function showNext() {
-		if (photos.length === 0) return;
-		currentIndex = (currentIndex + 1) % photos.length;
+		if (visiblePhotos.length === 0) return;
+		currentIndex = (currentIndex + 1) % visiblePhotos.length;
 	}
 
 	function onDialogKeydown(event: KeyboardEvent) {
 		if (!isOpen) return;
+
 		if (event.key === 'ArrowLeft') {
 			event.preventDefault();
 			showPrev();
@@ -72,8 +66,8 @@
 		}
 	}
 
-	function onBackdropClick(event: MouseEvent) {
-		if (event.target === dialog) closeLightbox();
+	function onLightboxClick(event: MouseEvent) {
+		if (event.target === event.currentTarget) closeLightbox();
 	}
 
 	function onDialogClose() {
@@ -82,65 +76,141 @@
 </script>
 
 <svelte:head>
-	<title>Galéria – Stavebniny Orol</title>
+	<title>Galéria predajne, skladu a realizácií – Stavebniny Orol</title>
 	<meta
 		name="description"
-		content="Fotogaléria predajne, realizovaných stavieb a produktov Stavebniny Orol."
+		content="Pozrite si predajňu a sklad Stavebnín Orol v Ružomberku, vlastnú dopravu materiálu aj vybrané realizácie."
 	/>
 </svelte:head>
 
-<section class="section" aria-label="Galéria">
-	<div class="gallery">
-		<div class="gallery-row gallery-row--head">
+<section class="section" aria-labelledby="gallery-title">
+	<div class="gallery-shell">
+		<div class="gallery-head">
 			<header class="head-cell" data-reveal {@attach reveal()}>
-				<span class="eyebrow">Galéria</span>
-				<h1 class="section-title">Naša práca v obrazoch</h1>
+				<div>
+					<span class="eyebrow">Fotogaléria</span>
+					<h1 id="gallery-title" class="section-title">Predajňa, materiál a hotové stavby</h1>
+				</div>
+				<p class="head-copy">
+					Pozrite si náš sortiment, zázemie v Ružomberku a výber realizácií, pri ktorých sme
+					dodávali materiál a technické riešenia.
+				</p>
 			</header>
-			<a href="/contact" class="head-link-cell">Navštívte nás →</a>
-			<div class="acc acc--yellow" aria-hidden="true"></div>
+			<a href="/contact" class="head-link-cell">Kde nás nájdete <span aria-hidden="true">→</span></a
+			>
+			<div class="head-accent" aria-hidden="true"></div>
 		</div>
 
-		{#if photos.length === 0}
-			<div class="empty-cell">
-				<p class="empty">
-					Galéria sa pripravuje. Onedlho tu nájdete fotografie z našej predajne a realizovaných
-					stavieb.
-				</p>
-			</div>
-		{:else}
-			<div class="grid">
-				{#each photos as photo, index (photo.src)}
+		<nav class="filter-bar" aria-label="Filtrovať galériu">
+			<span class="filter-label">Vyberte tému</span>
+			<div class="filter-options">
+				{#each galleryFilters as filter}
 					<button
 						type="button"
-						class="tile"
-						onclick={() => openLightbox(index)}
-						aria-label="Otvoriť fotografiu: {photo.alt}"
-						data-reveal
-						{@attach reveal(Math.min((index % 4) * 60, 240))}
+						class:active={activeCategory === filter.id}
+						onclick={() => selectCategory(filter.id)}
+						aria-pressed={activeCategory === filter.id}
 					>
-						<img src={photo.thumb} alt={photo.alt} class="tile-image" loading="lazy" />
+						<span>{filter.label}</span>
+						<small>{filter.count.toString().padStart(2, '0')}</small>
 					</button>
 				{/each}
 			</div>
-		{/if}
+		</nav>
+
+		<div class="stories" aria-live="polite">
+			{#each visibleGroups as group, groupIndex (group.category)}
+				{@const leadPhoto = group.photos[0]}
+				<section class="story" aria-labelledby={`gallery-${group.category}`}>
+					<header class="story-head" data-reveal {@attach reveal(Math.min(groupIndex * 70, 140))}>
+						<div class="story-kicker">
+							<span>{group.index}</span>
+							<strong>{group.label}</strong>
+						</div>
+						<div class="story-heading">
+							<h2 id={`gallery-${group.category}`}>{group.title}</h2>
+							<p>{group.description}</p>
+						</div>
+					</header>
+
+					<button
+						type="button"
+						class="lead-card"
+						onclick={() => openLightbox(leadPhoto)}
+						aria-label={`Otvoriť fotografiu: ${leadPhoto.title}`}
+						data-reveal
+						{@attach reveal(80)}
+					>
+						<span class="lead-image-wrap">
+							<img
+								src={leadPhoto.thumb}
+								srcset={`${leadPhoto.thumb} 960w, ${leadPhoto.src} 2000w`}
+								sizes="(max-width: 760px) 100vw, 72vw"
+								alt={leadPhoto.alt}
+								width={leadPhoto.width}
+								height={leadPhoto.height}
+								loading={groupIndex === 0 ? 'eager' : 'lazy'}
+								fetchpriority={groupIndex === 0 ? 'high' : 'auto'}
+							/>
+						</span>
+						<span class="lead-copy">
+							<small>Výber z kategórie</small>
+							<strong>{leadPhoto.title}</strong>
+							<span>{leadPhoto.alt}</span>
+							<i aria-hidden="true">Zväčšiť ↗</i>
+						</span>
+					</button>
+
+					<div class="support-grid" class:support-grid--two={group.category !== 'shop'}>
+						{#each group.photos.slice(1) as photo, photoIndex (photo.src)}
+							<button
+								type="button"
+								class="photo-card"
+								onclick={() => openLightbox(photo)}
+								aria-label={`Otvoriť fotografiu: ${photo.title}`}
+								data-reveal
+								{@attach reveal(Math.min(photoIndex * 55, 220))}
+							>
+								<span class="photo-image-wrap">
+									<img
+										src={photo.thumb}
+										srcset={`${photo.thumb} 960w, ${photo.src} 2000w`}
+										sizes={group.category === 'shop'
+											? '(max-width: 720px) 100vw, (max-width: 1000px) 50vw, 33vw'
+											: '(max-width: 720px) 100vw, 50vw'}
+										alt={photo.alt}
+										width={photo.width}
+										height={photo.height}
+										loading="lazy"
+									/>
+								</span>
+								<span class="photo-copy">
+									<strong>{photo.title}</strong>
+									<span aria-hidden="true">↗</span>
+								</span>
+							</button>
+						{/each}
+					</div>
+				</section>
+			{/each}
+		</div>
 	</div>
 </section>
 
 <dialog
 	bind:this={dialog}
 	class="lightbox"
-	aria-label="Náhľad fotografie"
-	onclick={onBackdropClick}
+	aria-labelledby="lightbox-title"
 	onkeydown={onDialogKeydown}
 	onclose={onDialogClose}
 >
 	{#if currentPhoto}
-		<div class="lightbox-inner">
+		<div class="lightbox-inner" role="presentation" onclick={onLightboxClick}>
 			<button type="button" class="lightbox-close" onclick={closeLightbox} aria-label="Zavrieť">
 				&times;
 			</button>
 
-			{#if photos.length > 1}
+			{#if visiblePhotos.length > 1}
 				<button
 					type="button"
 					class="lightbox-nav lightbox-prev"
@@ -151,9 +221,11 @@
 				</button>
 			{/if}
 
-			<img src={currentPhoto.src} alt={currentPhoto.alt} class="lightbox-image" />
+			<div class="lightbox-stage">
+				<img src={currentPhoto.src} alt={currentPhoto.alt} class="lightbox-image" />
+			</div>
 
-			{#if photos.length > 1}
+			{#if visiblePhotos.length > 1}
 				<button
 					type="button"
 					class="lightbox-nav lightbox-next"
@@ -164,7 +236,14 @@
 				</button>
 			{/if}
 
-			<div class="lightbox-counter">{currentIndex + 1} / {photos.length}</div>
+			<div class="lightbox-caption">
+				<div>
+					<small>{currentCategory}</small>
+					<strong id="lightbox-title">{currentPhoto.title}</strong>
+				</div>
+				<p>{currentPhoto.alt}</p>
+				<span>{currentIndex + 1} / {visiblePhotos.length}</span>
+			</div>
 		</div>
 	{/if}
 </dialog>
@@ -174,13 +253,37 @@
 		padding: 0 0 var(--space-section-y-end);
 	}
 
+	.gallery-shell {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.gallery-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(15rem, 20rem) 90px;
+		gap: 5px;
+	}
+
+	.head-cell {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+		align-items: end;
+		gap: clamp(1.5rem, 4vw, 4rem);
+		min-width: 0;
+		padding: clamp(1.5rem, 3vw, 2.5rem);
+		background-color: var(--color-white);
+	}
+
 	.eyebrow {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.6rem;
 		font-family: var(--font-display);
-		font-weight: 600;
-		font-size: 1rem;
+		font-size: 0.88rem;
+		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.16em;
 		color: var(--color-brand-primary);
@@ -190,58 +293,348 @@
 		content: '';
 		width: 24px;
 		height: 3px;
-		background-color: var(--color-brand-primary);
+		background-color: currentColor;
 	}
 
 	.section-title {
-		margin: 0.35rem 0 0;
+		max-width: 14ch;
+		margin: 0.4rem 0 0;
 		font-family: var(--font-display);
 		font-size: var(--font-size-display-lg);
 		font-weight: 700;
-		line-height: 1.02;
+		line-height: 1;
 		text-transform: uppercase;
-		letter-spacing: 0.015em;
+		letter-spacing: 0.01em;
 		color: var(--color-iron);
 	}
 
-	.head-cell {
-		flex: 4 1 0;
-		min-width: 0;
-		background-color: var(--color-white);
-		padding: 1.75rem clamp(1.25rem, 3vw, 2.5rem) 1.9rem;
+	.head-copy {
+		max-width: 38rem;
+		margin: 0;
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--text-muted);
 	}
 
 	.head-link-cell {
-		flex: 1 1 0;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		padding: 1rem;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1.4rem;
 		background-color: var(--color-brand-primary);
 		color: var(--color-white);
 		font-family: var(--font-display);
-		font-size: 1.1rem;
-		font-weight: 600;
+		font-size: 1rem;
+		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
-		text-align: center;
 		text-decoration: none;
 		transition: background-color var(--transition-fast);
 	}
 
-	.head-link-cell:hover {
+	.head-link-cell span {
+		font-size: 1.45rem;
+	}
+
+	.head-link-cell:hover,
+	.head-link-cell:focus-visible {
 		background-color: var(--color-brand-hover);
 	}
 
-	.acc {
-		flex: 0 0 90px;
+	.head-link-cell:focus-visible {
+		outline: 3px solid var(--color-accent-yellow);
+		outline-offset: -3px;
 	}
 
-	.acc--yellow {
+	.head-accent {
 		background-color: var(--color-accent-yellow);
 	}
 
-	/* ===== Scroll reveal ===== */
+	.filter-bar {
+		display: flex;
+		align-items: stretch;
+		gap: 5px;
+		background-color: var(--color-iron);
+	}
+
+	.filter-label {
+		display: inline-flex;
+		align-items: center;
+		flex: 0 0 auto;
+		padding: 0.8rem 1.25rem;
+		background-color: var(--color-iron);
+		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+	}
+
+	.filter-options {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(9rem, 1fr));
+		flex: 1;
+		gap: 5px;
+		min-width: 0;
+	}
+
+	.filter-options::-webkit-scrollbar {
+		display: none;
+	}
+
+	.filter-options button {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		min-height: 3.7rem;
+		padding: 0.75rem 1rem;
+		border: 0;
+		background-color: var(--color-white);
+		color: var(--color-iron);
+		font: inherit;
+		cursor: pointer;
+		transition:
+			background-color var(--transition-fast),
+			color var(--transition-fast);
+	}
+
+	.filter-options button span {
+		font-family: var(--font-display);
+		font-size: 0.92rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.filter-options button small {
+		font-size: 0.7rem;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-slate);
+	}
+
+	.filter-options button:hover,
+	.filter-options button:focus-visible {
+		background-color: var(--color-chalk);
+	}
+
+	.filter-options button:focus-visible {
+		outline: 3px solid var(--color-accent-yellow);
+		outline-offset: -3px;
+	}
+
+	.filter-options button.active {
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+	}
+
+	.filter-options button.active small {
+		color: var(--color-white);
+	}
+
+	.stories {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+
+	.story {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: clamp(1rem, 2.6vw, 2.5rem);
+		background-color: var(--color-chalk);
+	}
+
+	.story-head {
+		display: grid;
+		grid-template-columns: minmax(11rem, 0.35fr) minmax(0, 1fr);
+		gap: clamp(1.25rem, 4vw, 5rem);
+		align-items: start;
+		padding: 0 0 clamp(1rem, 2vw, 1.8rem);
+		border-bottom: 1px solid var(--color-concrete);
+	}
+
+	.story-kicker {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		font-family: var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	.story-kicker span {
+		display: inline-grid;
+		place-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		background-color: var(--color-brand-primary);
+		color: var(--color-white);
+		font-size: 0.74rem;
+		font-weight: 700;
+	}
+
+	.story-kicker strong {
+		font-size: 0.85rem;
+		color: var(--color-iron);
+	}
+
+	.story-heading {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.65fr);
+		gap: clamp(1.5rem, 4vw, 4rem);
+		align-items: end;
+	}
+
+	.story-heading h2 {
+		max-width: 18ch;
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.65rem, 3.2vw, 3.2rem);
+		line-height: 1.02;
+		text-transform: uppercase;
+		color: var(--color-iron);
+	}
+
+	.story-heading p {
+		margin: 0;
+		line-height: 1.6;
+		color: var(--text-muted);
+	}
+
+	.lead-card,
+	.photo-card {
+		padding: 0;
+		border: 0;
+		background-color: var(--color-white);
+		color: var(--color-iron);
+		font: inherit;
+		text-align: left;
+		cursor: zoom-in;
+	}
+
+	.lead-card:focus-visible,
+	.photo-card:focus-visible {
+		outline: 4px solid var(--color-accent-yellow);
+		outline-offset: -4px;
+	}
+
+	.lead-card {
+		display: grid;
+		grid-template-columns: minmax(0, 2.25fr) minmax(16rem, 0.75fr);
+		align-items: stretch;
+		margin-top: clamp(0.5rem, 1.5vw, 1.25rem);
+	}
+
+	.lead-image-wrap,
+	.photo-image-wrap {
+		display: block;
+		min-width: 0;
+		background-color: var(--color-iron);
+	}
+
+	.lead-image-wrap img,
+	.photo-image-wrap img {
+		display: block;
+		width: 100%;
+		height: auto;
+		transition: filter var(--transition-medium);
+	}
+
+	.lead-card:hover img,
+	.lead-card:focus-visible img,
+	.photo-card:hover img,
+	.photo-card:focus-visible img {
+		filter: saturate(1.06) contrast(1.04);
+	}
+
+	.lead-copy {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		padding: clamp(1.4rem, 3vw, 3rem);
+		border-left: 5px solid var(--color-iron);
+	}
+
+	.lead-copy small {
+		font-family: var(--font-display);
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--color-brand-primary);
+	}
+
+	.lead-copy strong {
+		margin-top: 0.7rem;
+		font-family: var(--font-display);
+		font-size: clamp(1.35rem, 2.2vw, 2.25rem);
+		line-height: 1.05;
+		text-transform: uppercase;
+	}
+
+	.lead-copy > span {
+		margin-top: 1rem;
+		font-size: 0.94rem;
+		line-height: 1.6;
+		color: var(--text-muted);
+	}
+
+	.lead-copy i {
+		margin-top: auto;
+		padding-top: 2rem;
+		font-family: var(--font-display);
+		font-size: 0.76rem;
+		font-style: normal;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-brand-primary);
+	}
+
+	.support-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		align-items: start;
+		gap: 5px;
+	}
+
+	.support-grid--two {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.photo-card {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.photo-copy {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		min-height: 4.25rem;
+		padding: 0.95rem 1.1rem;
+		border-top: 5px solid var(--color-iron);
+	}
+
+	.photo-copy strong {
+		font-family: var(--font-display);
+		font-size: 0.88rem;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	.photo-copy > span {
+		flex: 0 0 auto;
+		font-size: 1.1rem;
+		color: var(--color-brand-primary);
+	}
+
 	@media (scripting: enabled) {
 		[data-reveal] {
 			opacity: 0;
@@ -258,99 +651,42 @@
 		}
 	}
 
-	/* ===== Gallery canvas ===== */
-	.gallery {
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
-		padding: 5px;
-		background-color: var(--color-iron);
-	}
-
-	.gallery-row {
-		display: flex;
-		gap: 5px;
-	}
-
-	.empty-cell {
-		background-color: var(--color-white);
-		padding: 3rem 1.5rem;
-	}
-
-	.empty {
-		margin: 0;
-		text-align: center;
-		font-size: var(--font-size-body);
-		color: var(--text-muted);
-	}
-
-	/* Photo cells — editorial: tiles keep their natural color. */
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: 5px;
-	}
-
-	.tile {
-		display: block;
-		padding: 0;
-		margin: 0;
-		border: 0;
-		background-color: var(--color-white);
-		overflow: hidden;
-		cursor: pointer;
-		aspect-ratio: 1 / 1;
-	}
-
-	.tile:focus-visible {
-		outline: 3px solid var(--color-brand-primary);
-		outline-offset: -3px;
-	}
-
-	.tile-image {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		display: block;
-		transition: transform var(--transition-medium);
-	}
-
-	.tile:hover .tile-image,
-	.tile:focus-visible .tile-image {
-		transform: none;
-	}
-
-	/* ===== Lightbox ===== */
 	.lightbox {
+		width: 100vw;
+		height: 100vh;
+		max-width: 100vw;
+		max-height: 100vh;
 		padding: 0;
 		border: 0;
 		background: transparent;
-		max-width: 100vw;
-		max-height: 100vh;
-		width: 100vw;
-		height: 100vh;
 		color: var(--color-white);
 		overflow: hidden;
 	}
 
 	.lightbox::backdrop {
-		background-color: rgba(30, 32, 34, 0.94);
+		background-color: rgba(20, 22, 24, 0.96);
 	}
 
 	.lightbox-inner {
-		position: relative;
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
 		width: 100%;
 		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		padding: clamp(3.75rem, 7vw, 5.5rem) clamp(1rem, 7vw, 7rem) 1rem;
+	}
+
+	.lightbox-stage {
+		display: grid;
+		place-items: center;
+		min-width: 0;
+		min-height: 0;
 	}
 
 	.lightbox-image {
-		max-width: 90vw;
-		max-height: 90vh;
-		object-fit: contain;
 		display: block;
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
 	}
 
 	.lightbox-close,
@@ -359,14 +695,14 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		border: 0;
 		background-color: var(--color-iron);
 		color: var(--color-white);
-		border: 0;
 		cursor: pointer;
+		z-index: var(--z-float);
 		transition:
 			background-color var(--transition-fast),
 			transform var(--transition-fast);
-		z-index: var(--z-float);
 	}
 
 	.lightbox-close:hover,
@@ -374,7 +710,8 @@
 	.lightbox-nav:hover,
 	.lightbox-nav:focus-visible {
 		background-color: var(--color-brand-primary);
-		outline: none;
+		outline: 2px solid var(--color-white);
+		outline-offset: -2px;
 	}
 
 	.lightbox-close {
@@ -388,16 +725,16 @@
 
 	.lightbox-nav {
 		top: 50%;
-		transform: translateY(-50%);
 		width: 3rem;
 		height: 3rem;
 		font-size: 2rem;
 		line-height: 1;
+		transform: translateY(-50%);
 	}
 
 	.lightbox-nav:hover,
 	.lightbox-nav:focus-visible {
-		transform: translateY(-50%) scale(1.05);
+		transform: translateY(-50%) scale(1.04);
 	}
 
 	.lightbox-prev {
@@ -408,65 +745,170 @@
 		right: 1rem;
 	}
 
-	.lightbox-counter {
-		position: absolute;
-		bottom: 1rem;
-		left: 50%;
-		transform: translateX(-50%);
-		font-family: var(--font-display);
-		font-size: 0.95rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		font-variant-numeric: tabular-nums;
-		color: var(--color-white);
+	.lightbox-caption {
+		display: grid;
+		grid-template-columns: minmax(11rem, 0.35fr) minmax(0, 1fr) auto;
+		gap: 1.5rem;
+		align-items: center;
+		width: min(100%, 74rem);
+		margin: 1rem auto 0;
+		padding: 0.85rem 1rem;
 		background-color: var(--color-iron);
-		padding: 0.35rem 0.9rem;
 	}
 
-	/* ===== Responsive ===== */
-	@media (max-width: 1100px) {
-		.grid {
-			grid-template-columns: repeat(3, 1fr);
+	.lightbox-caption div {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.lightbox-caption small {
+		font-family: var(--font-display);
+		font-size: 0.66rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--color-accent-yellow);
+	}
+
+	.lightbox-caption strong {
+		font-family: var(--font-display);
+		font-size: 0.92rem;
+		text-transform: uppercase;
+	}
+
+	.lightbox-caption p {
+		margin: 0;
+		font-size: 0.86rem;
+		line-height: 1.4;
+		color: var(--color-mist);
+	}
+
+	.lightbox-caption > span {
+		font-family: var(--font-display);
+		font-size: 0.78rem;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+	}
+
+	@media (max-width: 1120px) {
+		.gallery-head {
+			grid-template-columns: minmax(0, 1fr) 15rem 55px;
+		}
+
+		.head-cell {
+			grid-template-columns: 1fr;
+			gap: 1.15rem;
+		}
+
+		.story-heading {
+			grid-template-columns: 1fr;
+			gap: 0.8rem;
+		}
+
+		.filter-label {
+			display: none;
 		}
 	}
 
-	@media (max-width: 800px) {
-		.gallery {
+	@media (max-width: 820px) {
+		.gallery-shell {
 			gap: 4px;
 			padding: 4px;
 		}
 
-		.gallery-row {
+		.gallery-head {
+			grid-template-columns: 1fr;
 			gap: 4px;
 		}
 
-		.gallery-row--head {
-			flex-direction: column;
-		}
-
-		.head-cell {
-			padding: 1.25rem 1rem 1.4rem;
+		.head-accent {
+			min-height: 20px;
 		}
 
 		.head-link-cell {
-			padding: 0.9rem;
+			min-height: 3.75rem;
 		}
 
-		.acc {
-			flex: none;
-			min-height: 22px;
+		.filter-options {
+			gap: 4px;
+			overflow-x: auto;
+			scrollbar-width: none;
 		}
 
-		.grid {
-			grid-template-columns: repeat(2, 1fr);
+		.filter-options button {
+			min-width: 9.5rem;
+		}
+
+		.stories,
+		.story {
+			gap: 4px;
+		}
+
+		.story-head {
+			grid-template-columns: 1fr;
+			gap: 1.25rem;
+		}
+
+		.lead-card {
+			grid-template-columns: 1fr;
+		}
+
+		.lead-copy {
+			border-top: 5px solid var(--color-iron);
+			border-left: 0;
+		}
+
+		.lead-copy i {
+			padding-top: 1.25rem;
+		}
+
+		.support-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 4px;
 		}
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 580px) {
+		.head-cell {
+			padding: 1.3rem 1rem 1.45rem;
+		}
+
+		.section-title {
+			font-size: clamp(2.2rem, 12vw, 3.35rem);
+		}
+
+		.story {
+			padding: 1rem;
+		}
+
+		.story-heading h2 {
+			font-size: clamp(1.7rem, 9vw, 2.35rem);
+		}
+
+		.support-grid,
+		.support-grid--two {
+			grid-template-columns: 1fr;
+		}
+
+		.photo-copy {
+			min-height: 3.75rem;
+		}
+
+		.lightbox-inner {
+			padding: 3.6rem 0.5rem 0.5rem;
+		}
+
 		.lightbox-close {
 			top: 0.5rem;
 			right: 0.5rem;
+		}
+
+		.lightbox-nav {
+			top: 46%;
+			width: 2.7rem;
+			height: 2.7rem;
+			background-color: rgba(30, 32, 34, 0.86);
 		}
 
 		.lightbox-prev {
@@ -477,13 +919,17 @@
 			right: 0.5rem;
 		}
 
-		.lightbox-image {
-			max-width: 95vw;
-			max-height: 85vh;
+		.lightbox-caption {
+			grid-template-columns: 1fr auto;
+			gap: 0.75rem;
+			margin-top: 0.5rem;
+		}
+
+		.lightbox-caption p {
+			display: none;
 		}
 	}
 
-	/* ===== Reduced motion ===== */
 	@media (prefers-reduced-motion: reduce) {
 		[data-reveal] {
 			opacity: 1;
@@ -491,7 +937,10 @@
 			transition: none;
 		}
 
-		.tile-image {
+		.lead-image-wrap img,
+		.photo-image-wrap img,
+		.lightbox-close,
+		.lightbox-nav {
 			transition: none;
 		}
 	}
