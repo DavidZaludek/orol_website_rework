@@ -15,6 +15,16 @@ import useTe500 from '$lib/assets/rental/hilti/te-500-avr-use.jpg';
 import useTe70 from '$lib/assets/rental/hilti/te-70-use.jpg';
 import useAg230 from '$lib/assets/rental/hilti/ag-230-use.jpg';
 import useDsh700 from '$lib/assets/rental/hilti/dsh-700-x-use.jpg';
+// Where Hilti no longer publishes the discontinued model, its successor's
+// photo stands in — the page still names the model actually rented.
+import productGx120 from '$lib/assets/rental/hilti/gx-120-me.png';
+import productScw70 from '$lib/assets/rental/hilti/scw-70.png';
+import productDcSe20 from '$lib/assets/rental/hilti/dc-se-20.png';
+import productVc20 from '$lib/assets/rental/hilti/vc-20-ul.png';
+import useTe7 from '$lib/assets/rental/hilti/te-7-use.jpg';
+import useGx120 from '$lib/assets/rental/hilti/gx-120-me-use.jpg';
+import useScw70 from '$lib/assets/rental/hilti/scw-70-use.jpg';
+import useDcSe20 from '$lib/assets/rental/hilti/dc-se-20-use.jpg';
 import cuttingPhoto from '$lib/assets/rental/hilti-cutting.jpg';
 import toolsPhoto from '$lib/assets/gallery/IMG_2228.jpg';
 
@@ -145,6 +155,7 @@ export const rentalTools: RentalTool[] = [
 		specs: ['Hmotnosť 3,1 kg', 'Príkon 850 W', 'Vŕtanie 4 – 28 mm, SDS-Plus'],
 		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_ROTARY_HAMMERS_7125/r5269167',
 		hiltiSuccessor: 'TE 3-M',
+		useImage: useTe7,
 		image: demolitionPhoto,
 		drivePhotoId: '1j61JyAM7BbYa7fd-ONUUXcpUk56FjQst'
 	},
@@ -164,6 +175,8 @@ export const rentalTools: RentalTool[] = [
 		hiltiUrl:
 			'https://www.hilti.sk/c/CLS_DIRECT_FASTENING/CLS_DX_TOOLS2/CLS_DX_TOOLS2_GAS/r4410162',
 		hiltiSuccessor: 'GX 3-ME',
+		useImage: useGx120,
+		productImage: productGx120,
 		image: demolitionPhoto,
 		drivePhotoId: '146i_uACiwQUx9eZc-XeBaQ3cLR7UOZWc'
 	},
@@ -187,21 +200,22 @@ export const rentalTools: RentalTool[] = [
 		drivePhotoId: '1IcljW0w_0Q8EplTd5HippRcw05mq7m45'
 	},
 	{
-		slug: 'sc-70w-a22',
-		match: 'SC 70W-A22',
-		name: 'Akumulátorová okružná píla Hilti SC 70W-A22',
-		model: 'SC 70W-A22',
+		slug: 'scw-70',
+		match: 'SCW 70',
+		name: 'Okružná píla Hilti SCW 70',
+		model: 'SCW 70',
 		category: 'Rezanie a brúsenie',
-		lead: 'Akumulátorová okružná píla na drevo a dosky. Bez kábla sa dá pracovať aj na streche alebo v priestoroch bez prípojky.',
+		lead: 'Okružná píla na drevo, dosky a debnenie. Presné rovné rezy s vodiacou lištou priamo na stavbe.',
 		uses: [
 			'Rezanie krovov, dosiek a debnenia',
 			'Práca na streche a v priestoroch bez elektriny',
 			'Presné rovné rezy s vodiacou lištou'
 		],
-		specs: ['Kotúč 190 mm, hĺbka rezu 70 mm', 'Hmotnosť 4,02 kg', 'Akumulátorová platforma 22 V'],
-		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_SAWS_7125/r21975965',
-		hiltiSuccessor: 'SC 30WR-22',
+		specs: ['Kotúč 190 mm', 'Hĺbka rezu 70 mm', 'Vodiaca lišta pre presné rezy'],
+		hiltiUrl: 'https://www.hilti.cz/c/CLS_POWER_TOOLS_7125/CLS_SAWS_7125/r5485',
 		youtubeId: 'jkGcumfLU0A',
+		useImage: useScw70,
+		productImage: productScw70,
 		image: cuttingPhoto,
 		drivePhotoId: '1tt_gBDyUeqC5eP71HVs5l3DjQY3AWhEG'
 	},
@@ -239,6 +253,8 @@ export const rentalTools: RentalTool[] = [
 		specs: ['Kotúč 150 mm', 'Drážka do 50 × 50 mm', 'Hmotnosť 7,6 kg'],
 		hiltiUrl: 'https://www.hilti.sk/c/CLS_POWER_TOOLS_7125/CLS_CONCRETE_SAWS_7125/r6703894',
 		hiltiSuccessor: 'DCH 150-SL',
+		useImage: useDcSe20,
+		productImage: productDcSe20,
 		image: cuttingPhoto,
 		drivePhotoId: '1kVH9LeK5n7hqJ2Fbg5Y1OZRiqg8n78Jv'
 	},
@@ -256,8 +272,9 @@ export const rentalTools: RentalTool[] = [
 		],
 		specs: ['Kapacita nádoby 21 l', 'Trieda prašnosti L', 'Sací výkon 74 l/s'],
 		hiltiUrl:
-			'https://www.hilti.sk/c/CLS_DUST_WATER_MANAGEMENT/CLS_CONSTRUCTION_VACUUMS_DUST_EXTRACTORS/r21748819',
+			'https://www.hilti.cz/c/CLS_DUST_WATER_MANAGEMENT/CLS_CONSTRUCTION_VACUUMS_DUST_EXTRACTORS/r21748816',
 		hiltiSuccessor: 'VC 20L-X',
+		productImage: productVc20,
 		image: toolsPhoto,
 		drivePhotoId: '1c51CYIRzoSs5GRWV-GgKlLgEw_SiIlo_'
 	}

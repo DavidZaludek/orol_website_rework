@@ -52,7 +52,12 @@
 				<img src={tool.productImage} alt={tool.model} class="model-shot" />
 			{/if}
 			<img src={hiltiLogo} alt="Hilti" class="model-logo" />
-			<span class="model-code">{tool.model}</span>
+			<span class="model-text">
+				<span class="model-code">{tool.model}</span>
+				{#if tool.hiltiSuccessor && tool.productImage}
+					<small class="model-note">Na fotografii nástupca {tool.hiltiSuccessor}</small>
+				{/if}
+			</span>
 		</div>
 
 		<div class="acc acc--hy" aria-hidden="true"></div>
@@ -364,6 +369,21 @@
 	.model-logo {
 		height: 26px;
 		width: auto;
+	}
+
+	.model-text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		min-width: 0;
+	}
+
+	.model-note {
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+		color: var(--text-muted);
 	}
 
 	.model-code {
