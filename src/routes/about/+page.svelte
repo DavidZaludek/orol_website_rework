@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ownerPhoto from '$lib/assets/koloman_zaludek.jpg';
+	import ownerPhoto from '$lib/assets/koloman_zaludek_no_text.jpg';
 	import { reveal } from '$lib/reveal';
 
 	const motto =
