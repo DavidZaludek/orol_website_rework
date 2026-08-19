@@ -44,16 +44,18 @@
 	// Brand styling used when no cloud-styled Map ID is configured. Once a
 	// Map ID exists (with its style built in the Google console), it takes
 	// over and this inline style is ignored.
-	// Quiet neutral map — the red Orol pin is the only brand color on it.
+	// White ground with Orol-red roads — matches the OrolMap fallback so the
+	// deployed map and the local one read the same.
 	const inlineStyles = [
 		{ elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
 		{ elementType: 'labels.text.fill', stylers: [{ color: '#6b7175' }] },
 		{ elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }] },
 		{ featureType: 'poi', stylers: [{ visibility: 'off' }] },
 		{ featureType: 'transit', stylers: [{ visibility: 'off' }] },
-		{ featureType: 'road', elementType: 'geometry', stylers: [{ color: '#e8eaeb' }] },
+		{ featureType: 'road', elementType: 'geometry', stylers: [{ color: '#c0281c' }] },
 		{ featureType: 'road', elementType: 'geometry.stroke', stylers: [{ visibility: 'off' }] },
-		{ featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#d6dadc' }] },
+		{ featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#8c1a10' }] },
+		{ featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#c0281c' }] },
 		{ featureType: 'water', elementType: 'geometry', stylers: [{ color: '#e2e6e8' }] },
 		{ featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#ffffff' }] }
 	];
