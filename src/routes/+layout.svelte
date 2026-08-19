@@ -10,7 +10,7 @@
 	import '$lib/styles/globals.css';
 	import '$lib/styles/colors.css';
 	import '$lib/styles/tokens.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import orolStavebninyIcon from '$lib/assets/orol_white_fill_black_stroke_red_background_round_corners.svg';
 	import { onNavigate } from '$app/navigation';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" href={orolStavebninyIcon} />
 </svelte:head>
 
 <a href="#main" class="skip-link">Preskočiť na obsah</a>

@@ -315,7 +315,7 @@
 		position: relative;
 		overflow: hidden;
 		min-width: 0;
-		background-color: #111315;
+		background-color: var(--color-onyx);
 	}
 
 	.photo-cell img {
@@ -495,7 +495,7 @@
 		position: relative;
 		aspect-ratio: 16 / 9;
 		min-width: 0;
-		background-color: #111315;
+		background-color: var(--color-onyx);
 	}
 
 	.video-cell iframe {

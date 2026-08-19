@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ownerPhoto from '$lib/assets/koloman_zaludek.jpg';
+	import ownerPhoto from '$lib/assets/koloman_zaludek_no_text.jpg';
 	import presentationTruckJpg from '$lib/assets/home/presentation/doprava-orol.jpg';
 	import presentationHouseJpg from '$lib/assets/home/presentation/realizacia-dom.jpg';
 	import presentationYardVideo from '$lib/assets/home/video/sklad-materialu-2026.mp4';
@@ -74,9 +74,6 @@
 		'/products/naradie-a-doplnky': prodNaradie
 	};
 
-	let { data } = $props();
-
-	let promoIndex = $state(0);
 	let galleryIndex = $state(0);
 	let presentationVideoElement = $state<HTMLVideoElement | null>(null);
 	let presentationVideoIndex = $state(0);
@@ -143,15 +140,6 @@
 	});
 
 	$effect(() => {
-		if (data.promotions.length <= 1) return;
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		const id = setInterval(() => {
-			promoIndex = (promoIndex + 1) % data.promotions.length;
-		}, 5000);
-		return () => clearInterval(id);
-	});
-
-	$effect(() => {
 		if (rotatingRentalTools.length <= 1 || rentalRotationPaused) return;
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -183,14 +171,6 @@
 		return () => motionPreference.removeEventListener('change', syncPlayback);
 	});
 
-	function formatDate(value: string): string {
-		return new Date(value).toLocaleDateString('sk-SK', {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric'
-		});
-	}
-
 	function playNextPresentationVideo() {
 		selectPresentationVideo((presentationVideoIndex + 1) % presentationVideos.length);
 	}
@@ -219,6 +199,11 @@
 	// Bento rows of four — on desktop the hovered tile flex-expands within its
 	// row; below 700px the rows flatten into one horizontal snap carousel.
 	const bentoRows = [products.slice(0, 4), products.slice(4, 8), products.slice(8, 12)];
+
+	// Uneven widths and row heights so the bento reads as a composition rather than
+	// a table — no vertical seam runs straight through all three rows.
+	const tileWeights = [1.5, 1, 0.85, 1.15, 0.95, 1.4, 1.2, 0.9, 1.25, 0.85, 1, 1.4];
+	const bentoRowHeights = ['240px', '272px', '216px'];
 
 	const heroHighlights = [
 		'Doprava s hydraulickou rukou',
@@ -357,28 +342,8 @@
 	</div>
 </section>
 
-<!-- 2. Promo ticker -->
-{#if data.promotions.length > 0}
-	<section class="ticker" id="akcie" aria-label="Aktuálne akcie">
-		<div class="container ticker-inner">
-			<span class="ticker-chip">Akcia</span>
-			{#key promoIndex}
-				<a href="/promotions/{data.promotions[promoIndex].slug}" class="ticker-item">
-					<strong>{data.promotions[promoIndex].title}</strong>
-					{#if data.promotions[promoIndex].validUntil}
-						<span class="ticker-valid">
-							platí do {formatDate(data.promotions[promoIndex].validUntil)}
-						</span>
-					{/if}
-				</a>
-			{/key}
-			<a href="/promotions" class="ticker-all">Všetky akcie →</a>
-		</div>
-	</section>
-{/if}
-
-<!-- 3. Services -->
-<section class="section section--blueprint" id="sluzby" aria-label="Služby">
+<!-- 2. Services -->
+<section class="section" id="sluzby" aria-label="Služby">
 	<div class="services-grid">
 		<div class="services-row services-row--head">
 			<header class="head-cell" data-reveal {@attach reveal()}>
@@ -519,7 +484,9 @@
 	</div>
 </section>
 
-<!-- 4. Category bento -->
+<div class="sep" aria-hidden="true"></div>
+
+<!-- 3. Category bento -->
 <section class="section" id="sortiment" aria-label="Sortiment">
 	<div class="bento">
 		<div class="bento-row bento-row--head">
@@ -532,10 +499,16 @@
 			<div class="head-acc head-acc--yellow" aria-hidden="true"></div>
 		</div>
 		{#each bentoRows as row, r (r)}
-			<div class="bento-row">
+			<div class="bento-row" style:--row-h={bentoRowHeights[r]}>
 				{#each row as product, c (product.href)}
 					{@const i = r * 4 + c}
-					<a href={product.href} class="tile" data-reveal {@attach reveal(Math.min(i * 45, 360))}>
+					<a
+						href={product.href}
+						class="tile"
+						style:--tile-w={tileWeights[i]}
+						data-reveal
+						{@attach reveal(Math.min(i * 45, 360))}
+					>
 						<img src={productBg[product.href]} alt="" class="tile-bg" loading="lazy" />
 						{#if categoryIcons[product.href]}
 							<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -589,7 +562,9 @@
 	</div>
 </section>
 
-<!-- 5. Curated presentation -->
+<div class="sep" aria-hidden="true"></div>
+
+<!-- 4. Curated presentation -->
 <section
 	class="section presentation-section"
 	id="prezentacia"
@@ -639,24 +614,26 @@
 	</div>
 </section>
 
-<!-- 6. Stats band -->
+<div class="sep" aria-hidden="true"></div>
+
+<!-- 5. Stats band -->
 <section class="stats" aria-label="Stavebniny Orol v číslach">
-	<div class="container">
-		<div class="stats-grid">
-			{#each stats as stat, i (stat.label)}
-				<div class="stat" data-reveal {@attach reveal(i * 80)}>
-					<span class="stat-value">{stat.value}</span>
-					<span class="stat-label">{stat.label}</span>
-				</div>
-			{/each}
-			<div class="stat-acc stat-acc--yellow" aria-hidden="true"></div>
-			<div class="stat-acc stat-acc--red" aria-hidden="true"></div>
-			<div class="stat-acc stat-acc--blue" aria-hidden="true"></div>
-		</div>
+	<div class="stats-grid">
+		{#each stats as stat, i (stat.label)}
+			<div class="stat stat--{i}" data-reveal {@attach reveal(i * 80)}>
+				<span class="stat-value">{stat.value}</span>
+				<span class="stat-label">{stat.label}</span>
+			</div>
+		{/each}
+		<div class="stat-acc stat-acc--yellow" aria-hidden="true"></div>
+		<div class="stat-acc stat-acc--red" aria-hidden="true"></div>
+		<div class="stat-acc stat-acc--blue" aria-hidden="true"></div>
 	</div>
 </section>
 
-<!-- 7. O nás -->
+<div class="sep" aria-hidden="true"></div>
+
+<!-- 6. O nás -->
 <section class="about-section" id="o-nas" aria-label="O nás">
 	<div class="about-canvas">
 		<div class="about-copy" data-reveal {@attach reveal()}>
@@ -714,16 +691,20 @@
 		background-color: var(--color-brand-primary);
 	}
 
-	.section {
-		padding: var(--space-section-y) 0 var(--space-section-y-end);
+	/* Every content block shares one ground and one vertical rhythm; the iron strip
+	   between them marks where each section ends. */
+	.section,
+	.stats,
+	.about-section {
+		padding: var(--space-section-y) 0;
+		background-color: var(--color-white);
 	}
 
-	.section--blueprint {
-		background-color: var(--color-chalk);
-		background-image:
-			linear-gradient(to right, rgba(30, 32, 34, 0.045) 1px, transparent 1px),
-			linear-gradient(to bottom, rgba(30, 32, 34, 0.045) 1px, transparent 1px);
-		background-size: 36px 36px;
+	/* Matches the footer's own iron top edge, so every break on the page — including
+	   the one into the footer — is the same weight. */
+	.sep {
+		height: 6px;
+		background-color: var(--color-iron);
 	}
 
 	/* Section headers live inside the compositions as their own cells. */
@@ -900,7 +881,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		background-color: #111315;
+		background-color: var(--color-onyx);
 	}
 
 	.hero-video-controls {
@@ -1101,72 +1082,6 @@
 		}
 	}
 
-	/* ===== 2. Promo ticker ===== */
-	.ticker {
-		background-color: var(--color-iron);
-	}
-
-	.ticker-inner {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		padding-block: 0.7rem;
-		min-height: 3.1rem;
-	}
-
-	.ticker-chip {
-		flex-shrink: 0;
-		background-color: var(--color-brand-primary);
-		color: var(--color-white);
-		font-family: var(--font-display);
-		font-size: 0.9rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		padding: 0.25rem 0.7rem;
-		border-radius: var(--radius-sm);
-	}
-
-	.ticker-item {
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.75rem;
-		min-width: 0;
-		color: var(--color-white);
-		text-decoration: none;
-		font-size: var(--font-size-small);
-	}
-
-	.ticker-item strong {
-		font-weight: 600;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.ticker-item:hover strong {
-		text-decoration: underline;
-	}
-
-	.ticker-valid {
-		flex-shrink: 0;
-		color: var(--color-concrete);
-		font-size: var(--font-size-xs);
-	}
-
-	.ticker-all {
-		flex-shrink: 0;
-		margin-left: auto;
-		color: var(--color-concrete);
-		font-size: var(--font-size-xs);
-		font-weight: 600;
-		text-decoration: none;
-	}
-
-	.ticker-all:hover {
-		color: var(--color-white);
-	}
-
 	/* ===== 3. Category bento — Mondrian composition ===== */
 	.bento {
 		display: flex;
@@ -1183,9 +1098,9 @@
 
 	.tile {
 		position: relative;
-		flex: 1 1 0;
+		flex: var(--tile-w, 1) 1 0;
 		min-width: 0;
-		height: 240px;
+		height: var(--row-h, 240px);
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
@@ -1212,7 +1127,7 @@
 	@media (hover: hover) {
 		.bento-row:has(.tile:hover) .tile,
 		.services-row:has(.tile:hover) .tile {
-			height: 312px;
+			height: calc(var(--row-h, 240px) + 72px);
 		}
 	}
 
@@ -1750,21 +1665,7 @@
 		color: var(--color-slate);
 	}
 
-	.featured-tool-stage::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		height: 100%;
-		width: 5px;
-		background-color: var(--color-accent-yellow);
-	}
-
 	/* ===== Curated presentation — one real moving moment, two full-frame proofs ===== */
-	.presentation-section {
-		background-color: var(--color-iron);
-	}
-
 	.presentation-grid {
 		display: grid;
 		grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1800,7 +1701,7 @@
 		min-width: 0;
 		margin: 0;
 		overflow: hidden;
-		background-color: #111315;
+		background-color: var(--color-onyx);
 	}
 
 	.presentation-rotator {
@@ -1822,7 +1723,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
-		background-color: #111315;
+		background-color: var(--color-onyx);
 	}
 
 	/* Rotator photos crossfade in place (Svelte fade handles the opacity). */
@@ -1961,103 +1862,119 @@
 		}
 	}
 
-	/* ===== 5. Stats — Mondrian composition ===== */
-	.stats {
-		background-color: var(--color-iron);
-		padding: 3rem 0;
-	}
-
+	/* ===== 5. Stats — Mondrian composition =====
+	   Two rows of unequal blocks rather than one even strip: the founding year
+	   anchors the composition as a red block, the rest fall around it. */
 	.stats-grid {
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
+		grid-template-rows: minmax(200px, auto);
+		/* One edge-to-edge row; the four figures sit in blocks of unequal width,
+		   with the colour accents wedged between them. */
+		grid-template-areas: 'year year year yell cat cat red part part blue serv serv';
 		gap: 5px;
 		padding: 5px;
 		background-color: var(--color-iron);
 	}
 
 	.stat {
-		grid-column: span 2;
 		display: flex;
 		flex-direction: column;
-		gap: 0.15rem;
+		justify-content: center;
+		gap: 0.4rem;
 		background-color: var(--color-white);
-		padding: 1.4rem 1.5rem;
+		padding: 1.6rem 1.75rem;
+	}
+
+	.stat--0 {
+		grid-area: year;
+		background-color: var(--color-brand-primary);
+	}
+
+	.stat--1 {
+		grid-area: cat;
+	}
+
+	.stat--2 {
+		grid-area: part;
+	}
+
+	.stat--3 {
+		grid-area: serv;
 	}
 
 	.stat-value {
 		font-family: var(--font-display);
-		font-size: clamp(2.4rem, 4vw, 3.4rem);
+		font-size: clamp(3rem, 5.5vw, 4.6rem);
 		font-weight: 700;
-		line-height: 1;
+		line-height: 0.95;
 		color: var(--color-brand-primary);
 		font-variant-numeric: tabular-nums;
 	}
 
+	.stat--0 .stat-value {
+		font-size: clamp(3.6rem, 7vw, 5.8rem);
+		color: var(--color-white);
+	}
+
 	.stat-label {
-		font-size: var(--font-size-small);
+		font-family: var(--font-display);
+		font-size: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		line-height: 1.2;
 		color: var(--text-muted);
 	}
 
-	.stat-acc {
-		min-height: 48px;
+	.stat--0 .stat-label {
+		color: rgba(255, 255, 255, 0.88);
 	}
 
 	.stat-acc--yellow {
-		grid-column: span 2;
+		grid-area: yell;
 		background-color: var(--color-accent-yellow);
 	}
 
 	.stat-acc--red {
-		grid-column: span 1;
+		grid-area: red;
 		background-color: var(--color-brand-primary);
 	}
 
 	.stat-acc--blue {
-		grid-column: span 1;
+		grid-area: blue;
 		background-color: var(--color-accent-blue);
 	}
 
 	@media (max-width: 1000px) and (min-width: 701px) {
 		.stats-grid {
-			grid-template-columns: repeat(4, 1fr);
-		}
-
-		.stat {
-			grid-column: span 2;
-		}
-
-		.stat-acc--yellow {
-			grid-column: span 2;
+			grid-template-columns: repeat(6, 1fr);
+			grid-template-rows: minmax(190px, auto) minmax(150px, auto);
+			grid-template-areas:
+				'year year year year cat  cat'
+				'part part serv serv yell blue';
 		}
 	}
 
 	@media (max-width: 700px) {
 		.stats-grid {
 			grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: auto auto auto 40px;
+			grid-template-areas:
+				'year year'
+				'cat  part'
+				'serv yell'
+				'red  blue';
 			gap: 4px;
 			padding: 4px;
 		}
 
 		.stat {
-			grid-column: auto;
-		}
-
-		.stat-acc--yellow {
-			grid-column: 1 / -1;
-			min-height: 26px;
-		}
-
-		.stat-acc--red,
-		.stat-acc--blue {
-			display: none;
+			padding: 1.25rem 1.2rem;
 		}
 	}
 
 	/* ===== 7. O nás — Mondrian composition ===== */
-	.about-section {
-		padding: 0 0 var(--space-section-y-end);
-	}
-
 	.about-canvas {
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
@@ -2103,13 +2020,33 @@
 		line-height: 1.45;
 	}
 
+	/* The portrait is never cropped, so whatever the 200×269 source does not fill
+	   is painted as Mondrian bands rather than left as dead ground. */
 	.about-photo {
 		grid-area: photo;
 		position: relative;
 		overflow: hidden;
 		min-width: 0;
 		min-height: 460px;
-		background-color: #111315;
+		background-color: var(--color-iron);
+		/* Four blocks of unequal size anchored to the corners — the photo sits
+		   centred on top, so these are what shows in the leftover margins. */
+		background-image:
+			linear-gradient(var(--color-accent-yellow) 0 0),
+			linear-gradient(var(--color-brand-primary) 0 0),
+			linear-gradient(var(--color-accent-blue) 0 0),
+			linear-gradient(var(--color-white) 0 0);
+		background-size:
+			26% 34%,
+			17% 22%,
+			15% 26%,
+			22% 15%;
+		background-position:
+			left top,
+			right top,
+			left bottom,
+			right bottom;
+		background-repeat: no-repeat;
 	}
 
 	.about-photo img {
@@ -2117,10 +2054,8 @@
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
-		/* Anchored to the top: keeps the head whole and crops the bottom, which
-		   carries a burned-in watermark on this old 200px source photo. */
-		object-position: center top;
+		object-fit: contain;
+		object-position: center;
 		filter: grayscale(100%) contrast(1.06);
 		transition:
 			filter var(--transition-medium),
@@ -2203,11 +2138,6 @@
 		.hero-highlights {
 			grid-template-columns: 1fr;
 		}
-
-		.ticker-valid,
-		.ticker-all {
-			display: none;
-		}
 	}
 
 	@media (max-width: 700px) {
@@ -2222,13 +2152,6 @@
 		.head-acc {
 			flex: none;
 			min-height: 24px;
-		}
-	}
-
-	/* ===== Mobile: stats composition runs edge to edge ===== */
-	@media (max-width: 700px) {
-		.stats-grid {
-			margin-inline: calc(-1 * var(--container-px));
 		}
 	}
 

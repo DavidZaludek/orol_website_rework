@@ -248,7 +248,7 @@
 	.photo-media {
 		position: relative;
 		overflow: hidden;
-		background-color: #111315;
+		background-color: var(--color-onyx);
 	}
 
 	.photo-media img {

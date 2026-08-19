@@ -14,8 +14,7 @@
 <footer>
 	<div class="mondrian">
 		<a href="/" class="cell cell--brand" aria-label="Stavebniny Orol — domov">
-			<img src={logoMark} alt="" class="brand-mark" />
-			<span class="brand-name">Stavebniny<br />Orol</span>
+			<img src={logoMark} alt="Stavebniny Orol logo" class="brand-logo" />
 		</a>
 
 		<div class="cell cell--hours">
@@ -36,7 +35,19 @@
 			</dl>
 		</div>
 
-		<div class="cell cell--yellow" aria-hidden="true"></div>
+		<div class="cell cell--contact">
+			<span class="cell-heading">Kontakt</span>
+			<a href={contact.phoneHref} class="contact-phone">{contact.phone}</a>
+			<a href={contact.emailHref} class="contact-email">{contact.email}</a>
+			<div class="contact-social">
+				<a href={socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+					<InstagramIcon size={24} />
+				</a>
+				<a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+					<FacebookIcon size={24} />
+				</a>
+			</div>
+		</div>
 
 		<nav class="cell cell--nav" aria-label="Pätičková navigácia">
 			<span class="cell-heading">Navigácia</span>
@@ -45,30 +56,11 @@
 			{/each}
 		</nav>
 
-		<div class="cell cell--blue" aria-hidden="true"></div>
-		<div class="cell cell--wsm" aria-hidden="true"></div>
-
-		<div class="cell cell--contact">
-			<a href={contact.phoneHref} class="contact-phone">{contact.phone}</a>
-			<a href={contact.emailHref} class="contact-email">{contact.email}</a>
-		</div>
-
-		<div class="cell cell--social">
-			<a href={socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-				<InstagramIcon size={24} />
-			</a>
-			<a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-				<FacebookIcon size={24} />
-			</a>
-		</div>
-
-		<div class="cell cell--map">
-			{#if useGoogleMap}
-				<GoogleMap />
-			{:else}
-				<OrolMap />
-			{/if}
-		</div>
+		<div class="cell cell--top1" aria-hidden="true"></div>
+		<div class="cell cell--top2" aria-hidden="true"></div>
+		<div class="cell cell--top3" aria-hidden="true"></div>
+		<div class="cell cell--top4" aria-hidden="true"></div>
+		<div class="cell cell--top5" aria-hidden="true"></div>
 
 		<div class="cell cell--partners" aria-label="Naši partneri">
 			<div class="footer-partners-track">
@@ -92,7 +84,20 @@
 				{/each}
 			</div>
 		</div>
-		<div class="cell cell--racc" aria-hidden="true"></div>
+
+		<div class="cell cell--map">
+			{#if useGoogleMap}
+				<GoogleMap />
+			{:else}
+				<OrolMap />
+			{/if}
+		</div>
+
+		<div class="cell cell--acc1" aria-hidden="true"></div>
+		<div class="cell cell--acc2" aria-hidden="true"></div>
+		<div class="cell cell--acc3" aria-hidden="true"></div>
+		<div class="cell cell--acc4" aria-hidden="true"></div>
+		<div class="cell cell--acc5" aria-hidden="true"></div>
 	</div>
 
 	<div class="footer-legal">
@@ -120,13 +125,14 @@
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-areas:
-			'brand brand brand hours hours hours hours hours nav nav nav nav'
+			'top1 top1 top2 top2 top2 top3 top4 top4 top4 top5 top5 top5'
+			'partners partners partners partners partners partners partners partners partners partners partners partners'
 			'map   map   map   map   map   map   map   map   map map map map'
-			'contact contact contact contact yellow social social social blue blue wsm wsm'
-			'partners partners partners partners partners partners partners partners partners partners racc racc';
+			'brand brand hours hours hours hours contact contact nav nav nav nav'
+			'acc1 acc1 acc1 acc2 acc2 acc3 acc3 acc3 acc4 acc5 acc5 acc5';
 		gap: 5px;
 		/* Heavier top edge separates the footer canvas from page content. */
-		padding-top: 18px;
+		padding-top: 6px;
 		background-color: var(--color-iron);
 	}
 
@@ -153,24 +159,15 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: flex-start;
-		gap: 0.9rem;
+		align-items: center;
+		padding: 1.6rem 1.4rem;
 		text-decoration: none;
 	}
 
-	.brand-mark {
-		width: 56px;
+	.brand-logo {
+		width: 100%;
+		max-width: 200px;
 		height: auto;
-	}
-
-	.brand-name {
-		font-family: var(--font-display);
-		font-size: 1.7rem;
-		font-weight: 700;
-		line-height: 1.02;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: var(--color-white);
 	}
 
 	/* Hours — white block */
@@ -248,7 +245,7 @@
 		color: var(--color-brand-primary);
 	}
 
-	/* Contact — red block */
+	/* Contact — red block beside the hours: phone, mail and socials in one cell */
 	.cell--contact {
 		grid-area: contact;
 		background-color: var(--color-brand-primary);
@@ -256,6 +253,11 @@
 		flex-direction: column;
 		justify-content: center;
 		gap: 0.3rem;
+	}
+
+	.cell--contact .cell-heading {
+		color: rgba(255, 255, 255, 0.75);
+		margin-bottom: 0.45rem;
 	}
 
 	.contact-phone {
@@ -283,51 +285,98 @@
 		text-decoration: underline;
 	}
 
-	/* Social — white block */
-	.cell--social {
-		grid-area: social;
-		background-color: var(--color-white);
+	.contact-social {
 		display: flex;
 		align-items: center;
 		gap: 1.1rem;
+		margin-top: 0.75rem;
 	}
 
-	.cell--social a {
-		color: var(--color-iron);
+	.contact-social a {
+		color: var(--color-white);
 		line-height: 1;
 		transition: color var(--transition-fast);
 	}
 
-	.cell--social a:hover {
-		color: var(--color-brand-primary);
+	.contact-social a:hover {
+		color: var(--color-accent-yellow);
 	}
 
 	/* Pure accent blocks */
-	.cell--yellow {
-		grid-area: yellow;
-		background-color: var(--color-accent-yellow);
+
+	/* Opening row — five blocks above the partner strip. Its breaks (2/5/6/9)
+	   deliberately differ from the closing row's (3/5/8/9). */
+	.cell--top1,
+	.cell--top2,
+	.cell--top3,
+	.cell--top4,
+	.cell--top5,
+	.cell--acc1,
+	.cell--acc2,
+	.cell--acc3,
+	.cell--acc4,
+	.cell--acc5 {
+		min-height: 56px;
+		padding: 0;
 	}
 
-	.cell--blue {
-		grid-area: blue;
+	.cell--top1 {
+		grid-area: top1;
 		background-color: var(--color-accent-blue);
 	}
 
-	.cell--wsm {
-		grid-area: wsm;
+	.cell--top2 {
+		grid-area: top2;
+		background-color: var(--color-white);
+	}
+
+	.cell--top3 {
+		grid-area: top3;
 		background-color: var(--color-accent-yellow);
 	}
 
-	.cell--racc {
-		grid-area: racc;
+	.cell--top4 {
+		grid-area: top4;
 		background-color: var(--color-brand-primary);
+	}
+
+	.cell--top5 {
+		grid-area: top5;
+		background-color: var(--color-white);
+	}
+
+	/* Closing row — five blocks of unequal width where the partner strip used to sit. */
+
+	.cell--acc1 {
+		grid-area: acc1;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.cell--acc2 {
+		grid-area: acc2;
+		background-color: var(--color-white);
+	}
+
+	.cell--acc3 {
+		grid-area: acc3;
+		background-color: var(--color-brand-primary);
+	}
+
+	.cell--acc4 {
+		grid-area: acc4;
+		background-color: var(--color-white);
+	}
+
+	.cell--acc5 {
+		grid-area: acc5;
+		background-color: var(--color-accent-blue);
 	}
 
 	/* Partners — scrolling brand strip */
 	.cell--partners {
 		grid-area: partners;
 		background-color: var(--color-white);
-		padding: 0.85rem 0;
+		padding: 1.6rem 0;
 		overflow: hidden;
 	}
 
@@ -335,7 +384,8 @@
 		display: flex;
 		align-items: center;
 		width: max-content;
-		animation: footer-scroll 90s linear infinite;
+		/* Slower than before so the wider slots keep the same scrolling pace. */
+		animation: footer-scroll 140s linear infinite;
 	}
 
 	@keyframes footer-scroll {
@@ -355,9 +405,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 120px;
-		height: 36px;
-		margin-right: 2rem;
+		width: 190px;
+		height: 72px;
+		margin-right: 2.75rem;
 		flex-shrink: 0;
 		filter: grayscale(100%);
 		opacity: 0.6;
@@ -435,14 +485,14 @@
 		.mondrian {
 			grid-template-columns: repeat(4, 1fr);
 			grid-template-areas:
+				'top1 top1 top2 top3'
+				'partners partners partners partners'
+				'map map map map'
 				'brand brand brand brand'
 				'hours hours hours hours'
-				'map map map map'
-				'yellow nav nav nav'
-				'blue   nav nav nav'
 				'contact contact contact contact'
-				'social social social social'
-				'partners partners partners partners';
+				'nav nav nav nav'
+				'acc1 acc1 acc2 acc3';
 			gap: 4px;
 			padding-top: 14px;
 		}
@@ -451,9 +501,20 @@
 			min-height: 260px;
 		}
 
-		.cell--wsm,
-		.cell--racc {
+		.cell--top4,
+		.cell--top5,
+		.cell--acc4,
+		.cell--acc5 {
 			display: none;
+		}
+
+		.cell--top1,
+		.cell--top2,
+		.cell--top3,
+		.cell--acc1,
+		.cell--acc2,
+		.cell--acc3 {
+			min-height: 34px;
 		}
 
 		.cell {

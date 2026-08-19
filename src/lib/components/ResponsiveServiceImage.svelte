@@ -19,7 +19,6 @@
 </script>
 
 <picture>
-	<source type="image/avif" srcset={media.avif} />
 	<source type={media.fallbackType} srcset={media.fallback} />
 	<img
 		class={className}

@@ -10,7 +10,7 @@ import brittermLogo from '$lib/assets/logos/Britterm.png';
 import cemixLogo from '$lib/assets/logos/Cemix.svg';
 import ceresitLogo from '$lib/assets/logos/Ceresit.jpg';
 import chyzbetLogo from '$lib/assets/logos/Chyzbet.png';
-import dechtochemaLogo from '$lib/assets/logos/Dechtochema.png';
+import DHInsulationLogo from '$lib/assets/logos/DHInsulation.png';
 import dedraLogo from '$lib/assets/logos/Dedra.jpg';
 import fakroLogo from '$lib/assets/logos/Fakro.png';
 import fischerLogo from '$lib/assets/logos/Fischer.svg';
@@ -25,12 +25,12 @@ import isoverLogo from '$lib/assets/logos/Isover.png';
 import jutaLogo from '$lib/assets/logos/Juta.png';
 import keramikaSoukupLogo from '$lib/assets/logos/Keramika-soukup.jpg';
 import knaufLogo from '$lib/assets/logos/Knauf.png';
-import kreiselLogo from '$lib/assets/logos/Kreisel.png';
+import kreiselLogo from '$lib/assets/logos/KreiselLogoCrop.png';
 import levelysLogo from '$lib/assets/logos/Levelys.svg';
 import makitaLogo from '$lib/assets/logos/Makita.svg';
 import meaLogo from '$lib/assets/logos/Mea.svg';
 import milwaukeeLogo from '$lib/assets/logos/Milwaukee.svg';
-import penosilLogo from '$lib/assets/logos/Penosil.svg';
+import penosilLogo from '$lib/assets/logos/PenosilRedBackground.svg';
 import polifarbeLogo from '$lib/assets/logos/Polifarbe.png';
 import porfixLogo from '$lib/assets/logos/Porfix.png';
 import prefabetonLogo from '$lib/assets/logos/Prefabeton-Diviaky.webp';
@@ -42,7 +42,7 @@ import sakretLogo from '$lib/assets/logos/Sakret.png';
 import sapeliLogo from '$lib/assets/logos/Sapeli.svg';
 import schiedelLogo from '$lib/assets/logos/Schiedel.svg';
 import sikaLogo from '$lib/assets/logos/Sika.webp';
-import solaLogo from '$lib/assets/logos/Sola.svg';
+import solaLogo from '$lib/assets/logos/SolaRedBackground.svg';
 import soudalLogo from '$lib/assets/logos/soudal.jpg';
 import stachemaLogo from '$lib/assets/logos/Stachema.svg';
 import storchLogo from '$lib/assets/logos/Storch.svg';
@@ -78,11 +78,11 @@ export const partners: readonly Partner[] = [
 	{ name: 'Cemix', logo: cemixLogo, href: 'https://www.cemix.sk' },
 	{ name: 'Ceresit', logo: ceresitLogo, href: 'https://www.ceresit.sk' },
 	{ name: 'Chyžbet', logo: chyzbetLogo, href: 'https://www.chyzbet.sk' },
-	{ name: 'Dechtochema', logo: dechtochemaLogo, href: 'https://www.dechtochema.sk' },
+	{ name: 'DHInsulation', logo: DHInsulationLogo, href: 'https://www.dhinsulation.cz/' },
 	{ name: 'Dedra', logo: dedraLogo, href: 'https://www.dedra.pl' },
 	{ name: 'Fakro', logo: fakroLogo, href: 'https://www.fakro.sk' },
 	{ name: 'Fischer', logo: fischerLogo, href: 'https://www.fischer-sk.sk' },
-	{ name: 'Foliarex', logo: foliarexLogo, href: 'https://foliarex.pl' },
+	{ name: 'Foliarex', logo: foliarexLogo, href: 'https://foliarex.com.pl/en/' },
 	{ name: 'Haco', logo: hacoLogo, href: 'https://www.haco.cz' },
 	{ name: 'Hasoft', logo: hasoftLogo, href: 'https://www.hasoft.cz' },
 	{ name: 'Heluz', logo: heluzLogo, href: 'https://www.heluz.sk' },
@@ -98,7 +98,7 @@ export const partners: readonly Partner[] = [
 	{ name: 'Makita', logo: makitaLogo, href: 'https://www.makita.sk' },
 	{ name: 'MEA', logo: meaLogo, href: 'https://www.mea-group.com' },
 	{ name: 'Milwaukee', logo: milwaukeeLogo, href: 'https://www.milwaukeetool.eu' },
-	{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.sk', light: true },
+	{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.cz'},
 	{ name: 'Polifarbe', logo: polifarbeLogo, href: 'https://www.polifarbe.hu/' },
 	{ name: 'Porfix', logo: porfixLogo, href: 'https://www.porfix.sk' },
 	{ name: 'Prefabeton Diviaky', logo: prefabetonLogo, href: 'https://www.prefabeton.sk' },
@@ -110,7 +110,7 @@ export const partners: readonly Partner[] = [
 	{ name: 'Sapeli', logo: sapeliLogo, href: 'https://www.sapeli.sk' },
 	{ name: 'Schiedel', logo: schiedelLogo, href: 'https://www.schiedel.sk' },
 	{ name: 'Sika', logo: sikaLogo, href: 'https://svk.sika.com' },
-	{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at', light: true },
+	{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at' },
 	{ name: 'Soudal', logo: soudalLogo, href: 'https://www.soudal.sk' },
 	{ name: 'Stachema', logo: stachemaLogo, href: 'https://www.stachema.sk' },
 	{ name: 'Storch', logo: storchLogo, href: 'https://www.storch.sk' },
