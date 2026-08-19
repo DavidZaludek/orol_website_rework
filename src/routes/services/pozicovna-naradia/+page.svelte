@@ -13,7 +13,6 @@
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
 	import { rentalTools, toolForItem } from '$lib/rentalTools';
-	import { toolIcons } from '$lib/icons';
 	import boschGrinder from '$lib/assets/rental/bosch-gbr-15-cag.png';
 	import levelPhoto from '$lib/assets/rental/nivelacny-pristroj.jpg';
 	import plasteringMachine from '$lib/assets/rental/strojova-omietacka.png';
@@ -274,12 +273,6 @@
 						<span class="tool-shot">
 							{#if tool.productImage}
 								<img src={tool.productImage} alt="" loading="lazy" />
-							{:else}
-								<svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true">
-									{#each toolIcons[tool.slug] ?? [] as d (d)}
-										<path {d} />
-									{/each}
-								</svg>
 							{/if}
 						</span>
 						<span class="tool-model">{tool.model}</span>
@@ -654,16 +647,6 @@
 		width: auto;
 		height: auto;
 		object-fit: contain;
-	}
-
-	.tool-icon {
-		width: 54px;
-		height: 54px;
-		fill: none;
-		stroke: var(--color-brand-primary);
-		stroke-width: 1.5;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 	}
 
 	.tool-model {

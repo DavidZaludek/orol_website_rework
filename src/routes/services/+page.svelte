@@ -91,18 +91,12 @@
 							loading="eager"
 						/>
 					{:else}
-						<svg class="cell-watermark" viewBox="0 0 24 24" aria-hidden="true">
-							{#each serviceIcons[cell.href] ?? [] as d (d)}
-								<path {d} />
-							{/each}
-						</svg>
+						<span class="cell-watermark" aria-hidden="true">
+							{@html serviceIcons[cell.href] ?? ''}
+						</span>
 					{/if}
 					<span class="cell-chip" aria-hidden="true">
-						<svg viewBox="0 0 24 24">
-							{#each serviceIcons[cell.href] ?? [] as d (d)}
-								<path {d} />
-							{/each}
-						</svg>
+						{@html serviceIcons[cell.href] ?? ''}
 					</span>
 					<span class="cell-body">
 						<span class="cell-title">{s.short}</span>
@@ -283,14 +277,11 @@
 		background-color: var(--color-white);
 	}
 
-	.cell-chip svg {
+	.cell-chip :global(svg) {
 		width: 26px;
 		height: 26px;
-		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 	}
 
 	.cell-body {
@@ -339,15 +330,18 @@
 		right: -1.5rem;
 		top: 50%;
 		transform: translateY(-50%);
+		display: block;
 		width: 180px;
 		height: 180px;
-		fill: none;
-		stroke: var(--color-brand-primary);
-		stroke-width: 0.7;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 		opacity: 0.16;
 		pointer-events: none;
+	}
+
+	.cell-watermark :global(svg) {
+		width: 100%;
+		height: 100%;
+		stroke: var(--color-brand-primary);
+		stroke-width: 0.7;
 	}
 
 	/* ===== Featured — Požičovňa as the dominant red cell ===== */
@@ -377,7 +371,7 @@
 		);
 	}
 
-	.cell--featured .cell-chip svg {
+	.cell--featured .cell-chip :global(svg) {
 		stroke: var(--color-brand-primary);
 	}
 

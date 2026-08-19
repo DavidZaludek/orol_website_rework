@@ -27,6 +27,7 @@ import keramikaSoukupLogo from '$lib/assets/logos/Keramika-soukup.jpg';
 import knaufLogo from '$lib/assets/logos/Knauf.png';
 import kreiselLogo from '$lib/assets/logos/KreiselLogoCrop.png';
 import levelysLogo from '$lib/assets/logos/Levelys.svg';
+import likovLogo from '$lib/assets/logos/Likov.svg';
 import makitaLogo from '$lib/assets/logos/Makita.svg';
 import meaLogo from '$lib/assets/logos/Mea.svg';
 import milwaukeeLogo from '$lib/assets/logos/Milwaukee.svg';
@@ -45,6 +46,7 @@ import sikaLogo from '$lib/assets/logos/Sika.webp';
 import solaLogo from '$lib/assets/logos/SolaRedBackground.svg';
 import soudalLogo from '$lib/assets/logos/soudal.jpg';
 import stachemaLogo from '$lib/assets/logos/Stachema.svg';
+import stalcoLogo from '$lib/assets/logos/Stalco.svg';
 import storchLogo from '$lib/assets/logos/Storch.svg';
 import stroherLogo from '$lib/assets/logos/Stroher.svg';
 import tegolaLogo from '$lib/assets/logos/Tegola.svg';
@@ -95,6 +97,7 @@ export const partners: readonly Partner[] = [
 	{ name: 'Knauf', logo: knaufLogo, href: 'https://www.knauf.sk' },
 	{ name: 'Kreisel', logo: kreiselLogo, href: 'https://www.kreisel.sk' },
 	{ name: 'Levelys', logo: levelysLogo, href: 'https://www.levelys.sk', light: true },
+	{ name: 'Likov', logo: likovLogo, href: 'https://likov.cz/' },
 	{ name: 'Makita', logo: makitaLogo, href: 'https://www.makita.sk' },
 	{ name: 'MEA', logo: meaLogo, href: 'https://www.mea-group.com' },
 	{ name: 'Milwaukee', logo: milwaukeeLogo, href: 'https://www.milwaukeetool.eu' },
@@ -113,6 +116,7 @@ export const partners: readonly Partner[] = [
 	{ name: 'Sola', logo: solaLogo, href: 'https://www.sola.at' },
 	{ name: 'Soudal', logo: soudalLogo, href: 'https://www.soudal.sk' },
 	{ name: 'Stachema', logo: stachemaLogo, href: 'https://www.stachema.sk' },
+	{ name: 'Stalco', logo: stalcoLogo, href: 'https://stalco.pl/en/' },
 	{ name: 'Storch', logo: storchLogo, href: 'https://www.storch.sk' },
 	{ name: 'Ströher', logo: stroherLogo, href: 'https://www.stroeher.de', light: true },
 	{ name: 'Tegola', logo: tegolaLogo, href: 'https://tegolacanadese.com' },

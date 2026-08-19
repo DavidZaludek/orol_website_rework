@@ -77,19 +77,11 @@
 					</div>
 				{:else}
 					<div class="flow-photo flow-photo--mark" data-reveal {@attach reveal()}>
-						<svg viewBox="0 0 24 24" aria-hidden="true">
-							{#each categoryIcons[product.href] ?? [] as d (d)}
-								<path {d} />
-							{/each}
-						</svg>
+						{@html categoryIcons[product.href] ?? ''}
 					</div>
 				{/if}
 				<div class="flow-body" data-reveal {@attach reveal(100)}>
-					<svg class="flow-icon" viewBox="0 0 24 24" aria-hidden="true">
-						{#each categoryIcons[product.href] ?? [] as d (d)}
-							<path {d} />
-						{/each}
-					</svg>
+					<span class="flow-icon" aria-hidden="true">{@html categoryIcons[product.href] ?? ''}</span>
 					<h2 class="flow-title">{product.title}</h2>
 					<p class="flow-desc">{product.description}</p>
 					{#if supplierLogos[product.href].length > 0}
@@ -232,14 +224,11 @@
 		display: none;
 	}
 
-	.flow-photo--mark svg {
+	.flow-photo--mark :global(svg) {
 		width: 140px;
 		height: 140px;
-		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 0.8;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 		opacity: 0.55;
 	}
 
@@ -256,13 +245,16 @@
 	}
 
 	.flow-icon {
+		display: block;
 		width: 34px;
 		height: 34px;
-		fill: none;
+	}
+
+	.flow-icon :global(svg) {
+		width: 100%;
+		height: 100%;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 	}
 
 	.flow-title {
@@ -357,7 +349,7 @@
 			min-height: 120px;
 		}
 
-		.flow-photo--mark svg {
+		.flow-photo--mark :global(svg) {
 			width: 90px;
 			height: 90px;
 		}

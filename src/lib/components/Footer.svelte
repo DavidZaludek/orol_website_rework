@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 	import { navLinks, contact, socials, legalLinks, company } from '$lib/site';
-	import { partners } from '$lib/partners';
 	import InstagramIcon from './icons/InstagramIcon.svelte';
 	import FacebookIcon from './icons/FacebookIcon.svelte';
 	import GoogleMap from './GoogleMap.svelte';
@@ -51,9 +50,11 @@
 
 		<nav class="cell cell--nav" aria-label="Pätičková navigácia">
 			<span class="cell-heading">Navigácia</span>
-			{#each navLinks as link (link.href)}
-				<a href={link.href}>{link.label}</a>
-			{/each}
+			<div class="nav-links">
+				{#each navLinks as link (link.href)}
+					<a href={link.href}>{link.label}</a>
+				{/each}
+			</div>
 		</nav>
 
 		<div class="cell cell--top1" aria-hidden="true"></div>
@@ -61,29 +62,6 @@
 		<div class="cell cell--top3" aria-hidden="true"></div>
 		<div class="cell cell--top4" aria-hidden="true"></div>
 		<div class="cell cell--top5" aria-hidden="true"></div>
-
-		<div class="cell cell--partners" aria-label="Naši partneri">
-			<div class="footer-partners-track">
-				{#each [...partners, ...partners] as partner, i (i)}
-					<a
-						href={partner.href}
-						class:dup={i >= partners.length}
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label={partner.name}
-						aria-hidden={i >= partners.length ? 'true' : undefined}
-						tabindex={i >= partners.length ? -1 : 0}
-					>
-						<img
-							src={partner.logo}
-							alt={partner.name}
-							class:logo-chip={partner.light}
-							loading="lazy"
-						/>
-					</a>
-				{/each}
-			</div>
-		</div>
 
 		<div class="cell cell--map">
 			{#if useGoogleMap}
@@ -123,12 +101,11 @@
 	/* The Mondrian composition — iron shows through the gaps as the grid lines. */
 	.mondrian {
 		display: grid;
-		grid-template-columns: repeat(12, 1fr);
+		grid-template-columns: repeat(12, minmax(0, 1fr));
 		grid-template-areas:
 			'top1 top1 top2 top2 top2 top3 top4 top4 top4 top5 top5 top5'
-			'partners partners partners partners partners partners partners partners partners partners partners partners'
 			'map   map   map   map   map   map   map   map   map map map map'
-			'brand brand hours hours hours hours contact contact nav nav nav nav'
+			'brand brand hours hours contact contact nav nav nav nav nav nav'
 			'acc1 acc1 acc1 acc2 acc2 acc3 acc3 acc3 acc4 acc5 acc5 acc5';
 		gap: 5px;
 		/* Heavier top edge separates the footer canvas from page content. */
@@ -137,8 +114,11 @@
 	}
 
 	.cell {
-		padding: 1.4rem 1.6rem;
+		padding: 1.6rem 1.8rem;
 		min-height: 72px;
+		/* Deliberately NOT min-width: 0 — a cell must never become narrower than
+		   its own content, or nowrap text runs straight through the padding and
+		   touches the edge of the block. */
 	}
 
 	.cell-heading {
@@ -189,6 +169,8 @@
 		gap: 1.5rem;
 		font-size: var(--font-size-small);
 		max-width: 320px;
+		/* Day and time never break across lines. */
+		white-space: nowrap;
 	}
 
 	.hours-row dt {
@@ -206,15 +188,19 @@
 	.cell--nav {
 		grid-area: nav;
 		background-color: var(--color-white);
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		align-content: flex-start;
-		column-gap: 1.5rem;
 	}
 
-	.cell--nav .cell-heading {
-		flex-basis: 100%;
+	/* One line only: the gap tightens as the cell narrows rather than letting a
+	   link drop to a second row. */
+	.nav-links {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: baseline;
+		column-gap: clamp(0.6rem, 1.6vw, 1.5rem);
+	}
+
+	.nav-links a {
+		white-space: nowrap;
 	}
 
 	/* Map — its own cell in the composition */
@@ -251,8 +237,16 @@
 		background-color: var(--color-brand-primary);
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
 		justify-content: center;
 		gap: 0.3rem;
+	}
+
+	/* Phone and mail each stay on a single line — the layout folds to two rows
+	   before this cell ever gets narrow enough to break them. */
+	.cell--contact a {
+		max-width: 100%;
+		white-space: nowrap;
 	}
 
 	.cell--contact .cell-heading {
@@ -304,7 +298,7 @@
 
 	/* Pure accent blocks */
 
-	/* Opening row — five blocks above the partner strip. Its breaks (2/5/6/9)
+	/* Opening row — five blocks above the map. Its breaks (2/5/6/9)
 	   deliberately differ from the closing row's (3/5/8/9). */
 	.cell--top1,
 	.cell--top2,
@@ -345,7 +339,7 @@
 		background-color: var(--color-white);
 	}
 
-	/* Closing row — five blocks of unequal width where the partner strip used to sit. */
+	/* Closing row — five blocks of unequal width that close the canvas. */
 
 	.cell--acc1 {
 		grid-area: acc1;
@@ -370,63 +364,6 @@
 	.cell--acc5 {
 		grid-area: acc5;
 		background-color: var(--color-accent-blue);
-	}
-
-	/* Partners — scrolling brand strip */
-	.cell--partners {
-		grid-area: partners;
-		background-color: var(--color-white);
-		padding: 1.6rem 0;
-		overflow: hidden;
-	}
-
-	.footer-partners-track {
-		display: flex;
-		align-items: center;
-		width: max-content;
-		/* Slower than before so the wider slots keep the same scrolling pace. */
-		animation: footer-scroll 140s linear infinite;
-	}
-
-	@keyframes footer-scroll {
-		from {
-			transform: translateX(-50%);
-		}
-		to {
-			transform: translateX(0);
-		}
-	}
-
-	.cell--partners:hover .footer-partners-track {
-		animation-play-state: paused;
-	}
-
-	.footer-partners-track a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 190px;
-		height: 72px;
-		margin-right: 2.75rem;
-		flex-shrink: 0;
-		filter: grayscale(100%);
-		opacity: 0.6;
-		transition:
-			filter var(--transition-fast),
-			opacity var(--transition-fast);
-	}
-
-	.footer-partners-track a:hover,
-	.footer-partners-track a:focus-visible {
-		filter: grayscale(0);
-		opacity: 1;
-	}
-
-	.footer-partners-track img {
-		max-width: 100%;
-		max-height: 100%;
-		object-fit: contain;
-		display: block;
 	}
 
 	/* Legal bar — the dark edge below the canvas */
@@ -468,16 +405,17 @@
 		font-variant-numeric: tabular-nums;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.footer-partners-track {
-			animation: none;
-			flex-wrap: wrap;
-			width: auto;
-			justify-content: center;
-		}
-
-		.footer-partners-track a.dup {
-			display: none;
+	/* Eight nav links on one line need roughly half the row; below this the four
+	   cells can no longer all hold their content, so fold to two rows while the
+	   phone, mail, hours and nav each still fit on a single line. */
+	@media (max-width: 1600px) and (min-width: 761px) {
+		.mondrian {
+			grid-template-areas:
+				'top1 top1 top2 top2 top2 top3 top4 top4 top4 top5 top5 top5'
+				'map   map   map   map   map   map   map   map   map map map map'
+				'brand brand brand hours hours hours hours hours hours hours hours hours'
+				'contact contact contact contact nav nav nav nav nav nav nav nav'
+				'acc1 acc1 acc1 acc2 acc2 acc3 acc3 acc3 acc4 acc5 acc5 acc5';
 		}
 	}
 
@@ -486,7 +424,6 @@
 			grid-template-columns: repeat(4, 1fr);
 			grid-template-areas:
 				'top1 top1 top2 top3'
-				'partners partners partners partners'
 				'map map map map'
 				'brand brand brand brand'
 				'hours hours hours hours'
@@ -519,6 +456,12 @@
 
 		.cell {
 			padding: 1.2rem 1.3rem;
+		}
+
+		/* On a phone the row of links would overflow, so they stack instead. */
+		.nav-links {
+			flex-direction: column;
+			row-gap: 0.1rem;
 		}
 
 		.legal-inner {

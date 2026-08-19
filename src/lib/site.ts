@@ -70,7 +70,7 @@ export const products = [
 		title: 'Tepelné izolácie',
 		description:
 			'Polystyrény, minerálne vlny a izolácie pre fasády, strechy, podlahy aj stropy vrátane systémových doplnkov.',
-		suppliers: ['Isover', 'Knauf', 'Britterm']
+		suppliers: ['Isover', 'Knauf', 'Britterm', 'Likov']
 	},
 	{
 		href: '/products/fasadne-a-interierove-farby',
@@ -143,7 +143,8 @@ export const products = [
 			'Herman',
 			'Sola',
 			'Storch',
-			'Levelys'
+			'Levelys',
+			'Stalco'
 		]
 	}
 ] as const;

@@ -148,7 +148,7 @@
 			const nextTool = rotatingRentalTools[(rentalToolIndex + 1) % rotatingRentalTools.length];
 			const upcoming = new Image();
 			upcoming.src = nextTool.productImage;
-		}, 3600);
+		}, 1800);
 
 		return () => clearInterval(id);
 	});
@@ -342,7 +342,34 @@
 	</div>
 </section>
 
-<!-- 2. Services -->
+<!-- 2. Partner brands — scrolling strip straight after the hero composition -->
+<div class="partner-strip" aria-label="Naši partneri">
+	<div class="partner-track">
+		{#each [...partners, ...partners] as partner, i (i)}
+			<a
+				href={partner.href}
+				class:dup={i >= partners.length}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label={partner.name}
+				aria-hidden={i >= partners.length ? 'true' : undefined}
+				tabindex={i >= partners.length ? -1 : 0}
+			>
+				<img src={partner.logo} alt={partner.name} class:logo-chip={partner.light} loading="lazy" />
+			</a>
+		{/each}
+	</div>
+</div>
+
+<div class="mondrian-strip" aria-hidden="true">
+	<span class="ms1"></span>
+	<span class="ms2"></span>
+	<span class="ms3"></span>
+	<span class="ms4"></span>
+	<span class="ms5"></span>
+</div>
+
+<!-- 3. Services -->
 <section class="section" id="sluzby" aria-label="Služby">
 	<div class="services-grid">
 		<div class="services-row services-row--head">
@@ -366,11 +393,9 @@
 				{@attach reveal()}
 			>
 				<div class="featured-body">
-					<svg class="featured-icon" viewBox="0 0 24 24" aria-hidden="true">
-						{#each serviceIcons[featuredService.href] ?? [] as d (d)}
-							<path {d} />
-						{/each}
-					</svg>
+					<span class="featured-icon" aria-hidden="true">
+						{@html serviceIcons[featuredService.href] ?? ''}
+					</span>
 					<span class="featured-title">{featuredService.short}</span>
 					<p class="featured-desc">{featuredService.description}</p>
 					<span class="featured-cta">Pozrieť ponuku náradia →</span>
@@ -423,17 +448,11 @@
 						/>
 					{/if}
 					{#if serviceIcons[service.href]}
-						<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
-							{#each serviceIcons[service.href] ?? [] as d (d)}
-								<path {d} />
-							{/each}
-						</svg>
+						<span class="tile-icon" aria-hidden="true">{@html serviceIcons[service.href]}</span>
 						{#if !serviceBg[service.href]}
-							<svg class="tile-watermark" viewBox="0 0 24 24" aria-hidden="true">
-								{#each serviceIcons[service.href] ?? [] as d (d)}
-									<path {d} />
-								{/each}
-							</svg>
+							<span class="tile-watermark" aria-hidden="true">
+								{@html serviceIcons[service.href]}
+							</span>
 						{/if}
 					{/if}
 					<span class="tile-label">{service.short}</span>
@@ -457,17 +476,11 @@
 						/>
 					{/if}
 					{#if serviceIcons[service.href]}
-						<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
-							{#each serviceIcons[service.href] ?? [] as d (d)}
-								<path {d} />
-							{/each}
-						</svg>
+						<span class="tile-icon" aria-hidden="true">{@html serviceIcons[service.href]}</span>
 						{#if !serviceBg[service.href]}
-							<svg class="tile-watermark" viewBox="0 0 24 24" aria-hidden="true">
-								{#each serviceIcons[service.href] ?? [] as d (d)}
-									<path {d} />
-								{/each}
-							</svg>
+							<span class="tile-watermark" aria-hidden="true">
+								{@html serviceIcons[service.href]}
+							</span>
 						{/if}
 					{/if}
 					<span class="tile-label">{service.short}</span>
@@ -511,11 +524,7 @@
 					>
 						<img src={productBg[product.href]} alt="" class="tile-bg" loading="lazy" />
 						{#if categoryIcons[product.href]}
-							<svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
-								{#each categoryIcons[product.href] as d (d)}
-									<path {d} />
-								{/each}
-							</svg>
+							<span class="tile-icon" aria-hidden="true">{@html categoryIcons[product.href]}</span>
 						{/if}
 						<span class="tile-label">{product.title}</span>
 						<span class="tile-desc">{product.description}</span>
@@ -1082,6 +1091,101 @@
 		}
 	}
 
+	/* ===== 2. Partner brands — scrolling strip ===== */
+	.partner-strip {
+		overflow: hidden;
+		padding: 1.6rem 0;
+		background-color: var(--color-white);
+	}
+
+	.partner-track {
+		display: flex;
+		align-items: center;
+		width: max-content;
+		animation: partner-scroll 140s linear infinite;
+	}
+
+	@keyframes partner-scroll {
+		from {
+			transform: translateX(-50%);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	.partner-strip:hover .partner-track {
+		animation-play-state: paused;
+	}
+
+	.partner-track a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 190px;
+		height: 72px;
+		margin-right: 2.75rem;
+		flex-shrink: 0;
+		filter: grayscale(100%);
+		opacity: 0.6;
+		transition:
+			filter var(--transition-fast),
+			opacity var(--transition-fast);
+	}
+
+	.partner-track a:hover,
+	.partner-track a:focus-visible {
+		filter: grayscale(0);
+		opacity: 1;
+	}
+
+	.partner-track img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+		display: block;
+	}
+
+	/* Mondrian bar closing the partner strip. Its proportions (4-1-2-3-2) differ
+	   from both footer rows so no two bars on the site repeat. */
+	.mondrian-strip {
+		display: flex;
+		gap: 5px;
+		padding: 5px;
+		height: 68px;
+		background-color: var(--color-iron);
+	}
+
+	.mondrian-strip span {
+		display: block;
+		min-width: 0;
+	}
+
+	.ms1 {
+		flex: 4;
+		background-color: var(--color-brand-primary);
+	}
+
+	.ms2 {
+		flex: 1;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.ms3 {
+		flex: 2;
+		background-color: var(--color-white);
+	}
+
+	.ms4 {
+		flex: 3;
+		background-color: var(--color-accent-blue);
+	}
+
+	.ms5 {
+		flex: 2;
+		background-color: var(--color-white);
+	}
+
 	/* ===== 3. Category bento — Mondrian composition ===== */
 	.bento {
 		display: flex;
@@ -1292,13 +1396,16 @@
 		top: 1rem;
 		left: 1.15rem;
 		z-index: 1;
+		display: block;
 		width: 26px;
 		height: 26px;
-		fill: none;
+	}
+
+	.tile-icon :global(svg) {
+		width: 100%;
+		height: 100%;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 	}
 
 	.tile:hover .tile-arrow {
@@ -1309,19 +1416,22 @@
 		position: absolute;
 		right: -16px;
 		bottom: -18px;
+		display: block;
 		width: 120px;
 		height: 120px;
-		fill: none;
-		stroke: var(--color-mist);
-		stroke-width: 0.6;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 		opacity: 0.9;
 		pointer-events: none;
+	}
+
+	.tile-watermark :global(svg) {
+		width: 100%;
+		height: 100%;
+		stroke: var(--color-mist);
+		stroke-width: 0.6;
 		transition: stroke var(--transition-fast);
 	}
 
-	.tile:hover .tile-watermark {
+	.tile:hover .tile-watermark :global(svg) {
 		stroke: color-mix(in srgb, var(--color-brand-primary) 30%, var(--color-white));
 	}
 
@@ -1503,13 +1613,16 @@
 	}
 
 	.featured-icon {
+		display: block;
 		width: 32px;
 		height: 32px;
-		fill: none;
+	}
+
+	.featured-icon :global(svg) {
+		width: 100%;
+		height: 100%;
 		stroke: var(--color-white);
 		stroke-width: 1.8;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 	}
 
 	.featured-title {
@@ -1565,9 +1678,11 @@
 		inset: 0;
 	}
 
+	/* Near-full-bleed: the photo is `contain`, so its own empty margins keep the
+	   logo and the meta row clear even at this inset. */
 	.featured-tool-visual {
 		position: absolute;
-		inset: 2.5rem 1rem 3.75rem;
+		inset: 0.6rem 0.2rem 2.2rem;
 		display: block;
 		min-width: 0;
 		min-height: 0;
@@ -2165,6 +2280,19 @@
 
 		.tile-logo-track {
 			animation: none;
+		}
+
+		/* The strip becomes a static wrapped grid; the duplicate half that only
+		   exists to make the loop seamless is dropped. */
+		.partner-track {
+			animation: none;
+			flex-wrap: wrap;
+			width: auto;
+			justify-content: center;
+		}
+
+		.partner-track a.dup {
+			display: none;
 		}
 
 		.tile,

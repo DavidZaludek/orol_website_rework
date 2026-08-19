@@ -40,7 +40,7 @@
 	const slug = $derived(data.product.href.replace('/products/', ''));
 	const detail = $derived(productDetails[slug]);
 	const photo = $derived(photos[slug]);
-	const iconPaths = $derived(categoryIcons[data.product.href] ?? []);
+	const categoryIcon = $derived(categoryIcons[data.product.href] ?? '');
 	const supplierLogos = $derived(
 		data.product.suppliers
 			.map((name: string) => partnerByName.get(name))
@@ -75,11 +75,7 @@
 				</div>
 			{:else}
 				<div class="flow-photo flow-photo--mark" data-reveal {@attach reveal()}>
-					<svg viewBox="0 0 24 24" aria-hidden="true">
-						{#each iconPaths as d (d)}
-							<path {d} />
-						{/each}
-					</svg>
+					{@html categoryIcon}
 				</div>
 			{/if}
 		</div>
@@ -266,14 +262,11 @@
 		display: none;
 	}
 
-	.flow-photo--mark svg {
+	.flow-photo--mark :global(svg) {
 		width: 140px;
 		height: 140px;
-		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 0.8;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 		opacity: 0.55;
 	}
 
@@ -441,7 +434,7 @@
 			min-height: 140px;
 		}
 
-		.flow-photo--mark svg {
+		.flow-photo--mark :global(svg) {
 			width: 90px;
 			height: 90px;
 		}

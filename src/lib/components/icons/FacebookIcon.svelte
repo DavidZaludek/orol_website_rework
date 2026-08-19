@@ -1,14 +1,20 @@
 <script lang="ts">
+	import icon from '$lib/assets/icons/social-facebook.svg?raw';
+
 	let { size = 24 }: { size?: number } = $props();
 </script>
 
-<svg
-	xmlns="http://www.w3.org/2000/svg"
-	viewBox="0 0 24 24"
-	width={size}
-	height={size}
-	fill="currentColor"
-	aria-hidden="true"
->
-	<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-</svg>
+<span class="icon" style:width="{size}px" style:height="{size}px" aria-hidden="true">
+	{@html icon}
+</span>
+
+<style>
+	.icon {
+		display: inline-flex;
+	}
+
+	.icon :global(svg) {
+		width: 100%;
+		height: 100%;
+	}
+</style>

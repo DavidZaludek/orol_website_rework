@@ -5,7 +5,7 @@
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
 
-	const icon = serviceIcons['/services/poradenstvo'] ?? [];
+	const icon = serviceIcons['/services/poradenstvo'] ?? '';
 	const heroPhoto = serviceMedia['/services/poradenstvo'];
 
 	const topics = [
@@ -57,9 +57,7 @@
 				fetchpriority="high"
 			/>
 			<span class="chip" aria-hidden="true">
-				<svg viewBox="0 0 24 24"
-					>{#each icon as d (d)}<path {d} />{/each}</svg
-				>
+				{@html icon}
 			</span>
 		</div>
 		<div class="fact-cell" data-reveal {@attach reveal(140)}>Viacročná prax v stavebníctve</div>
@@ -311,14 +309,11 @@
 		background-color: var(--color-white);
 	}
 
-	.chip svg {
+	.chip :global(svg) {
 		width: 26px;
 		height: 26px;
-		fill: none;
 		stroke: var(--color-brand-primary);
 		stroke-width: 1.7;
-		stroke-linecap: round;
-		stroke-linejoin: round;
 	}
 
 	.fact-cell {

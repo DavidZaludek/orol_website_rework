@@ -160,6 +160,10 @@
 			</div>
 		</div>
 
+		<!-- Fills the gap between brand and hamburger once the nav collapses,
+		     so the iron ground never shows as a dark band across the header. -->
+		<div class="brand-fill" aria-hidden="true"></div>
+
 		<!-- Hamburger button (mobile) -->
 		<button
 			class="hamburger"
@@ -195,8 +199,6 @@
 					<a href="/quote" class="mobile-index-link mobile-index-link--cta" onclick={closeMenu}>
 						Cenová ponuka →
 					</a>
-					<a href="/products" class="mobile-index-link" onclick={closeMenu}>Všetky produkty →</a>
-					<a href="/services" class="mobile-index-link" onclick={closeMenu}>Všetky služby →</a>
 				</div>
 			</nav>
 			<div class="mobile-contact">
@@ -272,9 +274,13 @@
 		padding: 0 clamp(1rem, 3vw, 2rem);
 		background-color: var(--color-brand-primary);
 		text-decoration: none;
-		/* Allowed to shrink so the logo can never push the hamburger off-screen. */
+		/* Must NOT shrink: the overflow observer decides to collapse the nav by
+		   comparing scrollWidth against clientWidth, and a brand that shrinks to
+		   fit absorbs the overflow silently — the row never reports being too
+		   narrow, so the hamburger never appears and the logo is squashed
+		   instead. Holding its natural width makes the row genuinely overflow. */
 		min-width: 0;
-		flex: 0 1 auto;
+		flex: 0 0 auto;
 		overflow: hidden;
 	}
 
@@ -283,11 +289,12 @@
 		   HEADER LOGO SCALING — adjust this value to resize the logo.
 
 		   Responsive order as the header narrows:
-		     1. logo shrinks 40px → 24px (reaches its floor around 750px)
-		     2. desktop nav collapses into the hamburger (~768px / on overflow)
-		     3. logo swaps to the icon-only mark (below 420px)
+		     1. logo shrinks 40px → 30px
+		     2. desktop nav collapses into the hamburger (1280px), which frees
+		        the whole row — the logo stops shrinking and holds 40px
+		     3. logo swaps to the icon-only mark (below 420px), floor 34px
 		   ============================================================ */
-		height: clamp(24px, 3.2vw, 40px);
+		height: clamp(30px, 3.2vw, 40px);
 		width: auto;
 		display: block;
 		/* Never wider than the space the flex row leaves for the brand. */
@@ -420,6 +427,14 @@
 		color: var(--color-brand-primary);
 	}
 
+	/* ---- Filler cell — only present once the nav has collapsed ---- */
+	.brand-fill {
+		display: none;
+		flex: 1 1 auto;
+		min-width: 0;
+		background-color: var(--color-white);
+	}
+
 	/* ---- Hamburger — red cell ---- */
 	.hamburger {
 		display: none;
@@ -438,17 +453,22 @@
 	}
 
 	/* ---- Mobile menu — white cell ---- */
+	/* Iron canvas, same as every other Mondrian block on the site: the ground
+	   shows through as 5px grid lines around and between the white cells. */
 	.mobile-menu {
-		background-color: var(--color-white);
-		border-top: 5px solid var(--color-iron);
-		padding: 1rem 1.5rem 1.5rem;
+		background-color: var(--color-iron);
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 0 5px 5px;
 	}
 
 	.mobile-menu nav {
 		display: flex;
 		flex-direction: column;
 		gap: 0.15rem;
-		margin-bottom: 1.25rem;
+		background-color: var(--color-white);
+		padding: 1rem 1.25rem 1.25rem;
 	}
 
 	.mobile-nav-link {
@@ -479,7 +499,6 @@
 
 	.mobile-index-links {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
 		gap: 5px;
 		margin-top: 0.85rem;
 	}
@@ -512,11 +531,11 @@
 	}
 
 	.mobile-contact {
-		border-top: 1px solid var(--border-default);
-		padding-top: 1rem;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
+		background-color: var(--color-white);
+		padding: 1.1rem 1.25rem 1.25rem;
 	}
 
 	.mobile-phone {
@@ -557,6 +576,10 @@
 		justify-content: center;
 	}
 
+	.header-inner.compact .brand-fill {
+		display: block;
+	}
+
 	/* No-JS / very narrow fallback */
 	@media (max-width: 1280px) {
 		.desktop-nav,
@@ -570,13 +593,29 @@
 			align-items: center;
 			justify-content: center;
 		}
+
+		.brand-fill {
+			display: block;
+		}
+
+		/* Below here the hamburger is shown unconditionally, so the brand may
+		   shrink again — on a phone the row is only brand + hamburger, and
+		   letterboxing the logo beats overflowing the header. */
+		.brand {
+			flex: 0 1 auto;
+		}
+
+		/* The nav is gone, so the row has room again — hold the logo at full
+		   size instead of letting it keep shrinking with the viewport. */
+		.logo {
+			height: clamp(34px, 4.5vw, 40px);
+		}
 	}
 
 	/* ---- Logo swap — independent of the nav collapse above ---- */
 	@media (max-width: 420px) {
-		.header-inner {
-			gap: 0.75rem;
-		}
+		/* The 5px gap is the Mondrian grid line — it stays 5px at every width,
+		   including after the logo swaps to the icon-only mark. */
 
 		.logo-full {
 			display: none;
@@ -584,6 +623,7 @@
 
 		.logo-mark {
 			display: block;
+			height: 34px;
 		}
 	}
 </style>
