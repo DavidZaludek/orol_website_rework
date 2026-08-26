@@ -1,7 +1,6 @@
 <script lang="ts">
 	import demolitionPhoto from '$lib/assets/rental/hilti-demolition.jpg';
-	import cuttingPhoto from '$lib/assets/rental/hilti-cutting.jpg';
-	import installationPhoto from '$lib/assets/rental/installation-welder.jpg';
+	import cuttingPhoto from '$lib/assets/rental/hilti-cutting.png';
 	import masonryPhoto from '$lib/assets/rental/masonry-saw.jpg';
 	import measuringPhoto from '$lib/assets/rental/measuring-level.jpg';
 	import mixingPhoto from '$lib/assets/rental/mixing-plastering.jpg';
@@ -13,22 +12,11 @@
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
 	import { rentalTools, toolForItem } from '$lib/rentalTools';
-	import boschGrinder from '$lib/assets/rental/bosch-gbr-15-cag.png';
-	import levelPhoto from '$lib/assets/rental/nivelacny-pristroj.jpg';
-	import plasteringMachine from '$lib/assets/rental/strojova-omietacka.png';
 
 	const heroPhoto = serviceMedia['/services/pozicovna-naradia'];
 
-	// Machines we rent that are not Hilti, so they have no detail page (yet).
-	// Labelled by what the machine does, not by its model name.
-	const otherProductImages: Record<string, { src: string; label: string }> = {
-		'Brúska na betón Bosch': { src: boschGrinder, label: 'Brúska na betón' },
-		'Optický nivelačný prístroj Sokkia K2': { src: levelPhoto, label: 'Nivelačný prístroj' },
-		'Strojová omietačka RITMO': { src: plasteringMachine, label: 'Strojová omietačka' }
-	};
-
 	// Bento rows — the hovered tile expands sideways and its row grows taller.
-	const hiltiRows = [rentalTools.slice(0, 4), rentalTools.slice(4, 8), rentalTools.slice(8)];
+	const hiltiRows = [rentalTools.slice(0, 4), rentalTools.slice(4)];
 
 	const categories = [
 		{
@@ -39,9 +27,7 @@
 				'Búracie kladivo Hilti TE 3000-AVR',
 				'Búracie kladivo Hilti TE 1000-AVR',
 				'Sekacie kladivo Hilti TE 500-AVR',
-				'Kombinované kladivo Hilti TE 70',
-				'Vŕtacie kladivo Hilti TE 230W',
-				'Plynový vsadzovací prístroj Hilti GX 120-ME'
+				'Kombinované kladivo Hilti TE 70'
 			]
 		},
 		{
@@ -50,9 +36,9 @@
 			alt: 'Ručná okružná a rozbrusovacia píla Hilti',
 			items: [
 				'Uhlová brúska Hilti AG230',
-				'Okružná píla Hilti SCW 70',
+				'Brúska na betón Hilti DGH 130',
 				'Drážkovací stroj Hilti DC-SE20',
-				'Brúska na betón Bosch'
+				'Brúska na steny a stropy Dedra DED7748'
 			]
 		},
 		{
@@ -60,56 +46,51 @@
 			image: mixingPhoto,
 			alt: 'Strojová omietačka pripravená na použitie',
 			items: [
-				'Miešačky s objemom 120 a 145 litrov',
-				'Strojová omietačka RITMO',
-				'Miešadlo na samonivelačný poter',
-				'Vibrátor a vibračné kladivo na betón',
+				'Miešačka Scheppach MIX 180',
+				'Strojová omietačka MAI PUMP M4G economy',
+				'Ponorný vibrátor betónu Herman HVE 113',
 				'Vibračný stôl'
 			]
 		},
 		{
 			title: 'Murivo a dlažba',
 			image: masonryPhoto,
-			alt: 'Stolová píla Lissmac na rezanie tehál',
+			alt: 'Stolová píla na rezanie tehál',
 			items: [
-				'Stolová píla Lissmac na tehly',
+				'Vibračná doska Dedra DED8830',
+				'Stolová píla Herman HSE-265 na tehly',
 				'Mechanická rezačka zámkovej dlažby',
-				'Rezačky obkladov a dlažby',
-				'Ručná píla na pórobetón Ytong'
+				'Rezačka obkladov a dlažby Dedra DED7823'
 			]
 		},
 		{
 			title: 'Meranie a čistenie',
 			image: measuringPhoto,
-			alt: 'Optický nivelačný prístroj Sokkia K2',
+			alt: 'Optický nivelačný prístroj Sokkia C41',
 			items: [
-				'Optický nivelačný prístroj Sokkia K2',
+				'Optický nivelačný prístroj Sokkia C41',
+				'Meracia lata Sokkia',
 				'Merač vlhkosti v murive',
-				'Univerzálny vysávač Hilti VC 20-UL',
-				'Vysokotlakový čistič Kärcher'
+				'Stavebný vysávač Hilti VC 40L-X',
+				'Vysokotlakový čistič Dedra DED8825',
+				'Vysokotlakový čistič Dedra DED8821'
 			]
 		},
 		{
 			title: 'Lešenie a manipulácia',
 			image: scaffoldingPhoto,
 			alt: 'Oceľové stavebné lešenie osadené na dome',
-			items: [
-				'Trubkové a oceľové lešenie GRAF',
-				'Stavebný výťah',
-				'Ručný hydraulický paletový vozík'
-			]
-		},
-		{
-			title: 'Montáž a inštalácie',
-			image: installationPhoto,
-			alt: 'Zváračka na plastové PPR potrubie',
-			items: ['Zváračka na plastové PPR potrubie']
+			items: ['Lešenie trubkové', 'Lešenie GRAF', 'Ručný hydraulický paletový vozík']
 		},
 		{
 			title: 'Sezónna technika',
 			image: seasonalPhoto,
 			alt: 'Štiepačka dreva s tlakom štrnásť ton',
-			items: ['Štiepačka dreva s tlakom 14 ton', 'Snehová fréza Honda']
+			items: [
+				'Štiepačka dreva s tlakom 10 ton',
+				'Snehová fréza Honda HSM1390i',
+				'Plynový ohrievač Dedra DED9943'
+			]
 		}
 	];
 
@@ -170,7 +151,7 @@
 			/>
 		</div>
 		<div class="stat-cell" data-reveal {@attach reveal(140)}>
-			<strong>30+</strong>
+			<strong>20+</strong>
 			<span>druhov<br />vybavenia</span>
 		</div>
 		<div class="acc acc--hy" aria-hidden="true"></div>
@@ -191,12 +172,8 @@
 		<div class="acc acc--cy" aria-hidden="true"></div>
 
 		{#each categories as category, i (category.title)}
-			{@const carded = category.items.filter(
-				(it) => toolForItem(it)?.productImage || otherProductImages[it]
-			)}
-			{@const plain = category.items.filter(
-				(it) => !toolForItem(it)?.productImage && !otherProductImages[it]
-			)}
+			{@const carded = category.items.filter((it) => toolForItem(it)?.productImage)}
+			{@const plain = category.items.filter((it) => !toolForItem(it)?.productImage)}
 			<article class="equip-cell" data-reveal {@attach reveal(Math.min((i % 2) * 80, 160))}>
 				<div class="equip-photo">
 					<img src={category.image} alt={category.alt} loading="lazy" />
@@ -208,17 +185,12 @@
 						<div class="tool-cards">
 							{#each carded as item (item)}
 								{@const tool = toolForItem(item)}
-								{@const other = otherProductImages[item]}
 								{#if tool?.productImage}
 									<a href="/services/pozicovna-naradia/{tool.slug}" class="tool-card">
 										<img src={tool.productImage} alt="" loading="lazy" />
 										<span class="tool-card-model">{tool.model}</span>
+										<span class="tool-card-desc">{tool.short}</span>
 									</a>
-								{:else if other}
-									<span class="tool-card">
-										<img src={other.src} alt="" loading="lazy" />
-										<span class="tool-card-model">{other.label}</span>
-									</span>
 								{/if}
 							{/each}
 						</div>
@@ -233,6 +205,18 @@
 				</div>
 			</article>
 		{/each}
+
+		<!-- Seven categories leave half a row open; a De Stijl block fills it so the
+		     grid still closes on a full line. -->
+		<div class="mondrian-cell" data-reveal {@attach reveal(80)} aria-hidden="true">
+			<span class="mb mb--a"></span>
+			<span class="mb mb--b"></span>
+			<span class="mb mb--c"></span>
+			<span class="mb mb--d"></span>
+			<span class="mb mb--e"></span>
+			<span class="mb mb--f"></span>
+			<span class="mb mb--g"></span>
+		</div>
 
 		<div class="call-cell" data-reveal {@attach reveal()}>
 			<svg viewBox="0 0 24 24" aria-hidden="true">
@@ -548,7 +532,8 @@
 	}
 
 	.stat-cell strong {
-		font-size: 3rem;
+		/* Grows with the viewport but stays inside the 110px hero row. */
+		font-size: clamp(3.25rem, 5.5vw, 4.5rem);
 		line-height: 0.9;
 		font-weight: 700;
 	}
@@ -846,7 +831,7 @@
 
 	.tool-card img {
 		width: 100%;
-		height: 74px;
+		height: 96px;
 		object-fit: contain;
 	}
 
@@ -865,6 +850,17 @@
 		color: var(--color-brand-primary);
 	}
 
+	/* The model code is the headline; this says what the machine actually is,
+	   set tight beneath it so the two read as one label. */
+	.tool-card-desc {
+		margin-top: -0.22rem;
+		font-size: 0.76rem;
+		line-height: 1.25;
+		text-align: center;
+		text-wrap: balance;
+		color: color-mix(in srgb, var(--color-iron) 62%, var(--color-white));
+	}
+
 	.tool-card:focus-visible {
 		outline: 3px solid var(--color-brand-hover);
 		outline-offset: 2px;
@@ -878,6 +874,60 @@
 		width: 0.45rem;
 		height: 2px;
 		background-color: var(--color-brand-primary);
+	}
+
+	/* Same 5px iron gutters as the canvas, so the block reads as more grid
+	   rather than as a picture dropped into one. */
+	.mondrian-cell {
+		grid-column: span 6;
+		display: grid;
+		gap: 5px;
+		min-height: 320px;
+		grid-template-columns: 1.35fr 0.75fr 0.75fr 0.6fr 0.75fr;
+		grid-template-rows: 1fr 0.7fr 0.85fr 0.8fr;
+		grid-template-areas:
+			'a a a b b'
+			'a a a c d'
+			'e f f c d'
+			'e f f g g';
+		background-color: var(--color-iron);
+	}
+
+	.mb {
+		min-width: 0;
+		background-color: var(--color-white);
+	}
+
+	.mb--a {
+		grid-area: a;
+	}
+
+	.mb--b {
+		grid-area: b;
+		background-color: var(--color-accent-blue);
+	}
+
+	.mb--c {
+		grid-area: c;
+	}
+
+	.mb--d {
+		grid-area: d;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.mb--e {
+		grid-area: e;
+		background-color: var(--color-brand-primary);
+	}
+
+	.mb--f {
+		grid-area: f;
+		background-color: var(--color-chalk);
+	}
+
+	.mb--g {
+		grid-area: g;
 	}
 
 	.call-cell {
@@ -1025,13 +1075,14 @@
 		grid-template-columns: repeat(12, 1fr);
 	}
 
+	/* Grid, not space-between flex: three named columns hold their places
+	   instead of the middle line drifting with its own text length. */
 	.cta-cell {
 		grid-column: span 10;
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
 		align-items: center;
-		justify-content: space-between;
-		gap: 1.5rem;
+		gap: 1.25rem 2rem;
 		padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
 		background-color: var(--color-brand-primary);
 	}
@@ -1046,17 +1097,27 @@
 		color: var(--color-white);
 	}
 
+	/* Same condensed face as the title, one step down — the two lines read as a
+	   single poster block instead of a heading with a caption stuck beneath it. */
 	.cta-sub {
-		margin: 0.35rem 0 0;
-		font-size: var(--font-size-small);
+		margin: 0;
+		justify-self: center;
+		max-width: 34ch;
+		text-align: center;
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		font-weight: 500;
+		line-height: 1.25;
 		color: rgba(255, 255, 255, 0.88);
 	}
 
+	/* Phone first, mail as a deliberate second line under it. */
 	.cta-actions {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 1.5rem;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.4rem;
+		text-align: right;
 	}
 
 	.cta-phone {
@@ -1074,14 +1135,18 @@
 	}
 
 	.cta-mail {
-		font-size: var(--font-size-small);
-		font-weight: 700;
-		color: var(--color-white);
+		font-family: var(--font-display);
+		font-size: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: rgba(255, 255, 255, 0.85);
 		text-decoration: underline;
-		text-underline-offset: 3px;
+		text-underline-offset: 4px;
 	}
 
 	.cta-mail:hover {
+		color: var(--color-white);
 		text-decoration-thickness: 2px;
 	}
 
@@ -1141,6 +1206,26 @@
 	@media (max-width: 1000px) {
 		.equip-cell {
 			grid-column: span 12;
+		}
+
+		.cta-cell {
+			grid-template-columns: 1fr;
+			justify-items: start;
+		}
+
+		.cta-sub {
+			justify-self: start;
+			text-align: left;
+		}
+
+		.cta-actions {
+			align-items: flex-start;
+			text-align: left;
+		}
+
+		.mondrian-cell {
+			grid-column: span 12;
+			min-height: 220px;
 		}
 
 		.hero-canvas {
@@ -1212,6 +1297,10 @@
 
 		.acc {
 			min-height: 22px;
+		}
+
+		.mondrian-cell {
+			min-height: 180px;
 		}
 	}
 

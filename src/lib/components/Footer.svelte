@@ -39,7 +39,12 @@
 			<a href={contact.phoneHref} class="contact-phone">{contact.phone}</a>
 			<a href={contact.emailHref} class="contact-email">{contact.email}</a>
 			<div class="contact-social">
-				<a href={socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+				<a
+					href={socials.instagram}
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Instagram"
+				>
 					<InstagramIcon size={24} />
 				</a>
 				<a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">

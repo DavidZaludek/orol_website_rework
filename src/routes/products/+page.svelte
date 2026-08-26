@@ -81,7 +81,8 @@
 					</div>
 				{/if}
 				<div class="flow-body" data-reveal {@attach reveal(100)}>
-					<span class="flow-icon" aria-hidden="true">{@html categoryIcons[product.href] ?? ''}</span>
+					<span class="flow-icon" aria-hidden="true">{@html categoryIcons[product.href] ?? ''}</span
+					>
 					<h2 class="flow-title">{product.title}</h2>
 					<p class="flow-desc">{product.description}</p>
 					{#if supplierLogos[product.href].length > 0}

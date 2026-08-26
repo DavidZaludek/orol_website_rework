@@ -2,36 +2,45 @@
 import acoLogo from '$lib/assets/logos/Aco.svg';
 import alcaLogo from '$lib/assets/logos/Alca.svg';
 import anavekLogo from '$lib/assets/logos/Anavek.png';
+import austrothermLogo from '$lib/assets/logos/Austrotherm.svg';
 import barvyALakyLogo from '$lib/assets/logos/Barvy-a-laky.svg';
-import baumitLogo from '$lib/assets/logos/Baumit.jpg';
+import baumitLogo from '$lib/assets/logos/Baumit.png';
 import bauwebLogo from '$lib/assets/logos/Bauweb.svg';
-import bramacLogo from '$lib/assets/logos/Bramac.jpg';
+import bohmLogo from '$lib/assets/logos/Bohm-Extruplast.png';
+import bramacLogo from '$lib/assets/logos/Bramac.png';
 import brittermLogo from '$lib/assets/logos/Britterm.png';
+import calmitLogo from '$lib/assets/logos/Calmit.webp';
+import cementarenLadceLogo from '$lib/assets/logos/Cementaren-Ladce.webp';
 import cemixLogo from '$lib/assets/logos/Cemix.svg';
 import ceresitLogo from '$lib/assets/logos/Ceresit.jpg';
+import charvatLogo from '$lib/assets/logos/Charvat.png';
 import chyzbetLogo from '$lib/assets/logos/Chyzbet.png';
 import DHInsulationLogo from '$lib/assets/logos/DHInsulation.png';
-import dedraLogo from '$lib/assets/logos/Dedra.jpg';
+import dedraLogo from '$lib/assets/logos/Dedra.png';
 import fakroLogo from '$lib/assets/logos/Fakro.png';
+import fibranLogo from '$lib/assets/logos/Fibran.png';
 import fischerLogo from '$lib/assets/logos/Fischer.svg';
 import foliarexLogo from '$lib/assets/logos/Foliarex.png';
 import hacoLogo from '$lib/assets/logos/Haco.png';
 import hasoftLogo from '$lib/assets/logos/Hasoft.png';
-import heluzLogo from '$lib/assets/logos/Heluz.jpg';
+import heluzLogo from '$lib/assets/logos/Heluz.png';
 import henkelLogo from '$lib/assets/logos/Henkel.svg';
 import hermanLogo from '$lib/assets/logos/Herman.svg';
 import hiltiLogo from '$lib/assets/logos/Hilti.svg';
 import isoverLogo from '$lib/assets/logos/Isover.png';
 import jutaLogo from '$lib/assets/logos/Juta.png';
-import keramikaSoukupLogo from '$lib/assets/logos/Keramika-soukup.jpg';
+import keramikaSoukupLogo from '$lib/assets/logos/Keramika-soukup.png';
+import klimasLogo from '$lib/assets/logos/Klimas-Wkret-met.svg';
 import knaufLogo from '$lib/assets/logos/Knauf.png';
 import kreiselLogo from '$lib/assets/logos/KreiselLogoCrop.png';
 import levelysLogo from '$lib/assets/logos/Levelys.svg';
 import likovLogo from '$lib/assets/logos/Likov.svg';
 import makitaLogo from '$lib/assets/logos/Makita.svg';
+import martoniLogo from '$lib/assets/logos/Martoni.png';
 import meaLogo from '$lib/assets/logos/Mea.svg';
 import milwaukeeLogo from '$lib/assets/logos/Milwaukee.svg';
 import penosilLogo from '$lib/assets/logos/PenosilRedBackground.svg';
+import pestanLogo from '$lib/assets/logos/Pestan.png';
 import polifarbeLogo from '$lib/assets/logos/Polifarbe.png';
 import porfixLogo from '$lib/assets/logos/Porfix.png';
 import prefabetonLogo from '$lib/assets/logos/Prefabeton-Diviaky.webp';
@@ -44,11 +53,12 @@ import sapeliLogo from '$lib/assets/logos/Sapeli.svg';
 import schiedelLogo from '$lib/assets/logos/Schiedel.svg';
 import sikaLogo from '$lib/assets/logos/Sika.webp';
 import solaLogo from '$lib/assets/logos/SolaRedBackground.svg';
-import soudalLogo from '$lib/assets/logos/soudal.jpg';
+import soudalLogo from '$lib/assets/logos/soudal.png';
 import stachemaLogo from '$lib/assets/logos/Stachema.svg';
 import stalcoLogo from '$lib/assets/logos/Stalco.svg';
 import storchLogo from '$lib/assets/logos/Storch.svg';
 import stroherLogo from '$lib/assets/logos/Stroher.svg';
+import swissKronoLogo from '$lib/assets/logos/Swiss-Krono.svg';
 import tegolaLogo from '$lib/assets/logos/Tegola.svg';
 import topstoneLogo from '$lib/assets/logos/Topstone.svg';
 import tytanLogo from '$lib/assets/logos/Tytan.webp';
@@ -59,6 +69,7 @@ import weberLogo from '$lib/assets/logos/Weber.png';
 import wienerbergerLogo from '$lib/assets/logos/Wienerberger.svg';
 import wuerthLogo from '$lib/assets/logos/Wuerth.svg';
 import xellaLogo from '$lib/assets/logos/Xella.png';
+import zopLogo from '$lib/assets/logos/Zop.png';
 
 export interface Partner {
 	name: string;
@@ -72,17 +83,23 @@ export const partners: readonly Partner[] = [
 	{ name: 'ACO', logo: acoLogo, href: 'https://www.aco.sk' },
 	{ name: 'Alcadrain', logo: alcaLogo, href: 'https://www.alcadrain.sk' },
 	{ name: 'Anavek', logo: anavekLogo, href: 'https://www.anavek.sk' },
+	{ name: 'Austrotherm', logo: austrothermLogo, href: 'https://www.austrotherm.sk' },
 	{ name: 'Barvy a laky', logo: barvyALakyLogo, href: 'https://www.bal.cz' },
 	{ name: 'Baumit', logo: baumitLogo, href: 'https://www.baumit.sk' },
 	{ name: 'Bauweb', logo: bauwebLogo, href: 'https://www.bauweb.sk' },
+	{ name: 'Böhm Extruplast', logo: bohmLogo, href: 'https://www.boehmextruplast.cz' },
 	{ name: 'Bramac', logo: bramacLogo, href: 'https://www.bramac.sk' },
 	{ name: 'Britterm', logo: brittermLogo, href: 'https://www.britterm.sk' },
+	{ name: 'Calmit', logo: calmitLogo, href: 'https://www.calmit.com' },
+	{ name: 'Cementáreň Ladce', logo: cementarenLadceLogo, href: 'https://www.pcla.sk' },
 	{ name: 'Cemix', logo: cemixLogo, href: 'https://www.cemix.sk' },
 	{ name: 'Ceresit', logo: ceresitLogo, href: 'https://www.ceresit.sk' },
+	{ name: 'Charvát', logo: charvatLogo, href: 'https://www.charvat.cz' },
 	{ name: 'Chyžbet', logo: chyzbetLogo, href: 'https://www.chyzbet.sk' },
 	{ name: 'DHInsulation', logo: DHInsulationLogo, href: 'https://www.dhinsulation.cz/' },
 	{ name: 'Dedra', logo: dedraLogo, href: 'https://www.dedra.pl' },
 	{ name: 'Fakro', logo: fakroLogo, href: 'https://www.fakro.sk' },
+	{ name: 'Fibran', logo: fibranLogo, href: 'https://fibran.com' },
 	{ name: 'Fischer', logo: fischerLogo, href: 'https://www.fischer-sk.sk' },
 	{ name: 'Foliarex', logo: foliarexLogo, href: 'https://foliarex.com.pl/en/' },
 	{ name: 'Haco', logo: hacoLogo, href: 'https://www.haco.cz' },
@@ -94,14 +111,17 @@ export const partners: readonly Partner[] = [
 	{ name: 'Isover', logo: isoverLogo, href: 'https://www.isover.sk' },
 	{ name: 'Juta', logo: jutaLogo, href: 'https://www.juta.cz' },
 	{ name: 'Keramika Soukup', logo: keramikaSoukupLogo, href: 'https://www.keramikasoukup.cz' },
+	{ name: 'Klimas Wkręt-met', logo: klimasLogo, href: 'https://www.wkret-met.com' },
 	{ name: 'Knauf', logo: knaufLogo, href: 'https://www.knauf.sk' },
 	{ name: 'Kreisel', logo: kreiselLogo, href: 'https://www.kreisel.sk' },
 	{ name: 'Levelys', logo: levelysLogo, href: 'https://www.levelys.sk', light: true },
 	{ name: 'Likov', logo: likovLogo, href: 'https://likov.cz/' },
 	{ name: 'Makita', logo: makitaLogo, href: 'https://www.makita.sk' },
+	{ name: 'Martoni', logo: martoniLogo, href: 'https://martoni.eu' },
 	{ name: 'MEA', logo: meaLogo, href: 'https://www.mea-group.com' },
 	{ name: 'Milwaukee', logo: milwaukeeLogo, href: 'https://www.milwaukeetool.eu' },
-	{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.cz'},
+	{ name: 'Penosil', logo: penosilLogo, href: 'https://www.penosil.cz' },
+	{ name: 'Pestan', logo: pestanLogo, href: 'https://pestan.net' },
 	{ name: 'Polifarbe', logo: polifarbeLogo, href: 'https://www.polifarbe.hu/' },
 	{ name: 'Porfix', logo: porfixLogo, href: 'https://www.porfix.sk' },
 	{ name: 'Prefabeton Diviaky', logo: prefabetonLogo, href: 'https://www.prefabeton.sk' },
@@ -119,6 +139,7 @@ export const partners: readonly Partner[] = [
 	{ name: 'Stalco', logo: stalcoLogo, href: 'https://stalco.pl/en/' },
 	{ name: 'Storch', logo: storchLogo, href: 'https://www.storch.sk' },
 	{ name: 'Ströher', logo: stroherLogo, href: 'https://www.stroeher.de', light: true },
+	{ name: 'Swiss Krono', logo: swissKronoLogo, href: 'https://www.swisskrono.com' },
 	{ name: 'Tegola', logo: tegolaLogo, href: 'https://tegolacanadese.com' },
 	{ name: 'TopStone', logo: topstoneLogo, href: 'https://www.topstone.sk' },
 	{ name: 'Tytan', logo: tytanLogo, href: 'https://www.tytan.pl' },
@@ -128,5 +149,6 @@ export const partners: readonly Partner[] = [
 	{ name: 'Weber', logo: weberLogo, href: 'https://sk.weber' },
 	{ name: 'Wienerberger', logo: wienerbergerLogo, href: 'https://www.wienerberger.sk' },
 	{ name: 'Würth', logo: wuerthLogo, href: 'https://www.wurth.sk' },
-	{ name: 'Xella', logo: xellaLogo, href: 'https://www.xella.sk' }
+	{ name: 'Xella', logo: xellaLogo, href: 'https://www.xella.sk' },
+	{ name: 'ZOP Krby', logo: zopLogo, href: 'https://www.zopkrby.sk' }
 ] as const;

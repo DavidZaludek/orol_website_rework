@@ -2,8 +2,13 @@
 	import ownerPhoto from '$lib/assets/koloman_zaludek_no_text.jpg';
 	import { reveal } from '$lib/reveal';
 
-	const motto =
-		'Spokojný zákazník je zárukou prosperity firmy. Prosperujúca firma je zárukou spokojnosti pracovníkov. Spokojný a aktívny pracovník je zárukou spokojnosti zákazníkov.';
+	// The motto is a loop: customer feeds the firm, the firm feeds the staff,
+	// the staff feed the customer. Split by whose side each claim is about.
+	const mottoParts = [
+		{ label: 'Zákazník', text: 'Spokojný zákazník je zárukou prosperity firmy.' },
+		{ label: 'Firma', text: 'Prosperujúca firma je zárukou spokojnosti pracovníkov.' },
+		{ label: 'Pracovník', text: 'Spokojný a aktívny pracovník je zárukou spokojnosti zákazníkov.' }
+	];
 </script>
 
 <svelte:head>
@@ -95,12 +100,20 @@
 
 		<!-- Motto -->
 		<div class="story-row">
-			<div class="motto-cell" data-reveal {@attach reveal()}>
+			<div class="motto-head-cell" data-reveal {@attach reveal()}>
 				<span class="eyebrow">Naše motto</span>
-				<blockquote class="motto">{motto}</blockquote>
 			</div>
 			<div class="acc acc--red" aria-hidden="true"></div>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
+		</div>
+
+		<div class="story-row">
+			{#each mottoParts as part, i (part.label)}
+				<div class="motto-cell" data-reveal {@attach reveal(i * 90)}>
+					<span class="motto-label">{part.label}</span>
+					<blockquote class="motto">{part.text}</blockquote>
+				</div>
+			{/each}
 		</div>
 	</div>
 </section>
@@ -219,8 +232,12 @@
 		background-color: var(--color-white);
 	}
 
+	/* The measure stays at 62ch and the prose stays left-aligned; auto side
+	   margins centre that column in the white cell instead of letting it hug
+	   the left edge with all the slack on the right. */
 	.letter-cell p {
-		margin: 0;
+		width: 100%;
+		margin: 0 auto;
 		max-width: 62ch;
 		font-size: 1rem;
 		line-height: 1.65;
@@ -229,6 +246,7 @@
 
 	.letter-cell .sign-off {
 		margin-top: 0.5rem;
+		margin-inline: auto;
 		font-style: italic;
 		font-size: 0.95rem;
 		color: var(--text-muted);
@@ -279,9 +297,19 @@
 		padding: 0.5rem 1rem;
 	}
 
-	/* Motto — one continuous statement */
-	.motto-cell {
+	/* Motto — the label band above the three claims */
+	.motto-head-cell {
 		flex: 8 1 0;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		padding: 1.1rem clamp(1.25rem, 3vw, 2.5rem);
+		background-color: var(--color-white);
+	}
+
+	/* One claim per cell, equal width, side by side. */
+	.motto-cell {
+		flex: 1 1 0;
 		min-width: 0;
 		display: flex;
 		flex-direction: column;
@@ -291,12 +319,21 @@
 		background-color: var(--color-white);
 	}
 
+	/* Names whose side of the loop this claim is about. */
+	.motto-label {
+		font-family: var(--font-display);
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--color-brand-primary);
+	}
+
 	.motto {
 		margin: 0;
 		padding: 0.9rem 1.25rem;
 		border-left: 3px solid var(--color-brand-primary);
 		background-color: var(--color-chalk);
-		max-width: 54ch;
 		font-size: var(--font-size-small);
 		font-weight: 500;
 		font-style: italic;
@@ -331,6 +368,10 @@
 		.story-row {
 			flex-direction: column;
 			gap: 4px;
+		}
+
+		.motto-head-cell {
+			padding: 1rem;
 		}
 
 		.head-cell {

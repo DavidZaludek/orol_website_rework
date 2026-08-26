@@ -56,21 +56,32 @@ export const products = [
 		title: 'Hrubá stavba',
 		description:
 			'Tehly, tvárnice, preklady, cement, vápno a všetko potrebné pre hrubú stavbu rodinného domu aj väčších objektov.',
-		suppliers: ['Xella', 'Porfix', 'Wienerberger', 'Heluz', 'Schiedel', 'Velox']
+		suppliers: [
+			'Xella',
+			'Porfix',
+			'Wienerberger',
+			'Heluz',
+			'Schiedel',
+			'Velox',
+			'Swiss Krono',
+			'Calmit',
+			'Cementáreň Ladce',
+			'ZOP Krby'
+		]
 	},
 	{
 		href: '/products/suche-zmesy-malty-omietky',
 		title: 'Suché zmesy, malty a omietky',
 		description:
 			'Murovacie a omietkové zmesi, lepidlá, samonivelačné stierky a špeciálne malty pre interiér aj exteriér.',
-		suppliers: ['Kreisel', 'Weber', 'Baumit', 'Knauf', 'Rigips', 'Cemix', 'Sakret']
+		suppliers: ['Kreisel', 'Weber', 'Baumit', 'Knauf', 'Rigips', 'Cemix', 'Sakret', 'Sika']
 	},
 	{
 		href: '/products/tepelne-izolacie',
 		title: 'Tepelné izolácie',
 		description:
 			'Polystyrény, minerálne vlny a izolácie pre fasády, strechy, podlahy aj stropy vrátane systémových doplnkov.',
-		suppliers: ['Isover', 'Knauf', 'Britterm', 'Likov']
+		suppliers: ['Isover', 'Knauf', 'Britterm', 'Likov', 'Austrotherm', 'Fibran', 'Klimas Wkręt-met']
 	},
 	{
 		href: '/products/fasadne-a-interierove-farby',
@@ -84,14 +95,14 @@ export const products = [
 		title: 'Strešné krytiny',
 		description:
 			'Pálené aj betónové škridly, plechové krytiny, asfaltové šindle a kompletný systém doplnkov.',
-		suppliers: ['Bramac', 'Bauweb', 'Tegola', 'Juta', 'Foliarex']
+		suppliers: ['Bramac', 'Bauweb', 'Tegola', 'Juta', 'Foliarex', 'Charvát']
 	},
 	{
 		href: '/products/hydroizolacia',
 		title: 'Hydroizolácia',
 		description:
 			'Asfaltové pásy, fólie a tekuté hydroizolácie pre základy, ploché strechy, balkóny a kúpeľne.',
-		suppliers: ['Hasoft', 'Sika', 'Kreisel', 'Dechtochema']
+		suppliers: ['Hasoft', 'Sika', 'Kreisel', 'Dechtochema', 'Charvát']
 	},
 	{
 		href: '/products/stavebna-chemia',
@@ -112,7 +123,7 @@ export const products = [
 		title: 'Betonárska oceľ',
 		description:
 			'Betonárska výstuž, kari siete, strmienky a viazací drôt pre základy, stropy aj armovanie konštrukcií.',
-		suppliers: []
+		suppliers: ['Raven']
 	},
 	{
 		href: '/products/okna-a-dvere',
@@ -126,7 +137,17 @@ export const products = [
 		title: 'Kanalizácia, voda a sanita',
 		description:
 			'Rúry a tvarovky pre kanalizáciu a vodovod, šachty, žumpy a sanitárne vybavenie kúpeľne.',
-		suppliers: ['Keramika Soukup', 'Alcadrain', 'ACO', 'Haco', 'MEA', 'Raven']
+		suppliers: [
+			'Keramika Soukup',
+			'Alcadrain',
+			'ACO',
+			'Haco',
+			'MEA',
+			'Raven',
+			'Pestan',
+			'Martoni',
+			'Böhm Extruplast'
+		]
 	},
 	{
 		href: '/products/naradie-a-doplnky',

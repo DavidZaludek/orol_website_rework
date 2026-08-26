@@ -530,13 +530,9 @@
 						<span class="tile-desc">{product.description}</span>
 						{#if supplierLogos[product.href].length > 0}
 							{@const logos = supplierLogos[product.href]}
-							<span
-								class="tile-logo-slot"
-								aria-hidden="true"
-								style="--marquee-t: {Math.max(logos.length * 3, 8)}s"
-							>
+							<span class="tile-logo-slot" aria-hidden="true">
 								<span class="tile-logo-track">
-									{#each [...logos, ...logos] as s, li (li)}
+									{#each logos as s (s.name)}
 										<img
 											src={s.logo}
 											alt=""
@@ -670,6 +666,14 @@
 
 		<div class="about-acc about-acc--yellow" aria-hidden="true"></div>
 		<div class="about-acc about-acc--blue" aria-hidden="true"></div>
+
+		<!-- Vertical bars framing the portrait on both sides. -->
+		<div class="about-bar about-bar--a" aria-hidden="true"></div>
+		<div class="about-bar about-bar--b" aria-hidden="true"></div>
+		<div class="about-bar about-bar--c" aria-hidden="true"></div>
+		<div class="about-bar about-bar--d" aria-hidden="true"></div>
+		<div class="about-bar about-bar--e" aria-hidden="true"></div>
+		<div class="about-bar about-bar--f" aria-hidden="true"></div>
 	</div>
 </section>
 
@@ -947,6 +951,27 @@
 		outline-offset: 2px;
 	}
 
+	/* Six numbered buttons plus the play toggle eat a lot of a phone's width,
+	   so the whole strip shrinks rather than the digits alone. */
+	@media (max-width: 700px) {
+		.hero-video-toggle,
+		.hero-video-steps button {
+			width: 26px;
+			height: 26px;
+			font-size: 0.62rem;
+		}
+
+		.hero-video-toggle svg {
+			width: 12px;
+			height: 12px;
+		}
+
+		.hero-video-controls {
+			gap: 2px;
+			padding: 2px;
+		}
+	}
+
 	.hero-acc {
 		min-height: 44px;
 	}
@@ -1105,12 +1130,13 @@
 		animation: partner-scroll 140s linear infinite;
 	}
 
+	/* Travels leftwards, so brands enter on the right and read left to right. */
 	@keyframes partner-scroll {
 		from {
-			transform: translateX(-50%);
+			transform: translateX(0);
 		}
 		to {
-			transform: translateX(0);
+			transform: translateX(-50%);
 		}
 	}
 
@@ -1209,7 +1235,7 @@
 		flex-direction: column;
 		justify-content: flex-end;
 		/* Top padding reserves the icon zone so expanded content never overlaps it. */
-		padding: 3.25rem 1.2rem 1.1rem;
+		padding: 3.6rem 1.2rem 1.1rem;
 		background-color: var(--color-white);
 		text-decoration: none;
 		overflow: hidden;
@@ -1323,17 +1349,22 @@
 		height: 22px;
 		width: calc(100% - 2.25rem);
 		overflow: hidden;
-		mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
-		-webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+		/* Only the left edge fades — the right end is where the strip is anchored. */
+		mask-image: linear-gradient(to right, transparent, #000 18%);
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 18%);
 	}
 
+	/* Static and right-aligned: `row-reverse` packs the first brand hard against
+	   the arrow, the second to its left, and so on. Brands that no longer fit are
+	   clipped off the left edge — each one still appears exactly once. */
 	.tile-logo-track {
 		display: flex;
+		flex-direction: row-reverse;
+		justify-content: flex-start;
 		align-items: center;
 		gap: 1.2rem;
-		width: max-content;
+		width: 100%;
 		height: 100%;
-		animation: scroll-right var(--marquee-t, 18s) linear infinite;
 	}
 
 	.tile-logo-item {
@@ -1397,8 +1428,8 @@
 		left: 1.15rem;
 		z-index: 1;
 		display: block;
-		width: 26px;
-		height: 26px;
+		width: 34px;
+		height: 34px;
 	}
 
 	.tile-icon :global(svg) {
@@ -1463,8 +1494,8 @@
 
 		.tile-icon {
 			position: static;
-			width: 22px;
-			height: 22px;
+			width: 28px;
+			height: 28px;
 			flex-shrink: 0;
 		}
 
@@ -1475,26 +1506,33 @@
 			display: none;
 		}
 
+		/* The name takes only what it needs so the brand strip gets the rest. */
 		.tile-label {
-			flex: 1;
+			flex: 0 1 auto;
 			padding-right: 0;
-			font-size: 1.05rem;
+			font-size: 1rem;
 		}
 
 		.tile:hover .tile-logo-slot {
 			display: block;
 		}
 
+		/* Wide enough for several brands at once rather than one at a time. */
 		.tile-logo-slot {
 			margin: 0;
-			height: 16px;
-			width: 76px;
-			flex-shrink: 0;
+			height: 18px;
+			width: auto;
+			flex: 1 1 0;
+			min-width: 0;
+		}
+
+		.tile-logo-track {
+			gap: 0.9rem;
 		}
 
 		.tile-logo-item {
-			height: 14px;
-			max-width: 64px;
+			height: 16px;
+			max-width: 62px;
 		}
 
 		.tile-arrow {
@@ -1614,8 +1652,8 @@
 
 	.featured-icon {
 		display: block;
-		width: 32px;
-		height: 32px;
+		width: 40px;
+		height: 40px;
 	}
 
 	.featured-icon :global(svg) {
@@ -2094,11 +2132,12 @@
 		display: grid;
 		grid-template-columns: repeat(12, 1fr);
 		grid-template-rows: auto auto 56px;
-		/* Every named area stays rectangular. */
+		/* Every named area stays rectangular. Vertical bars flank the portrait on
+		   both sides, so no iron ground is left showing beside the photo. */
 		grid-template-areas:
-			'copy  copy  copy  copy  copy  copy  copy  photo photo photo photo photo'
-			'motto motto motto motto motto motto motto photo photo photo photo photo'
-			'yacc  yacc  yacc  bacc  bacc  bacc  bacc  photo photo photo photo photo';
+			'copy  copy  copy  copy  copy  copy  bara photo photo photo barc bard'
+			'motto motto motto motto motto motto bara photo photo photo bare bard'
+			'yacc  yacc  yacc  bacc  bacc  bacc  barb photo photo photo bare barf';
 		gap: 5px;
 		padding: 5px;
 		background-color: var(--color-iron);
@@ -2143,25 +2182,44 @@
 		overflow: hidden;
 		min-width: 0;
 		min-height: 460px;
-		background-color: var(--color-iron);
-		/* Four blocks of unequal size anchored to the corners — the photo sits
-		   centred on top, so these are what shows in the leftover margins. */
-		background-image:
-			linear-gradient(var(--color-accent-yellow) 0 0),
-			linear-gradient(var(--color-brand-primary) 0 0),
-			linear-gradient(var(--color-accent-blue) 0 0),
-			linear-gradient(var(--color-white) 0 0);
-		background-size:
-			26% 34%,
-			17% 22%,
-			15% 26%,
-			22% 15%;
-		background-position:
-			left top,
-			right top,
-			left bottom,
-			right bottom;
-		background-repeat: no-repeat;
+		/* White, not iron: the portrait is `contain`, so whatever it does not fill
+		   should read as part of the white cell rather than as a black band. */
+		background-color: var(--color-white);
+	}
+
+	/* Vertical Mondrian bars flanking the portrait — two columns left, two right. */
+	.about-bar {
+		min-width: 0;
+	}
+
+	.about-bar--a {
+		grid-area: bara;
+		background-color: var(--color-accent-yellow);
+	}
+
+	.about-bar--b {
+		grid-area: barb;
+		background-color: var(--color-white);
+	}
+
+	.about-bar--c {
+		grid-area: barc;
+		background-color: var(--color-accent-blue);
+	}
+
+	.about-bar--d {
+		grid-area: bard;
+		background-color: var(--color-brand-primary);
+	}
+
+	.about-bar--e {
+		grid-area: bare;
+		background-color: var(--color-white);
+	}
+
+	.about-bar--f {
+		grid-area: barf;
+		background-color: var(--color-accent-yellow);
 	}
 
 	.about-photo img {
@@ -2216,6 +2274,12 @@
 
 		.about-photo {
 			min-height: 340px;
+		}
+
+		/* Stacked layout has no column beside the photo, so the bars would become
+		   a row of stray blocks — drop them entirely. */
+		.about-bar {
+			display: none;
 		}
 
 		.about-acc {
@@ -2276,10 +2340,6 @@
 			opacity: 1;
 			transform: none;
 			transition: none;
-		}
-
-		.tile-logo-track {
-			animation: none;
 		}
 
 		/* The strip becomes a static wrapped grid; the duplicate half that only

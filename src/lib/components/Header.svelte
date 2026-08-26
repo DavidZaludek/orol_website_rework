@@ -234,6 +234,8 @@
 
 <style>
 	header {
+		/* Shared by the header row and the mobile drawer's height cap. */
+		--header-row-height: 72px;
 		position: sticky;
 		top: 0;
 		z-index: var(--z-header);
@@ -261,7 +263,7 @@
 		display: flex;
 		align-items: stretch;
 		justify-content: space-between;
-		height: 72px;
+		height: var(--header-row-height);
 		gap: 5px;
 		padding-bottom: 5px;
 	}
@@ -461,6 +463,15 @@
 		flex-direction: column;
 		gap: 5px;
 		padding: 0 5px 5px;
+		/* On short phones the drawer is taller than what is left below the
+		   pinned header row — scroll inside it instead of running off screen.
+		   dvh accounts for the mobile browser chrome collapsing on scroll. */
+		max-height: calc(100vh - var(--header-row-height));
+		max-height: calc(100dvh - var(--header-row-height));
+		overflow-y: auto;
+		/* Don't chain the scroll to the page once the drawer hits its end. */
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
 	}
 
 	.mobile-menu nav {

@@ -35,6 +35,10 @@
 					<a href={tool.hiltiUrl} class="btn btn--ghost" target="_blank" rel="noopener noreferrer">
 						{tool.hiltiSuccessor ? 'Nástupca na Hilti.sk →' : 'Detail na Hilti.sk →'}
 					</a>
+				{:else if tool.brand?.url}
+					<a href={tool.brand.url} class="btn btn--ghost" target="_blank" rel="noopener noreferrer">
+						Detail u výrobcu →
+					</a>
 				{/if}
 			</div>
 		</div>
@@ -51,7 +55,13 @@
 			{#if tool.productImage}
 				<img src={tool.productImage} alt={tool.model} class="model-shot" />
 			{/if}
-			<img src={hiltiLogo} alt="Hilti" class="model-logo" />
+			{#if !tool.brand}
+				<img src={hiltiLogo} alt="Hilti" class="model-logo" />
+			{:else if tool.brand.logo}
+				<img src={tool.brand.logo} alt={tool.brand.name} class="model-logo" />
+			{:else}
+				<span class="model-brand">{tool.brand.name}</span>
+			{/if}
 			<span class="model-text">
 				<span class="model-code">{tool.model}</span>
 				{#if tool.photoIsSuccessor && tool.productImage}
@@ -380,6 +390,17 @@
 	.model-logo {
 		height: 26px;
 		width: auto;
+	}
+
+	/* Makers we have no logo file for stand in the logo's place as a wordmark,
+	   so the plate keeps its two-part rhythm: maker, then model code. */
+	.model-brand {
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		color: var(--color-iron);
 	}
 
 	.model-text {

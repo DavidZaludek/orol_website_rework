@@ -100,7 +100,7 @@
 	<div class="canvas trades-canvas">
 		<header class="head-cell" data-reveal {@attach reveal()}>
 			<span class="eyebrow">Profesie</span>
-			<h2 class="section-title">Aké profesie odporúčame</h2>
+			<h2 class="section-title">Aké profesie vieme odporučiť</h2>
 		</header>
 		<div class="acc acc--ky" aria-hidden="true"></div>
 		<div class="trades-cell" data-reveal {@attach reveal(80)}>
