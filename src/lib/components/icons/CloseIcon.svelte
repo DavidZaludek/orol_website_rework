@@ -1,11 +1,11 @@
 <script lang="ts">
-	import icon from '$lib/assets/icons/ui-close.svg?raw';
+	import Icon from '$lib/assets/icons/ui-close.svg?component';
 
 	let { size = 26 }: { size?: number } = $props();
 </script>
 
 <span class="icon" style:width="{size}px" style:height="{size}px" aria-hidden="true">
-	{@html icon}
+	<Icon />
 </span>
 
 <style>

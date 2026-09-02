@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ownerPhoto from '$lib/assets/koloman_zaludek_no_text.jpg';
 	import { reveal } from '$lib/reveal';
 
@@ -29,7 +30,7 @@
 					Predaj stavebného materiálu a doplnkové služby v Liptovskom Mikuláši od roku 1998.
 				</p>
 			</header>
-			<a href="/contact" class="head-link-cell">Kontaktujte nás →</a>
+			<a href={resolve('/contact')} class="head-link-cell">Kontaktujte nás →</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 

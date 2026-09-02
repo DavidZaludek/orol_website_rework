@@ -11,6 +11,8 @@ export const company = {
 export const contact = {
 	phone: '+421 903 777 741',
 	phoneHref: 'tel:+421903777741',
+	landline: '+421 445 514 882',
+	landlineHref: 'tel:+421445514882',
 	email: 'stavebniny.orol@gmail.com',
 	emailHref: 'mailto:stavebniny.orol@gmail.com',
 	address: {

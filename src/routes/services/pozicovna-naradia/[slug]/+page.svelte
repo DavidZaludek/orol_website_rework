@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import hiltiLogo from '$lib/assets/logos/Hilti.svg';
 	import { contact } from '$lib/site';
 	import { reveal } from '$lib/reveal';
@@ -25,12 +26,12 @@
 	<!-- 1. Hero -->
 	<div class="canvas hero-canvas">
 		<div class="copy-cell" data-reveal {@attach reveal()}>
-			<a href="/services/pozicovna-naradia" class="back-link">← Späť na požičovňu</a>
+			<a href={resolve('/services/pozicovna-naradia')} class="back-link">← Späť na požičovňu</a>
 			<span class="eyebrow">Požičovňa · {tool.category}</span>
 			<h1 class="hero-title">{tool.name}</h1>
 			<p class="hero-lead">{tool.lead}</p>
 			<div class="hero-actions">
-				<a href={contact.phoneHref} class="btn btn--primary">Overiť dostupnosť</a>
+				<a href={contact.phoneHref} rel="external" class="btn btn--primary">Overiť dostupnosť</a>
 				{#if tool.hiltiUrl}
 					<a href={tool.hiltiUrl} class="btn btn--ghost" target="_blank" rel="noopener noreferrer">
 						{tool.hiltiSuccessor ? 'Nástupca na Hilti.sk →' : 'Detail na Hilti.sk →'}
@@ -141,7 +142,7 @@
 		</header>
 		{#each related as item, i (item.slug)}
 			<a
-				href="/services/pozicovna-naradia/{item.slug}"
+				href={resolve('/services/pozicovna-naradia/[slug]', { slug: item.slug })}
 				class="related-cell"
 				data-reveal
 				{@attach reveal(Math.min(i * 60, 240))}
@@ -164,8 +165,8 @@
 				<p class="cta-sub">Overíme dostupnosť a povieme podmienky prenájmu.</p>
 			</div>
 			<div class="cta-actions">
-				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
-				<a href="/contact" class="cta-link">Kontaktné údaje</a>
+				<a href={contact.phoneHref} rel="external" class="cta-phone">{contact.phone}</a>
+				<a href={resolve('/contact')} class="cta-link">Kontaktné údaje</a>
 			</div>
 		</div>
 		<div class="acc acc--ty" aria-hidden="true"></div>

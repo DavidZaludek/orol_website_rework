@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { reveal } from '$lib/reveal';
 
 	let { data } = $props();
@@ -33,7 +34,7 @@
 				</div>
 				<h1 class="section-title">{data.promotion.title}</h1>
 			</header>
-			<a href="/promotions" class="head-link-cell">← Všetky akcie</a>
+			<a href={resolve('/promotions')} class="head-link-cell">← Všetky akcie</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 
@@ -51,8 +52,8 @@
 
 		<div class="flow-row">
 			<div class="prose-cell" data-reveal {@attach reveal()}>
-				<!-- Trusted HTML: content is controlled/sanitized server-side in $lib/promotions -->
 				<div class="prose">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -- marked() output over .md files in this repo, compiled at build time by $lib/promotions; no runtime input reaches it -->
 					{@html data.promotion.html}
 				</div>
 			</div>

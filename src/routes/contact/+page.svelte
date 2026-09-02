@@ -37,7 +37,7 @@
 				<h1 class="section-title">Navštívte nás</h1>
 				<p class="head-note">{contact.address.street}, {contact.address.city}</p>
 			</header>
-			<a href={contact.phoneHref} class="head-link-cell">{contact.phone}</a>
+			<a href={contact.phoneHref} rel="external" class="head-link-cell">{contact.phone}</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 
@@ -58,14 +58,18 @@
 					<div class="detail-row">
 						<dt class="detail-label">Telefón</dt>
 						<dd class="detail-value">
-							<a href={contact.phoneHref} class="contact-link">{contact.phone}</a>
+							<a href={contact.phoneHref} rel="external" class="contact-link">{contact.phone}</a><br
+							/>
+							<a href={contact.landlineHref} rel="external" class="contact-link"
+								>{contact.landline}</a
+							>
 						</dd>
 					</div>
 
 					<div class="detail-row">
 						<dt class="detail-label">E-mail</dt>
 						<dd class="detail-value">
-							<a href={contact.emailHref} class="contact-link">{contact.email}</a>
+							<a href={contact.emailHref} rel="external" class="contact-link">{contact.email}</a>
 						</dd>
 					</div>
 				</dl>

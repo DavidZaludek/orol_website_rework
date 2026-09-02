@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ownerPhoto from '$lib/assets/koloman_zaludek_no_text.jpg';
 	import presentationTruckJpg from '$lib/assets/home/presentation/doprava-orol.jpg';
 	import presentationHouseJpg from '$lib/assets/home/presentation/realizacia-dom.jpg';
@@ -272,8 +273,8 @@
 				hydraulickou rukou priamo na vašu stavbu.
 			</p>
 			<div class="hero-actions">
-				<a href="/quote" class="btn btn--primary">Cenová ponuka</a>
-				<a href={contact.phoneHref} class="btn btn--ghost">{contact.phone}</a>
+				<a href={resolve('/quote')} class="btn btn--primary">Cenová ponuka</a>
+				<a href={contact.phoneHref} rel="external" class="btn btn--ghost">{contact.phone}</a>
 			</div>
 			<ul class="hero-highlights">
 				{#each heroHighlights as item (item)}
@@ -350,7 +351,7 @@
 				href={partner.href}
 				class:dup={i >= partners.length}
 				target="_blank"
-				rel="noopener noreferrer"
+				rel="external noopener noreferrer"
 				aria-label={partner.name}
 				aria-hidden={i >= partners.length ? 'true' : undefined}
 				tabindex={i >= partners.length ? -1 : 0}
@@ -377,12 +378,13 @@
 				<span class="eyebrow">Služby</span>
 				<h2 class="section-title">Viac než predajňa</h2>
 			</header>
-			<a href="/services" class="head-link-cell">Všetky služby →</a>
+			<a href={resolve('/services')} class="head-link-cell">Všetky služby →</a>
 			<div class="head-acc head-acc--yellow" aria-hidden="true"></div>
 		</div>
 		{#if featuredService}
+			{@const FeaturedIcon = serviceIcons[featuredService.href]}
 			<a
-				href={featuredService.href}
+				href={resolve(featuredService.href)}
 				class="featured-cell"
 				aria-label="Požičovňa náradia – pozrieť ponuku profesionálneho náradia"
 				onmouseenter={() => (rentalRotationPaused = true)}
@@ -394,7 +396,7 @@
 			>
 				<div class="featured-body">
 					<span class="featured-icon" aria-hidden="true">
-						{@html serviceIcons[featuredService.href] ?? ''}
+						<FeaturedIcon />
 					</span>
 					<span class="featured-title">{featuredService.short}</span>
 					<p class="featured-desc">{featuredService.description}</p>
@@ -438,7 +440,13 @@
 		{/if}
 		<div class="services-row">
 			{#each mainServices as service, i (service.href)}
-				<a href={service.href} class="tile" data-reveal {@attach reveal(Math.min(i * 50, 300))}>
+				{@const ServiceIcon = serviceIcons[service.href]}
+				<a
+					href={resolve(service.href)}
+					class="tile"
+					data-reveal
+					{@attach reveal(Math.min(i * 50, 300))}
+				>
 					{#if serviceBg[service.href]}
 						<ResponsiveServiceImage
 							media={serviceBg[service.href]}
@@ -447,11 +455,11 @@
 							class="tile-bg"
 						/>
 					{/if}
-					{#if serviceIcons[service.href]}
-						<span class="tile-icon" aria-hidden="true">{@html serviceIcons[service.href]}</span>
+					{#if ServiceIcon}
+						<span class="tile-icon" aria-hidden="true"><ServiceIcon /></span>
 						{#if !serviceBg[service.href]}
 							<span class="tile-watermark" aria-hidden="true">
-								{@html serviceIcons[service.href]}
+								<ServiceIcon />
 							</span>
 						{/if}
 					{/if}
@@ -466,7 +474,13 @@
 		</div>
 		<div class="services-row">
 			{#each secondaryServices as service, i (service.href)}
-				<a href={service.href} class="tile" data-reveal {@attach reveal(Math.min(i * 50, 300))}>
+				{@const ServiceIcon = serviceIcons[service.href]}
+				<a
+					href={resolve(service.href)}
+					class="tile"
+					data-reveal
+					{@attach reveal(Math.min(i * 50, 300))}
+				>
 					{#if serviceBg[service.href]}
 						<ResponsiveServiceImage
 							media={serviceBg[service.href]}
@@ -475,11 +489,11 @@
 							class="tile-bg"
 						/>
 					{/if}
-					{#if serviceIcons[service.href]}
-						<span class="tile-icon" aria-hidden="true">{@html serviceIcons[service.href]}</span>
+					{#if ServiceIcon}
+						<span class="tile-icon" aria-hidden="true"><ServiceIcon /></span>
 						{#if !serviceBg[service.href]}
 							<span class="tile-watermark" aria-hidden="true">
-								{@html serviceIcons[service.href]}
+								<ServiceIcon />
 							</span>
 						{/if}
 					{/if}
@@ -508,23 +522,24 @@
 				<h2 class="section-title">Materiál na celú stavbu</h2>
 				<p class="head-note">Od základov po strechu – 12 kategórií pod jednou strechou.</p>
 			</header>
-			<a href="/products" class="head-link-cell">Všetky produkty →</a>
+			<a href={resolve('/products')} class="head-link-cell">Všetky produkty →</a>
 			<div class="head-acc head-acc--yellow" aria-hidden="true"></div>
 		</div>
 		{#each bentoRows as row, r (r)}
 			<div class="bento-row" style:--row-h={bentoRowHeights[r]}>
 				{#each row as product, c (product.href)}
 					{@const i = r * 4 + c}
+					{@const CategoryIcon = categoryIcons[product.href]}
 					<a
-						href={product.href}
+						href={resolve(product.href)}
 						class="tile"
 						style:--tile-w={tileWeights[i]}
 						data-reveal
 						{@attach reveal(Math.min(i * 45, 360))}
 					>
 						<img src={productBg[product.href]} alt="" class="tile-bg" loading="lazy" />
-						{#if categoryIcons[product.href]}
-							<span class="tile-icon" aria-hidden="true">{@html categoryIcons[product.href]}</span>
+						{#if CategoryIcon}
+							<span class="tile-icon" aria-hidden="true"><CategoryIcon /></span>
 						{/if}
 						<span class="tile-label">{product.title}</span>
 						<span class="tile-desc">{product.description}</span>
@@ -583,7 +598,7 @@
 				Pohľady na to, čo robíme každý deň: držíme materiál skladom, vozíme ho vlastnými autami a
 				pomáhame, aby sa z neho stala hotová stavba.
 			</p>
-			<a href="/gallery" class="section-link">Pozrieť celú galériu →</a>
+			<a href={resolve('/gallery')} class="section-link">Pozrieť celú galériu →</a>
 		</header>
 
 		<figure class="presentation-rotator" data-reveal {@attach reveal(80)}>
@@ -650,7 +665,7 @@
 				Mikulášskom a Ružomberskom okrese – naše materiály nájdete na rodinných domoch aj
 				priemyselných stavbách.
 			</p>
-			<a href="/about" class="section-link">Celý príbeh →</a>
+			<a href={resolve('/about')} class="section-link">Celý príbeh →</a>
 		</div>
 
 		<blockquote class="about-motto" data-reveal {@attach reveal(80)}>{motto}</blockquote>

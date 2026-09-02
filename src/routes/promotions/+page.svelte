@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { reveal } from '$lib/reveal';
 
 	let { data } = $props();
@@ -38,7 +39,7 @@
 			{#each data.promotions as promotion, i (promotion.slug)}
 				<article class="flow-row" class:flow-row--reverse={i % 2 === 1}>
 					<a
-						href="/promotions/{promotion.slug}"
+						href={resolve('/promotions/[slug]', { slug: promotion.slug })}
 						class="flow-photo"
 						tabindex="-1"
 						aria-hidden="true"
@@ -58,7 +59,9 @@
 								Platí do <strong>{formatDate(promotion.validUntil)}</strong>
 							</p>
 						{/if}
-						<a href="/promotions/{promotion.slug}" class="band-link">Čítať viac →</a>
+						<a href={resolve('/promotions/[slug]', { slug: promotion.slug })} class="band-link"
+							>Čítať viac →</a
+						>
 					</div>
 					<div class="acc acc--{accentCycle[i % accentCycle.length]}" aria-hidden="true"></div>
 				</article>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { reveal } from '$lib/reveal';
 
 	let { data } = $props();
@@ -22,7 +23,7 @@
 				</time>
 				<h1 class="section-title">{data.post.title}</h1>
 			</header>
-			<a href="/news" class="head-link-cell">← Všetky aktuality</a>
+			<a href={resolve('/news')} class="head-link-cell">← Všetky aktuality</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 
@@ -35,8 +36,8 @@
 
 		<div class="flow-row">
 			<div class="prose-cell" data-reveal {@attach reveal()}>
-				<!-- Trusted HTML: content is controlled/sanitized server-side in $lib/posts -->
 				<div class="prose">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -- marked() output over .md files in this repo, compiled at build time by $lib/posts; no runtime input reaches it -->
 					{@html data.post.html}
 				</div>
 			</div>

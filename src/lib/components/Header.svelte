@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import logo from '$lib/assets/orol_loga/orol_logo_all_white_with_text.svg';
 	import logoMark from '$lib/assets/orol_loga/orol_all_white.svg';
@@ -113,7 +114,7 @@
 <header class:hidden>
 	<div class="header-inner" class:compact {@attach observeOverflow}>
 		<!-- Logo + Site name -->
-		<a href="/" class="brand" onclick={closeMenu}>
+		<a href={resolve('/')} class="brand" onclick={closeMenu}>
 			<img src={logo} alt="Stavebniny Orol logo" class="logo logo-full" />
 			<img src={logoMark} alt="" aria-hidden="true" class="logo logo-mark" />
 		</a>
@@ -122,7 +123,7 @@
 		<nav class="desktop-nav" aria-label="Hlavná navigácia">
 			{#each navLinks as link (link.href)}
 				<a
-					href={link.href}
+					href={resolve(link.href)}
 					class="nav-link"
 					class:active={isActive(link.href)}
 					aria-current={isActive(link.href) ? 'page' : undefined}
@@ -133,17 +134,17 @@
 		</nav>
 
 		<!-- Persistent CTA — red cell -->
-		<a href="/quote" class="desktop-cta">Cenová ponuka</a>
+		<a href={resolve('/quote')} class="desktop-cta">Cenová ponuka</a>
 
 		<!-- Desktop contact + social -->
 		<div class="desktop-contact">
-			<a href={contact.phoneHref} class="phone">{contact.phone}</a>
+			<a href={contact.phoneHref} rel="external" class="phone">{contact.phone}</a>
 			<div class="social-links">
 				<a
 					href={socials.instagram}
 					class="social-link"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="Instagram"
 				>
 					<InstagramIcon size={22} />
@@ -152,7 +153,7 @@
 					href={socials.facebook}
 					class="social-link"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="Facebook"
 				>
 					<FacebookIcon size={22} />
@@ -186,7 +187,7 @@
 			<nav aria-label="Mobilná navigácia">
 				{#each navLinks as link (link.href)}
 					<a
-						href={link.href}
+						href={resolve(link.href)}
 						class="mobile-nav-link"
 						class:active={isActive(link.href)}
 						aria-current={isActive(link.href) ? 'page' : undefined}
@@ -196,19 +197,23 @@
 					</a>
 				{/each}
 				<div class="mobile-index-links">
-					<a href="/quote" class="mobile-index-link mobile-index-link--cta" onclick={closeMenu}>
+					<a
+						href={resolve('/quote')}
+						class="mobile-index-link mobile-index-link--cta"
+						onclick={closeMenu}
+					>
 						Cenová ponuka →
 					</a>
 				</div>
 			</nav>
 			<div class="mobile-contact">
-				<a href={contact.phoneHref} class="mobile-phone">{contact.phone}</a>
+				<a href={contact.phoneHref} rel="external" class="mobile-phone">{contact.phone}</a>
 				<div class="mobile-social">
 					<a
 						href={socials.instagram}
 						class="social-link"
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="external noopener noreferrer"
 						aria-label="Instagram"
 						onclick={closeMenu}
 					>
@@ -219,7 +224,7 @@
 						href={socials.facebook}
 						class="social-link"
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="external noopener noreferrer"
 						aria-label="Facebook"
 						onclick={closeMenu}
 					>

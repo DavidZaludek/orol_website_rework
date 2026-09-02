@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
 	import type { ServiceImageSet } from '$lib/serviceMedia';
 	import { serviceMedia } from '$lib/serviceMedia';
@@ -6,8 +7,10 @@
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
 
+	type ServiceHref = (typeof services)[number]['href'];
+
 	interface Cell {
-		href: string;
+		href: ServiceHref;
 		area: string;
 		photo?: ServiceImageSet;
 		featured?: boolean;
@@ -46,7 +49,7 @@
 		}
 	];
 
-	function service(href: string) {
+	function service(href: ServiceHref) {
 		return services.find((s) => s.href === href);
 	}
 </script>
@@ -73,9 +76,10 @@
 
 		{#each cells as cell, i (cell.href)}
 			{@const s = service(cell.href)}
+			{@const CellIcon = serviceIcons[cell.href]}
 			{#if s}
 				<a
-					href={cell.href}
+					href={resolve(cell.href)}
 					class="cell cell--{cell.area}"
 					class:cell--featured={cell.featured}
 					class:cell--photo={cell.photo !== undefined}
@@ -92,11 +96,11 @@
 						/>
 					{:else}
 						<span class="cell-watermark" aria-hidden="true">
-							{@html serviceIcons[cell.href] ?? ''}
+							<CellIcon />
 						</span>
 					{/if}
 					<span class="cell-chip" aria-hidden="true">
-						{@html serviceIcons[cell.href] ?? ''}
+						<CellIcon />
 					</span>
 					<span class="cell-body">
 						<span class="cell-title">{s.short}</span>

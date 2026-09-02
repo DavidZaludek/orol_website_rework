@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import {
 		galleryFilters,
 		galleryGroups,
@@ -96,7 +97,8 @@
 					dodávali materiál a technické riešenia.
 				</p>
 			</header>
-			<a href="/contact" class="head-link-cell">Kde nás nájdete <span aria-hidden="true">→</span></a
+			<a href={resolve('/contact')} class="head-link-cell"
+				>Kde nás nájdete <span aria-hidden="true">→</span></a
 			>
 			<div class="head-accent" aria-hidden="true"></div>
 		</div>
@@ -104,7 +106,7 @@
 		<nav class="filter-bar" aria-label="Filtrovať galériu">
 			<span class="filter-label">Vyberte tému</span>
 			<div class="filter-options">
-				{#each galleryFilters as filter}
+				{#each galleryFilters as filter (filter.id)}
 					<button
 						type="button"
 						class:active={activeCategory === filter.id}

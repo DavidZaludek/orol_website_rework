@@ -49,8 +49,8 @@
 					<h2>2. Kontakt vo veciach ochrany osobných údajov</h2>
 					<p>
 						Vo veciach ochrany osobných údajov nás kontaktujte na e-maile
-						<a href={contact.emailHref}>{contact.email}</a> alebo telefonicky na
-						<a href={contact.phoneHref}>{contact.phone}</a>.
+						<a href={contact.emailHref} rel="external">{contact.email}</a> alebo telefonicky na
+						<a href={contact.phoneHref} rel="external">{contact.phone}</a>.
 					</p>
 					<p class="todo-inline">
 						TODO: rozhodnúť, či má spoločnosť určenú zodpovednú osobu (DPO). Pre menšieho obchodníka

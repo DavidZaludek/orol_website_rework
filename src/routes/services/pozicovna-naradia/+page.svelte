@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import demolitionPhoto from '$lib/assets/rental/hilti-demolition.jpg';
 	import cuttingPhoto from '$lib/assets/rental/hilti-cutting.png';
 	import masonryPhoto from '$lib/assets/rental/masonry-saw.jpg';
@@ -129,7 +130,7 @@
 	<!-- 1. Hero composition -->
 	<div class="canvas hero-canvas">
 		<div class="copy-cell" data-reveal {@attach reveal()}>
-			<a href="/services" class="back-link">← Späť na služby</a>
+			<a href={resolve('/services')} class="back-link">← Späť na služby</a>
 			<span class="eyebrow">Služby · Prenájom</span>
 			<h1 class="hero-title">Náradie, ktoré <span class="hero-accent">odvedie robotu.</span></h1>
 			<p class="hero-lead">
@@ -137,7 +138,7 @@
 				alebo dlhšie — bez toho, aby ste ho museli kupovať.
 			</p>
 			<div class="hero-actions">
-				<a href={contact.phoneHref} class="btn btn--primary">Overiť dostupnosť</a>
+				<a href={contact.phoneHref} rel="external" class="btn btn--primary">Overiť dostupnosť</a>
 				<a href="#hilti" class="btn btn--ghost">Náradie Hilti →</a>
 			</div>
 			<p class="hero-availability">Aktuálnu dostupnosť potvrdíme telefonicky</p>
@@ -186,7 +187,10 @@
 							{#each carded as item (item)}
 								{@const tool = toolForItem(item)}
 								{#if tool?.productImage}
-									<a href="/services/pozicovna-naradia/{tool.slug}" class="tool-card">
+									<a
+										href={resolve('/services/pozicovna-naradia/[slug]', { slug: tool.slug })}
+										class="tool-card"
+									>
 										<img src={tool.productImage} alt="" loading="lazy" />
 										<span class="tool-card-model">{tool.model}</span>
 										<span class="tool-card-desc">{tool.short}</span>
@@ -226,7 +230,7 @@
 			</svg>
 			<p>
 				Nenašli ste presne to, čo potrebujete?
-				<a href={contact.phoneHref}>Zavolajte nám na {contact.phone}</a>
+				<a href={contact.phoneHref} rel="external">Zavolajte nám na {contact.phone}</a>
 				— ponuka a dostupnosť vybavenia sa priebežne menia.
 			</p>
 		</div>
@@ -249,7 +253,7 @@
 			<div class="hilti-row">
 				{#each row as tool, i (tool.slug)}
 					<a
-						href="/services/pozicovna-naradia/{tool.slug}"
+						href={resolve('/services/pozicovna-naradia/[slug]', { slug: tool.slug })}
 						class="tool-tile"
 						data-reveal
 						{@attach reveal(Math.min((r * 4 + i) * 50, 320))}
@@ -311,8 +315,8 @@
 			<h2 class="cta-title">Povedzte nám, čo idete robiť</h2>
 			<p class="cta-sub">Pomôžeme vybrať správny stroj a overíme jeho dostupnosť.</p>
 			<div class="cta-actions">
-				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
-				<a href={contact.emailHref} class="cta-mail">Napísať e-mail</a>
+				<a href={contact.phoneHref} rel="external" class="cta-phone">{contact.phone}</a>
+				<a href={contact.emailHref} rel="external" class="cta-mail">Napísať e-mail</a>
 			</div>
 		</div>
 		<div class="acc acc--ty" aria-hidden="true"></div>

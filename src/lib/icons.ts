@@ -1,33 +1,38 @@
 // Hand-drawn pictograms (24×24 stroke paths) — one per product category and
 // service, shared by the homepage compositions and the index pages.
 //
-// The artwork lives in `$lib/assets/icons/*.svg` and is imported as raw markup
-// rather than as an image URL: inlined into the DOM the paths keep
-// `stroke="currentColor"`, so CSS still colours them. An `<img>` would isolate
-// the file and render every icon black.
+// The artwork lives in `$lib/assets/icons/*.svg` and is compiled into Svelte
+// components by @poppanator/sveltekit-svg (`?component`): rendered inline the
+// paths keep `stroke="currentColor"`, so CSS still colours them. An `<img>`
+// would isolate the file and render every icon black.
 
-import hrubaStavba from '$lib/assets/icons/category-hruba-stavba.svg?raw';
-import sucheZmesy from '$lib/assets/icons/category-suche-zmesy-malty-omietky.svg?raw';
-import tepelneIzolacie from '$lib/assets/icons/category-tepelne-izolacie.svg?raw';
-import farby from '$lib/assets/icons/category-fasadne-a-interierove-farby.svg?raw';
-import stresneKrytiny from '$lib/assets/icons/category-stresne-krytiny.svg?raw';
-import hydroizolacia from '$lib/assets/icons/category-hydroizolacia.svg?raw';
-import stavebnaChemia from '$lib/assets/icons/category-stavebna-chemia.svg?raw';
-import dlazby from '$lib/assets/icons/category-dlazby-betonove-tvarnice.svg?raw';
-import betonarskaOcel from '$lib/assets/icons/category-betonarska-ocel.svg?raw';
-import oknaDvere from '$lib/assets/icons/category-okna-a-dvere.svg?raw';
-import kanalizacia from '$lib/assets/icons/category-kanalizacia-voda-sanita.svg?raw';
-import naradie from '$lib/assets/icons/category-naradie-a-doplnky.svg?raw';
+import type { Component } from 'svelte';
+import type { SVGAttributes } from 'svelte/elements';
 
-import poradenstvo from '$lib/assets/icons/service-poradenstvo.svg?raw';
-import stavbyveduci from '$lib/assets/icons/service-stavbyveduci.svg?raw';
-import cenovaPonuka from '$lib/assets/icons/service-cenova-ponuka.svg?raw';
-import doprava from '$lib/assets/icons/service-doprava.svg?raw';
-import pozicovna from '$lib/assets/icons/service-pozicovna-naradia.svg?raw';
-import miesanieFarieb from '$lib/assets/icons/service-miesanie-farieb.svg?raw';
-import remeselnici from '$lib/assets/icons/service-kontakty-na-remeselnikov.svg?raw';
+import hrubaStavba from '$lib/assets/icons/category-hruba-stavba.svg?component';
+import sucheZmesy from '$lib/assets/icons/category-suche-zmesy-malty-omietky.svg?component';
+import tepelneIzolacie from '$lib/assets/icons/category-tepelne-izolacie.svg?component';
+import farby from '$lib/assets/icons/category-fasadne-a-interierove-farby.svg?component';
+import stresneKrytiny from '$lib/assets/icons/category-stresne-krytiny.svg?component';
+import hydroizolacia from '$lib/assets/icons/category-hydroizolacia.svg?component';
+import stavebnaChemia from '$lib/assets/icons/category-stavebna-chemia.svg?component';
+import dlazby from '$lib/assets/icons/category-dlazby-betonove-tvarnice.svg?component';
+import betonarskaOcel from '$lib/assets/icons/category-betonarska-ocel.svg?component';
+import oknaDvere from '$lib/assets/icons/category-okna-a-dvere.svg?component';
+import kanalizacia from '$lib/assets/icons/category-kanalizacia-voda-sanita.svg?component';
+import naradie from '$lib/assets/icons/category-naradie-a-doplnky.svg?component';
 
-export const categoryIcons: Record<string, string> = {
+import poradenstvo from '$lib/assets/icons/service-poradenstvo.svg?component';
+import stavbyveduci from '$lib/assets/icons/service-stavbyveduci.svg?component';
+import cenovaPonuka from '$lib/assets/icons/service-cenova-ponuka.svg?component';
+import doprava from '$lib/assets/icons/service-doprava.svg?component';
+import pozicovna from '$lib/assets/icons/service-pozicovna-naradia.svg?component';
+import miesanieFarieb from '$lib/assets/icons/service-miesanie-farieb.svg?component';
+import remeselnici from '$lib/assets/icons/service-kontakty-na-remeselnikov.svg?component';
+
+export type IconComponent = Component<SVGAttributes<SVGSVGElement>>;
+
+export const categoryIcons: Record<string, IconComponent> = {
 	'/products/hruba-stavba': hrubaStavba,
 	'/products/suche-zmesy-malty-omietky': sucheZmesy,
 	'/products/tepelne-izolacie': tepelneIzolacie,
@@ -42,7 +47,7 @@ export const categoryIcons: Record<string, string> = {
 	'/products/naradie-a-doplnky': naradie
 };
 
-export const serviceIcons: Record<string, string> = {
+export const serviceIcons: Record<string, IconComponent> = {
 	'/services/poradenstvo': poradenstvo,
 	'/services/stavbyveduci': stavbyveduci,
 	'/services/cenova-ponuka': cenovaPonuka,

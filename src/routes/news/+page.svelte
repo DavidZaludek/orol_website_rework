@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { reveal } from '$lib/reveal';
 
 	let { data } = $props();
@@ -19,7 +20,7 @@
 				<h1 class="section-title">Aktuality</h1>
 				<p class="head-note">Najnovšie správy a aktuality zo Stavebniny Orol.</p>
 			</header>
-			<a href="/promotions" class="head-link-cell">Aktuálne akcie →</a>
+			<a href={resolve('/promotions')} class="head-link-cell">Aktuálne akcie →</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 
@@ -31,7 +32,7 @@
 			{#each data.posts as post, i (post.slug)}
 				<article class="flow-row" class:flow-row--reverse={i % 2 === 1}>
 					<a
-						href="/news/{post.slug}"
+						href={resolve('/news/[slug]', { slug: post.slug })}
 						class="flow-photo"
 						tabindex="-1"
 						aria-hidden="true"
@@ -50,7 +51,8 @@
 						</time>
 						<h2 class="band-title">{post.title}</h2>
 						<p class="band-excerpt">{post.excerpt}</p>
-						<a href="/news/{post.slug}" class="band-link">Čítať viac →</a>
+						<a href={resolve('/news/[slug]', { slug: post.slug })} class="band-link">Čítať viac →</a
+						>
 					</div>
 					<div class="acc acc--{accentCycle[i % accentCycle.length]}" aria-hidden="true"></div>
 				</article>

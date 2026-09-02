@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import prodOcel from '$lib/assets/products/betonarska-ocel-generated.jpg';
 	import prodDlazby from '$lib/assets/products/dlazby-betonove-tvarnice-generated.jpg';
 	import prodFarby from '$lib/assets/products/fasadne-a-interierove-farby-generated.jpg';
@@ -40,7 +41,7 @@
 	const slug = $derived(data.product.href.replace('/products/', ''));
 	const detail = $derived(productDetails[slug]);
 	const photo = $derived(photos[slug]);
-	const categoryIcon = $derived(categoryIcons[data.product.href] ?? '');
+	const CategoryIcon = $derived(categoryIcons[data.product.href]);
 	const supplierLogos = $derived(
 		data.product.suppliers
 			.map((name: string) => partnerByName.get(name))
@@ -59,7 +60,7 @@
 		<!-- Head band -->
 		<div class="flow-row flow-row--head">
 			<header class="head-cell" data-reveal {@attach reveal()}>
-				<a href="/products" class="back-link">← Späť na produkty</a>
+				<a href={resolve('/products')} class="back-link">← Späť na produkty</a>
 				<span class="eyebrow">Sortiment</span>
 				<h1 class="section-title">{data.product.title}</h1>
 				<p class="lead">{detail.lead}</p>
@@ -75,7 +76,7 @@
 				</div>
 			{:else}
 				<div class="flow-photo flow-photo--mark" data-reveal {@attach reveal()}>
-					{@html categoryIcon}
+					<CategoryIcon />
 				</div>
 			{/if}
 		</div>
@@ -118,8 +119,10 @@
 			<div class="cta-cell" data-reveal {@attach reveal()}>
 				<h2 class="cta-title">{detail.cta ?? 'Záujem o materiál?'}</h2>
 				<div class="cta-actions">
-					<a href={contact.phoneHref} class="cta-link cta-link--phone">{contact.phone}</a>
-					<a href="/contact" class="cta-link">Kontaktné údaje</a>
+					<a href={contact.phoneHref} rel="external" class="cta-link cta-link--phone"
+						>{contact.phone}</a
+					>
+					<a href={resolve('/contact')} class="cta-link">Kontaktné údaje</a>
 				</div>
 			</div>
 		</div>

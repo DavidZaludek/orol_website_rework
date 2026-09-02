@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { enhance } from '$app/forms';
 	import { contact, quoteCategories, transportOptions } from '$lib/site';
 	import { reveal } from '$lib/reveal';
@@ -35,7 +36,7 @@
 					termínom dodania. Polia označené hviezdičkou sú povinné.
 				</p>
 			</header>
-			<a href={contact.phoneHref} class="head-link-cell">{contact.phone}</a>
+			<a href={contact.phoneHref} rel="external" class="head-link-cell">{contact.phone}</a>
 			<div class="acc acc--yellow" aria-hidden="true"></div>
 		</div>
 
@@ -46,11 +47,12 @@
 						<h2>Ďakujeme za Vašu objednávku!</h2>
 						<p>
 							Objednávku sme prijali a čoskoro Vás budeme kontaktovať s potvrdením a termínom
-							dodania. V naliehavých prípadoch nám zavolajte na <a href={contact.phoneHref}
-								>{contact.phone}</a
+							dodania. V naliehavých prípadoch nám zavolajte na <a
+								href={contact.phoneHref}
+								rel="external">{contact.phone}</a
 							>.
 						</p>
-						<a href="/" class="success-link">Späť na úvod</a>
+						<a href={resolve('/')} class="success-link">Späť na úvod</a>
 					</div>
 				{:else}
 					<form
@@ -216,7 +218,8 @@
 								{submitting ? 'Odosielam…' : 'Odoslať objednávku'}
 							</button>
 							<p class="hint">
-								Alebo nám zavolajte na <a href={contact.phoneHref}>{contact.phone}</a>.
+								Alebo nám zavolajte na <a href={contact.phoneHref} rel="external">{contact.phone}</a
+								>.
 							</p>
 						</div>
 					</form>
@@ -226,7 +229,7 @@
 			<div class="side-col">
 				<aside class="side-cell" data-reveal {@attach reveal(100)}>
 					<h2 class="side-title">Radšej telefonicky?</h2>
-					<a href={contact.phoneHref} class="side-phone">{contact.phone}</a>
+					<a href={contact.phoneHref} rel="external" class="side-phone">{contact.phone}</a>
 					<p class="side-hours">Po – Pia 7:00 – 16:00 · So 7:00 – 12:00</p>
 				</aside>
 				<div class="acc acc--blue" aria-hidden="true"></div>

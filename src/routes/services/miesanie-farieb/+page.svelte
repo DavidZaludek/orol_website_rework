@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
 	import { serviceMedia } from '$lib/serviceMedia';
 	import { contact } from '$lib/site';
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
 
-	const icon = serviceIcons['/services/miesanie-farieb'] ?? '';
+	const Icon = serviceIcons['/services/miesanie-farieb'];
 	const heroPhoto = serviceMedia['/services/miesanie-farieb'];
 
 	const products = [
@@ -42,7 +43,7 @@
 	<!-- 1. Hero composition — a swatch strip of paint cells under the photo -->
 	<div class="canvas hero-canvas">
 		<div class="copy-cell" data-reveal {@attach reveal()}>
-			<a href="/services" class="back-link">← Späť na služby</a>
+			<a href={resolve('/services')} class="back-link">← Späť na služby</a>
 			<span class="eyebrow">Služby · Tónovanie</span>
 			<h1 class="hero-title">Miešanie <span class="hero-accent">farieb.</span></h1>
 			<p class="hero-lead">
@@ -51,8 +52,8 @@
 				doobjednávke neskôr.
 			</p>
 			<div class="hero-actions">
-				<a href={contact.phoneHref} class="btn btn--primary">{contact.phone}</a>
-				<a href="/contact" class="btn btn--ghost">Kontaktné údaje</a>
+				<a href={contact.phoneHref} rel="external" class="btn btn--primary">{contact.phone}</a>
+				<a href={resolve('/contact')} class="btn btn--ghost">Kontaktné údaje</a>
 			</div>
 		</div>
 		<div class="photo-cell" data-reveal {@attach reveal(80)}>
@@ -63,7 +64,7 @@
 				fetchpriority="high"
 			/>
 			<span class="chip" aria-hidden="true">
-				{@html icon}
+				<Icon />
 			</span>
 		</div>
 		<div class="acc acc--hy" aria-hidden="true"></div>
@@ -127,8 +128,8 @@
 		<div class="cta-cell" data-reveal {@attach reveal()}>
 			<h2 class="cta-title">Príďte si po farbu</h2>
 			<div class="cta-actions">
-				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
-				<a href="/contact" class="cta-link">Kontaktné údaje</a>
+				<a href={contact.phoneHref} rel="external" class="cta-phone">{contact.phone}</a>
+				<a href={resolve('/contact')} class="cta-link">Kontaktné údaje</a>
 			</div>
 		</div>
 		<div class="acc acc--ty" aria-hidden="true"></div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { env } from '$env/dynamic/public';
 	import { navLinks, contact, socials, legalLinks, company } from '$lib/site';
 	import InstagramIcon from './icons/InstagramIcon.svelte';
@@ -12,7 +13,7 @@
 
 <footer>
 	<div class="mondrian">
-		<a href="/" class="cell cell--brand" aria-label="Stavebniny Orol — domov">
+		<a href={resolve('/')} class="cell cell--brand" aria-label="Stavebniny Orol — domov">
 			<img src={logoMark} alt="Stavebniny Orol logo" class="brand-logo" />
 		</a>
 
@@ -36,18 +37,23 @@
 
 		<div class="cell cell--contact">
 			<span class="cell-heading">Kontakt</span>
-			<a href={contact.phoneHref} class="contact-phone">{contact.phone}</a>
-			<a href={contact.emailHref} class="contact-email">{contact.email}</a>
+			<a href={contact.phoneHref} rel="external" class="contact-phone">{contact.phone}</a>
+			<a href={contact.emailHref} rel="external" class="contact-email">{contact.email}</a>
 			<div class="contact-social">
 				<a
 					href={socials.instagram}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="Instagram"
 				>
 					<InstagramIcon size={24} />
 				</a>
-				<a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+				<a
+					href={socials.facebook}
+					target="_blank"
+					rel="external noopener noreferrer"
+					aria-label="Facebook"
+				>
 					<FacebookIcon size={24} />
 				</a>
 			</div>
@@ -57,7 +63,7 @@
 			<span class="cell-heading">Navigácia</span>
 			<div class="nav-links">
 				{#each navLinks as link (link.href)}
-					<a href={link.href}>{link.label}</a>
+					<a href={resolve(link.href)}>{link.label}</a>
 				{/each}
 			</div>
 		</nav>
@@ -87,7 +93,7 @@
 		<div class="legal-inner">
 			<div class="legal-links">
 				{#each legalLinks as link (link.href)}
-					<a href={link.href}>{link.label}</a>
+					<a href={resolve(link.href)}>{link.label}</a>
 				{/each}
 			</div>
 			<p class="legal-ids">

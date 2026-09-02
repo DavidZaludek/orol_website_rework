@@ -121,7 +121,7 @@
 					<h2>4. Kontakt</h2>
 					<p>
 						V prípade otázok ohľadom cookies nás kontaktujte na e-maile
-						<a href={contact.emailHref}>{contact.email}</a>.
+						<a href={contact.emailHref} rel="external">{contact.email}</a>.
 					</p>
 
 					<h2>5. Účinnosť</h2>

@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ResponsiveServiceImage from '$lib/components/ResponsiveServiceImage.svelte';
 	import { serviceMedia } from '$lib/serviceMedia';
 	import { contact } from '$lib/site';
 	import { serviceIcons } from '$lib/icons';
 	import { reveal } from '$lib/reveal';
 
-	const icon = serviceIcons['/services/cenova-ponuka'] ?? '';
+	const Icon = serviceIcons['/services/cenova-ponuka'];
 	const heroPhoto = serviceMedia['/services/cenova-ponuka'];
 
 	const sources = [
@@ -40,7 +41,7 @@
 	<!-- 1. Hero composition -->
 	<div class="canvas hero-canvas">
 		<div class="copy-cell" data-reveal {@attach reveal()}>
-			<a href="/services" class="back-link">← Späť na služby</a>
+			<a href={resolve('/services')} class="back-link">← Späť na služby</a>
 			<span class="eyebrow">Služby · Cenová ponuka</span>
 			<h1 class="hero-title">Vypracovanie <span class="hero-accent">cenovej ponuky.</span></h1>
 			<p class="hero-lead">
@@ -49,8 +50,8 @@
 				pracovných dní.
 			</p>
 			<div class="hero-actions">
-				<a href={contact.phoneHref} class="btn btn--primary">{contact.phone}</a>
-				<a href="/quote" class="btn btn--ghost">Vyplniť formulár</a>
+				<a href={contact.phoneHref} rel="external" class="btn btn--primary">{contact.phone}</a>
+				<a href={resolve('/quote')} class="btn btn--ghost">Vyplniť formulár</a>
 			</div>
 		</div>
 		<div class="photo-cell" data-reveal {@attach reveal(80)}>
@@ -61,7 +62,7 @@
 				fetchpriority="high"
 			/>
 			<span class="chip" aria-hidden="true">
-				{@html icon}
+				<Icon />
 			</span>
 		</div>
 		<div class="fact-cell" data-reveal {@attach reveal(140)}>Bezplatná a nezáväzná</div>
@@ -120,8 +121,8 @@
 		<div class="cta-cell" data-reveal {@attach reveal()}>
 			<h2 class="cta-title">Vyžiadať cenovú ponuku</h2>
 			<div class="cta-actions">
-				<a href="/quote" class="btn btn--white">Vyplniť formulár</a>
-				<a href={contact.phoneHref} class="cta-phone">{contact.phone}</a>
+				<a href={resolve('/quote')} class="btn btn--white">Vyplniť formulár</a>
+				<a href={contact.phoneHref} rel="external" class="cta-phone">{contact.phone}</a>
 			</div>
 		</div>
 		<div class="acc acc--ty" aria-hidden="true"></div>

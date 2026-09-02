@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import prodHruba from '$lib/assets/products/hruba-stavba-generated.jpg';
 	import prodZmesy from '$lib/assets/products/suche-zmesy-malty-omietky-generated.jpg';
 	import prodIzolacie from '$lib/assets/products/tepelne-izolacie-generated.jpg';
@@ -70,6 +71,7 @@
 		</div>
 
 		{#each products as product, i (product.href)}
+			{@const CategoryIcon = categoryIcons[product.href]}
 			<div class="flow-row" class:flow-row--reverse={i % 2 === 1}>
 				{#if photos[product.href]}
 					<div class="flow-photo" data-reveal {@attach reveal()}>
@@ -77,12 +79,11 @@
 					</div>
 				{:else}
 					<div class="flow-photo flow-photo--mark" data-reveal {@attach reveal()}>
-						{@html categoryIcons[product.href] ?? ''}
+						<CategoryIcon />
 					</div>
 				{/if}
 				<div class="flow-body" data-reveal {@attach reveal(100)}>
-					<span class="flow-icon" aria-hidden="true">{@html categoryIcons[product.href] ?? ''}</span
-					>
+					<span class="flow-icon" aria-hidden="true"><CategoryIcon /></span>
 					<h2 class="flow-title">{product.title}</h2>
 					<p class="flow-desc">{product.description}</p>
 					{#if supplierLogos[product.href].length > 0}
@@ -93,7 +94,7 @@
 						</div>
 						<span class="visually-hidden">Značky: {product.suppliers.join(', ')}</span>
 					{/if}
-					<a href={product.href} class="flow-link">Zistiť viac →</a>
+					<a href={resolve(product.href)} class="flow-link">Zistiť viac →</a>
 				</div>
 				<div class="acc acc--{accentCycle[i % accentCycle.length]}" aria-hidden="true"></div>
 			</div>

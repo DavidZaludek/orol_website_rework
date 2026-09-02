@@ -9,7 +9,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		prerender: {
-			handleHttpError: ({ path, referrer, message }) => {
+			handleHttpError: ({ message }) => {
 				// Ignore 404s for pages not yet built
 				if (message.includes('404')) return;
 				throw new Error(message);

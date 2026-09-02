@@ -1,11 +1,11 @@
 <script lang="ts">
-	import icon from '$lib/assets/icons/social-instagram.svg?raw';
+	import Icon from '$lib/assets/icons/social-instagram.svg?component';
 
 	let { size = 24 }: { size?: number } = $props();
 </script>
 
 <span class="icon" style:width="{size}px" style:height="{size}px" aria-hidden="true">
-	{@html icon}
+	<Icon />
 </span>
 
 <style>
